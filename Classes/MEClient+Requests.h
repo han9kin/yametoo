@@ -13,7 +13,7 @@
 
 @interface MEClient (Requests)
 
-- (NSMutableURLRequest *)loginRequest;
+- (NSMutableURLRequest *)loginRequestWithUserID:(NSString *)aUserID userKey:(NSString *)aUserKey;
 - (NSMutableURLRequest *)createCommentRequest;
 - (NSMutableURLRequest *)createPostRequestWithBody:(NSString *)aBody
                                               tags:(NSString *)aTags

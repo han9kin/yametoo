@@ -7,7 +7,6 @@
  *
  */
 
-#import <JSON/JSON.h>
 #import "MEClientOperation.h"
 
 
@@ -144,7 +143,7 @@ static int       gNetworkOperationsCount = 0;
 
 #pragma mark setting operation
 
-- (void)setRequet:(NSMutableURLRequest *)aRequest
+- (void)setRequest:(NSMutableURLRequest *)aRequest
 {
     [aRequest setValue:gUserAgent forHTTPHeaderField:@"User-Agent"];
 

@@ -10,22 +10,31 @@
 #import <Foundation/Foundation.h>
 
 
+extern NSString *MEClientErrorDomain;
+
+
+@class MEClient;
+
+@protocol MEClientDelegate
+
+- (void)client:(MEClient *)aClient didLoginWithError:(NSError *)aError;
+- (void)client:(MEClient *)aClient didPostWithError:(NSError *)aError;
+
+@end
+
+
 @interface MEClient : NSObject
 {
-    NSString     *mBaseURL;
-    NSString     *mNonce;
-    NSString     *mAppKey;
-    NSString     *mUserKey;
-    NSString     *mUserID;
-    
-    NSDictionary *mAPIURLDict;
+    NSString *mUserID;
+    NSString *mUserKey;
+    NSString *mAuthKey;
 }
 
-@property (nonatomic, retain) NSString *nonce;
-@property (nonatomic, retain) NSString *appKey;
-@property (nonatomic, retain) NSString *userKey;
-@property (nonatomic, retain) NSString *userID;
+@property (nonatomic, readonly) NSString *userID;
+@property (nonatomic, readonly) NSString *userKey;
 
-- (NSString *)authKey;
+
+- (void)loginWithUserID:(NSString *)aUserID userKey:(NSString *)aUserKey delegate:(id)aDelegate;
+- (void)postWithBody:(NSString *)aBody tags:(NSString *)aTags icon:(NSInteger)aIcon attachedImage:(UIImage *)aImage delegate:(id)aDelegate;
 
 @end

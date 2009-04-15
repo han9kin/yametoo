@@ -9,8 +9,6 @@
 
 #import "AppDelegate.h"
 #import "MEPostViewController.h"
-#import "MEClient.h"
-#import "MEClient+Requests.h"
 
 
 @implementation AppDelegate
@@ -24,25 +22,6 @@
     // Override point for customization after app launch
     [mWindow addSubview:[mViewController view]];
     [mWindow makeKeyAndVisible];
-    
-    MEClient *sClient = [[MEClient alloc] init];
-    [sClient setUserID:@"maccrazy"];
-    [sClient setUserKey:@"1234567"];
-    NSLog(@"%@", [sClient loginRequest]);
-    [sClient createCommentRequest];
-    NSLog(@"%@", [sClient createPostRequestWithBody:@"body_str" tags:@"test test2" icon:1 attachedImage:nil]);
-    [sClient deleteCommentsRequest];
-    [sClient getCommentsRequest];
-    [sClient getFriendsRequest];
-    [sClient getLatestsRequest];
-    [sClient getMetoosRequest];
-    [sClient getPersonRequest];
-    [sClient getPostsRequest];
-    [sClient getSettingsRequest];
-    [sClient getTagsRequest];
-    [sClient metooRequest];
-    [sClient trackCommentsRequest];
-    [sClient release];
 }
 
 - (void)dealloc

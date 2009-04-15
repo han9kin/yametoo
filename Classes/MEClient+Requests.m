@@ -8,40 +8,50 @@
  */
 
 #import "MEClient+Requests.h"
+#import "NSString+MEAdditions.h"
+#import "NSURL+MEAdditions.h"
 #import "NSMutableURLRequest+MEAdditions.h"
 
 
 #define MENotImplemented(x)     NSLog(@"NotImplemented %@", x)
 
 
+static NSString *kNonce                   = @"1A3D485B";
+static NSString *kAppKey                  = @"e9a4f3c223bba69df0b1347d755b8c38";
+
+static NSString *kLoginRequestFormat      = @"http://me2day.net/api/noop.json?uid=%@&ukey=%@&akey=%@";
+static NSString *kCreatePostRequestFormat = @"http://me2day.net/api/create_post/%@.json?uid=%@&ukey=%@&akey=%@&post[body]=%@&post[tags]=%@&post[icon]=%d";
+
+
 @implementation MEClient (Requests)
 
 
-- (NSMutableURLRequest *)loginRequest
++ (NSString *)authKeyWithUserKey:(NSString *)aUserKey
 {
-    NSMutableURLRequest *sResult  = nil;
-    NSString            *sAPI     = @"noop?uid=%@&ukey=%@&akey=%@";
-    NSString            *sFormat  = [NSString stringWithFormat:@"%@%@", mBaseURL, sAPI];
-    NSString            *sAuthKey = [self authKey];
-    NSString            *sURLStr  = [NSString stringWithFormat:sFormat, mUserID, sAuthKey, mAppKey];
-    NSURL               *sURL     = [NSURL URLWithString:[sURLStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    return [NSString stringWithFormat:@"%@%@", kNonce, [[NSString stringWithFormat:@"%@%@", kNonce, aUserKey] md5String]];
+}
 
-    sResult = [NSMutableURLRequest requestWithURL:sURL];
 
-    return sResult;
+- (NSMutableURLRequest *)loginRequestWithUserID:(NSString *)aUserID userKey:(NSString *)aUserKey;
+{
+    NSMutableURLRequest *sRequest;
+    NSString            *sURL;
+
+    [mAuthKey release];
+    mAuthKey = [[MEClient authKeyWithUserKey:aUserKey] retain];
+
+    sURL     = [NSString stringWithFormat:kLoginRequestFormat, aUserID, mAuthKey, kAppKey];
+    sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURL]];
+
+    return sRequest;
 }
 
 
 - (NSMutableURLRequest *)createCommentRequest
 {
-    NSMutableURLRequest *sResult = nil;
-    MENotImplemented(@"createCommentRequest");    
-    return sResult;
-}
-
-
-- (void)attachImage:(UIImage *)aImage toRequest:(NSMutableURLRequest *)aURLRequest
-{
+    NSMutableURLRequest *sRequest = nil;
+    MENotImplemented(@"createCommentRequest");
+    return sRequest;
 }
 
 
@@ -50,108 +60,106 @@
                                               icon:(NSInteger)aIcon
                                      attachedImage:(UIImage *)aImage
 {
-    NSMutableURLRequest *sResult  = nil;
-    NSString            *sAPI     = @"create_post/%@.json?uid=%@&ukey=%@&akey=%@&post[body]=%@&post[tags]=%@&post[icon]=%d";
-    NSString            *sFormat  = [NSString stringWithFormat:@"%@%@", mBaseURL, sAPI];
-    NSString            *sAuthKey = [self authKey];
-    NSString            *sURLStr  = [NSString stringWithFormat:sFormat, mUserID, mUserID, sAuthKey, mAppKey, aBody, aTags, aIcon];
-    NSURL               *sURL     = [NSURL URLWithString:[sURLStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSMutableURLRequest *sRequest;
+    NSString            *sURL;
 
-    sResult = [NSMutableURLRequest requestWithURL:sURL];
+    sURL     = [NSString stringWithFormat:kCreatePostRequestFormat, mUserID, mUserID, mAuthKey, kAppKey, aBody, aTags, aIcon];
+    sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURL]];
+
     if (aImage)
     {
-        [sResult attachImage:aImage];
+        [sRequest attachImage:aImage];
     }
-    
-    return sResult;
+
+    return sRequest;
 }
 
 
 - (NSMutableURLRequest *)deleteCommentsRequest
 {
-    NSMutableURLRequest *sResult = nil;
+    NSMutableURLRequest *sRequest = nil;
     MENotImplemented(@"deleteCommentsRequest");
-    return sResult;
+    return sRequest;
 }
 
 
 - (NSMutableURLRequest *)getCommentsRequest
 {
-    NSMutableURLRequest *sResult = nil;
+    NSMutableURLRequest *sRequest = nil;
     MENotImplemented(@"getCommentsRequest");
-    return sResult;
+    return sRequest;
 }
 
 
 - (NSMutableURLRequest *)getFriendsRequest
 {
-    NSMutableURLRequest *sResult = nil;
+    NSMutableURLRequest *sRequest = nil;
     MENotImplemented(@"getFriendsRequest");
-    return sResult;
+    return sRequest;
 }
 
 
 - (NSMutableURLRequest *)getLatestsRequest
 {
-    NSMutableURLRequest *sResult = nil;
+    NSMutableURLRequest *sRequest = nil;
     MENotImplemented(@"getLatestsRequest");
-    return sResult;
+    return sRequest;
 }
 
 
 - (NSMutableURLRequest *)getMetoosRequest
 {
-    NSMutableURLRequest *sResult = nil;
+    NSMutableURLRequest *sRequest = nil;
     MENotImplemented(@"getMetoosRequest");
-    return sResult;
+    return sRequest;
 }
 
 
 - (NSMutableURLRequest *)getPersonRequest
 {
-    NSMutableURLRequest *sResult = nil;
+    NSMutableURLRequest *sRequest = nil;
     MENotImplemented(@"getPersonRequest");
-    return sResult;
+    return sRequest;
 }
 
 
 - (NSMutableURLRequest *)getPostsRequest;
 {
-    NSMutableURLRequest *sResult  = nil;
-    MENotImplemented(@"getPostsRequest");    
-    return sResult;
+    NSMutableURLRequest *sRequest  = nil;
+    MENotImplemented(@"getPostsRequest");
+    return sRequest;
 }
 
 
 - (NSMutableURLRequest *)getSettingsRequest
 {
-    NSMutableURLRequest *sResult = nil;
+    NSMutableURLRequest *sRequest = nil;
     MENotImplemented(@"getSettingsRequest");
-    return sResult;
+    return sRequest;
 }
 
 
 - (NSMutableURLRequest *)getTagsRequest
 {
-    NSMutableURLRequest *sResult = nil;
+    NSMutableURLRequest *sRequest = nil;
     MENotImplemented(@"getTagsRequest");
-    return sResult;
+    return sRequest;
 }
 
 
 - (NSMutableURLRequest *)metooRequest
 {
-    NSMutableURLRequest *sResult = nil;
+    NSMutableURLRequest *sRequest = nil;
     MENotImplemented(@"metooRequest");
-    return sResult;
+    return sRequest;
 }
 
 
 - (NSMutableURLRequest *)trackCommentsRequest
 {
-    NSMutableURLRequest *sResult = nil;
+    NSMutableURLRequest *sRequest = nil;
     MENotImplemented(@"trackCommentsRequest");
-    return sResult;
+    return sRequest;
 }
 
 

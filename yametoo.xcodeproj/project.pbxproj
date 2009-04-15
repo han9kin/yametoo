@@ -26,6 +26,7 @@
 		CF9045A40F959EE4001AE52C /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9045A00F959EE4001AE52C /* NSString+SBJSON.m */; };
 		CF9045A50F959EE4001AE52C /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9045A20F959EE4001AE52C /* SBJSON.m */; };
 		CF9045C90F95A85D001AE52C /* MEClientOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9045C80F95A85D001AE52C /* MEClientOperation.m */; };
+		CF9046430F95C4A4001AE52C /* NSURL+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9046420F95C4A4001AE52C /* NSURL+MEAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,8 +47,8 @@
 		2E6D55C50F95C70A00AA1DF6 /* MESettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESettingViewController.m; sourceTree = "<group>"; };
 		2ED163E40F9589D3009557F1 /* MEClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEClient.h; sourceTree = "<group>"; };
 		2ED163E50F9589D3009557F1 /* MEClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEClient.m; sourceTree = "<group>"; };
-		2ED164420F959B2A009557F1 /* NSString+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+MEAdditions.h"; path = "Categories/NSString+MEAdditions.h"; sourceTree = "<group>"; };
-		2ED164430F959B2A009557F1 /* NSString+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+MEAdditions.m"; path = "Categories/NSString+MEAdditions.m"; sourceTree = "<group>"; };
+		2ED164420F959B2A009557F1 /* NSString+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MEAdditions.h"; sourceTree = "<group>"; };
+		2ED164430F959B2A009557F1 /* NSString+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MEAdditions.m"; sourceTree = "<group>"; };
 		2ED164680F959F46009557F1 /* MEClient+Requests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MEClient+Requests.h"; sourceTree = "<group>"; };
 		2ED164690F959F46009557F1 /* MEClient+Requests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MEClient+Requests.m"; sourceTree = "<group>"; };
 		2EEDB9540F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableURLRequest+MEAdditions.h"; sourceTree = "<group>"; };
@@ -63,6 +64,8 @@
 		CF9045A20F959EE4001AE52C /* SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJSON.m; sourceTree = "<group>"; };
 		CF9045C70F95A85D001AE52C /* MEClientOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEClientOperation.h; sourceTree = "<group>"; };
 		CF9045C80F95A85D001AE52C /* MEClientOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEClientOperation.m; sourceTree = "<group>"; };
+		CF9046410F95C4A4001AE52C /* NSURL+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+MEAdditions.h"; sourceTree = "<group>"; };
+		CF9046420F95C4A4001AE52C /* NSURL+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+MEAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,7 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				CF90458C0F959D29001AE52C /* External Sources */,
-				2ED164410F959B05009557F1 /* Framework Additions */,
+				2ED164410F959B05009557F1 /* Additions */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -175,15 +178,17 @@
 			name = SettingViewController;
 			sourceTree = "<group>";
 		};
-		2ED164410F959B05009557F1 /* Framework Additions */ = {
+		2ED164410F959B05009557F1 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
 				2ED164420F959B2A009557F1 /* NSString+MEAdditions.h */,
 				2ED164430F959B2A009557F1 /* NSString+MEAdditions.m */,
+				CF9046410F95C4A4001AE52C /* NSURL+MEAdditions.h */,
+				CF9046420F95C4A4001AE52C /* NSURL+MEAdditions.m */,
 				2EEDB9540F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.h */,
 				2EEDB9550F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m */,
 			);
-			name = "Framework Additions";
+			path = Additions;
 			sourceTree = "<group>";
 		};
 		CF90458C0F959D29001AE52C /* External Sources */ = {
@@ -277,6 +282,7 @@
 				CF9045A50F959EE4001AE52C /* SBJSON.m in Sources */,
 				CF9045C90F95A85D001AE52C /* MEClientOperation.m in Sources */,
 				2EEDB9560F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m in Sources */,
+				CF9046430F95C4A4001AE52C /* NSURL+MEAdditions.m in Sources */,
 				2E6D55C60F95C70A00AA1DF6 /* MESettingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

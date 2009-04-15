@@ -8,6 +8,7 @@
  */
 
 #import "MEPostViewController.h"
+#import "MEClient.h"
 
 
 @implementation MEPostViewController
@@ -19,6 +20,7 @@
     self = [super initWithNibName:aNibNameOrNil bundle:aNibBundleOrNil];
     if (self)
     {
+        mClient = [[MEClient alloc] init];
     }
     return self;
 }
@@ -30,8 +32,9 @@
     self = [super initWithCoder:aCoder];
     if (self)
     {
+        mClient = [[MEClient alloc] init];
     }
-    
+
     return self;
 }
 
@@ -44,11 +47,13 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+
     [mKeyboardToolbar setTintColor:[UIColor colorWithRed:0.565 green:0.596 blue:0.635 alpha:1.0]];
     [mBodyTextView setText:@""];
     [mTagTextView  setText:@""];
 
-    [super viewDidLoad];
+    [mClient loginWithUserID:@"han9kin" userKey:@"idontknow" delegate:self];
 }
 
 
@@ -69,6 +74,7 @@
 
 - (void)dealloc
 {
+    [mClient release];
     [super dealloc];
 }
 
@@ -80,14 +86,14 @@
 - (void)beginEditModeAnimation
 {
     CGRect sFrame;
-    
+
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.3];
-    
+
     sFrame = [mKeyboardToolbar frame];
     sFrame.origin.y = 200;
     [mKeyboardToolbar setFrame:sFrame];
-    
+
     [UIView commitAnimations];
 }
 
@@ -95,14 +101,14 @@
 - (void)beginNormalModeAnimation
 {
     CGRect sFrame;
-    
+
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.3];
-    
+
     sFrame = [mKeyboardToolbar frame];
     sFrame.origin.y = 416;
     [mKeyboardToolbar setFrame:sFrame];
-    
+
     [UIView commitAnimations];
 }
 
@@ -121,7 +127,8 @@
 {
     NSString *sBody = [mBodyTextView text];
     NSString *sTags = [mTagTextView  text];
-    
+
+    [mClient postWithBody:sBody tags:sTags icon:0 attachedImage:nil delegate:self];
 }
 
 
@@ -129,7 +136,7 @@
 {
     [mBodyTextView resignFirstResponder];
     [mTagTextView resignFirstResponder];
-    
+
     [self beginNormalModeAnimation];
 }
 
@@ -140,8 +147,23 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)aTextView;
 {
-    
+
     [self beginEditModeAnimation];
+}
+
+
+#pragma mark -
+#pragma mark MEClientDelegate
+
+
+- (void)client:(MEClient *)aClient didLoginWithError:(NSError *)aError
+{
+    NSLog(@"%@", aError);
+}
+
+- (void)client:(MEClient *)aClient didPostWithError:(NSError *)aError
+{
+    NSLog(@"%@", aError);
 }
 
 

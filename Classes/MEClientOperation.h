@@ -34,7 +34,7 @@
 @property(nonatomic, assign) id  context;
 
 
-- (void)setRequet:(NSMutableURLRequest *)aRequest;
+- (void)setRequest:(NSMutableURLRequest *)aRequest;
 
 - (BOOL)contextRetained;
 - (void)retainContext;
