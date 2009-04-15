@@ -8,6 +8,7 @@
  */
 
 #import "MEClient+Requests.h"
+#import "NSMutableURLRequest+MEAdditions.h"
 
 
 #define MENotImplemented(x)     NSLog(@"NotImplemented %@", x)
@@ -39,6 +40,11 @@
 }
 
 
+- (void)attachImage:(UIImage *)aImage toRequest:(NSMutableURLRequest *)aURLRequest
+{
+}
+
+
 - (NSMutableURLRequest *)createPostRequestWithBody:(NSString *)aBody
                                               tags:(NSString *)aTags
                                               icon:(NSInteger)aIcon
@@ -51,27 +57,10 @@
     NSString            *sURLStr  = [NSString stringWithFormat:sFormat, mUserID, mUserID, sAuthKey, mAppKey, aBody, aTags, aIcon];
     NSURL               *sURL     = [NSURL URLWithString:[sURLStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 
+    sResult = [NSMutableURLRequest requestWithURL:sURL];
     if (aImage)
     {
-        NSString            *sBoundary    = @"----YAMETOO";
-        NSString            *sContentType = [NSString stringWithFormat:@"multipart/form-data, boundary=%@", sBoundary];
-        NSMutableURLRequest *sRequest     = [NSMutableURLRequest requestWithURL:sURL];
-        NSMutableData       *sPostBody    = [NSMutableData data];
-        
-        [sPostBody appendData:[[NSString stringWithFormat:@"--%@\r\n", sBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
-        [sPostBody appendData:[@"Content-Disposition: form-data; name=\"attachment\"; filename=\"attached_file\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-        [sPostBody appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-        [sPostBody appendData:UIImageJPEGRepresentation(aImage, 0.8)];
-        [sPostBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", sBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
-
-        [sRequest setHTTPMethod:@"POST"];
-        [sRequest setValue:sContentType forHTTPHeaderField:@"Content-type"];
-        [sRequest setHTTPBody:sPostBody];        
-        
-    }
-    else
-    {
-        sResult = [NSMutableURLRequest requestWithURL:sURL];    
+        [sResult attachImage:aImage];
     }
     
     return sResult;
