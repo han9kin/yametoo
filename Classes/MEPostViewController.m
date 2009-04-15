@@ -119,7 +119,9 @@
 
 - (IBAction)postButtonTapped:(id)aSender
 {
-    NSLog(@"postButtonTapped");
+    NSString *sBody = [mBodyTextView text];
+    NSString *sTags = [mTagTextView  text];
+    
 }
 
 

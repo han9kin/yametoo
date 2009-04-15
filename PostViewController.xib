@@ -108,7 +108,7 @@
 							<object class="IBUITextView" id="443749540">
 								<reference key="NSNextResponder" ref="285977659"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{20, 156}, {280, 53}}</string>
+								<string key="NSFrame">{{20, 156}, {280, 32}}</string>
 								<reference key="NSSuperview" ref="285977659"/>
 								<reference key="IBUIBackgroundColor" ref="122071437"/>
 								<bool key="IBUIOpaque">NO</bool>
@@ -163,7 +163,7 @@
 								<reference key="IBUIToolbar" ref="703641767"/>
 							</object>
 							<object class="IBUIBarButtonItem" id="199322310">
-								<string key="IBUITitle">Item</string>
+								<string key="IBUITitle">Done</string>
 								<int key="IBUIStyle">2</int>
 								<reference key="IBUIToolbar" ref="703641767"/>
 							</object>
@@ -300,10 +300,10 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="416111372"/>
 							<reference ref="366782425"/>
-							<reference ref="970404258"/>
-							<reference ref="443749540"/>
 							<reference ref="253857055"/>
 							<reference ref="669207684"/>
+							<reference ref="970404258"/>
+							<reference ref="443749540"/>
 						</object>
 						<reference key="parent" ref="774585933"/>
 					</object>
