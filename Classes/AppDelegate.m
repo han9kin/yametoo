@@ -9,6 +9,8 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
+//#import "MEClient.h"
+//#import "MEClient+Requests.h"
 
 
 @implementation AppDelegate
@@ -22,6 +24,23 @@
     // Override point for customization after app launch
     [mWindow addSubview:[mViewController view]];
     [mWindow makeKeyAndVisible];
+    
+/*    MEClient *sClient = [[MEClient alloc] init];
+    NSLog(@"%@", [sClient loginRequest]);
+    [sClient createCommentRequest];
+    [sClient createPostRequest];
+    [sClient deleteCommentsRequest];
+    [sClient getCommentsRequest];
+    [sClient getFriendsRequest];
+    [sClient getLatestsRequest];
+    [sClient getMetoosRequest];
+    [sClient getPersonRequest];
+    [sClient getPostsRequest];
+    [sClient getSettingsRequest];
+    [sClient getTagsRequest];
+    [sClient metooRequest];
+    [sClient trackCommentsRequest];
+    [sClient release];*/
 }
 
 - (void)dealloc
