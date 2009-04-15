@@ -12,7 +12,13 @@
 
 @interface MEPostViewController : UIViewController
 {
-
+    IBOutlet UITextView *mBodyTextView;
+    IBOutlet UITextView *mTagTextView;
+    IBOutlet UIToolbar  *mKeyboardToolbar;
 }
+
+- (IBAction)takePictureButtonTapped:(id)aSender;
+- (IBAction)postButtonTapped:(id)aSender;
+- (IBAction)keyboardToolbarDoneButtonTapped:(id)aSender;
 
 @end

@@ -35,7 +35,7 @@
 - (NSMutableURLRequest *)createCommentRequest
 {
     NSMutableURLRequest *sResult = nil;
-    MENotImplemented(@"loginRequest");    
+    MENotImplemented(@"createCommentRequest");    
     return sResult;
 }
 

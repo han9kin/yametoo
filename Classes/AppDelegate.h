@@ -15,7 +15,7 @@
 
 @interface AppDelegate : NSObject <UIApplicationDelegate>
 {
-    UIWindow           *mWindow;
+    UIWindow                    *mWindow;
     IBOutlet UITabBarController *mViewController;
 }
 
