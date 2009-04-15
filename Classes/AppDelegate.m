@@ -8,7 +8,7 @@
  */
 
 #import "AppDelegate.h"
-#import "MainViewController.h"
+#import "MEPostViewController.h"
 #import "MEClient.h"
 #import "MEClient+Requests.h"
 

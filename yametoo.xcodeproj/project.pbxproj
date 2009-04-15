@@ -12,9 +12,12 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
-		2899E5220DE3E06400AC0155 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* MainViewController.xib */; };
+		2899E5220DE3E06400AC0155 /* PostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* PostViewController.xib */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
-		28D7ACF80DDB3853001CB0EB /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* MainViewController.m */; };
+		28D7ACF80DDB3853001CB0EB /* MEPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* MEPostViewController.m */; };
+		2E6D55820F95BAF400AA1DF6 /* yametoo_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E6D55810F95BAF400AA1DF6 /* yametoo_icon.png */; };
+		2E6D55B80F95C63F00AA1DF6 /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E6D55B70F95C63F00AA1DF6 /* SettingViewController.xib */; };
+		2E6D55C60F95C70A00AA1DF6 /* MESettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6D55C50F95C70A00AA1DF6 /* MESettingViewController.m */; };
 		2ED163E60F9589D3009557F1 /* MEClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED163E50F9589D3009557F1 /* MEClient.m */; };
 		2ED164440F959B2A009557F1 /* NSString+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED164430F959B2A009557F1 /* NSString+MEAdditions.m */; };
 		2ED1646A0F959F46009557F1 /* MEClient+Requests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED164690F959F46009557F1 /* MEClient+Requests.m */; };
@@ -32,11 +35,15 @@
 		1D6058910D05DD3D006BFB54 /* yametoo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = yametoo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		2899E5210DE3E06400AC0155 /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		2899E5210DE3E06400AC0155 /* PostViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostViewController.xib; sourceTree = "<group>"; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		28D7ACF60DDB3853001CB0EB /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		28D7ACF70DDB3853001CB0EB /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		28D7ACF60DDB3853001CB0EB /* MEPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPostViewController.h; sourceTree = "<group>"; };
+		28D7ACF70DDB3853001CB0EB /* MEPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPostViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2E6D55810F95BAF400AA1DF6 /* yametoo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = yametoo_icon.png; path = Images/yametoo_icon.png; sourceTree = "<group>"; };
+		2E6D55B70F95C63F00AA1DF6 /* SettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
+		2E6D55C40F95C70A00AA1DF6 /* MESettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MESettingViewController.h; sourceTree = "<group>"; };
+		2E6D55C50F95C70A00AA1DF6 /* MESettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESettingViewController.m; sourceTree = "<group>"; };
 		2ED163E40F9589D3009557F1 /* MEClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEClient.h; sourceTree = "<group>"; };
 		2ED163E50F9589D3009557F1 /* MEClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEClient.m; sourceTree = "<group>"; };
 		2ED164420F959B2A009557F1 /* NSString+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+MEAdditions.h"; path = "Categories/NSString+MEAdditions.h"; sourceTree = "<group>"; };
@@ -75,10 +82,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				2E6D55D30F95C77000AA1DF6 /* PostViewController */,
+				2E6D55D40F95C77C00AA1DF6 /* SettingViewController */,
 				1D3623240D0F684500981E51 /* AppDelegate.h */,
 				1D3623250D0F684500981E51 /* AppDelegate.m */,
-				28D7ACF60DDB3853001CB0EB /* MainViewController.h */,
-				28D7ACF70DDB3853001CB0EB /* MainViewController.m */,
 				2ED163E40F9589D3009557F1 /* MEClient.h */,
 				2ED163E50F9589D3009557F1 /* MEClient.m */,
 				2ED164680F959F46009557F1 /* MEClient+Requests.h */,
@@ -123,8 +130,10 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2899E5210DE3E06400AC0155 /* MainViewController.xib */,
+				2E6D55800F95BADC00AA1DF6 /* Images */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
+				2899E5210DE3E06400AC0155 /* PostViewController.xib */,
+				2E6D55B70F95C63F00AA1DF6 /* SettingViewController.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 			);
 			name = Resources;
@@ -138,6 +147,32 @@
 				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2E6D55800F95BADC00AA1DF6 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				2E6D55810F95BAF400AA1DF6 /* yametoo_icon.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		2E6D55D30F95C77000AA1DF6 /* PostViewController */ = {
+			isa = PBXGroup;
+			children = (
+				28D7ACF60DDB3853001CB0EB /* MEPostViewController.h */,
+				28D7ACF70DDB3853001CB0EB /* MEPostViewController.m */,
+			);
+			name = PostViewController;
+			sourceTree = "<group>";
+		};
+		2E6D55D40F95C77C00AA1DF6 /* SettingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2E6D55C40F95C70A00AA1DF6 /* MESettingViewController.h */,
+				2E6D55C50F95C70A00AA1DF6 /* MESettingViewController.m */,
+			);
+			name = SettingViewController;
 			sourceTree = "<group>";
 		};
 		2ED164410F959B05009557F1 /* Framework Additions */ = {
@@ -218,7 +253,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
-				2899E5220DE3E06400AC0155 /* MainViewController.xib in Resources */,
+				2899E5220DE3E06400AC0155 /* PostViewController.xib in Resources */,
+				2E6D55820F95BAF400AA1DF6 /* yametoo_icon.png in Resources */,
+				2E6D55B80F95C63F00AA1DF6 /* SettingViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,7 +268,7 @@
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
-				28D7ACF80DDB3853001CB0EB /* MainViewController.m in Sources */,
+				28D7ACF80DDB3853001CB0EB /* MEPostViewController.m in Sources */,
 				2ED163E60F9589D3009557F1 /* MEClient.m in Sources */,
 				2ED164440F959B2A009557F1 /* NSString+MEAdditions.m in Sources */,
 				2ED1646A0F959F46009557F1 /* MEClient+Requests.m in Sources */,
@@ -240,6 +277,7 @@
 				CF9045A50F959EE4001AE52C /* SBJSON.m in Sources */,
 				CF9045C90F95A85D001AE52C /* MEClientOperation.m in Sources */,
 				2EEDB9560F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m in Sources */,
+				2E6D55C60F95C70A00AA1DF6 /* MESettingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

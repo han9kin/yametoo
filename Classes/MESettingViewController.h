@@ -1,5 +1,5 @@
 /*
- *  MainViewController.h
+ *  MESettingViewController.h
  *  yametoo
  *
  *  Created by cgkim on 09. 04. 15.
@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface MainViewController : UIViewController
+@interface MESettingViewController : UIViewController
 {
 
 }

@@ -10,16 +10,16 @@
 #import <UIKit/UIKit.h>
 
 
-@class MainViewController;
+@class MEPostViewController;
 
 
 @interface AppDelegate : NSObject <UIApplicationDelegate>
 {
     UIWindow           *mWindow;
-    MainViewController *mViewController;
+    IBOutlet UITabBarController *mViewController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow           *window;
-@property (nonatomic, retain) IBOutlet MainViewController *viewController;
+@property (nonatomic, retain) IBOutlet UITabBarController *viewController;
 
 @end
