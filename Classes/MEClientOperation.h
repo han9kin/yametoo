@@ -10,25 +10,33 @@
 #import <Foundation/Foundation.h>
 
 
+/*
+ * delegate method signature:
+ *  - (void)clientOperation:(MEClientOperation *)aOperation data:(NSData *)aData error:(NSError *)aError
+ */
+
 @interface MEClientOperation : NSOperation
 {
     NSURLConnection *mConnection;
     NSMutableData   *mData;
 
-    id               mContext;
     id               mDelegate;
     SEL              mSelector;
+    id               mContext;
+    BOOL             mContextRetained;
 
     BOOL             mExecuting;
     BOOL             mFinished;
 }
 
-@property(nonatomic, retain) id  context;
 @property(nonatomic, assign) id  delegate;
 @property(nonatomic, assign) SEL selector;
+@property(nonatomic, assign) id  context;
 
 
 - (void)setRequet:(NSMutableURLRequest *)aRequest;
 
+- (BOOL)contextRetained;
+- (void)retainContext;
 
 @end

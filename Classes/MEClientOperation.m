@@ -45,9 +45,9 @@ static int       gNetworkOperationsCount = 0;
 
 @implementation MEClientOperation
 
-@synthesize context  = mContext;
 @synthesize delegate = mDelegate;
 @synthesize selector = mSelector;
+@synthesize context  = mContext;
 
 
 + (void)initialize
@@ -63,9 +63,12 @@ static int       gNetworkOperationsCount = 0;
 
 - (void)dealloc
 {
+    if (mContextRetained)
+    {
+        [mContext release];
+    }
     [mConnection release];
     [mData release];
-    [mContext release];
     [super dealloc];
 }
 
@@ -148,6 +151,19 @@ static int       gNetworkOperationsCount = 0;
     mConnection = [[NSURLConnection alloc] initWithRequest:aRequest delegate:self startImmediately:NO];
 }
 
+- (BOOL)contextRetained
+{
+    return mContextRetained;
+}
+
+- (void)retainContext
+{
+    if (!mContextRetained)
+    {
+        [mContext retain];
+        mContextRetained = YES;
+    }
+}
 
 #pragma mark NSURLConnectionDelegate
 
@@ -183,9 +199,21 @@ static int       gNetworkOperationsCount = 0;
 
 - (void)connection:(NSURLConnection *)aConnection didFailWithError:(NSError *)aError
 {
+    id            sNil;
+    NSInvocation *sInvocation;
+
     if (![self isCancelled])
     {
-        [self performSelector:mSelector withObject:nil];
+        sNil        = nil;
+        sInvocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:@@@"]];
+
+        [sInvocation setTarget:mDelegate];
+        [sInvocation setSelector:mSelector];
+        [sInvocation setArgument:&self atIndex:2];
+        [sInvocation setArgument:&sNil atIndex:3];
+        [sInvocation setArgument:&aError atIndex:4];
+
+        [sInvocation invoke];
     }
 
     [self stop];
@@ -193,9 +221,21 @@ static int       gNetworkOperationsCount = 0;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)aConnection
 {
+    id            sNil;
+    NSInvocation *sInvocation;
+
     if (![self isCancelled])
     {
-        [self performSelector:mSelector withObject:mData];
+        sNil = nil;
+        sInvocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:@@@"]];
+
+        [sInvocation setTarget:mDelegate];
+        [sInvocation setSelector:mSelector];
+        [sInvocation setArgument:&self atIndex:2];
+        [sInvocation setArgument:&mData atIndex:3];
+        [sInvocation setArgument:&sNil atIndex:4];
+
+        [sInvocation invoke];
     }
 
     [self stop];
