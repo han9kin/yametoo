@@ -102,18 +102,47 @@ static NSOperationQueue *gOperationQueue = nil;
 
         if (sResult)
         {
-            [mUserID release];
-            [mUserKey release];
+            NSInteger sCode = [[sResult objectForKey:@"code"] integerValue];
 
-            mUserID  = [[[aOperation context] objectForKey:@"userID"] retain];
-            mUserKey = [[[aOperation context] objectForKey:@"userKey"] retain];
+            if (sCode)
+            {
+                NSString     *sMessage;
+                NSDictionary *sUserInfo;
+                NSError      *sError;
 
-            [sDelegate client:self didLoginWithError:nil];
+                if ([[sResult objectForKey:@"description"] length])
+                {
+                    sMessage = [sResult objectForKey:@"description"];
+                }
+                else if ([[sResult objectForKey:@"message"] length])
+                {
+                    sMessage = [sResult objectForKey:@"message"];
+                }
+                else
+                {
+                    sMessage = @"Unknown";
+                }
+
+                sUserInfo = [NSDictionary dictionaryWithObject:sMessage forKey:NSLocalizedDescriptionKey];
+                sError    = [NSError errorWithDomain:MEClientErrorDomain code:sCode userInfo:sUserInfo];
+
+                [sDelegate client:self didLoginWithError:sError];
+            }
+            else
+            {
+                [mUserID release];
+                [mUserKey release];
+
+                mUserID  = [[[aOperation context] objectForKey:@"userID"] retain];
+                mUserKey = [[[aOperation context] objectForKey:@"userKey"] retain];
+
+                [sDelegate client:self didLoginWithError:nil];
+            }
         }
         else
         {
             NSDictionary *sUserInfo = [NSDictionary dictionaryWithObject:sSource forKey:NSLocalizedDescriptionKey];
-            NSError      *sError    = [NSError errorWithDomain:MEClientErrorDomain code:0 userInfo:sUserInfo];
+            NSError      *sError    = [NSError errorWithDomain:MEClientErrorDomain code:-1 userInfo:sUserInfo];
 
             [sDelegate client:self didLoginWithError:sError];
         }
