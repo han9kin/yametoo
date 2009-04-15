@@ -16,120 +16,151 @@
 @implementation MEClient (Requests)
 
 
-- (NSURLRequest *)loginRequest
+- (NSMutableURLRequest *)loginRequest
 {
-    NSURLRequest *sResult  = nil;
-    NSString     *sAPI     = @"noop?uid=%@&ukey=%@&akey=%@";
-    NSString     *sFormat  = [NSString stringWithFormat:@"%@%@", mBaseURL, sAPI];
-    NSString     *sAuthKey = [self authKey];
-    NSString     *sURLStr  = [NSString stringWithFormat:sFormat, mUserID, sAuthKey, mAppKey];
-    NSURL        *sURL     = [NSURL URLWithString:[sURLStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSMutableURLRequest *sResult  = nil;
+    NSString            *sAPI     = @"noop?uid=%@&ukey=%@&akey=%@";
+    NSString            *sFormat  = [NSString stringWithFormat:@"%@%@", mBaseURL, sAPI];
+    NSString            *sAuthKey = [self authKey];
+    NSString            *sURLStr  = [NSString stringWithFormat:sFormat, mUserID, sAuthKey, mAppKey];
+    NSURL               *sURL     = [NSURL URLWithString:[sURLStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 
-    sResult = [NSURLRequest requestWithURL:sURL];
+    sResult = [NSMutableURLRequest requestWithURL:sURL];
 
     return sResult;
 }
 
 
-- (NSURLRequest *)createCommentRequest
+- (NSMutableURLRequest *)createCommentRequest
 {
-    NSURLRequest *sResult = nil;
+    NSMutableURLRequest *sResult = nil;
     MENotImplemented(@"loginRequest");    
     return sResult;
 }
 
 
-- (NSURLRequest *)createPostRequest
+- (NSMutableURLRequest *)createPostRequestWithBody:(NSString *)aBody
+                                              tags:(NSString *)aTags
+                                              icon:(NSInteger)aIcon
+                                     attachedImage:(UIImage *)aImage
 {
-    NSURLRequest *sResult = nil;
-    MENotImplemented(@"createPostRequest");
+    NSMutableURLRequest *sResult  = nil;
+    NSString            *sAPI     = @"create_post/%@.json?uid=%@&ukey=%@&akey=%@&post[body]=%@&post[tags]=%@&post[icon]=%d";
+    NSString            *sFormat  = [NSString stringWithFormat:@"%@%@", mBaseURL, sAPI];
+    NSString            *sAuthKey = [self authKey];
+    NSString            *sURLStr  = [NSString stringWithFormat:sFormat, mUserID, mUserID, sAuthKey, mAppKey, aBody, aTags, aIcon];
+    NSURL               *sURL     = [NSURL URLWithString:[sURLStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+
+    if (aImage)
+    {
+        NSString            *sBoundary    = @"----YAMETOO";
+        NSString            *sContentType = [NSString stringWithFormat:@"multipart/form-data, boundary=%@", sBoundary];
+        NSMutableURLRequest *sRequest     = [NSMutableURLRequest requestWithURL:sURL];
+        NSMutableData       *sPostBody    = [NSMutableData data];
+        
+        [sPostBody appendData:[[NSString stringWithFormat:@"--%@\r\n", sBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [sPostBody appendData:[@"Content-Disposition: form-data; name=\"attachment\"; filename=\"attached_file\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [sPostBody appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [sPostBody appendData:UIImageJPEGRepresentation(aImage, 0.8)];
+        [sPostBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", sBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+
+        [sRequest setHTTPMethod:@"POST"];
+        [sRequest setValue:sContentType forHTTPHeaderField:@"Content-type"];
+        [sRequest setHTTPBody:sPostBody];        
+        
+    }
+    else
+    {
+        sResult = [NSMutableURLRequest requestWithURL:sURL];    
+    }
+    
     return sResult;
 }
 
 
-- (NSURLRequest *)deleteCommentsRequest
+- (NSMutableURLRequest *)deleteCommentsRequest
 {
-    NSURLRequest *sResult = nil;
+    NSMutableURLRequest *sResult = nil;
     MENotImplemented(@"deleteCommentsRequest");
     return sResult;
 }
 
 
-- (NSURLRequest *)getCommentsRequest
+- (NSMutableURLRequest *)getCommentsRequest
 {
-    NSURLRequest *sResult = nil;
+    NSMutableURLRequest *sResult = nil;
     MENotImplemented(@"getCommentsRequest");
     return sResult;
 }
 
 
-- (NSURLRequest *)getFriendsRequest
+- (NSMutableURLRequest *)getFriendsRequest
 {
-    NSURLRequest *sResult = nil;
+    NSMutableURLRequest *sResult = nil;
     MENotImplemented(@"getFriendsRequest");
     return sResult;
 }
 
 
-- (NSURLRequest *)getLatestsRequest
+- (NSMutableURLRequest *)getLatestsRequest
 {
-    NSURLRequest *sResult = nil;
+    NSMutableURLRequest *sResult = nil;
     MENotImplemented(@"getLatestsRequest");
     return sResult;
 }
 
 
-- (NSURLRequest *)getMetoosRequest
+- (NSMutableURLRequest *)getMetoosRequest
 {
-    NSURLRequest *sResult = nil;
+    NSMutableURLRequest *sResult = nil;
     MENotImplemented(@"getMetoosRequest");
     return sResult;
 }
 
 
-- (NSURLRequest *)getPersonRequest
+- (NSMutableURLRequest *)getPersonRequest
 {
-    NSURLRequest *sResult = nil;
+    NSMutableURLRequest *sResult = nil;
     MENotImplemented(@"getPersonRequest");
     return sResult;
 }
 
 
-- (NSURLRequest *)getPostsRequest
+- (NSMutableURLRequest *)getPostsRequest;
 {
-    NSURLRequest *sResult = nil;
-    MENotImplemented(@"getPostsRequest");
+    NSMutableURLRequest *sResult  = nil;
+    MENotImplemented(@"getPostsRequest");    
     return sResult;
 }
 
 
-- (NSURLRequest *)getSettingsRequest
+- (NSMutableURLRequest *)getSettingsRequest
 {
-    NSURLRequest *sResult = nil;
+    NSMutableURLRequest *sResult = nil;
     MENotImplemented(@"getSettingsRequest");
     return sResult;
 }
 
 
-- (NSURLRequest *)getTagsRequest
+- (NSMutableURLRequest *)getTagsRequest
 {
-    NSURLRequest *sResult = nil;
+    NSMutableURLRequest *sResult = nil;
     MENotImplemented(@"getTagsRequest");
     return sResult;
 }
 
 
-- (NSURLRequest *)metooRequest
+- (NSMutableURLRequest *)metooRequest
 {
-    NSURLRequest *sResult = nil;
+    NSMutableURLRequest *sResult = nil;
     MENotImplemented(@"metooRequest");
     return sResult;
 }
 
 
-- (NSURLRequest *)trackCommentsRequest
+- (NSMutableURLRequest *)trackCommentsRequest
 {
-    NSURLRequest *sResult = nil;
+    NSMutableURLRequest *sResult = nil;
     MENotImplemented(@"trackCommentsRequest");
     return sResult;
 }

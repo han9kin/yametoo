@@ -9,8 +9,8 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
-//#import "MEClient.h"
-//#import "MEClient+Requests.h"
+#import "MEClient.h"
+#import "MEClient+Requests.h"
 
 
 @implementation AppDelegate
@@ -25,10 +25,12 @@
     [mWindow addSubview:[mViewController view]];
     [mWindow makeKeyAndVisible];
     
-/*    MEClient *sClient = [[MEClient alloc] init];
+    MEClient *sClient = [[MEClient alloc] init];
+    [sClient setUserID:@"maccrazy"];
+    [sClient setUserKey:@"1234567"];
     NSLog(@"%@", [sClient loginRequest]);
     [sClient createCommentRequest];
-    [sClient createPostRequest];
+    NSLog(@"%@", [sClient createPostRequestWithBody:@"body_str" tags:@"test test2" icon:1 attachedImage:nil]);
     [sClient deleteCommentsRequest];
     [sClient getCommentsRequest];
     [sClient getFriendsRequest];
@@ -40,7 +42,7 @@
     [sClient getTagsRequest];
     [sClient metooRequest];
     [sClient trackCommentsRequest];
-    [sClient release];*/
+    [sClient release];
 }
 
 - (void)dealloc

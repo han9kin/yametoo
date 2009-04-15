@@ -13,19 +13,22 @@
 
 @interface MEClient (Requests)
 
-- (NSURLRequest *)loginRequest;
-- (NSURLRequest *)createCommentRequest;
-- (NSURLRequest *)createPostRequest;
-- (NSURLRequest *)deleteCommentsRequest;
-- (NSURLRequest *)getCommentsRequest;
-- (NSURLRequest *)getFriendsRequest;
-- (NSURLRequest *)getLatestsRequest;
-- (NSURLRequest *)getMetoosRequest;
-- (NSURLRequest *)getPersonRequest;
-- (NSURLRequest *)getPostsRequest;
-- (NSURLRequest *)getSettingsRequest;
-- (NSURLRequest *)getTagsRequest;
-- (NSURLRequest *)metooRequest;
-- (NSURLRequest *)trackCommentsRequest;
+- (NSMutableURLRequest *)loginRequest;
+- (NSMutableURLRequest *)createCommentRequest;
+- (NSMutableURLRequest *)createPostRequestWithBody:(NSString *)aBody
+                                              tags:(NSString *)aTags
+                                              icon:(NSInteger)aIcon
+                                     attachedImage:(UIImage *)aImage;
+- (NSMutableURLRequest *)deleteCommentsRequest;
+- (NSMutableURLRequest *)getCommentsRequest;
+- (NSMutableURLRequest *)getFriendsRequest;
+- (NSMutableURLRequest *)getLatestsRequest;
+- (NSMutableURLRequest *)getMetoosRequest;
+- (NSMutableURLRequest *)getPersonRequest;
+- (NSMutableURLRequest *)getPostsRequest;
+- (NSMutableURLRequest *)getSettingsRequest;
+- (NSMutableURLRequest *)getTagsRequest;
+- (NSMutableURLRequest *)metooRequest;
+- (NSMutableURLRequest *)trackCommentsRequest;
 
 @end
