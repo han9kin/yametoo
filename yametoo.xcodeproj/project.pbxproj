@@ -98,6 +98,7 @@
 		CF5EE75C0F97162F004712FF /* MESettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESettingsViewController.m; sourceTree = "<group>"; };
 		CF5EE75F0F97164A004712FF /* MELoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELoginViewController.h; sourceTree = "<group>"; };
 		CF5EE7600F97164A004712FF /* MELoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MELoginViewController.m; sourceTree = "<group>"; };
+		CF5EE7A60F972266004712FF /* UIViewController+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MEAdditions.h"; sourceTree = "<group>"; };
 		CF90459C0F959EE4001AE52C /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CF90459D0F959EE4001AE52C /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		CF90459E0F959EE4001AE52C /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -252,6 +253,7 @@
 				CF9046420F95C4A4001AE52C /* NSURL+MEAdditions.m */,
 				2EEDB9540F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.h */,
 				2EEDB9550F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m */,
+				CF5EE7A60F972266004712FF /* UIViewController+MEAdditions.h */,
 			);
 			path = Additions;
 			sourceTree = "<group>";

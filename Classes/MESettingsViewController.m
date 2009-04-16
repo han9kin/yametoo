@@ -7,6 +7,7 @@
  *
  */
 
+#import "UIViewController+MEAdditions.h"
 #import "MESettingsViewController.h"
 #import "MELoginViewController.h"
 
