@@ -13,23 +13,24 @@
 
 @interface MEClient (Requests)
 
-- (NSMutableURLRequest *)loginRequestWithUserID:(NSString *)aUserID userKey:(NSString *)aUserKey;
-- (NSMutableURLRequest *)createCommentRequest;
+- (NSMutableURLRequest *)loginRequestWithUserID:(NSString *)aUserID
+                                        userKey:(NSString *)aUserKey;
+- (NSMutableURLRequest *)createCommentRequestWithPostID:(NSString *)aPostID
+                                                   body:(NSString *)aBody;
 - (NSMutableURLRequest *)createPostRequestWithBody:(NSString *)aBody
                                               tags:(NSString *)aTags
                                               icon:(NSInteger)aIcon
                                      attachedImage:(UIImage *)aImage;
-- (NSMutableURLRequest *)deleteCommentsRequest;
+- (NSMutableURLRequest *)deleteCommentRequestWithCommentID:(NSString *)aCommentID;
 - (NSMutableURLRequest *)getCommentsRequestWithPostID:(NSString *)aPostID;
-- (NSMutableURLRequest *)getFriendsRequest;
-- (NSMutableURLRequest *)getLatestsRequest;
-- (NSMutableURLRequest *)getMetoosRequest;
-- (NSMutableURLRequest *)getPersonRequest;
+- (NSMutableURLRequest *)getFriendsRequestWithUserID:(NSString *)aUserID;
+- (NSMutableURLRequest *)getMetoosRequestWithPostID:(NSString *)aPostID;
+- (NSMutableURLRequest *)getPersonRequestWithUserID:(NSString *)aUserID;
 - (NSMutableURLRequest *)getPostsRequestWithOffet:(NSInteger)aOffset
                                             count:(NSInteger)aCount;
 - (NSMutableURLRequest *)getSettingsRequest;
-- (NSMutableURLRequest *)getTagsRequest;
-- (NSMutableURLRequest *)metooRequest;
-- (NSMutableURLRequest *)trackCommentsRequest;
+- (NSMutableURLRequest *)getTagsRequestWithUserID:(NSString *)aUserID;
+- (NSMutableURLRequest *)metooRequestWithPostID:(NSString *)aPostID;
+- (NSMutableURLRequest *)trackCommentsRequestWithScope:(NSString *)aScope;
 
 @end

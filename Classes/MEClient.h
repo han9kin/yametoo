@@ -15,6 +15,7 @@ extern NSString *MEClientErrorDomain;
 
 @class MEClient;
 
+
 @protocol MEClientDelegate
 
 - (void)client:(MEClient *)aClient didLoginWithError:(NSError *)aError;
