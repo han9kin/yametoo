@@ -8,6 +8,7 @@
  */
 
 #import "NSMutableURLRequest+MEAdditions.h"
+#import "EXF.h"
 
 
 @implementation NSMutableURLRequest (MEAdditions)
@@ -19,16 +20,28 @@
     NSString      *sBoundary    = @"----YAMETOO";
     NSString      *sContentType = [NSString stringWithFormat:@"multipart/form-data, boundary=%@", sBoundary];
     NSMutableData *sPostBody    = [NSMutableData data];
+    NSData        *sJpegData;
+    NSMutableData *sImageData   = [NSMutableData data];
     
     if (aImage)
     {
+        sJpegData = UIImageJPEGRepresentation(aImage, 0.8);
+        
+        EXFJpeg* jpegScanner = [[EXFJpeg alloc] init];
+        [jpegScanner scanImageData:sJpegData]; 
+        EXFMetaData *sEXFMetaData = [jpegScanner exifMetaData];
+        [sEXFMetaData addTagValue:@"Apple Inc."  forKey:[NSNumber numberWithInt:EXIF_Make]];
+        [sEXFMetaData addTagValue:[[UIDevice currentDevice] model] forKey:[NSNumber numberWithInt:EXIF_Model]];
+        [jpegScanner populateImageData:sImageData];
+        [jpegScanner release]; 
+        
         [self setHTTPMethod:@"POST"];
         [self setValue:sContentType forHTTPHeaderField:@"Content-type"];
         
         [sPostBody appendData:[[NSString stringWithFormat:@"--%@\r\n", sBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
         [sPostBody appendData:[@"Content-Disposition: form-data; name=\"attachment\"; filename=\"attached_file.jpg\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
         [sPostBody appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-        [sPostBody appendData:UIImageJPEGRepresentation(aImage, 0.8)];
+        [sPostBody appendData:sImageData];
         [sPostBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", sBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
         
         [self setHTTPBody:sPostBody];

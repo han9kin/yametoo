@@ -9,6 +9,7 @@
 
 #import <UIKit/UIKit.h>
 
+BOOL gLogging = NO;
 
 int main(int argc, char *argv[])
 {
