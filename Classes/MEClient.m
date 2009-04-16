@@ -67,7 +67,7 @@ static NSOperationQueue *gOperationQueue = nil;
     [sOperation release];
 }
 
-- (void)postWithBody:(NSString *)aBody tags:(NSString *)aTags icon:(NSInteger)aIcon attachedImage:(UIImage *)aImage delegate:(id)aDelegate
+- (void)createPostWithBody:(NSString *)aBody tags:(NSString *)aTags icon:(NSInteger)aIcon attachedImage:(UIImage *)aImage delegate:(id)aDelegate
 {
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
     NSString          *sTags      = [NSString stringWithFormat:@"yametoo %@", aTags];
@@ -157,7 +157,7 @@ static NSOperationQueue *gOperationQueue = nil;
 
     if (aError)
     {
-        [sDelegate client:self didPostWithError:aError];
+        [sDelegate client:self didCreatePostWithError:aError];
     }
     else
     {
@@ -167,14 +167,14 @@ static NSOperationQueue *gOperationQueue = nil;
 
         if (sResult)
         {
-            [sDelegate client:self didPostWithError:nil];
+            [sDelegate client:self didCreatePostWithError:nil];
         }
         else
         {
             NSDictionary *sUserInfo = [NSDictionary dictionaryWithObject:sSource forKey:NSLocalizedDescriptionKey];
             NSError      *sError    = [NSError errorWithDomain:MEClientErrorDomain code:0 userInfo:sUserInfo];
 
-            [sDelegate client:self didPostWithError:sError];
+            [sDelegate client:self didCreatePostWithError:sError];
         }
 
         [sPool release];

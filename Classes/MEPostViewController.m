@@ -122,7 +122,7 @@
     UIApplication           *sApp                   = [UIApplication sharedApplication];
     UIWindow                *sKeyWindow             = [sApp keyWindow];
     UIImagePickerController *sImagePickerController = [[UIImagePickerController alloc] init];
-    
+
     [sImagePickerController setDelegate:self];
     [sImagePickerController setSourceType:UIImagePickerControllerSourceTypeCamera];
     [sKeyWindow addSubview:[sImagePickerController view]];
@@ -135,7 +135,7 @@
     NSString *sBody = [mBodyTextView text];
     NSString *sTags = [mTagTextView  text];
 
-    [mClient postWithBody:sBody tags:sTags icon:0 attachedImage:mAttachedImage delegate:self];
+    [mClient createPostWithBody:sBody tags:sTags icon:0 attachedImage:mAttachedImage delegate:self];
 }
 
 
@@ -169,7 +169,7 @@
 }
 
 
-- (void)client:(MEClient *)aClient didPostWithError:(NSError *)aError
+- (void)client:(MEClient *)aClient didCreatePostWithError:(NSError *)aError
 {
     NSLog(@"%@", aError);
 

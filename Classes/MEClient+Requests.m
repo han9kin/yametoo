@@ -61,7 +61,7 @@ static NSString *kTrackCommentsRequestFormat = @"http://me2day.net/api/track_com
 {
     NSMutableURLRequest *sRequest;
     NSString            *sURLStr;
-    
+
     sURLStr  = [NSString stringWithFormat:kCreateCommentRequestFormat, mUserID, mAuthKey, kAppKey, aPostID, aBody];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
 
@@ -93,7 +93,7 @@ static NSString *kTrackCommentsRequestFormat = @"http://me2day.net/api/track_com
 {
     NSMutableURLRequest *sRequest;
     NSString            *sURLStr;
-    
+
     sURLStr  = [NSString stringWithFormat:kDeleteCommentRequestFormat, mUserID, mAuthKey, kAppKey, aCommentID];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
 
@@ -105,10 +105,10 @@ static NSString *kTrackCommentsRequestFormat = @"http://me2day.net/api/track_com
 {
     NSMutableURLRequest *sRequest;
     NSString            *sURLStr;
-    
+
     sURLStr  = [NSString stringWithFormat:kGetCommentsRequestFormat, aPostID];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
-    
+
     return sRequest;
 }
 
@@ -117,7 +117,7 @@ static NSString *kTrackCommentsRequestFormat = @"http://me2day.net/api/track_com
 {
     NSMutableURLRequest *sRequest;
     NSString            *sURLStr;
-    
+
     sURLStr  = [NSString stringWithFormat:kGetFriendsRequestFormat, aUserID];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
 
@@ -129,10 +129,10 @@ static NSString *kTrackCommentsRequestFormat = @"http://me2day.net/api/track_com
 {
     NSMutableURLRequest *sRequest;
     NSString            *sURLStr;
-    
+
     sURLStr  = [NSString stringWithFormat:kGetMetoosRequestFormat, aPostID];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
-    
+
     return sRequest;
 }
 
@@ -144,7 +144,7 @@ static NSString *kTrackCommentsRequestFormat = @"http://me2day.net/api/track_com
 
     sURLStr  = [NSString stringWithFormat:kGetPersonRequestFormat, aUserID];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
-    
+
     return sRequest;
 }
 
@@ -153,10 +153,10 @@ static NSString *kTrackCommentsRequestFormat = @"http://me2day.net/api/track_com
 {
     NSMutableURLRequest *sRequest;
     NSString            *sURLStr;
-    
+
     sURLStr  = [NSString stringWithFormat:kGetPostsRequestFormat, mUserID, aOffset, aCount];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
-    
+
     return sRequest;
 }
 
@@ -165,7 +165,7 @@ static NSString *kTrackCommentsRequestFormat = @"http://me2day.net/api/track_com
 {
     NSMutableURLRequest *sRequest;
     NSString            *sURLStr;
-    
+
     sURLStr  = [NSString stringWithFormat:kGetSettingsRequestFormat, mUserID, mAuthKey, kAppKey];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
 
@@ -177,10 +177,10 @@ static NSString *kTrackCommentsRequestFormat = @"http://me2day.net/api/track_com
 {
     NSMutableURLRequest *sRequest;
     NSString            *sURLStr;
-    
+
     sURLStr  = [NSString stringWithFormat:kGetTagsRequestFormat, aUserID];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
-    
+
     return sRequest;
 }
 
@@ -189,10 +189,10 @@ static NSString *kTrackCommentsRequestFormat = @"http://me2day.net/api/track_com
 {
     NSMutableURLRequest *sRequest;
     NSString            *sURLStr;
-    
+
     sURLStr  = [NSString stringWithFormat:kMetooRequestFormat, mUserID, mAuthKey, kAppKey, aPostID];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
-    
+
     return sRequest;
 }
 

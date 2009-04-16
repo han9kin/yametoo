@@ -19,7 +19,7 @@ extern NSString *MEClientErrorDomain;
 @protocol MEClientDelegate
 
 - (void)client:(MEClient *)aClient didLoginWithError:(NSError *)aError;
-- (void)client:(MEClient *)aClient didPostWithError:(NSError *)aError;
+- (void)client:(MEClient *)aClient didCreatePostWithError:(NSError *)aError;
 
 @end
 
@@ -36,6 +36,6 @@ extern NSString *MEClientErrorDomain;
 
 
 - (void)loginWithUserID:(NSString *)aUserID userKey:(NSString *)aUserKey delegate:(id)aDelegate;
-- (void)postWithBody:(NSString *)aBody tags:(NSString *)aTags icon:(NSInteger)aIcon attachedImage:(UIImage *)aImage delegate:(id)aDelegate;
+- (void)createPostWithBody:(NSString *)aBody tags:(NSString *)aTags icon:(NSInteger)aIcon attachedImage:(UIImage *)aImage delegate:(id)aDelegate;
 
 @end
