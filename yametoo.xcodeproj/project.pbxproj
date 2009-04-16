@@ -23,8 +23,6 @@
 		2E2EB1350F96F35F005C54E5 /* EXFTagDefinitionHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2EB12D0F96F35F005C54E5 /* EXFTagDefinitionHolder.m */; };
 		2E2EB1360F96F35F005C54E5 /* EXFUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2EB12F0F96F35F005C54E5 /* EXFUtils.m */; };
 		2E6D55820F95BAF400AA1DF6 /* yametoo_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E6D55810F95BAF400AA1DF6 /* yametoo_icon.png */; };
-		2E6D55B80F95C63F00AA1DF6 /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E6D55B70F95C63F00AA1DF6 /* SettingViewController.xib */; };
-		2E6D55C60F95C70A00AA1DF6 /* MESettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6D55C50F95C70A00AA1DF6 /* MESettingViewController.m */; };
 		2ED163E60F9589D3009557F1 /* MEClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED163E50F9589D3009557F1 /* MEClient.m */; };
 		2ED164440F959B2A009557F1 /* NSString+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED164430F959B2A009557F1 /* NSString+MEAdditions.m */; };
 		2ED1646A0F959F46009557F1 /* MEClient+Requests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED164690F959F46009557F1 /* MEClient+Requests.m */; };
@@ -36,6 +34,8 @@
 		2EE00E000F97134A00135D42 /* TagsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE00DFF0F97134A00135D42 /* TagsViewController.xib */; };
 		2EEDB9560F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEDB9550F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m */; };
 		CF5EE6B40F95DE8D004712FF /* NSNull+NilObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE6B30F95DE8D004712FF /* NSNull+NilObject.m */; };
+		CF5EE75D0F97162F004712FF /* MESettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE75C0F97162F004712FF /* MESettingsViewController.m */; };
+		CF5EE7610F97164A004712FF /* MELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE7600F97164A004712FF /* MELoginViewController.m */; };
 		CF9045A30F959EE4001AE52C /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF90459E0F959EE4001AE52C /* NSObject+SBJSON.m */; };
 		CF9045A40F959EE4001AE52C /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9045A00F959EE4001AE52C /* NSString+SBJSON.m */; };
 		CF9045A50F959EE4001AE52C /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9045A20F959EE4001AE52C /* SBJSON.m */; };
@@ -74,9 +74,6 @@
 		2E2EB12E0F96F35F005C54E5 /* EXFUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFUtils.h; sourceTree = "<group>"; };
 		2E2EB12F0F96F35F005C54E5 /* EXFUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXFUtils.m; sourceTree = "<group>"; };
 		2E6D55810F95BAF400AA1DF6 /* yametoo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = yametoo_icon.png; path = Images/yametoo_icon.png; sourceTree = "<group>"; };
-		2E6D55B70F95C63F00AA1DF6 /* SettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
-		2E6D55C40F95C70A00AA1DF6 /* MESettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MESettingViewController.h; sourceTree = "<group>"; };
-		2E6D55C50F95C70A00AA1DF6 /* MESettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESettingViewController.m; sourceTree = "<group>"; };
 		2ED163E40F9589D3009557F1 /* MEClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEClient.h; sourceTree = "<group>"; };
 		2ED163E50F9589D3009557F1 /* MEClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEClient.m; sourceTree = "<group>"; };
 		2ED164420F959B2A009557F1 /* NSString+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MEAdditions.h"; sourceTree = "<group>"; };
@@ -97,6 +94,10 @@
 		32CA4F630368D1EE00C91783 /* yametoo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yametoo_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CF5EE6B30F95DE8D004712FF /* NSNull+NilObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNull+NilObject.m"; sourceTree = "<group>"; };
+		CF5EE75B0F97162F004712FF /* MESettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MESettingsViewController.h; sourceTree = "<group>"; };
+		CF5EE75C0F97162F004712FF /* MESettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESettingsViewController.m; sourceTree = "<group>"; };
+		CF5EE75F0F97164A004712FF /* MELoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELoginViewController.h; sourceTree = "<group>"; };
+		CF5EE7600F97164A004712FF /* MELoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MELoginViewController.m; sourceTree = "<group>"; };
 		CF90459C0F959EE4001AE52C /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CF90459D0F959EE4001AE52C /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		CF90459E0F959EE4001AE52C /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -127,19 +128,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				2EE00DA10F970AEE00135D42 /* MymetooViewController */,
-				2EE00DB60F970D1000135D42 /* FriendsViewController */,
-				2EE00DFB0F9710A900135D42 /* TagViewController */,
-				2E6D55D30F95C77000AA1DF6 /* PostViewController */,
-				2E6D55D40F95C77C00AA1DF6 /* SettingViewController */,
+				CF5EE7630F97165F004712FF /* Agents */,
+				CF5EE7620F97164F004712FF /* Controllers */,
 				1D3623240D0F684500981E51 /* AppDelegate.h */,
 				1D3623250D0F684500981E51 /* AppDelegate.m */,
-				2ED163E40F9589D3009557F1 /* MEClient.h */,
-				2ED163E50F9589D3009557F1 /* MEClient.m */,
-				2ED164680F959F46009557F1 /* MEClient+Requests.h */,
-				2ED164690F959F46009557F1 /* MEClient+Requests.m */,
-				CF9045C70F95A85D001AE52C /* MEClientOperation.h */,
-				CF9045C80F95A85D001AE52C /* MEClientOperation.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -184,7 +176,6 @@
 				2EE00DEB0F970EE600135D42 /* FriendsViewController.xib */,
 				2EE00DFF0F97134A00135D42 /* TagsViewController.xib */,
 				2899E5210DE3E06400AC0155 /* PostViewController.xib */,
-				2E6D55B70F95C63F00AA1DF6 /* SettingViewController.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 			);
 			name = Resources;
@@ -242,13 +233,13 @@
 			name = PostViewController;
 			sourceTree = "<group>";
 		};
-		2E6D55D40F95C77C00AA1DF6 /* SettingViewController */ = {
+		2E6D55D40F95C77C00AA1DF6 /* SettingsViewController */ = {
 			isa = PBXGroup;
 			children = (
-				2E6D55C40F95C70A00AA1DF6 /* MESettingViewController.h */,
-				2E6D55C50F95C70A00AA1DF6 /* MESettingViewController.m */,
+				CF5EE75B0F97162F004712FF /* MESettingsViewController.h */,
+				CF5EE75C0F97162F004712FF /* MESettingsViewController.m */,
 			);
-			name = SettingViewController;
+			name = SettingsViewController;
 			sourceTree = "<group>";
 		};
 		2ED164410F959B05009557F1 /* Additions */ = {
@@ -290,6 +281,49 @@
 				2EE00DFD0F9710CF00135D42 /* METagsViewController.m */,
 			);
 			name = TagViewController;
+			sourceTree = "<group>";
+		};
+		CF5EE75E0F971639004712FF /* LoginViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CF5EE75F0F97164A004712FF /* MELoginViewController.h */,
+				CF5EE7600F97164A004712FF /* MELoginViewController.m */,
+			);
+			name = LoginViewController;
+			sourceTree = "<group>";
+		};
+		CF5EE7620F97164F004712FF /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2EE00DA10F970AEE00135D42 /* MymetooViewController */,
+				2EE00DB60F970D1000135D42 /* FriendsViewController */,
+				2EE00DFB0F9710A900135D42 /* TagViewController */,
+				2E6D55D30F95C77000AA1DF6 /* PostViewController */,
+				2E6D55D40F95C77C00AA1DF6 /* SettingsViewController */,
+				CF5EE75E0F971639004712FF /* LoginViewController */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		CF5EE7630F97165F004712FF /* Agents */ = {
+			isa = PBXGroup;
+			children = (
+				CF5EE7640F971665004712FF /* Client */,
+			);
+			name = Agents;
+			sourceTree = "<group>";
+		};
+		CF5EE7640F971665004712FF /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				2ED163E40F9589D3009557F1 /* MEClient.h */,
+				2ED163E50F9589D3009557F1 /* MEClient.m */,
+				2ED164680F959F46009557F1 /* MEClient+Requests.h */,
+				2ED164690F959F46009557F1 /* MEClient+Requests.m */,
+				CF9045C70F95A85D001AE52C /* MEClientOperation.h */,
+				CF9045C80F95A85D001AE52C /* MEClientOperation.m */,
+			);
+			name = Client;
 			sourceTree = "<group>";
 		};
 		CF90458C0F959D29001AE52C /* External Sources */ = {
@@ -362,7 +396,6 @@
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				2899E5220DE3E06400AC0155 /* PostViewController.xib in Resources */,
 				2E6D55820F95BAF400AA1DF6 /* yametoo_icon.png in Resources */,
-				2E6D55B80F95C63F00AA1DF6 /* SettingViewController.xib in Resources */,
 				2EE00DA60F970B4700135D42 /* MyMetooViewController.xib in Resources */,
 				2EE00DEC0F970EE600135D42 /* FriendsViewController.xib in Resources */,
 				2EE00E000F97134A00135D42 /* TagsViewController.xib in Resources */,
@@ -388,7 +421,6 @@
 				CF9045C90F95A85D001AE52C /* MEClientOperation.m in Sources */,
 				2EEDB9560F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m in Sources */,
 				CF9046430F95C4A4001AE52C /* NSURL+MEAdditions.m in Sources */,
-				2E6D55C60F95C70A00AA1DF6 /* MESettingViewController.m in Sources */,
 				CF5EE6B40F95DE8D004712FF /* NSNull+NilObject.m in Sources */,
 				2E2EB1300F96F35F005C54E5 /* EXFGPS.m in Sources */,
 				2E2EB1310F96F35F005C54E5 /* EXFHandlers.m in Sources */,
@@ -400,6 +432,8 @@
 				2EE00DA40F970B1500135D42 /* MEMyMetooViewController.m in Sources */,
 				2EE00DEA0F970ECF00135D42 /* MEFriendsViewController.m in Sources */,
 				2EE00DFE0F9710CF00135D42 /* METagsViewController.m in Sources */,
+				CF5EE75D0F97162F004712FF /* MESettingsViewController.m in Sources */,
+				CF5EE7610F97164A004712FF /* MELoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
