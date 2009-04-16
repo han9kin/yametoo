@@ -202,7 +202,7 @@
         return;
     }
     
-    NSLog(@"Length in image info %i ",len);
+//    NSLog(@"Length in image info %i ",len);
     
 	int bitsPerPixel = [self readNextbyte]; len--;
    
@@ -211,7 +211,7 @@
     
 	numComponents = [self readNextbyte]; len--;
     
-    NSLog(@"Skipping length %i", len);
+//    NSLog(@"Skipping length %i", len);
     //skip over the remainder length - how do we check the length here?
      *(imageBytePtr += len);
     
@@ -529,7 +529,7 @@
         }
     }
      
-    NSLog(@"About to append remaining data");
+//    NSLog(@"About to append remaining data");
     // add in the bytes after the exf block
     [newImage appendData:self.remainingData];
     
