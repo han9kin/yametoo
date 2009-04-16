@@ -16,7 +16,6 @@
 
 - (id)initWithNibName:(NSString *)aNibNameOrNil bundle:(NSBundle *)aNibBundleOrNil
 {
-    NSLog(@"initWithNibName");
     self = [super initWithNibName:aNibNameOrNil bundle:aNibBundleOrNil];
     if (self)
     {
@@ -28,7 +27,6 @@
 
 - (id)initWithCoder:(NSCoder *)aCoder
 {
-    NSLog(@"initWithCoder");
     self = [super initWithCoder:aCoder];
     if (self)
     {
@@ -38,12 +36,12 @@
     return self;
 }
 
-
+/*
 - (void)loadView
 {
     [super loadView];
 }
-
+*/
 
 - (void)viewDidLoad
 {
