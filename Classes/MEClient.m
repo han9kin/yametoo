@@ -50,7 +50,7 @@ static NSOperationQueue *gOperationQueue = nil;
 }
 
 
-#pragma mark -
+#pragma mark - client behaviors
 
 
 - (void)loginWithUserID:(NSString *)aUserID userKey:(NSString *)aUserKey delegate:(id)aDelegate
@@ -75,7 +75,21 @@ static NSOperationQueue *gOperationQueue = nil;
     [sOperation setRequest:[self createPostRequestWithBody:aBody tags:sTags icon:aIcon attachedImage:aImage]];
     [sOperation setContext:aDelegate];
     [sOperation setDelegate:self];
-    [sOperation setSelector:@selector(clientOperation:didReceivePostResult:error:)];
+    [sOperation setSelector:@selector(clientOperation:didReceiveCreatePostResult:error:)];
+    [sOperation retainContext];
+
+    [gOperationQueue addOperation:sOperation];
+    [sOperation release];
+}
+
+- (void)createCommentWithPostID:(NSString *)aPostID body:(NSString *)aBody delegate:(id)aDelegate
+{
+    MEClientOperation *sOperation = [[MEClientOperation alloc] init];
+
+    [sOperation setRequest:[self createCommentRequestWithPostID:aPostID body:aBody]];
+    [sOperation setContext:aDelegate];
+    [sOperation setDelegate:self];
+    [sOperation setSelector:@selector(clientOperation:didReceiveCreateCommentResult:error:)];
     [sOperation retainContext];
 
     [gOperationQueue addOperation:sOperation];
@@ -83,7 +97,57 @@ static NSOperationQueue *gOperationQueue = nil;
 }
 
 
-#pragma mark -
+#pragma mark - retreive error from response
+
+
+- (NSError *)errorFromResultString:(NSString *)aString
+{
+    NSDictionary *sUserInfo;
+    NSError      *sError;
+
+    sUserInfo = [NSDictionary dictionaryWithObject:aString forKey:NSLocalizedDescriptionKey];
+    sError    = [NSError errorWithDomain:MEClientErrorDomain code:-1 userInfo:sUserInfo];
+
+    return sError;
+}
+
+- (NSError *)errorFromResultDictionary:(NSDictionary *)aDict
+{
+    NSInteger     sCode;
+    NSString     *sMessage;
+    NSDictionary *sUserInfo;
+    NSError      *sError;
+
+    sCode = [[aDict objectForKey:@"code"] integerValue];
+
+    if (sCode)
+    {
+        if ([[aDict objectForKey:@"description"] length])
+        {
+            sMessage = [aDict objectForKey:@"description"];
+        }
+        else if ([[aDict objectForKey:@"message"] length])
+        {
+            sMessage = [aDict objectForKey:@"message"];
+        }
+        else
+        {
+            sMessage = @"Unknown";
+        }
+
+        sUserInfo = [NSDictionary dictionaryWithObject:sMessage forKey:NSLocalizedDescriptionKey];
+        sError    = [NSError errorWithDomain:MEClientErrorDomain code:sCode userInfo:sUserInfo];
+
+        return sError;
+    }
+    else
+    {
+        return nil;
+    }
+}
+
+
+#pragma mark - network operation delegation
 
 
 - (void)clientOperation:(MEClientOperation *)aOperation didReceiveLoginResult:(NSData *)aData error:(NSError *)aError
@@ -98,34 +162,15 @@ static NSOperationQueue *gOperationQueue = nil;
     {
         NSAutoreleasePool *sPool   = [[NSAutoreleasePool alloc] init];
         NSString          *sSource = [[[NSString alloc] initWithData:aData encoding:NSUTF8StringEncoding] autorelease];
-        id                 sResult = [sSource JSONValue];
+        NSDictionary      *sResult = [sSource JSONValue];
+        NSError           *sError;
 
         if (sResult)
         {
-            NSInteger sCode = [[sResult objectForKey:@"code"] integerValue];
+            sError = [self errorFromResultDictionary:sResult];
 
-            if (sCode)
+            if (sError)
             {
-                NSString     *sMessage;
-                NSDictionary *sUserInfo;
-                NSError      *sError;
-
-                if ([[sResult objectForKey:@"description"] length])
-                {
-                    sMessage = [sResult objectForKey:@"description"];
-                }
-                else if ([[sResult objectForKey:@"message"] length])
-                {
-                    sMessage = [sResult objectForKey:@"message"];
-                }
-                else
-                {
-                    sMessage = @"Unknown";
-                }
-
-                sUserInfo = [NSDictionary dictionaryWithObject:sMessage forKey:NSLocalizedDescriptionKey];
-                sError    = [NSError errorWithDomain:MEClientErrorDomain code:sCode userInfo:sUserInfo];
-
                 [sDelegate client:self didLoginWithError:sError];
             }
             else
@@ -141,17 +186,14 @@ static NSOperationQueue *gOperationQueue = nil;
         }
         else
         {
-            NSDictionary *sUserInfo = [NSDictionary dictionaryWithObject:sSource forKey:NSLocalizedDescriptionKey];
-            NSError      *sError    = [NSError errorWithDomain:MEClientErrorDomain code:-1 userInfo:sUserInfo];
-
-            [sDelegate client:self didLoginWithError:sError];
+            [sDelegate client:self didLoginWithError:[self errorFromResultString:sSource]];
         }
 
         [sPool release];
     }
 }
 
-- (void)clientOperation:(MEClientOperation *)aOperation didReceivePostResult:(NSData *)aData error:(NSError *)aError
+- (void)clientOperation:(MEClientOperation *)aOperation didReceiveCreatePostResult:(NSData *)aData error:(NSError *)aError
 {
     id sDelegate = [aOperation context];
 
@@ -180,5 +222,43 @@ static NSOperationQueue *gOperationQueue = nil;
         [sPool release];
     }
 }
+
+- (void)clientOperation:(MEClientOperation *)aOperation didReceiveCreateCommentResult:(NSData *)aData error:(NSError *)aError
+{
+    id sDelegate = [[aOperation context] objectForKey:@"delegate"];
+
+    if (aError)
+    {
+        [sDelegate client:self didCreateCommentWithError:aError];
+    }
+    else
+    {
+        NSAutoreleasePool *sPool   = [[NSAutoreleasePool alloc] init];
+        NSString          *sSource = [[[NSString alloc] initWithData:aData encoding:NSUTF8StringEncoding] autorelease];
+        NSDictionary      *sResult = [sSource JSONValue];
+        NSError           *sError;
+
+        if (sResult)
+        {
+            sError = [self errorFromResultDictionary:sResult];
+
+            if (sError)
+            {
+                [sDelegate client:self didCreateCommentWithError:sError];
+            }
+            else
+            {
+                [sDelegate client:self didCreateCommentWithError:nil];
+            }
+        }
+        else
+        {
+            [sDelegate client:self didCreateCommentWithError:[self errorFromResultString:sSource]];
+        }
+
+        [sPool release];
+    }
+}
+
 
 @end
