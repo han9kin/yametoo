@@ -12,13 +12,15 @@
 
 @class MEClient;
 
-@interface MEPostViewController : UIViewController
+@interface MEPostViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
-    IBOutlet UITextView *mBodyTextView;
-    IBOutlet UITextView *mTagTextView;
-    IBOutlet UIToolbar  *mKeyboardToolbar;
+    IBOutlet UITextView  *mBodyTextView;
+    IBOutlet UITextView  *mTagTextView;
+    IBOutlet UIToolbar   *mKeyboardToolbar;
+    IBOutlet UIImageView *mAttachedImageView;
 
-    MEClient            *mClient;
+    MEClient             *mClient;
+    UIImage              *mAttachedImage;
 }
 
 - (IBAction)takePictureButtonTapped:(id)aSender;

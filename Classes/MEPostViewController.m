@@ -53,7 +53,7 @@
     [mBodyTextView setText:@""];
     [mTagTextView  setText:@""];
 
-    [mClient loginWithUserID:@"han9kin" userKey:@"idontknow" delegate:self];
+    [mClient loginWithUserID:@"maccrazy" userKey:@"84007057" delegate:self];
 }
 
 
@@ -119,7 +119,14 @@
 
 - (IBAction)takePictureButtonTapped:(id)aSender
 {
-    NSLog(@"takePictureButtonTapped");
+    UIApplication           *sApp                   = [UIApplication sharedApplication];
+    UIWindow                *sKeyWindow             = [sApp keyWindow];
+    UIImagePickerController *sImagePickerController = [[UIImagePickerController alloc] init];
+    
+    [sImagePickerController setDelegate:self];
+    [sImagePickerController setSourceType:UIImagePickerControllerSourceTypeCamera];
+    [sKeyWindow addSubview:[sImagePickerController view]];
+    [sKeyWindow bringSubviewToFront:[sImagePickerController view]];
 }
 
 
@@ -128,7 +135,7 @@
     NSString *sBody = [mBodyTextView text];
     NSString *sTags = [mTagTextView  text];
 
-    [mClient postWithBody:sBody tags:sTags icon:0 attachedImage:nil delegate:self];
+    [mClient postWithBody:sBody tags:sTags icon:0 attachedImage:mAttachedImage delegate:self];
 }
 
 
@@ -161,9 +168,39 @@
     NSLog(@"%@", aError);
 }
 
+
 - (void)client:(MEClient *)aClient didPostWithError:(NSError *)aError
 {
     NSLog(@"%@", aError);
+
+    if (!aError)
+    {
+        [mAttachedImage release];
+        mAttachedImage = nil;
+
+        [mBodyTextView      setText:@""];
+        [mTagTextView       setText:@""];
+        [mAttachedImageView setImage:nil];
+    }
+}
+
+
+#pragma mark -
+#pragma mark UIImagePickerDelegate
+
+
+- (void)imagePickerController:(UIImagePickerController *)aPicker
+        didFinishPickingImage:(UIImage *)aImage
+                  editingInfo:(NSDictionary *)aEditingInfo
+{
+    [aPicker dismissModalViewControllerAnimated:YES];
+    [[aPicker view] setHidden:YES];
+    [[aPicker view] removeFromSuperview];
+    [aPicker autorelease];
+
+    [mAttachedImage autorelease];
+    mAttachedImage = [aImage retain];
+    [mAttachedImageView setImage:mAttachedImage];
 }
 
 

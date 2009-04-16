@@ -22,14 +22,15 @@
     
     if (aImage)
     {
+        [self setHTTPMethod:@"POST"];
+        [self setValue:sContentType forHTTPHeaderField:@"Content-type"];
+        
         [sPostBody appendData:[[NSString stringWithFormat:@"--%@\r\n", sBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
-        [sPostBody appendData:[@"Content-Disposition: form-data; name=\"attachment\"; filename=\"attached_file\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [sPostBody appendData:[@"Content-Disposition: form-data; name=\"attachment\"; filename=\"attached_file.jpg\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
         [sPostBody appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
         [sPostBody appendData:UIImageJPEGRepresentation(aImage, 0.8)];
         [sPostBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", sBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
         
-        [self setHTTPMethod:@"POST"];
-        [self setValue:sContentType forHTTPHeaderField:@"Content-type"];
         [self setHTTPBody:sPostBody];
         sResult = YES;
     }

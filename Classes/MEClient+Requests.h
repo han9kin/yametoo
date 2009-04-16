@@ -20,12 +20,13 @@
                                               icon:(NSInteger)aIcon
                                      attachedImage:(UIImage *)aImage;
 - (NSMutableURLRequest *)deleteCommentsRequest;
-- (NSMutableURLRequest *)getCommentsRequest;
+- (NSMutableURLRequest *)getCommentsRequestWithPostID:(NSString *)aPostID;
 - (NSMutableURLRequest *)getFriendsRequest;
 - (NSMutableURLRequest *)getLatestsRequest;
 - (NSMutableURLRequest *)getMetoosRequest;
 - (NSMutableURLRequest *)getPersonRequest;
-- (NSMutableURLRequest *)getPostsRequest;
+- (NSMutableURLRequest *)getPostsRequestWithOffet:(NSInteger)aOffset
+                                            count:(NSInteger)aCount;
 - (NSMutableURLRequest *)getSettingsRequest;
 - (NSMutableURLRequest *)getTagsRequest;
 - (NSMutableURLRequest *)metooRequest;
