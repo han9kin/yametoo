@@ -24,6 +24,7 @@
 		2E2EB1360F96F35F005C54E5 /* EXFUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2EB12F0F96F35F005C54E5 /* EXFUtils.m */; };
 		2E6101AF0F983AF60097AD3D /* METableViewCellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6101AE0F983AF60097AD3D /* METableViewCellFactory.m */; };
 		2E6102280F985AA40097AD3D /* MEReaderHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6102270F985AA40097AD3D /* MEReaderHeadView.m */; };
+		2E6102CC0F986B930097AD3D /* MEReaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6102CB0F986B930097AD3D /* MEReaderView.m */; };
 		2E6D55820F95BAF400AA1DF6 /* yametoo_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E6D55810F95BAF400AA1DF6 /* yametoo_icon.png */; };
 		2ED163E60F9589D3009557F1 /* MEClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED163E50F9589D3009557F1 /* MEClient.m */; };
 		2ED164440F959B2A009557F1 /* NSString+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED164430F959B2A009557F1 /* NSString+MEAdditions.m */; };
@@ -80,6 +81,8 @@
 		2E6101AE0F983AF60097AD3D /* METableViewCellFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = METableViewCellFactory.m; sourceTree = "<group>"; };
 		2E6102260F985AA40097AD3D /* MEReaderHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReaderHeadView.h; sourceTree = "<group>"; };
 		2E6102270F985AA40097AD3D /* MEReaderHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReaderHeadView.m; sourceTree = "<group>"; };
+		2E6102CA0F986B930097AD3D /* MEReaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReaderView.h; sourceTree = "<group>"; };
+		2E6102CB0F986B930097AD3D /* MEReaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReaderView.m; sourceTree = "<group>"; };
 		2E6D55810F95BAF400AA1DF6 /* yametoo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = yametoo_icon.png; path = Images/yametoo_icon.png; sourceTree = "<group>"; };
 		2ED163E40F9589D3009557F1 /* MEClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEClient.h; sourceTree = "<group>"; };
 		2ED163E50F9589D3009557F1 /* MEClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEClient.m; sourceTree = "<group>"; };
@@ -235,6 +238,8 @@
 				2E6101AE0F983AF60097AD3D /* METableViewCellFactory.m */,
 				2E6102260F985AA40097AD3D /* MEReaderHeadView.h */,
 				2E6102270F985AA40097AD3D /* MEReaderHeadView.m */,
+				2E6102CA0F986B930097AD3D /* MEReaderView.h */,
+				2E6102CB0F986B930097AD3D /* MEReaderView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -488,6 +493,7 @@
 				CF5EE8160F981C4E004712FF /* MEClientStore.m in Sources */,
 				2E6101AF0F983AF60097AD3D /* METableViewCellFactory.m in Sources */,
 				2E6102280F985AA40097AD3D /* MEReaderHeadView.m in Sources */,
+				2E6102CC0F986B930097AD3D /* MEReaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

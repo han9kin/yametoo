@@ -8,11 +8,12 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "MEReaderView.h"
 
 
 @interface MEMyMetooViewController : UIViewController
 {
-    IBOutlet UITableView *mReaderView;
+    IBOutlet MEReaderView *mReaderView;
 }
 
 @end
