@@ -29,6 +29,10 @@
 }
 
 
+#pragma mark -
+#pragma mark init/dealloc
+
+
 - (id)initWithFrame:(CGRect)aFrame
 {
     self = [super initWithFrame:aFrame];
@@ -55,17 +59,20 @@
 }
 
 
-- (void)drawRect:(CGRect)aRect
-{
-    // Drawing code
-}
-
-        
 - (void)dealloc
 {
     [mTableView release];
     
     [super dealloc];
+}
+
+
+#pragma mark -
+
+
+- (void)drawRect:(CGRect)aRect
+{
+    // Drawing code
 }
 
 

@@ -31,14 +31,16 @@ static NSOperationQueue *gOperationQueue = nil;
 }
 
 
-#pragma mark - properties
+#pragma mark -
+#pragma mark properties
 
 
 @synthesize userID   = mUserID;
 @synthesize passcode = mPasscode;
 
 
-#pragma mark - init/dealloc
+#pragma mark -
+#pragma mark init/dealloc
 
 
 - (void)dealloc
@@ -50,7 +52,8 @@ static NSOperationQueue *gOperationQueue = nil;
 }
 
 
-#pragma mark - client behaviors
+#pragma mark -
+#pragma mark client behaviors
 
 
 - (void)loginWithUserID:(NSString *)aUserID userKey:(NSString *)aUserKey delegate:(id)aDelegate
@@ -67,6 +70,7 @@ static NSOperationQueue *gOperationQueue = nil;
     [sOperation release];
 }
 
+
 - (void)createPostWithBody:(NSString *)aBody tags:(NSString *)aTags icon:(NSInteger)aIcon attachedImage:(UIImage *)aImage delegate:(id)aDelegate
 {
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
@@ -80,6 +84,7 @@ static NSOperationQueue *gOperationQueue = nil;
     [gOperationQueue addOperation:sOperation];
     [sOperation release];
 }
+
 
 - (void)createCommentWithPostID:(NSString *)aPostID body:(NSString *)aBody delegate:(id)aDelegate
 {
@@ -96,7 +101,8 @@ static NSOperationQueue *gOperationQueue = nil;
 }
 
 
-#pragma mark - retreive error from response
+#pragma mark -
+#pragma mark retreive error from response
 
 
 - (NSError *)errorFromResultString:(NSString *)aString
@@ -109,6 +115,7 @@ static NSOperationQueue *gOperationQueue = nil;
 
     return sError;
 }
+
 
 - (NSError *)errorFromResultDictionary:(NSDictionary *)aDict
 {
@@ -146,7 +153,8 @@ static NSOperationQueue *gOperationQueue = nil;
 }
 
 
-#pragma mark - network operation delegation
+#pragma mark -
+#pragma mark network operation delegation
 
 
 - (void)clientOperation:(MEClientOperation *)aOperation didReceiveLoginResult:(NSData *)aData error:(NSError *)aError
@@ -189,6 +197,7 @@ static NSOperationQueue *gOperationQueue = nil;
     }
 }
 
+
 - (void)clientOperation:(MEClientOperation *)aOperation didReceiveCreatePostResult:(NSData *)aData error:(NSError *)aError
 {
     id sDelegate = [aOperation context];
@@ -218,6 +227,7 @@ static NSOperationQueue *gOperationQueue = nil;
         [sPool release];
     }
 }
+
 
 - (void)clientOperation:(MEClientOperation *)aOperation didReceiveCreateCommentResult:(NSData *)aData error:(NSError *)aError
 {
