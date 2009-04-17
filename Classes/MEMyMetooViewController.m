@@ -8,6 +8,8 @@
  */
 
 #import "MEMyMetooViewController.h"
+#import "METableViewCellFactory.h"
+#import "MEReaderHeadView.h"
 
 
 @implementation MEMyMetooViewController
@@ -38,6 +40,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    MEReaderHeadView *sReaderHeadView = [MEReaderHeadView readerHeadView];
+    [mReaderView setTableHeaderView:sReaderHeadView];
+    [mReaderView setDelaysContentTouches:NO];
 }
 
 
@@ -68,13 +74,6 @@
 #pragma mark TableView DataSource
 
 
-/*- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
-{
-    NSArray *sResult = [NSArray arrayWithObjects:@"1", @"2", @"3", nil];
-    return sResult;
-}*/
-
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
 {
     return 3;
@@ -87,15 +86,15 @@
     
     if (aSection == 0)
     {
-        sResult = @"Post";
+        sResult = @"오늘";
     }
     else if (aSection == 1)
     {
-        sResult = @"오늘";
+        sResult = @"어제";
     }
     else if (aSection == 2)
     {
-        sResult = @"어제";
+        sResult = @"그저께";
     }
     
     return sResult;
@@ -104,7 +103,22 @@
 
 - (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)aSection
 {
-    return 3;
+    NSInteger sResult;
+    
+    if (aSection == 0)
+    {
+        sResult = 5;
+    }
+    else if (aSection == 1)
+    {
+        sResult = 3;
+    }
+    else if (aSection == 2)
+    {
+        sResult = 10;
+    }
+    
+    return sResult;
 }
 
 
@@ -112,8 +126,11 @@
 {
     UITableViewCell *sResult = nil;
     
-    sResult = [[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"PostCell"];
-    [sResult autorelease];
+    sResult = [aTableView dequeueReusableCellWithIdentifier:kTablePostCellIdentifier];
+    if (!sResult)
+    {
+        sResult = [METableViewCellFactory tableViewCellForPost];
+    }
     
     return sResult;
 }
@@ -123,25 +140,13 @@
 #pragma mark TableView Delegate
 
 
-/*- (CGFloat)tableView:(UITableView *)aTableView heightForHeaderInSection:(NSInteger)aSection
+- (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    CGFloat sResult;
+    CGFloat sResult = 0;
     
-    if (aSection == 0)
-    {
-        sResult = 20;
-    }
-    else if (aSection == 1)
-    {
-        sResult = 20;
-    }
-    else if (aSection == 2)
-    {
-        sResult = 20;
-    }
-    
+    sResult = 90;
     return sResult;
-}*/
+}
 
 
 @end

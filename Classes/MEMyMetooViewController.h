@@ -12,7 +12,7 @@
 
 @interface MEMyMetooViewController : UIViewController
 {
-
+    IBOutlet UITableView *mReaderView;
 }
 
 @end

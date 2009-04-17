@@ -22,6 +22,8 @@
 		2E2EB1340F96F35F005C54E5 /* EXFMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2EB12A0F96F35F005C54E5 /* EXFMetaData.m */; };
 		2E2EB1350F96F35F005C54E5 /* EXFTagDefinitionHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2EB12D0F96F35F005C54E5 /* EXFTagDefinitionHolder.m */; };
 		2E2EB1360F96F35F005C54E5 /* EXFUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2EB12F0F96F35F005C54E5 /* EXFUtils.m */; };
+		2E6101AF0F983AF60097AD3D /* METableViewCellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6101AE0F983AF60097AD3D /* METableViewCellFactory.m */; };
+		2E6102280F985AA40097AD3D /* MEReaderHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6102270F985AA40097AD3D /* MEReaderHeadView.m */; };
 		2E6D55820F95BAF400AA1DF6 /* yametoo_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E6D55810F95BAF400AA1DF6 /* yametoo_icon.png */; };
 		2ED163E60F9589D3009557F1 /* MEClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED163E50F9589D3009557F1 /* MEClient.m */; };
 		2ED164440F959B2A009557F1 /* NSString+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED164430F959B2A009557F1 /* NSString+MEAdditions.m */; };
@@ -74,6 +76,10 @@
 		2E2EB12D0F96F35F005C54E5 /* EXFTagDefinitionHolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXFTagDefinitionHolder.m; sourceTree = "<group>"; };
 		2E2EB12E0F96F35F005C54E5 /* EXFUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFUtils.h; sourceTree = "<group>"; };
 		2E2EB12F0F96F35F005C54E5 /* EXFUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXFUtils.m; sourceTree = "<group>"; };
+		2E6101AD0F983AF60097AD3D /* METableViewCellFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = METableViewCellFactory.h; sourceTree = "<group>"; };
+		2E6101AE0F983AF60097AD3D /* METableViewCellFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = METableViewCellFactory.m; sourceTree = "<group>"; };
+		2E6102260F985AA40097AD3D /* MEReaderHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReaderHeadView.h; sourceTree = "<group>"; };
+		2E6102270F985AA40097AD3D /* MEReaderHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReaderHeadView.m; sourceTree = "<group>"; };
 		2E6D55810F95BAF400AA1DF6 /* yametoo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = yametoo_icon.png; path = Images/yametoo_icon.png; sourceTree = "<group>"; };
 		2ED163E40F9589D3009557F1 /* MEClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEClient.h; sourceTree = "<group>"; };
 		2ED163E50F9589D3009557F1 /* MEClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEClient.m; sourceTree = "<group>"; };
@@ -133,6 +139,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				2E6101930F982B810097AD3D /* View */,
 				CF5EE7630F97165F004712FF /* Agents */,
 				CF5EE7620F97164F004712FF /* Controllers */,
 				1D3623240D0F684500981E51 /* AppDelegate.h */,
@@ -219,6 +226,17 @@
 				2E2EB12F0F96F35F005C54E5 /* EXFUtils.m */,
 			);
 			path = EXIF;
+			sourceTree = "<group>";
+		};
+		2E6101930F982B810097AD3D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2E6101AD0F983AF60097AD3D /* METableViewCellFactory.h */,
+				2E6101AE0F983AF60097AD3D /* METableViewCellFactory.m */,
+				2E6102260F985AA40097AD3D /* MEReaderHeadView.h */,
+				2E6102270F985AA40097AD3D /* MEReaderHeadView.m */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 		2E6D55800F95BADC00AA1DF6 /* Images */ = {
@@ -468,6 +486,8 @@
 				CF5EE75D0F97162F004712FF /* MESettingsViewController.m in Sources */,
 				CF5EE7610F97164A004712FF /* MELoginViewController.m in Sources */,
 				CF5EE8160F981C4E004712FF /* MEClientStore.m in Sources */,
+				2E6101AF0F983AF60097AD3D /* METableViewCellFactory.m in Sources */,
+				2E6102280F985AA40097AD3D /* MEReaderHeadView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
