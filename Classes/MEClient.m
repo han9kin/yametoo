@@ -34,8 +34,8 @@ static NSOperationQueue *gOperationQueue = nil;
 #pragma mark - properties
 
 
-@synthesize userID  = mUserID;
-@synthesize userKey = mUserKey;
+@synthesize userID   = mUserID;
+@synthesize passcode = mPasscode;
 
 
 #pragma mark - init/dealloc
@@ -44,8 +44,8 @@ static NSOperationQueue *gOperationQueue = nil;
 - (void)dealloc
 {
     [mUserID release];
-    [mUserKey release];
     [mAuthKey release];
+    [mPasscode release];
     [super dealloc];
 }
 
@@ -58,7 +58,7 @@ static NSOperationQueue *gOperationQueue = nil;
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
     [sOperation setRequest:[self loginRequestWithUserID:aUserID userKey:aUserKey]];
-    [sOperation setContext:[NSDictionary dictionaryWithObjectsAndKeys:aDelegate, @"delegate", aUserID, @"userID", aUserKey, @"userKey", nil]];
+    [sOperation setContext:[NSDictionary dictionaryWithObjectsAndKeys:aDelegate, @"delegate", aUserID, @"userID", nil]];
     [sOperation setDelegate:self];
     [sOperation setSelector:@selector(clientOperation:didReceiveLoginResult:error:)];
     [sOperation retainContext];
@@ -70,9 +70,8 @@ static NSOperationQueue *gOperationQueue = nil;
 - (void)createPostWithBody:(NSString *)aBody tags:(NSString *)aTags icon:(NSInteger)aIcon attachedImage:(UIImage *)aImage delegate:(id)aDelegate
 {
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
-    NSString          *sTags      = [NSString stringWithFormat:@"yametoo %@", aTags];
 
-    [sOperation setRequest:[self createPostRequestWithBody:aBody tags:sTags icon:aIcon attachedImage:aImage]];
+    [sOperation setRequest:[self createPostRequestWithBody:aBody tags:[aTags stringByAppendingString:@" yametoo"] icon:aIcon attachedImage:aImage]];
     [sOperation setContext:aDelegate];
     [sOperation setDelegate:self];
     [sOperation setSelector:@selector(clientOperation:didReceiveCreatePostResult:error:)];
@@ -176,10 +175,7 @@ static NSOperationQueue *gOperationQueue = nil;
             else
             {
                 [mUserID release];
-                [mUserKey release];
-
-                mUserID  = [[[aOperation context] objectForKey:@"userID"] retain];
-                mUserKey = [[[aOperation context] objectForKey:@"userKey"] retain];
+                mUserID = [[[aOperation context] objectForKey:@"userID"] retain];
 
                 [sDelegate client:self didLoginWithError:nil];
             }

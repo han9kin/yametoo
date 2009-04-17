@@ -28,12 +28,12 @@ extern NSString *MEClientErrorDomain;
 @interface MEClient : NSObject
 {
     NSString *mUserID;
-    NSString *mUserKey;
     NSString *mAuthKey;
+    NSString *mPasscode;
 }
 
 @property (nonatomic, readonly) NSString *userID;
-@property (nonatomic, readonly) NSString *userKey;
+@property (nonatomic, copy)     NSString *passcode;
 
 
 - (void)loginWithUserID:(NSString *)aUserID userKey:(NSString *)aUserKey delegate:(id)aDelegate;

@@ -36,6 +36,7 @@
 		CF5EE6B40F95DE8D004712FF /* NSNull+NilObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE6B30F95DE8D004712FF /* NSNull+NilObject.m */; };
 		CF5EE75D0F97162F004712FF /* MESettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE75C0F97162F004712FF /* MESettingsViewController.m */; };
 		CF5EE7610F97164A004712FF /* MELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE7600F97164A004712FF /* MELoginViewController.m */; };
+		CF5EE8160F981C4E004712FF /* MEClientStore.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE8150F981C4E004712FF /* MEClientStore.m */; };
 		CF9045A30F959EE4001AE52C /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF90459E0F959EE4001AE52C /* NSObject+SBJSON.m */; };
 		CF9045A40F959EE4001AE52C /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9045A00F959EE4001AE52C /* NSString+SBJSON.m */; };
 		CF9045A50F959EE4001AE52C /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9045A20F959EE4001AE52C /* SBJSON.m */; };
@@ -99,6 +100,9 @@
 		CF5EE75F0F97164A004712FF /* MELoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELoginViewController.h; sourceTree = "<group>"; };
 		CF5EE7600F97164A004712FF /* MELoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MELoginViewController.m; sourceTree = "<group>"; };
 		CF5EE7A60F972266004712FF /* UIViewController+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MEAdditions.h"; sourceTree = "<group>"; };
+		CF5EE8140F981C4E004712FF /* MEClientStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEClientStore.h; sourceTree = "<group>"; };
+		CF5EE8150F981C4E004712FF /* MEClientStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEClientStore.m; sourceTree = "<group>"; };
+		CF5EE8270F981DA7004712FF /* ObjCUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjCUtil.h; sourceTree = "<group>"; };
 		CF90459C0F959EE4001AE52C /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CF90459D0F959EE4001AE52C /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		CF90459E0F959EE4001AE52C /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -246,14 +250,9 @@
 		2ED164410F959B05009557F1 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
-				CF5EE6B30F95DE8D004712FF /* NSNull+NilObject.m */,
-				2ED164420F959B2A009557F1 /* NSString+MEAdditions.h */,
-				2ED164430F959B2A009557F1 /* NSString+MEAdditions.m */,
-				CF9046410F95C4A4001AE52C /* NSURL+MEAdditions.h */,
-				CF9046420F95C4A4001AE52C /* NSURL+MEAdditions.m */,
-				2EEDB9540F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.h */,
-				2EEDB9550F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m */,
-				CF5EE7A60F972266004712FF /* UIViewController+MEAdditions.h */,
+				CF5EE8260F981D77004712FF /* ObjC Extensions */,
+				CF5EE8240F981D32004712FF /* Foundation Extensions */,
+				CF5EE8250F981D47004712FF /* UIKit Extensions */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -318,6 +317,8 @@
 		CF5EE7640F971665004712FF /* Client */ = {
 			isa = PBXGroup;
 			children = (
+				CF5EE8140F981C4E004712FF /* MEClientStore.h */,
+				CF5EE8150F981C4E004712FF /* MEClientStore.m */,
 				2ED163E40F9589D3009557F1 /* MEClient.h */,
 				2ED163E50F9589D3009557F1 /* MEClient.m */,
 				2ED164680F959F46009557F1 /* MEClient+Requests.h */,
@@ -326,6 +327,36 @@
 				CF9045C80F95A85D001AE52C /* MEClientOperation.m */,
 			);
 			name = Client;
+			sourceTree = "<group>";
+		};
+		CF5EE8240F981D32004712FF /* Foundation Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CF5EE6B30F95DE8D004712FF /* NSNull+NilObject.m */,
+				2ED164420F959B2A009557F1 /* NSString+MEAdditions.h */,
+				2ED164430F959B2A009557F1 /* NSString+MEAdditions.m */,
+				CF9046410F95C4A4001AE52C /* NSURL+MEAdditions.h */,
+				CF9046420F95C4A4001AE52C /* NSURL+MEAdditions.m */,
+				2EEDB9540F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.h */,
+				2EEDB9550F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m */,
+			);
+			name = "Foundation Extensions";
+			sourceTree = "<group>";
+		};
+		CF5EE8250F981D47004712FF /* UIKit Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CF5EE7A60F972266004712FF /* UIViewController+MEAdditions.h */,
+			);
+			name = "UIKit Extensions";
+			sourceTree = "<group>";
+		};
+		CF5EE8260F981D77004712FF /* ObjC Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CF5EE8270F981DA7004712FF /* ObjCUtil.h */,
+			);
+			name = "ObjC Extensions";
 			sourceTree = "<group>";
 		};
 		CF90458C0F959D29001AE52C /* External Sources */ = {
@@ -436,6 +467,7 @@
 				2EE00DFE0F9710CF00135D42 /* METagsViewController.m in Sources */,
 				CF5EE75D0F97162F004712FF /* MESettingsViewController.m in Sources */,
 				CF5EE7610F97164A004712FF /* MELoginViewController.m in Sources */,
+				CF5EE8160F981C4E004712FF /* MEClientStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

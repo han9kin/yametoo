@@ -51,7 +51,8 @@
     [mBodyTextView setText:@""];
     [mTagTextView  setText:@""];
 
-    [mClient loginWithUserID:@"maccrazy" userKey:@"84007057" delegate:self];
+//     [mClient loginWithUserID:@"maccrazy" userKey:@"84007057" delegate:self];
+    [mClient loginWithUserID:@"han9kin" userKey:@"75259757" delegate:self];
 }
 
 
