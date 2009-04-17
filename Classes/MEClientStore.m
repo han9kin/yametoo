@@ -12,6 +12,10 @@
 #import "ObjCUtil.h"
 
 
+NSString *MEClientStoreUserListDidChangeNotification    = @"MEClientStoreUserListDidChangeNotification";
+NSString *MEClientStoreCurrentUserDidChangeNotification = @"MEClientStoreCurrentUserDidChangeNotification";
+
+
 @interface MEClientStore (Private)
 @end
 
@@ -20,6 +24,21 @@
 - (NSArray *)userIDs
 {
     return [mClientsByUserID allKeys];
+}
+
+- (MEClient *)currentClient
+{
+    return mCurrentClient;
+}
+
+- (void)setCurrentClient:(MEClient *)aClient
+{
+    if (mCurrentClient != aClient)
+    {
+        mCurrentClient = aClient;
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:MEClientStoreCurrentUserDidChangeNotification object:nil];
+    }
 }
 
 - (MEClient *)clientForUserID:(NSString *)aUserID
@@ -34,29 +53,28 @@
     }
 }
 
+- (NSArray *)clients
+{
+    return [[mClientsByUserID allValues] sortedArrayUsingSelector:@selector(compareByUserID:)];
+}
+
 - (void)addClient:(MEClient *)aClient forUserID:(NSString *)aUserID
 {
     [mClientsByUserID setObject:aClient forKey:aUserID];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:MEClientStoreUserListDidChangeNotification object:nil];
 }
 
 - (void)removeClientForUserID:(NSString *)aUserID
 {
     if ([[mCurrentClient userID] isEqualToString:aUserID])
     {
-        mCurrentClient = nil;
+        [self setCurrentClient:nil];
     }
 
     [mClientsByUserID removeObjectForKey:aUserID];
-}
 
-- (MEClient *)currentClient
-{
-    return mCurrentClient;
-}
-
-- (void)setCurrentClient:(MEClient *)aClient
-{
-    mCurrentClient = aClient;
+    [[NSNotificationCenter defaultCenter] postNotificationName:MEClientStoreUserListDidChangeNotification object:nil];
 }
 
 @end
@@ -114,6 +132,11 @@ SYNTHESIZE_SINGLETON_CLASS(MEClientStore, sharedStore);
 + (MEClient *)clientForUserID:(NSString *)aUserID
 {
     return [[self sharedStore] clientForUserID:aUserID];
+}
+
++ (NSArray *)clients
+{
+    return [[self sharedStore] clients];
 }
 
 + (void)addClient:(MEClient *)aClient

@@ -10,6 +10,10 @@
 #import <Foundation/Foundation.h>
 
 
+extern NSString *MEClientStoreUserListDidChangeNotification;
+extern NSString *MEClientStoreCurrentUserDidChangeNotification;
+
+
 @class MEClient;
 
 @interface MEClientStore : NSObject
@@ -30,6 +34,8 @@
 
 + (MEClient *)client;
 + (MEClient *)clientForUserID:(NSString *)aUserID;
+
++ (NSArray *)clients;
 
 + (void)addClient:(MEClient *)aClient;
 + (void)removeClientForUserID:(NSString *)aUserID;

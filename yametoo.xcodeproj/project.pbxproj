@@ -40,8 +40,9 @@
 		2EEDB9560F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEDB9550F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m */; };
 		CF5EE6B40F95DE8D004712FF /* NSNull+NilObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE6B30F95DE8D004712FF /* NSNull+NilObject.m */; };
 		CF5EE75D0F97162F004712FF /* MESettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE75C0F97162F004712FF /* MESettingsViewController.m */; };
-		CF5EE7610F97164A004712FF /* MELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE7600F97164A004712FF /* MELoginViewController.m */; };
+		CF5EE7610F97164A004712FF /* MEUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE7600F97164A004712FF /* MEUserViewController.m */; };
 		CF5EE8160F981C4E004712FF /* MEClientStore.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE8150F981C4E004712FF /* MEClientStore.m */; };
+		CF5EE8650F98525E004712FF /* MEUserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE8640F98525E004712FF /* MEUserDetailViewController.m */; };
 		CF9045A30F959EE4001AE52C /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF90459E0F959EE4001AE52C /* NSObject+SBJSON.m */; };
 		CF9045A40F959EE4001AE52C /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9045A00F959EE4001AE52C /* NSString+SBJSON.m */; };
 		CF9045A50F959EE4001AE52C /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9045A20F959EE4001AE52C /* SBJSON.m */; };
@@ -112,12 +113,14 @@
 		CF5EE6B30F95DE8D004712FF /* NSNull+NilObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNull+NilObject.m"; sourceTree = "<group>"; };
 		CF5EE75B0F97162F004712FF /* MESettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MESettingsViewController.h; sourceTree = "<group>"; };
 		CF5EE75C0F97162F004712FF /* MESettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESettingsViewController.m; sourceTree = "<group>"; };
-		CF5EE75F0F97164A004712FF /* MELoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELoginViewController.h; sourceTree = "<group>"; };
-		CF5EE7600F97164A004712FF /* MELoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MELoginViewController.m; sourceTree = "<group>"; };
+		CF5EE75F0F97164A004712FF /* MEUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEUserViewController.h; sourceTree = "<group>"; };
+		CF5EE7600F97164A004712FF /* MEUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEUserViewController.m; sourceTree = "<group>"; };
 		CF5EE7A60F972266004712FF /* UIViewController+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MEAdditions.h"; sourceTree = "<group>"; };
 		CF5EE8140F981C4E004712FF /* MEClientStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEClientStore.h; sourceTree = "<group>"; };
 		CF5EE8150F981C4E004712FF /* MEClientStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEClientStore.m; sourceTree = "<group>"; };
 		CF5EE8270F981DA7004712FF /* ObjCUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjCUtil.h; sourceTree = "<group>"; };
+		CF5EE8630F98525E004712FF /* MEUserDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEUserDetailViewController.h; sourceTree = "<group>"; };
+		CF5EE8640F98525E004712FF /* MEUserDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEUserDetailViewController.m; sourceTree = "<group>"; };
 		CF90459C0F959EE4001AE52C /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CF90459D0F959EE4001AE52C /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		CF90459E0F959EE4001AE52C /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -325,13 +328,13 @@
 			name = TagViewController;
 			sourceTree = "<group>";
 		};
-		CF5EE75E0F971639004712FF /* LoginViewController */ = {
+		CF5EE75E0F971639004712FF /* UserViewController */ = {
 			isa = PBXGroup;
 			children = (
-				CF5EE75F0F97164A004712FF /* MELoginViewController.h */,
-				CF5EE7600F97164A004712FF /* MELoginViewController.m */,
+				CF5EE75F0F97164A004712FF /* MEUserViewController.h */,
+				CF5EE7600F97164A004712FF /* MEUserViewController.m */,
 			);
-			name = LoginViewController;
+			name = "User\U001bViewController";
 			sourceTree = "<group>";
 		};
 		CF5EE7620F97164F004712FF /* Controllers */ = {
@@ -342,7 +345,8 @@
 				2EE00DFB0F9710A900135D42 /* TagViewController */,
 				2E6D55D30F95C77000AA1DF6 /* PostViewController */,
 				2E6D55D40F95C77C00AA1DF6 /* SettingsViewController */,
-				CF5EE75E0F971639004712FF /* LoginViewController */,
+				CF5EE75E0F971639004712FF /* UserViewController */,
+				CF5EE8570F98503B004712FF /* UserDetailViewController */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -398,6 +402,15 @@
 				CF5EE8270F981DA7004712FF /* ObjCUtil.h */,
 			);
 			name = "ObjC Extensions";
+			sourceTree = "<group>";
+		};
+		CF5EE8570F98503B004712FF /* UserDetailViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CF5EE8630F98525E004712FF /* MEUserDetailViewController.h */,
+				CF5EE8640F98525E004712FF /* MEUserDetailViewController.m */,
+			);
+			name = UserDetailViewController;
 			sourceTree = "<group>";
 		};
 		CF90458C0F959D29001AE52C /* External Sources */ = {
@@ -507,8 +520,9 @@
 				2EE00DEA0F970ECF00135D42 /* MEFriendsViewController.m in Sources */,
 				2EE00DFE0F9710CF00135D42 /* METagsViewController.m in Sources */,
 				CF5EE75D0F97162F004712FF /* MESettingsViewController.m in Sources */,
-				CF5EE7610F97164A004712FF /* MELoginViewController.m in Sources */,
+				CF5EE7610F97164A004712FF /* MEUserViewController.m in Sources */,
 				CF5EE8160F981C4E004712FF /* MEClientStore.m in Sources */,
+				CF5EE8650F98525E004712FF /* MEUserDetailViewController.m in Sources */,
 				2E6101AF0F983AF60097AD3D /* METableViewCellFactory.m in Sources */,
 				2E6102280F985AA40097AD3D /* MEReaderHeadView.m in Sources */,
 				2E6102CC0F986B930097AD3D /* MEReaderView.m in Sources */,

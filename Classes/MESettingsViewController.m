@@ -9,7 +9,7 @@
 
 #import "UIViewController+MEAdditions.h"
 #import "MESettingsViewController.h"
-#import "MELoginViewController.h"
+#import "MEUserViewController.h"
 
 
 @implementation MESettingsViewController
@@ -80,7 +80,7 @@
         sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Default"] autorelease];
     }
 
-    [sCell setText:@"Login"];
+    [sCell setText:NSLocalizedString(@"User", @"")];
     [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 
     return sCell;
@@ -94,7 +94,7 @@
 {
     UIViewController *sViewController;
 
-    sViewController = [[MELoginViewController alloc] initWithNibName:nil bundle:nil];
+    sViewController = [[MEUserViewController alloc] initWithNibName:nil bundle:nil];
     [[self navigationController] pushViewController:sViewController animated:YES];
     [sViewController release];
 }

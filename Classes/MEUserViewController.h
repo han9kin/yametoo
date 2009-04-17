@@ -1,5 +1,5 @@
 /*
- *  MELoginViewController.h
+ *  MEUserViewController.h
  *  yametoo
  *
  *  Created by han9kin on 09. 04. 16.
@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface MELoginViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface MEUserViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
     UITableView *mTableView;
 }

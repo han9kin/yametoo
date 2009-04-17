@@ -8,40 +8,12 @@
  */
 
 #import "MEPostViewController.h"
+#import "MEClientStore.h"
 #import "MEClient.h"
 
 
 @implementation MEPostViewController
 
-
-- (id)initWithNibName:(NSString *)aNibNameOrNil bundle:(NSBundle *)aNibBundleOrNil
-{
-    self = [super initWithNibName:aNibNameOrNil bundle:aNibBundleOrNil];
-    if (self)
-    {
-        mClient = [[MEClient alloc] init];
-    }
-    return self;
-}
-
-
-- (id)initWithCoder:(NSCoder *)aCoder
-{
-    self = [super initWithCoder:aCoder];
-    if (self)
-    {
-        mClient = [[MEClient alloc] init];
-    }
-
-    return self;
-}
-
-/*
-- (void)loadView
-{
-    [super loadView];
-}
-*/
 
 - (void)viewDidLoad
 {
@@ -50,9 +22,6 @@
     [mKeyboardToolbar setTintColor:[UIColor colorWithRed:0.565 green:0.596 blue:0.635 alpha:1.0]];
     [mBodyTextView setText:@""];
     [mTagTextView  setText:@""];
-
-//     [mClient loginWithUserID:@"maccrazy" userKey:@"84007057" delegate:self];
-    [mClient loginWithUserID:@"han9kin" userKey:@"75259757" delegate:self];
 }
 
 
@@ -73,7 +42,6 @@
 
 - (void)dealloc
 {
-    [mClient release];
     [super dealloc];
 }
 
@@ -134,7 +102,7 @@
     NSString *sBody = [mBodyTextView text];
     NSString *sTags = [mTagTextView  text];
 
-    [mClient createPostWithBody:sBody tags:sTags icon:0 attachedImage:mAttachedImage delegate:self];
+    [[MEClientStore client] createPostWithBody:sBody tags:sTags icon:0 attachedImage:mAttachedImage delegate:self];
 }
 
 

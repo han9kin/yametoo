@@ -10,8 +10,6 @@
 #import <UIKit/UIKit.h>
 
 
-@class MEClient;
-
 @interface MEPostViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
     IBOutlet UITextView  *mBodyTextView;
@@ -19,7 +17,6 @@
     IBOutlet UIToolbar   *mKeyboardToolbar;
     IBOutlet UIImageView *mAttachedImageView;
 
-    MEClient             *mClient;
     UIImage              *mAttachedImage;
 }
 

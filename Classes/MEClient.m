@@ -53,6 +53,16 @@ static NSOperationQueue *gOperationQueue = nil;
 
 
 #pragma mark -
+#pragma mark comparing
+
+
+- (NSComparisonResult)compareByUserID:(MEClient *)aClient
+{
+    return [[self userID] compare:[aClient userID]];
+}
+
+
+#pragma mark -
 #pragma mark client behaviors
 
 
