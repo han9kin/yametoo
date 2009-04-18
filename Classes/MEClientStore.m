@@ -16,6 +16,9 @@ NSString *MEClientStoreUserListDidChangeNotification    = @"MEClientStoreUserLis
 NSString *MEClientStoreCurrentUserDidChangeNotification = @"MEClientStoreCurrentUserDidChangeNotification";
 
 
+static NSString *kClientsKey = @"clients";
+
+
 @interface MEClientStore (Private)
 @end
 
@@ -62,6 +65,7 @@ NSString *MEClientStoreCurrentUserDidChangeNotification = @"MEClientStoreCurrent
 {
     [mClientsByUserID setObject:aClient forKey:aUserID];
 
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:mClientsByUserID] forKey:kClientsKey];
     [[NSNotificationCenter defaultCenter] postNotificationName:MEClientStoreUserListDidChangeNotification object:nil];
 }
 
@@ -74,6 +78,7 @@ NSString *MEClientStoreCurrentUserDidChangeNotification = @"MEClientStoreCurrent
 
     [mClientsByUserID removeObjectForKey:aUserID];
 
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:mClientsByUserID] forKey:kClientsKey];
     [[NSNotificationCenter defaultCenter] postNotificationName:MEClientStoreUserListDidChangeNotification object:nil];
 }
 
@@ -91,7 +96,16 @@ SYNTHESIZE_SINGLETON_CLASS(MEClientStore, sharedStore);
 
     if (self)
     {
-        mClientsByUserID = [[NSMutableDictionary alloc] init];
+        mClientsByUserID = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] dataForKey:kClientsKey]];
+
+        if (mClientsByUserID)
+        {
+            mClientsByUserID = [mClientsByUserID mutableCopy];
+        }
+        else
+        {
+            mClientsByUserID = [[NSMutableDictionary alloc] init];
+        }
     }
 
     return self;

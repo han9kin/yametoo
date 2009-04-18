@@ -53,6 +53,33 @@ static NSOperationQueue *gOperationQueue = nil;
 
 
 #pragma mark -
+#pragma mark NSCoding
+
+
+- (id)initWithCoder:(NSCoder *)aCoder
+{
+    self = [super init];
+
+    if (self)
+    {
+        mUserID   = [[aCoder decodeObjectForKey:@"userID"] retain];
+        mAuthKey  = [[aCoder decodeObjectForKey:@"authKey"] retain];
+        mPasscode = [[aCoder decodeObjectForKey:@"passcode"] retain];
+    }
+
+    return self;
+}
+
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:mUserID forKey:@"userID"];
+    [aCoder encodeObject:mAuthKey forKey:@"authKey"];
+    [aCoder encodeObject:mPasscode forKey:@"passcode"];
+}
+
+
+#pragma mark -
 #pragma mark comparing
 
 
