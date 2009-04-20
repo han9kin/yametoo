@@ -35,13 +35,13 @@ static NSMutableDictionary *gCachedUsers = nil;
 {
     if (![mFaceImageURL isEqual:aFaceImageURL])
     {
-        [mFaceImage release];
+        [mFaceImageURL release];
         mFaceImageURL = [aFaceImageURL retain];
 
         if (mFaceImageURL)
         {
             [self willChangeValueForKey:@"faceImage"];
-            [mFaceImageURL release];
+            [mFaceImage release];
             mFaceImage = nil;
             [self didChangeValueForKey:@"faceImage"];
         }
