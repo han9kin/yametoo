@@ -18,10 +18,12 @@ extern NSString *MEClientErrorDomain;
 
 @protocol MEClientDelegate
 
+- (void)client:(MEClient *)aClient didLoadImage:(UIImage *)aImage error:(NSError *)aError;
+
 - (void)client:(MEClient *)aClient didLoginWithError:(NSError *)aError;
 - (void)client:(MEClient *)aClient didCreatePostWithError:(NSError *)aError;
 - (void)client:(MEClient *)aClient didCreateCommentWithError:(NSError *)aError;
-- (void)client:(MEClient *)aClient didGetPosts:(NSArray *)aPosts withError:(NSError *)aError;
+- (void)client:(MEClient *)aClient didGetPosts:(NSArray *)aPosts error:(NSError *)aError;
 
 @end
 
@@ -36,6 +38,8 @@ extern NSString *MEClientErrorDomain;
 @property (nonatomic, readonly) NSString *userID;
 @property (nonatomic, copy)     NSString *passcode;
 
+
+- (void)loadImageWithURL:(NSURL *)aURL shouldCache:(BOOL)aShouldCache delegate:(id)aDelegate;
 
 - (void)loginWithUserID:(NSString *)aUserID userKey:(NSString *)aUserKey delegate:(id)aDelegate;
 - (void)createPostWithBody:(NSString *)aBody tags:(NSString *)aTags icon:(NSInteger)aIcon attachedImage:(UIImage *)aImage delegate:(id)aDelegate;

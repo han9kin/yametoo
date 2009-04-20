@@ -145,6 +145,7 @@ static int       gNetworkOperationsCount = 0;
 
 - (void)setRequest:(NSMutableURLRequest *)aRequest
 {
+    [aRequest setCachePolicy:NSURLRequestReloadIgnoringCacheData];
     [aRequest setValue:gUserAgent forHTTPHeaderField:@"User-Agent"];
 
     mConnection = [[NSURLConnection alloc] initWithRequest:aRequest delegate:self startImmediately:NO];
@@ -173,8 +174,12 @@ static int       gNetworkOperationsCount = 0;
 
 - (NSURLRequest *)connection:(NSURLConnection *)aConnection willSendRequest:(NSURLRequest *)aRequest redirectResponse:(NSURLResponse *)aRedirectResponse
 {
-    NSMutableURLRequest *sRequest = [aRequest mutableCopy];
+    NSMutableURLRequest *sRequest;
+
+    sRequest = [aRequest mutableCopy];
+    [sRequest setCachePolicy:NSURLRequestReloadIgnoringCacheData];
     [sRequest setValue:gUserAgent forHTTPHeaderField:@"User-Agent"];
+
     return [sRequest autorelease];
 }
 

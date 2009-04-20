@@ -11,6 +11,7 @@
 #import "MEClient.h"
 #import "MEClient+Requests.h"
 #import "MEClientOperation.h"
+#import "MEImageCache.h"
 #import "MEPost.h"
 
 
@@ -92,6 +93,42 @@ static NSOperationQueue *gOperationQueue = nil;
 
 #pragma mark -
 #pragma mark client behaviors
+
+
+- (void)loadImageWithURL:(NSURL *)aURL shouldCache:(BOOL)aShouldCache delegate:(id)aDelegate
+{
+    NSDictionary *sContext;
+
+    if (aShouldCache)
+    {
+        UIImage *sImage = [MEImageCache imageForURL:aURL];
+
+        if (sImage)
+        {
+            [aDelegate client:self didLoadImage:sImage error:nil];
+            return;
+        }
+        else
+        {
+            sContext = [NSDictionary dictionaryWithObjectsAndKeys:aDelegate, @"delegate", aURL, @"url", nil];
+        }
+    }
+    else
+    {
+        sContext = [NSDictionary dictionaryWithObject:aDelegate forKey:@"delegate"];
+    }
+
+    MEClientOperation *sOperation = [[MEClientOperation alloc] init];
+
+    [sOperation setRequest:[NSMutableURLRequest requestWithURL:aURL]];
+    [sOperation setContext:sContext];
+    [sOperation setDelegate:self];
+    [sOperation setSelector:@selector(clientOperation:didReceiveImageResult:error:)];
+    [sOperation retainContext];
+
+    [gOperationQueue addOperation:sOperation];
+    [sOperation release];
+}
 
 
 - (void)loginWithUserID:(NSString *)aUserID userKey:(NSString *)aUserKey delegate:(id)aDelegate
@@ -210,6 +247,29 @@ static NSOperationQueue *gOperationQueue = nil;
 #pragma mark network operation delegation
 
 
+- (void)clientOperation:(MEClientOperation *)aOperation didReceiveImageResult:(NSData *)aData error:(NSError *)aError
+{
+    NSURL *sURL      = [[aOperation context] objectForKey:@"url"];
+    id     sDelegate = [[aOperation context] objectForKey:@"delegate"];
+
+    if (aError)
+    {
+        [sDelegate client:self didLoadImage:nil error:aError];
+    }
+    else
+    {
+        UIImage *sImage = [[UIImage alloc] initWithData:aData];
+
+        if (sURL)
+        {
+            [MEImageCache storeImage:sImage data:aData forURL:sURL];
+        }
+
+        [sDelegate client:self didLoadImage:sImage error:nil];
+    }
+}
+
+
 - (void)clientOperation:(MEClientOperation *)aOperation didReceiveLoginResult:(NSData *)aData error:(NSError *)aError
 {
     id sDelegate = [[aOperation context] objectForKey:@"delegate"];
@@ -326,7 +386,7 @@ static NSOperationQueue *gOperationQueue = nil;
 
     if (aError)
     {
-        [sDelegate client:self didGetPosts:nil withError:aError];
+        [sDelegate client:self didGetPosts:nil error:aError];
     }
     else
     {
@@ -346,11 +406,11 @@ static NSOperationQueue *gOperationQueue = nil;
                 [sPosts addObject:[[[MEPost alloc] initWithDictionary:sPostDict] autorelease]];
             }
 
-            [sDelegate client:self didGetPosts:sPosts withError:nil];
+            [sDelegate client:self didGetPosts:sPosts error:nil];
         }
         else
         {
-            [sDelegate client:self didGetPosts:nil withError:[self errorFromResultString:sSource]];
+            [sDelegate client:self didGetPosts:nil error:[self errorFromResultString:sSource]];
         }
 
         [sPool release];
