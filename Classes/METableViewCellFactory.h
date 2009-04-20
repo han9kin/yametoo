@@ -10,7 +10,12 @@
 #import <Foundation/Foundation.h>
 
 
-#define kTablePostCellIdentifier    @"TablePostCell"
+#define kLoginUserCellFaceImageViewTag  0
+#define kLoginUserCellUserIDLabelTag    1
+
+
+#define kTableLoginUserCellIdentifier   @"TableLoginUserCell"
+#define kTablePostCellIdentifier        @"TablePostCell"
 
 
 @interface METableViewCellFactory : NSObject
@@ -18,6 +23,7 @@
 
 }
 
++ (UITableViewCell *)tableViewCellForLoginUser;
 + (UITableViewCell *)tableViewCellForPost;
 
 @end

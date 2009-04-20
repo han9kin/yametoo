@@ -17,10 +17,10 @@
 #pragma mark properties
 
 
-@synthesize userID      = mUserID;
-@synthesize nickname    = mNickname;
-@synthesize faceImage   = mFaceImage;
-@synthesize homepageURL = mHomepageURL;
+@synthesize userID         = mUserID;
+@synthesize nickname       = mNickname;
+@synthesize faceImage      = mFaceImage;
+@synthesize homepageURLStr = mHomepageURLStr;
 
 
 #pragma mark -
@@ -41,10 +41,10 @@
 
 - (void)dealloc
 {
-    [mUserID      release];
-    [mNickname    release];
-    [mFaceImage   release];
-    [mHomepageURL release];
+    [mUserID         release];
+    [mNickname       release];
+    [mFaceImage      release];
+    [mHomepageURLStr release];
     
     [super dealloc];
 }

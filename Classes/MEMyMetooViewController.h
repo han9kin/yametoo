@@ -13,6 +13,7 @@
 
 @interface MEMyMetooViewController : UIViewController
 {
+    IBOutlet UILabel      *mTopBarLabel;
     IBOutlet MEReaderView *mReaderView;
 }
 

@@ -8,6 +8,8 @@
  */
 
 #import "MEMyMetooViewController.h"
+#import "MEClientStore.h"
+#import "MEClient.h"
 
 
 @implementation MEMyMetooViewController
@@ -38,6 +40,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+}
+
+
+- (void)viewWillAppear:(BOOL)aAnimated
+{
+    [mTopBarLabel setText:[NSString stringWithFormat:@"%@'s me2day", [[MEClientStore currentClient] userID]]];    
 }
 
 
