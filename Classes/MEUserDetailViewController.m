@@ -265,6 +265,14 @@
 
 - (void)deleteButtonTapped
 {
+    UIActionSheet *sActionSheet;
+    NSString      *sTitle;
+
+    sTitle = [NSString stringWithFormat:NSLocalizedString(@"Delete user \"%@\".", @""), mUserID];
+
+    sActionSheet = [[UIActionSheet alloc] initWithTitle:sTitle delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:NSLocalizedString(@"Delete User", @"") otherButtonTitles:nil];
+    [sActionSheet showInView:[self view]];
+    [sActionSheet release];
 }
 
 
@@ -327,38 +335,65 @@
 {
     UITableViewCell *sCell;
 
-    switch ([aIndexPath section])
+    if (mUserID)
     {
-        case 0:
-            sCell = [self textFieldCellForTableView:aTableView];
+        switch ([aIndexPath section])
+        {
+            case 0:
+                sCell = [self buttonCellForTableView:aTableView];
+                [sCell setText:NSLocalizedString(@"Delete this User", @"")];
+                break;
 
-            if (mUserID || [aIndexPath row])
-            {
+            case 1:
+                sCell = [self textFieldCellForTableView:aTableView];
+                [[sCell titleLabel] setText:NSLocalizedString(@"User Key", @"")];
+
                 mUserKeyField = [sCell textField];
                 [mUserKeyField setKeyboardType:UIKeyboardTypeNumberPad];
                 [mUserKeyField setReturnKeyType:UIReturnKeyJoin];
-                [mUserKeyField setText:(mUserID ? @"********" : nil)];
-                [[sCell titleLabel] setText:NSLocalizedString(@"User Key", @"")];
-            }
-            else
-            {
-                mUserIDField = [sCell textField];
-                [mUserIDField setKeyboardType:UIKeyboardTypeASCIICapable];
-                [mUserIDField setReturnKeyType:UIReturnKeyNext];
-                [mUserIDField becomeFirstResponder];
-                [[sCell titleLabel] setText:NSLocalizedString(@"User ID", @"")];
-            }
-            break;
+                [mUserKeyField setPlaceholder:NSLocalizedString(@"me2API User Key", @"")];
+                [mUserKeyField becomeFirstResponder];
+                break;
 
-        case 1:
-            sCell = [self switchCellForTableView:aTableView];
-            [sCell setText:NSLocalizedString(@"Passcode Lock", @"")];
-            break;
+            case 2:
+                sCell = [self switchCellForTableView:aTableView];
+                [sCell setText:NSLocalizedString(@"Passcode Lock", @"")];
+                break;
+        }
+    }
+    else
+    {
+        switch ([aIndexPath section])
+        {
+            case 0:
+                sCell = [self textFieldCellForTableView:aTableView];
 
-        case 2:
-            sCell = [self buttonCellForTableView:aTableView];
-            [sCell setText:NSLocalizedString(@"Delete This User", @"")];
-            break;
+                if ([aIndexPath row] == 0)
+                {
+                    [[sCell titleLabel] setText:NSLocalizedString(@"User ID", @"")];
+
+                    mUserIDField = [sCell textField];
+                    [mUserIDField setKeyboardType:UIKeyboardTypeASCIICapable];
+                    [mUserIDField setReturnKeyType:UIReturnKeyNext];
+                    [mUserIDField setPlaceholder:NSLocalizedString(@"me2DAY ID", @"")];
+                    [mUserIDField becomeFirstResponder];
+                }
+                else if ([aIndexPath row] == 1)
+                {
+                    [[sCell titleLabel] setText:NSLocalizedString(@"User Key", @"")];
+
+                    mUserKeyField = [sCell textField];
+                    [mUserKeyField setKeyboardType:UIKeyboardTypeNumberPad];
+                    [mUserKeyField setReturnKeyType:UIReturnKeyJoin];
+                    [mUserKeyField setPlaceholder:NSLocalizedString(@"me2API User Key", @"")];
+                }
+                break;
+
+            case 1:
+                sCell = [self switchCellForTableView:aTableView];
+                [sCell setText:NSLocalizedString(@"Passcode Lock", @"")];
+                break;
+        }
     }
 
     return sCell;
@@ -370,7 +405,7 @@
 
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    if ([aIndexPath section] == 2)
+    if (mUserID && ([aIndexPath section] == 0))
     {
         [self deleteButtonTapped];
     }
@@ -389,6 +424,19 @@
     }
 
     return YES;
+}
+
+
+#pragma mark UIActionSheetDelegate
+
+
+- (void)actionSheet:(UIActionSheet *)aActionSheet clickedButtonAtIndex:(NSInteger)aButtonIndex
+{
+    if (aButtonIndex == 0)
+    {
+        [MEClientStore removeClientForUserID:mUserID];
+        [[self navigationController] popViewControllerAnimated:YES];
+    }
 }
 
 

@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface MEUserDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+@interface MEUserDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIActionSheetDelegate>
 {
     UITableView      *mTableView;
     UITextField      *mUserIDField;
