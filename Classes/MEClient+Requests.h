@@ -26,8 +26,9 @@
 - (NSMutableURLRequest *)getFriendsRequestWithUserID:(NSString *)aUserID;
 - (NSMutableURLRequest *)getMetoosRequestWithPostID:(NSString *)aPostID;
 - (NSMutableURLRequest *)getPersonRequestWithUserID:(NSString *)aUserID;
-- (NSMutableURLRequest *)getPostsRequestWithOffet:(NSInteger)aOffset
-                                            count:(NSInteger)aCount;
+- (NSMutableURLRequest *)getPostsRequestWithUserID:(NSString *)aUserID
+                                            offset:(NSInteger)aOffset
+                                             count:(NSInteger)aCount;
 - (NSMutableURLRequest *)getSettingsRequest;
 - (NSMutableURLRequest *)getTagsRequestWithUserID:(NSString *)aUserID;
 - (NSMutableURLRequest *)metooRequestWithPostID:(NSString *)aPostID;

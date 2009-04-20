@@ -21,10 +21,10 @@
     NSInteger   mMetooCount;
     MEUser     *mUser;
     NSArray    *mTagArray;
-    
+
     NSString   *mMe2PhotoImageURLStr;
     NSString   *mKindIconImageURLStr;
-    
+
     UIImage    *mMe2PhotoImage;
     UIImage    *mKindIconImage;
 
@@ -35,15 +35,19 @@
 //    NSURL      *mIconURL;
 }
 
-@property(nonatomic, copy)   NSString *postID;
-@property(nonatomic, copy)   NSString *body;
-@property(nonatomic, copy)   NSString *kind;
-@property(nonatomic, copy)   NSDate   *pubDate;
-@property(nonatomic)         NSInteger commentsCount;
-@property(nonatomic)         NSInteger metooCount;
-@property(nonatomic, retain) MEUser   *user;
-@property(nonatomic, retain) NSArray  *tags;
-@property(nonatomic, retain) UIImage  *me2PhotoImage;
-@property(nonatomic, retain) UIImage  *kindIconImage;
+@property(nonatomic, readonly) NSString  *postID;
+@property(nonatomic, readonly) NSString  *body;
+@property(nonatomic, readonly) NSString  *kind;
+@property(nonatomic, readonly) NSDate    *pubDate;
+@property(nonatomic, readonly) NSInteger  commentsCount;
+@property(nonatomic, readonly) NSInteger  metooCount;
+@property(nonatomic, readonly) MEUser    *user;
+@property(nonatomic, readonly) NSArray   *tags;
+@property(nonatomic, readonly) UIImage   *me2PhotoImage;
+@property(nonatomic, readonly) UIImage   *kindIconImage;
+
+
+- (id)initWithDictionary:(NSDictionary *)aPostDict;
+
 
 @end

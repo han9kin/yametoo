@@ -149,12 +149,12 @@ static NSString *kTrackCommentsRequestFormat = @"http://me2day.net/api/track_com
 }
 
 
-- (NSMutableURLRequest *)getPostsRequestWithOffet:(NSInteger)aOffset count:(NSInteger)aCount
+- (NSMutableURLRequest *)getPostsRequestWithUserID:(NSString *)aUserID offset:(NSInteger)aOffset count:(NSInteger)aCount
 {
     NSMutableURLRequest *sRequest;
     NSString            *sURLStr;
 
-    sURLStr  = [NSString stringWithFormat:kGetPostsRequestFormat, mUserID, aOffset, aCount];
+    sURLStr  = [NSString stringWithFormat:kGetPostsRequestFormat, aUserID, aOffset, aCount];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
 
     return sRequest;

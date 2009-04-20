@@ -11,6 +11,7 @@
 #import "MEClient.h"
 #import "MEClient+Requests.h"
 #import "MEClientOperation.h"
+#import "MEPost.h"
 
 
 NSString *MEClientErrorDomain = @"MEClientErrorDomain";
@@ -131,6 +132,21 @@ static NSOperationQueue *gOperationQueue = nil;
     [sOperation setContext:aDelegate];
     [sOperation setDelegate:self];
     [sOperation setSelector:@selector(clientOperation:didReceiveCreateCommentResult:error:)];
+    [sOperation retainContext];
+
+    [gOperationQueue addOperation:sOperation];
+    [sOperation release];
+}
+
+
+- (void)getPostsWithUserID:(NSString *)aUserID offset:(NSInteger)aOffset count:(NSInteger)aCount delegate:(id)aDelegate
+{
+    MEClientOperation *sOperation = [[MEClientOperation alloc] init];
+
+    [sOperation setRequest:[self getPostsRequestWithUserID:aUserID offset:aOffset count:aCount]];
+    [sOperation setContext:aDelegate];
+    [sOperation setDelegate:self];
+    [sOperation setSelector:@selector(clientOperation:didReceiveGetPostsResult:error:)];
     [sOperation retainContext];
 
     [gOperationQueue addOperation:sOperation];
@@ -297,6 +313,44 @@ static NSOperationQueue *gOperationQueue = nil;
         else
         {
             [sDelegate client:self didCreateCommentWithError:[self errorFromResultString:sSource]];
+        }
+
+        [sPool release];
+    }
+}
+
+
+- (void)clientOperation:(MEClientOperation *)aOperation didReceiveGetPostsResult:(NSData *)aData error:(NSError *)aError
+{
+    id sDelegate = [aOperation context];
+
+    if (aError)
+    {
+        [sDelegate client:self didGetPosts:nil withError:aError];
+    }
+    else
+    {
+        NSAutoreleasePool *sPool   = [[NSAutoreleasePool alloc] init];
+        NSString          *sSource = [[[NSString alloc] initWithData:aData encoding:NSUTF8StringEncoding] autorelease];
+        NSArray           *sResult = [sSource JSONValue];
+
+        if (sResult)
+        {
+            NSDictionary   *sPostDict;
+            NSMutableArray *sPosts;
+
+            sPosts = [NSMutableArray arrayWithCapacity:[sResult count]];
+
+            for (sPostDict in sResult)
+            {
+                [sPosts addObject:[[[MEPost alloc] initWithDictionary:sPostDict] autorelease]];
+            }
+
+            [sDelegate client:self didGetPosts:sPosts withError:nil];
+        }
+        else
+        {
+            [sDelegate client:self didGetPosts:nil withError:[self errorFromResultString:sSource]];
         }
 
         [sPool release];
