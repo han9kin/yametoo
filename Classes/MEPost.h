@@ -22,6 +22,9 @@
     MEUser     *mUser;
     NSArray    *mTagArray;
     
+    NSString   *mMe2PhotoImageURLStr;
+    NSString   *mKindIconImageURLStr;
+    
     UIImage    *mMe2PhotoImage;
     UIImage    *mKindIconImage;
 
@@ -32,16 +35,15 @@
 //    NSURL      *mIconURL;
 }
 
-@property (nonatomic, copy)   NSString *postID;
-@property (nonatomic, copy)   NSString *body;
-@property (nonatomic, copy)   NSString *kind;
-@property (nonatomic, copy)   NSDate   *pubDate;
-@property (nonatomic)         NSInteger commentsCount;
-@property (nonatomic)         NSInteger metooCount;
-@property (nonatomic, retain) MEUser   *user;
-@property (nonatomic, retain) NSArray  *tags;
-
-- (void)downloadMe2PhotoImageWithURL:(NSURL *)aURL;
-- (void)downloadKindIconImageWithURL:(NSURL *)aURL;
+@property(nonatomic, copy)   NSString *postID;
+@property(nonatomic, copy)   NSString *body;
+@property(nonatomic, copy)   NSString *kind;
+@property(nonatomic, copy)   NSDate   *pubDate;
+@property(nonatomic)         NSInteger commentsCount;
+@property(nonatomic)         NSInteger metooCount;
+@property(nonatomic, retain) MEUser   *user;
+@property(nonatomic, retain) NSArray  *tags;
+@property(nonatomic, retain) UIImage  *me2PhotoImage;
+@property(nonatomic, retain) UIImage  *kindIconImage;
 
 @end

@@ -25,6 +25,8 @@
 @synthesize metooCount    = mMetooCount;
 @synthesize user          = mUser;
 @synthesize tags          = mTagArray;
+@synthesize me2PhotoImage = mMe2PhotoImage;
+@synthesize kindIconImage = mKindIconImage;
 
 
 #pragma mark -
@@ -61,18 +63,6 @@
 
 #pragma mark -
 #pragma mark Instance Methods
-
-
-- (void)downloadMe2PhotoImageWithURL:(NSURL *)aURL
-{
-
-}
-
-
-- (void)downloadKindIconImageWithURL:(NSURL *)aURL
-{
-
-}
 
 
 @end
