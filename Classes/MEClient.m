@@ -95,7 +95,7 @@ static NSOperationQueue *gOperationQueue = nil;
 #pragma mark client behaviors
 
 
-- (void)loadImageWithURL:(NSURL *)aURL shouldCache:(BOOL)aShouldCache delegate:(id)aDelegate
+- (void)loadImageWithURL:(NSURL *)aURL key:(NSString *)aKey shouldCache:(BOOL)aShouldCache delegate:(id)aDelegate
 {
     NSDictionary *sContext;
 
@@ -105,17 +105,17 @@ static NSOperationQueue *gOperationQueue = nil;
 
         if (sImage)
         {
-            [aDelegate client:self didLoadImage:sImage error:nil];
+            [aDelegate client:self didLoadImage:sImage key:aKey error:nil];
             return;
         }
         else
         {
-            sContext = [NSDictionary dictionaryWithObjectsAndKeys:aDelegate, @"delegate", aURL, @"url", nil];
+            sContext = [NSDictionary dictionaryWithObjectsAndKeys:aDelegate, @"delegate", aURL, @"url", aKey, @"key", nil];
         }
     }
     else
     {
-        sContext = [NSDictionary dictionaryWithObject:aDelegate forKey:@"delegate"];
+        sContext = [NSDictionary dictionaryWithObjectsAndKeys:aDelegate, @"delegate", aKey, @"key", nil];
     }
 
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
@@ -249,12 +249,13 @@ static NSOperationQueue *gOperationQueue = nil;
 
 - (void)clientOperation:(MEClientOperation *)aOperation didReceiveImageResult:(NSData *)aData error:(NSError *)aError
 {
-    NSURL *sURL      = [[aOperation context] objectForKey:@"url"];
-    id     sDelegate = [[aOperation context] objectForKey:@"delegate"];
+    NSString *sKey      = [[aOperation context] objectForKey:@"key"];
+    NSURL    *sURL      = [[aOperation context] objectForKey:@"url"];
+    id        sDelegate = [[aOperation context] objectForKey:@"delegate"];
 
     if (aError)
     {
-        [sDelegate client:self didLoadImage:nil error:aError];
+        [sDelegate client:self didLoadImage:nil key:sKey error:aError];
     }
     else
     {
@@ -265,7 +266,7 @@ static NSOperationQueue *gOperationQueue = nil;
             [MEImageCache storeImage:sImage data:aData forURL:sURL];
         }
 
-        [sDelegate client:self didLoadImage:sImage error:nil];
+        [sDelegate client:self didLoadImage:sImage key:sKey error:nil];
     }
 }
 

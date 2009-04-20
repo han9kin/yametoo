@@ -14,15 +14,18 @@
 {
     NSString *mUserID;
     NSString *mNickname;
-    UIImage  *mFaceImage;
+    NSURL    *mFaceImageURL;
     NSString *mHomepageURLStr;
+
+    UIImage  *mFaceImage;
 }
 
-@property (nonatomic, copy)     NSString *userID;
-@property (nonatomic, copy)     NSString *nickname;
+@property (nonatomic, readonly) NSString *userID;
+@property (nonatomic, readonly) NSString *nickname;
+@property (nonatomic, readonly) NSString *homepageURLStr;
 @property (nonatomic, readonly) UIImage  *faceImage;
-@property (nonatomic, copy)     NSString *homepageURLStr;
 
-- (void)downloadFaceImage:(NSURL *)aFaceImageURL;
+
+- (id)initWithDictionary:(NSDictionary *)aUserDict;
 
 @end
