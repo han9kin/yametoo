@@ -209,7 +209,7 @@
 }
 
 
-- (void)showError:(NSString *)aError
+- (void)showAlert:(NSString *)aError
 {
     UIAlertView *sAlertView;
 
@@ -232,7 +232,7 @@
     {
         if ([MEClientStore clientForUserID:[mUserIDField text]])
         {
-            [self showError:@"User already registered"];
+            [self showAlert:@"User already registered."];
         }
         else
         {
@@ -244,7 +244,7 @@
     }
     else
     {
-        [self showError:@"Please enter required fields"];
+        [self showAlert:@"Please enter required fields."];
     }
 }
 
@@ -259,7 +259,7 @@
     }
     else
     {
-        [self showError:@"Please enter required fields"];
+        [self showAlert:@"Please enter required fields."];
     }
 }
 
@@ -283,17 +283,23 @@
 {
     if (aError)
     {
-        [self showError:[aError localizedDescription]];
+        [self showAlert:[aError localizedDescription]];
     }
     else
     {
         [MEClientStore addClient:aClient];
 
-        if (!mUserID)
+        if (mUserID)
+        {
+            [self showAlert:NSLocalizedString(@"User Key modified successfully.", @"")];
+        }
+
+        if (![MEClientStore currentClient])
         {
             [MEClientStore setCurrentUserID:[aClient userID]];
         }
 
+        [mUserKeyField setText:nil];
         [mParentViewController dismissModalViewControllerAnimated:YES];
     }
 
