@@ -7,6 +7,7 @@
  *
  */
 
+#import "NSURL+MEAdditions.h"
 #import "MEPost.h"
 #import "MEFuture.h"
 #import "MEClientStore.h"
@@ -71,8 +72,8 @@
         mMetooCount       = [[aPostDict objectForKey:@"metooCount"] integerValue];
         mUser             = [[MEUser alloc] initWithDictionary:[aPostDict objectForKey:@"author"]];
         mTagArray         = [[[aPostDict objectForKey:@"tags"] valueForKey:@"name"] retain];
-        mMe2PhotoImageURL = [[NSURL alloc] initWithString:[[aPostDict objectForKey:@"media"] objectForKey:@"photoUrl"]];
-        mKindIconImageURL = [[NSURL alloc] initWithString:[aPostDict objectForKey:@"icon"]];
+        mMe2PhotoImageURL = [[NSURL alloc] initWithStringOrNil:[[aPostDict objectForKey:@"media"] objectForKey:@"photoUrl"]];
+        mKindIconImageURL = [[NSURL alloc] initWithStringOrNil:[aPostDict objectForKey:@"icon"]];
     }
 
     return self;

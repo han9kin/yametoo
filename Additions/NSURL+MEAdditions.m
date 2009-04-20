@@ -17,4 +17,28 @@
     return [NSURL URLWithString:[aString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 }
 
++ (id)URLWithStringOrNil:(NSString *)aURLString
+{
+    if ([aURLString length])
+    {
+        return [self URLWithString:aURLString];
+    }
+    else
+    {
+        return nil;
+    }
+}
+
+- (id)initWithStringOrNil:(NSString *)aURLString
+{
+    if ([aURLString length])
+    {
+        return [self initWithString:aURLString];
+    }
+    else
+    {
+        return nil;
+    }
+}
+
 @end

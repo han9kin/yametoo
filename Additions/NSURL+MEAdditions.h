@@ -14,4 +14,7 @@
 
 + (NSURL *)URLWithUnescapedString:(NSString *)aString;
 
++ (id)URLWithStringOrNil:(NSString *)aURLString;
+- (id)initWithStringOrNil:(NSString *)aURLString;
+
 @end

@@ -7,6 +7,7 @@
  *
  */
 
+#import "NSURL+MEAdditions.h"
 #import "MEUser.h"
 #import "MEFuture.h"
 #import "MEClientStore.h"
@@ -116,7 +117,7 @@ static NSMutableDictionary *gCachedUsers = nil;
         }
 
         [self setNickname:[aUserDict objectForKey:@"nickname"]];
-        [self setFaceImageURL:[NSURL URLWithString:[aUserDict objectForKey:@"face"]]];
+        [self setFaceImageURL:[NSURL URLWithStringOrNil:[aUserDict objectForKey:@"face"]]];
     }
 
     return self;
