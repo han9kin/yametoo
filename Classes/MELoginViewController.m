@@ -11,6 +11,7 @@
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "METableViewCellFactory.h"
+#import "MEUserDetailViewController.h"
 
 
 @implementation MELoginViewController
@@ -40,7 +41,7 @@
 {
     [super viewDidLoad];
     
-    NSLog(@"MELoginViewController viewDidLoad = %d", [self retainCount]);
+//    NSLog(@"MELoginViewController viewDidLoad = %d", [self retainCount]);
 
 /*    MEClient *sClient;
     NSArray  *sClients = [MEClientStore clients];
@@ -69,7 +70,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"NMLoginViewController dealloc");
+//    NSLog(@"NMLoginViewController dealloc");
     [super dealloc];
 }
 
@@ -90,11 +91,11 @@
     
     if (aSection == 0)
     {
-        sResult = @"등록된 유저";
+        sResult = NSLocalizedString(@"Registered User", @"");
     }
     else if (aSection == 1)
     {
-        sResult = @"유저 등록";
+        sResult = NSLocalizedString(@"Add New User", @"");
     }
     
     return sResult;
@@ -148,7 +149,8 @@
             sResult = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"add new user"] autorelease];
         }
         
-        [sResult setText:@"Add new user..."];
+        [sResult setFont:[UIFont boldSystemFontOfSize:17.0]];
+        [sResult setText:NSLocalizedString(@"Other...", @"")];
     }
     
     return sResult;
@@ -178,13 +180,23 @@
 
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    MEClient *sClient;    
-    NSArray *sClients = [MEClientStore clients];
+    MEClient         *sClient;    
+    NSArray          *sClients = [MEClientStore clients];
+    UIViewController *sViewController;    
     
-    if ([aIndexPath row] < [sClients count])
+    if ([aIndexPath section] == 0)
     {
-        sClient = [sClients objectAtIndex:[aIndexPath row]];
-        [MEClientStore setCurrentUserID:[sClient userID]];
+        if ([aIndexPath row] < [sClients count])
+        {
+            sClient = [sClients objectAtIndex:[aIndexPath row]];
+            [MEClientStore setCurrentUserID:[sClient userID]];
+        }
+    }
+    else
+    {
+        sViewController = [[MEUserDetailViewController alloc] initWithUserID:nil parentViewController:self];
+        [self presentModalViewController:sViewController animated:YES];
+        [sViewController release];
     }
     
     [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];

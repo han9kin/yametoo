@@ -258,6 +258,7 @@
     }
 }
 
+
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
     NSArray *sClients = [MEClientStore clients];

@@ -39,6 +39,7 @@
                   object:nil];
     
     mLoginViewController = [[MELoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+    [[mLoginViewController view] setFrame:CGRectMake(0, 20, 320, 460)];
     [mWindow addSubview:[mLoginViewController view]];
     [mWindow makeKeyAndVisible];
 }
