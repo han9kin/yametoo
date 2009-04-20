@@ -8,6 +8,9 @@
  */
 
 #import "MEPost.h"
+#import "MEFuture.h"
+#import "MEClientStore.h"
+#import "MEClient.h"
 
 
 @interface MEPost (DateFormatting)
@@ -46,8 +49,8 @@
 @synthesize metooCount    = mMetooCount;
 @synthesize user          = mUser;
 @synthesize tags          = mTagArray;
-@synthesize me2PhotoImage = mMe2PhotoImage;
-@synthesize kindIconImage = mKindIconImage;
+@dynamic    me2PhotoImage;
+@dynamic    kindIconImage;
 
 
 #pragma mark -
@@ -60,16 +63,16 @@
 
     if (self)
     {
-        mPostID              = [[aPostDict objectForKey:@"post_id"] retain];
-        mBody                = [[aPostDict objectForKey:@"body"] retain];
-        mKind                = [[aPostDict objectForKey:@"kind"] retain];
-        mPubDate             = [[self dateFromString:[aPostDict objectForKey:@"pubDate"]] retain];
-        mCommentsCount       = [[aPostDict objectForKey:@"commentsCount"] integerValue];
-        mMetooCount          = [[aPostDict objectForKey:@"metooCount"] integerValue];
-        mUser;
-        mTagArray            = [[[aPostDict objectForKey:@"tags"] valueForKey:@"name"] retain];
-        mMe2PhotoImageURLStr = [[[aPostDict objectForKey:@"media"] objectForKey:@"photoUrl"] retain];
-        mKindIconImageURLStr = [[aPostDict objectForKey:@"icon"] retain];
+        mPostID           = [[aPostDict objectForKey:@"post_id"] retain];
+        mBody             = [[aPostDict objectForKey:@"body"] retain];
+        mKind             = [[aPostDict objectForKey:@"kind"] retain];
+        mPubDate          = [[self dateFromString:[aPostDict objectForKey:@"pubDate"]] retain];
+        mCommentsCount    = [[aPostDict objectForKey:@"commentsCount"] integerValue];
+        mMetooCount       = [[aPostDict objectForKey:@"metooCount"] integerValue];
+        mUser             = [[MEUser alloc] initWithDictionary:[aPostDict objectForKey:@"author"]];
+        mTagArray         = [[[aPostDict objectForKey:@"tags"] valueForKey:@"name"] retain];
+        mMe2PhotoImageURL = [[NSURL alloc] initWithString:[[aPostDict objectForKey:@"media"] objectForKey:@"photoUrl"]];
+        mKindIconImageURL = [[NSURL alloc] initWithString:[aPostDict objectForKey:@"icon"]];
     }
 
     return self;
@@ -85,8 +88,8 @@
     [mUser     release];
     [mTagArray release];
 
-    [mMe2PhotoImageURLStr release];
-    [mKindIconImageURLStr release];
+    [mMe2PhotoImageURL release];
+    [mKindIconImageURL release];
 
     [mMe2PhotoImage release];
     [mKindIconImage release];
@@ -96,7 +99,66 @@
 
 
 #pragma mark -
-#pragma mark Instance Methods
+#pragma mark dynamic property accessors
+
+
+- (UIImage *)me2PhotoImage
+{
+    if (!mMe2PhotoImage)
+    {
+        if (mMe2PhotoImageURL)
+        {
+            mMe2PhotoImage = [MEFuture future];
+            [[MEClientStore currentClient] loadImageWithURL:mMe2PhotoImageURL key:@"me2PhotoImage" shouldCache:NO delegate:self];
+        }
+    }
+
+    return mMe2PhotoImage;
+}
+
+
+- (UIImage *)kindIconImage
+{
+    if (!mKindIconImage)
+    {
+        if (mKindIconImageURL)
+        {
+            mKindIconImage = [MEFuture future];
+            [[MEClientStore currentClient] loadImageWithURL:mKindIconImageURL key:@"kindIconImage" shouldCache:YES delegate:self];
+        }
+    }
+
+    return mKindIconImage;
+}
+
+
+#pragma mark -
+#pragma mark MEClientDelegate
+
+
+- (void)client:(MEClient *)aClient didLoadImage:(UIImage *)aImage key:(NSString *)aKey error:(NSError *)aError
+{
+    if ([aKey isEqualToString:@"me2PhotoImage"])
+    {
+        if (mMe2PhotoImage != aImage)
+        {
+            [self willChangeValueForKey:@"me2PhotoImage"];
+            [mMe2PhotoImage release];
+            mMe2PhotoImage = [aImage retain];
+            [self didChangeValueForKey:@"me2PhotoImage"];
+        }
+    }
+    else if ([aKey isEqualToString:@"kindIconImage"])
+    {
+        if (mKindIconImage != aImage)
+        {
+            [self willChangeValueForKey:@"kindIconImage"];
+            [mKindIconImage release];
+            mKindIconImage = [aImage retain];
+            [self didChangeValueForKey:@"kindIconImage"];
+        }
+    }
+}
 
 
 @end

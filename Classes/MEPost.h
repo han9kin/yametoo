@@ -22,8 +22,8 @@
     MEUser     *mUser;
     NSArray    *mTagArray;
 
-    NSString   *mMe2PhotoImageURLStr;
-    NSString   *mKindIconImageURLStr;
+    NSURL      *mMe2PhotoImageURL;
+    NSURL      *mKindIconImageURL;
 
     UIImage    *mMe2PhotoImage;
     UIImage    *mKindIconImage;
