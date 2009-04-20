@@ -20,10 +20,10 @@
     NSInteger   mCommentsCount;
     NSInteger   mMetooCount;
     MEUser     *mUser;
-
+    NSArray    *mTagArray;
+    
     UIImage    *mMe2PhotoImage;
     UIImage    *mKindIconImage;
-    NSArray    *mTagArray;
 
 //    NSString   *mPermaLink;
 //    NSURL      *mMe2DayPageURL;
@@ -32,8 +32,16 @@
 //    NSURL      *mIconURL;
 }
 
-@property (nonatomic, copy) NSString *postID;
-@property (nonatomic, copy) NSString *body;
-@property (nonatomic, copy) NSString *kind;
+@property (nonatomic, copy)   NSString *postID;
+@property (nonatomic, copy)   NSString *body;
+@property (nonatomic, copy)   NSString *kind;
+@property (nonatomic, copy)   NSDate   *pubDate;
+@property (nonatomic)         NSInteger commentsCount;
+@property (nonatomic)         NSInteger metooCount;
+@property (nonatomic, retain) MEUser   *user;
+@property (nonatomic, retain) NSArray  *tags;
+
+- (void)downloadMe2PhotoImageWithURL:(NSURL *)aURL;
+- (void)downloadKindIconImageWithURL:(NSURL *)aURL;
 
 @end
