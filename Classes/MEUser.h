@@ -26,6 +26,9 @@
 @property (nonatomic, readonly) UIImage  *faceImage;
 
 
++ (void)removeUnusedCachedUsers;
+
+
 - (id)initWithDictionary:(NSDictionary *)aUserDict;
 
 @end

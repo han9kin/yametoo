@@ -64,6 +64,29 @@ static NSMutableDictionary *gCachedUsers = nil;
 
 
 #pragma mark -
+#pragma mark cache control
+
++ (void)removeUnusedCachedUsers
+{
+    NSMutableArray *sUserIDs = [[NSMutableArray alloc] init];
+    id              sObj;
+
+    for (sObj in [gCachedUsers allValues])
+    {
+        if ([sObj retainCount] == 1)
+        {
+            [sUserIDs addObject:[sObj userID]];
+        }
+    }
+
+    for (sObj in sUserIDs)
+    {
+        [gCachedUsers removeObjectForKey:sObj];
+    }
+}
+
+
+#pragma mark -
 #pragma mark init/dealloc
 
 
