@@ -102,7 +102,7 @@
     NSString *sBody = [mBodyTextView text];
     NSString *sTags = [mTagTextView  text];
 
-    [[MEClientStore client] createPostWithBody:sBody tags:sTags icon:0 attachedImage:mAttachedImage delegate:self];
+    [[MEClientStore currentClient] createPostWithBody:sBody tags:sTags icon:0 attachedImage:mAttachedImage delegate:self];
 }
 
 

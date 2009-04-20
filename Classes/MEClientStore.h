@@ -32,7 +32,7 @@ extern NSString *MEClientStoreCurrentUserDidChangeNotification;
 
 #pragma mark client access
 
-+ (MEClient *)client;
++ (MEClient *)currentClient;
 + (MEClient *)clientForUserID:(NSString *)aUserID;
 
 + (NSArray *)clients;

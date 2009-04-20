@@ -138,7 +138,7 @@ SYNTHESIZE_SINGLETON_CLASS(MEClientStore, sharedStore);
 
 #pragma mark client access
 
-+ (MEClient *)client
++ (MEClient *)currentClient
 {
     return [[self sharedStore] currentClient];
 }

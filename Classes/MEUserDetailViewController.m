@@ -12,8 +12,102 @@
 #import "MEClientStore.h"
 #import "MEClient.h"
 
-@interface UINavigationBar (Hack)
-+ (CGSize)defaultSize;
+
+@interface UITableViewCell (ContentViewAccessing)
+@end
+
+@implementation UITableViewCell (ContentViewAccessing)
+
+- (UILabel *)titleLabel
+{
+    return (UILabel *)[[self contentView] viewWithTag:1];
+}
+
+- (UITextField *)textField
+{
+    return (UITextField *)[[self contentView] viewWithTag:2];
+}
+
+- (UISwitch *)switch
+{
+    return (UISwitch *)[self accessoryView];
+}
+
+@end
+
+
+@interface MEUserDetailViewController (Private)
+@end
+
+@implementation MEUserDetailViewController (Private)
+
+- (UITableViewCell *)textFieldCellForTableView:(UITableView *)aTableView
+{
+    UILabel         *sLabel;
+    UITextField     *sTextField;
+    UITableViewCell *sCell = [aTableView dequeueReusableCellWithIdentifier:@"InputField"];
+
+    if (!sCell)
+    {
+        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"InputField"] autorelease];
+
+        [sCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+
+        sLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 11, 100, 21)];
+        [sLabel setTag:1];
+        [sLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
+        [[sCell contentView] addSubview:sLabel];
+        [sLabel release];
+
+        sTextField = [[UITextField alloc] initWithFrame:CGRectMake(120, 6, 180, 31)];
+        [sTextField setTag:2];
+        [sTextField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+        [sTextField setBorderStyle:UITextBorderStyleNone];
+        [sTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
+        [sTextField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+        [sTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
+        [sTextField setEnablesReturnKeyAutomatically:YES];
+        [sTextField setDelegate:self];
+        [[sCell contentView] addSubview:sTextField];
+        [sTextField release];
+    }
+
+    return sCell;
+}
+
+- (UITableViewCell *)switchCellForTableView:(UITableView *)aTableView
+{
+    UISwitch        *sSwitch;
+    UITableViewCell *sCell = [aTableView dequeueReusableCellWithIdentifier:@"Switch"];
+
+    if (!sCell)
+    {
+        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Switch"] autorelease];
+
+        [sCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+
+        sSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sCell setAccessoryView:sSwitch];
+        [sSwitch release];
+    }
+
+    return sCell;
+}
+
+- (UITableViewCell *)buttonCellForTableView:(UITableView *)aTableView
+{
+    UITableViewCell *sCell = [aTableView dequeueReusableCellWithIdentifier:@"Button"];
+
+    if (!sCell)
+    {
+        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Button"] autorelease];
+
+        [sCell setTextAlignment:UITextAlignmentCenter];
+    }
+
+    return sCell;
+}
+
 @end
 
 
@@ -27,6 +121,8 @@
     {
         mUserID               = [aUserID copy];
         mParentViewController = aParentViewController;
+
+        [self setTitle:mUserID];
     }
 
     return self;
@@ -47,12 +143,19 @@
 {
     [super viewDidLoad];
 
-    [[self view] setBackgroundColor:[UIColor whiteColor]];
+    CGRect sTableFrame;
 
-    UIView  *sView;
-    UILabel *sLabel;
+    if (mUserID)
+    {
+        UIBarButtonItem *sBarButtonItem;
 
-    if (mParentViewController)
+        sBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Modify", @"") style:UIBarButtonItemStylePlain target:self action:@selector(modifyButtonTapped)];
+        [[self navigationItem] setRightBarButtonItem:sBarButtonItem];
+        [sBarButtonItem release];
+
+        sTableFrame = CGRectMake(0, 0, 320, 416);
+    }
+    else
     {
         UINavigationBar  *sParentNavigationBar;
         UINavigationBar  *sNavigationBar;
@@ -72,68 +175,30 @@
         [sNavigationBar pushNavigationItem:sNavigationItem animated:NO];
         [sNavigationItem release];
 
-        sBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonTouched)];
+        sBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonTapped)];
         [sNavigationItem setLeftBarButtonItem:sBarButtonItem];
         [sBarButtonItem release];
 
-        sBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"OK", @"") style:UIBarButtonItemStylePlain target:self action:@selector(okButtonTouched)];
+        sBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add", @"") style:UIBarButtonItemStylePlain target:self action:@selector(addButtonTapped)];
         [sNavigationItem setRightBarButtonItem:sBarButtonItem];
         [sBarButtonItem release];
 
-        sView = [[UIView alloc] initWithFrame:CGRectMake(0, 74, 320, 436)];
-        [[self view] addSubview:sView];
-        [sView release];
-    }
-    else
-    {
-        sView = [self view];
+        sTableFrame = CGRectMake(0, 74, 320, 386);
     }
 
-    sLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 25, 80, 21)];
-    [sLabel setText:NSLocalizedString(@"User ID", @"")];
-    [sView addSubview:sLabel];
-    [sLabel release];
-
-    mUserIDField = [[UITextField alloc] initWithFrame:CGRectMake(120, 20, 180, 31)];
-    [mUserIDField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-    [mUserIDField setBorderStyle:UITextBorderStyleRoundedRect];
-    [mUserIDField setClearButtonMode:UITextFieldViewModeWhileEditing];
-    [mUserIDField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-    [mUserIDField setAutocorrectionType:UITextAutocorrectionTypeNo];
-    [mUserIDField setEnablesReturnKeyAutomatically:YES];
-    [mUserIDField setKeyboardType:UIKeyboardTypeASCIICapable];
-    [mUserIDField setReturnKeyType:UIReturnKeyNext];
-    [mUserIDField setText:mUserID];
-    [mUserIDField setDelegate:self];
-    [sView addSubview:mUserIDField];
-    [mUserIDField release];
-
-    sLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 65, 80, 21)];
-    [sLabel setText:NSLocalizedString(@"API Key", @"")];
-    [sView addSubview:sLabel];
-    [sLabel release];
-
-    mUserKeyField = [[UITextField alloc] initWithFrame:CGRectMake(120, 60, 180, 31)];
-    [mUserKeyField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-    [mUserKeyField setBorderStyle:UITextBorderStyleRoundedRect];
-    [mUserKeyField setClearButtonMode:UITextFieldViewModeWhileEditing];
-    [mUserKeyField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-    [mUserKeyField setAutocorrectionType:UITextAutocorrectionTypeNo];
-    [mUserKeyField setEnablesReturnKeyAutomatically:YES];
-    [mUserKeyField setKeyboardType:UIKeyboardTypeNumberPad];
-    [mUserKeyField setReturnKeyType:UIReturnKeyJoin];
-    [mUserKeyField setText:(mUserID ? @"**********" : nil)];
-    [mUserKeyField setDelegate:self];
-    [sView addSubview:mUserKeyField];
-    [mUserKeyField release];
-
-    [mUserIDField becomeFirstResponder];
+    mTableView = [[UITableView alloc] initWithFrame:sTableFrame style:UITableViewStyleGrouped];
+    [mTableView setScrollEnabled:NO];
+    [mTableView setDataSource:self];
+    [mTableView setDelegate:self];
+    [[self view] addSubview:mTableView];
+    [mTableView release];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
 
+    mTableView    = nil;
     mUserIDField  = nil;
     mUserKeyField = nil;
 }
@@ -144,30 +209,62 @@
 }
 
 
+- (void)showError:(NSString *)aError
+{
+    UIAlertView *sAlertView;
+
+    sAlertView = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(aError, @"") delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", @""), nil];
+    [sAlertView show];
+    [sAlertView release];
+}
+
+
 #pragma mark actions
 
-- (void)cancelButtonTouched
+- (void)cancelButtonTapped
 {
     [mParentViewController dismissModalViewControllerAnimated:YES];
 }
 
-- (void)okButtonTouched
+- (void)addButtonTapped
 {
     if ([[mUserIDField text] length] && [[mUserKeyField text] length])
+    {
+        if ([MEClientStore clientForUserID:[mUserIDField text]])
+        {
+            [self showError:@"User already registered"];
+        }
+        else
+        {
+            MEClient *sClient;
+
+            sClient = [[MEClient alloc] init];
+            [sClient loginWithUserID:[mUserIDField text] userKey:[mUserKeyField text] delegate:self];
+        }
+    }
+    else
+    {
+        [self showError:@"Please enter required fields"];
+    }
+}
+
+- (void)modifyButtonTapped
+{
+    if ([[mUserKeyField text] length])
     {
         MEClient *sClient;
 
         sClient = [[MEClient alloc] init];
-        [sClient loginWithUserID:[mUserIDField text] userKey:[mUserKeyField text] delegate:self];
+        [sClient loginWithUserID:mUserID userKey:[mUserKeyField text] delegate:self];
     }
     else
     {
-        UIAlertView *sAlertView;
-
-        sAlertView = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"Please enter required fields", @"") delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", @""), nil];
-        [sAlertView show];
-        [sAlertView release];
+        [self showError:@"Please enter required fields"];
     }
+}
+
+- (void)deleteButtonTapped
+{
 }
 
 
@@ -178,20 +275,107 @@
 {
     if (aError)
     {
-        UIAlertView *sAlertView;
-
-        sAlertView = [[UIAlertView alloc] initWithTitle:nil message:[aError localizedDescription] delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", @""), nil];
-        [sAlertView show];
-        [sAlertView release];
+        [self showError:[aError localizedDescription]];
     }
     else
     {
         [MEClientStore addClient:aClient];
-        [MEClientStore setCurrentUserID:[aClient userID]];
+
+        if (!mUserID)
+        {
+            [MEClientStore setCurrentUserID:[aClient userID]];
+        }
+
         [mParentViewController dismissModalViewControllerAnimated:YES];
     }
 
     [aClient release];
+}
+
+
+#pragma mark UITableViewDataSource
+
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
+{
+    if (mUserID)
+    {
+        return 3;
+    }
+    else
+    {
+        return 2;
+    }
+}
+
+- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)aSection
+{
+    static NSInteger sRowsForAddUser[]    = { 2, 1 };
+    static NSInteger sRowsForModifyUser[] = { 1, 1, 1 };
+
+    if (mUserID)
+    {
+        return sRowsForModifyUser[aSection];
+    }
+    else
+    {
+        return sRowsForAddUser[aSection];
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
+{
+    UITableViewCell *sCell;
+
+    switch ([aIndexPath section])
+    {
+        case 0:
+            sCell = [self textFieldCellForTableView:aTableView];
+
+            if (mUserID || [aIndexPath row])
+            {
+                mUserKeyField = [sCell textField];
+                [mUserKeyField setKeyboardType:UIKeyboardTypeNumberPad];
+                [mUserKeyField setReturnKeyType:UIReturnKeyJoin];
+                [mUserKeyField setText:(mUserID ? @"********" : nil)];
+                [[sCell titleLabel] setText:NSLocalizedString(@"User Key", @"")];
+            }
+            else
+            {
+                mUserIDField = [sCell textField];
+                [mUserIDField setKeyboardType:UIKeyboardTypeASCIICapable];
+                [mUserIDField setReturnKeyType:UIReturnKeyNext];
+                [mUserIDField becomeFirstResponder];
+                [[sCell titleLabel] setText:NSLocalizedString(@"User ID", @"")];
+            }
+            break;
+
+        case 1:
+            sCell = [self switchCellForTableView:aTableView];
+            [sCell setText:NSLocalizedString(@"Passcode Lock", @"")];
+            break;
+
+        case 2:
+            sCell = [self buttonCellForTableView:aTableView];
+            [sCell setText:NSLocalizedString(@"Delete This User", @"")];
+            break;
+    }
+
+    return sCell;
+}
+
+
+#pragma mark UITableViewDelegate
+
+
+- (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
+{
+    if ([aIndexPath section] == 2)
+    {
+        [self deleteButtonTapped];
+    }
+
+    [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];
 }
 
 
@@ -202,10 +386,6 @@
     if (aTextField == mUserIDField)
     {
         [mUserKeyField becomeFirstResponder];
-    }
-    else if (aTextField == mUserKeyField)
-    {
-        NSLog(@"puhaha");
     }
 
     return YES;
