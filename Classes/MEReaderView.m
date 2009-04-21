@@ -126,6 +126,12 @@
 }
 
 
+- (void)removeAllPosts
+{
+    [mPostArray removeAllObjects];
+}
+
+
 - (MEPost *)postForIndexPath:(NSIndexPath *)aIndexPath
 {
     MEPost  *sResult = nil;
@@ -212,23 +218,31 @@
 {
     UITableViewCell *sResult = nil;
     UILabel         *sBodyLabel;
+    UIImageView     *sImageView;
     MEPost          *sPost;
     NSString        *sBody;
     CGSize           sSize;
+    CGRect           sBodyRect;
+    UIImage         *sImage;
     
     sResult = [aTableView dequeueReusableCellWithIdentifier:kTablePostCellIdentifier];
     if (!sResult)
     {
         sResult = [METableViewCellFactory tableViewCellForPost];
     }
-    sBodyLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellBodyLabelTag];    
+    sBodyLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellBodyLabelTag];
+    sImageView = (UIImageView *)[[sResult contentView] viewWithTag:kPostCellImageViewTag];
     
-    sPost = [self postForIndexPath:aIndexPath];
-    sBody = [sPost body];
-    sSize = [sBody sizeWithFont:[sBodyLabel font] constrainedToSize:CGSizeMake(300, 10000) lineBreakMode:UILineBreakModeCharacterWrap];
-
+    sPost      = [self postForIndexPath:aIndexPath];
+    sBody      = [sPost body];
+    sSize      = [sBody sizeWithFont:[sBodyLabel font] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:UILineBreakModeCharacterWrap];
+    sBodyRect  = CGRectMake(60, 10, sSize.width, sSize.height);
+    
     [sBodyLabel setText:sBody];
-    [sBodyLabel setFrame:CGRectMake(10, 10, sSize.width, sSize.height)];
+    [sBodyLabel setFrame:sBodyRect];
+    
+    sImage = ([sPost me2PhotoImage]) ? [sPost me2PhotoImage] : [sPost kindIconImage];
+    [sImageView setImage:sImage];
 
     return sResult;
 }
@@ -244,9 +258,10 @@
     MEPost   *sPost   = [self postForIndexPath:aIndexPath];
     UIFont   *sFont   = [METableViewCellFactory fontForTableCellForPostBody];
     NSString *sBody   = [sPost body];
-    CGSize    sSize   = [sBody sizeWithFont:sFont constrainedToSize:CGSizeMake(300, 10000) lineBreakMode:UILineBreakModeCharacterWrap];
+    CGSize    sSize   = [sBody sizeWithFont:sFont constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:UILineBreakModeCharacterWrap];
     
     sResult = sSize.height + 20;
+    sResult = (sResult < 70) ? 70 : sResult;
 
     return sResult;
 }

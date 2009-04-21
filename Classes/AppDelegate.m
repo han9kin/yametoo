@@ -9,6 +9,7 @@
 
 #import "AppDelegate.h"
 #import "MEPostViewController.h"
+#import "MEImageCache.h"
 #import "MEClientStore.h"
 #import "MELoginViewController.h"
 
@@ -31,7 +32,7 @@
 {
     // Override point for customization after app launch
     //[mWindow addSubview:[mViewController view]];
-    
+
     NSNotificationCenter *sCenter = [NSNotificationCenter defaultCenter];
     [sCenter addObserver:self
                 selector:@selector(currentUserDidChangeNotification:)

@@ -68,6 +68,8 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
 {
     UITableViewCell *sResult;
     UILabel         *sBodyLabel;
+    UIImageView     *sImageView;
+    UIView          *sFrameView;
     
     sResult = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:kTablePostCellIdentifier] autorelease];
     
@@ -76,9 +78,17 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
     [sBodyLabel setLineBreakMode:UILineBreakModeCharacterWrap];
     [sBodyLabel setNumberOfLines:1000];
     [sBodyLabel setFont:[METableViewCellFactory fontForTableCellForPostBody]];
-//    [sBodyLabel setBackgroundColor:[UIColor lightGrayColor]];
+    [sBodyLabel setBackgroundColor:[UIColor lightGrayColor]];
 
+    sFrameView = [[[UIImageView alloc] initWithFrame:CGRectMake(7, 9, 46, 46)] autorelease];
+    [sFrameView setBackgroundColor:[UIColor lightGrayColor]];
+    
+    sImageView = [[[UIImageView alloc] initWithFrame:CGRectMake(8, 10, 44, 44)] autorelease];
+    [sImageView setTag:kPostCellImageViewTag];
+    
     [[sResult contentView] addSubview:sBodyLabel];
+    [[sResult contentView] addSubview:sFrameView];
+    [[sResult contentView] addSubview:sImageView];
     
     return sResult;
 }

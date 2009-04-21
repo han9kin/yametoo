@@ -83,6 +83,7 @@ static NSMutableDictionary *gCachedImages = nil;
     if (!sImage)
     {
         sImage = [UIImage imageWithContentsOfFile:[self cachePathWithURL:aURL]];
+        [gCachedImages setObject:sImage forKey:aURL];
     }
 
     return sImage;
@@ -97,7 +98,7 @@ static NSMutableDictionary *gCachedImages = nil;
         NSString *sCachePath = [self cachePathWithURL:aURL];
 
         [self createDirectoryForCachePath:sCachePath];
-        [aData writeToFile:sCachePath atomically:NO];
+        [aData writeToFile:sCachePath atomically:YES];
     }
 }
 

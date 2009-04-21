@@ -48,6 +48,7 @@
 {
 
     [mTopBarLabel setText:[NSString stringWithFormat:@"%@'s me2day", [[MEClientStore currentClient] userID]]];
+    [mReaderView removeAllPosts];
     
     MEClient *sClient = [MEClientStore currentClient];
     [sClient getPostsWithUserID:[sClient userID]
@@ -89,8 +90,6 @@
     
     for (sPost in aPosts)
     {
-        NSLog(@"body = %@", [sPost body]);
-        NSLog(@"mReaderView = %@", mReaderView);
         [mReaderView addPost:sPost];
     }
 }

@@ -18,5 +18,6 @@
 }
 
 - (void)addPost:(MEPost *)aPost;
+- (void)removeAllPosts;
 
 @end

@@ -13,6 +13,7 @@
 #define kLoginUserCellFaceImageViewTag  100
 #define kLoginUserCellUserIDLabelTag    200
 #define kPostCellBodyLabelTag           100
+#define kPostCellImageViewTag           200
 
 
 #define kTableLoginUserCellIdentifier   @"TableLoginUserCell"
