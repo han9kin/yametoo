@@ -33,6 +33,8 @@
     // Override point for customization after app launch
     //[mWindow addSubview:[mViewController view]];
 
+    [MEImageCache removeCachedImagesInDisk];
+    
     NSNotificationCenter *sCenter = [NSNotificationCenter defaultCenter];
     [sCenter addObserver:self
                 selector:@selector(currentUserDidChangeNotification:)

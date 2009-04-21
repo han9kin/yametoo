@@ -9,6 +9,7 @@
 
 #import "METableViewCellFactory.h"
 #import "ObjCUtil.h"
+#import "MEImageView.h"
 
 
 @implementation METableViewCellFactory
@@ -67,7 +68,7 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
 + (UITableViewCell *)tableViewCellForPost
 {
     UITableViewCell *sResult;
-    UIImageView     *sImageView;
+    MEImageView     *sImageView;
     UIView          *sFrameView;
     UILabel         *sBodyLabel;
     UILabel         *sTagsLabel;    
@@ -77,7 +78,7 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
     sFrameView = [[[UIImageView alloc] initWithFrame:CGRectMake(7, 9, 46, 46)] autorelease];
     [sFrameView setBackgroundColor:[UIColor lightGrayColor]];
     
-    sImageView = [[[UIImageView alloc] initWithFrame:CGRectMake(8, 10, 44, 44)] autorelease];
+    sImageView = [[[MEImageView alloc] initWithFrame:CGRectMake(8, 10, 44, 44)] autorelease];
     [sImageView setTag:kPostCellImageViewTag];
     
     sBodyLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];

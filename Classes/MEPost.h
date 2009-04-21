@@ -45,6 +45,8 @@
 @property(nonatomic, readonly) NSArray   *tags;
 @property(nonatomic, readonly) UIImage   *me2PhotoImage;
 @property(nonatomic, readonly) UIImage   *kindIconImage;
+@property(nonatomic, readonly) NSURL     *me2PhotoImageURL;
+@property(nonatomic, readonly) NSURL     *kindIconImageURL;
 
 
 - (id)initWithDictionary:(NSDictionary *)aPostDict;

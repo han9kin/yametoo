@@ -10,6 +10,7 @@
 #import "MEReaderView.h"
 #import "METableViewCellFactory.h"
 #import "MEReaderHeadView.h"
+#import "MEImageView.h"
 
 
 #define kPostBodyWidth  250
@@ -248,12 +249,13 @@
     UITableViewCell *sResult = nil;
     UILabel         *sBodyLabel;
     UILabel         *sTagsLabel;
-    UIImageView     *sImageView;
+    MEImageView     *sImageView;
     MEPost          *sPost;
     NSString        *sBody;
     NSString        *sTags;
     CGSize           sSize;
-    UIImage         *sImage;
+//    UIImage         *sImage;
+    NSURL           *sImageURL;
     CGFloat          sYPos = 10;
     
     sResult = [aTableView dequeueReusableCellWithIdentifier:kTablePostCellIdentifier];
@@ -263,14 +265,16 @@
     }
     sBodyLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellBodyLabelTag];
     sTagsLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellTagsLabelTag];
-    sImageView = (UIImageView *)[[sResult contentView] viewWithTag:kPostCellImageViewTag];
+    sImageView = (MEImageView *)[[sResult contentView] viewWithTag:kPostCellImageViewTag];
     
     sPost      = [self postForIndexPath:aIndexPath];
     sBody      = [sPost body];
     sTags      = [sPost tagsString];
-    sImage     = ([sPost me2PhotoImage]) ? [sPost me2PhotoImage] : [sPost kindIconImage];
+//    sImage     = ([sPost me2PhotoImage]) ? [sPost me2PhotoImage] : [sPost kindIconImage];
+    sImageURL  = ([sPost me2PhotoImageURL]) ? [sPost me2PhotoImageURL] : [sPost kindIconImageURL];
     
-    [sImageView setImage:sImage];
+    [sImageView setImageWithURL:sImageURL];
+//    [sImageView setImage:sImage];
     
     sSize      = [sBody sizeWithFont:[sBodyLabel font]
                    constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)

@@ -42,16 +42,18 @@
 #pragma mark properties
 
 
-@synthesize postID        = mPostID;
-@synthesize body          = mBody;
-@synthesize kind          = mKind;
-@synthesize pubDate       = mPubDate;
-@synthesize commentsCount = mCommentsCount;
-@synthesize metooCount    = mMetooCount;
-@synthesize user          = mUser;
-@synthesize tags          = mTagArray;
+@synthesize postID           = mPostID;
+@synthesize body             = mBody;
+@synthesize kind             = mKind;
+@synthesize pubDate          = mPubDate;
+@synthesize commentsCount    = mCommentsCount;
+@synthesize metooCount       = mMetooCount;
+@synthesize user             = mUser;
+@synthesize tags             = mTagArray;
 @dynamic    me2PhotoImage;
 @dynamic    kindIconImage;
+@synthesize me2PhotoImageURL = mMe2PhotoImageURL;
+@synthesize kindIconImageURL = mKindIconImageURL;
 
 
 #pragma mark -
