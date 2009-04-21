@@ -51,6 +51,8 @@
 		CF5EE9460F9BFEBD004712FF /* locked_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE9420F9BFEBD004712FF /* locked_normal.png */; };
 		CF5EE9B50F9C37E5004712FF /* MEImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE9B40F9C37E5004712FF /* MEImageCache.m */; };
 		CF5EE9E00F9C4738004712FF /* MEFuture.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE9DF0F9C4738004712FF /* MEFuture.m */; };
+		CF5EEA610F9C7BF8004712FF /* MEMutableAttributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EEA600F9C7BF8004712FF /* MEMutableAttributedString.m */; };
+		CF5EEA700F9C7D9B004712FF /* MEAttributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EEA6F0F9C7D9B004712FF /* MEAttributedString.m */; };
 		CF9045A30F959EE4001AE52C /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF90459E0F959EE4001AE52C /* NSObject+SBJSON.m */; };
 		CF9045A40F959EE4001AE52C /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9045A00F959EE4001AE52C /* NSString+SBJSON.m */; };
 		CF9045A50F959EE4001AE52C /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9045A20F959EE4001AE52C /* SBJSON.m */; };
@@ -140,6 +142,10 @@
 		CF5EE9B40F9C37E5004712FF /* MEImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEImageCache.m; sourceTree = "<group>"; };
 		CF5EE9DE0F9C4738004712FF /* MEFuture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEFuture.h; sourceTree = "<group>"; };
 		CF5EE9DF0F9C4738004712FF /* MEFuture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEFuture.m; sourceTree = "<group>"; };
+		CF5EEA5F0F9C7BF8004712FF /* MEMutableAttributedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEMutableAttributedString.h; sourceTree = "<group>"; };
+		CF5EEA600F9C7BF8004712FF /* MEMutableAttributedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEMutableAttributedString.m; sourceTree = "<group>"; };
+		CF5EEA6E0F9C7D9B004712FF /* MEAttributedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEAttributedString.h; sourceTree = "<group>"; };
+		CF5EEA6F0F9C7D9B004712FF /* MEAttributedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEAttributedString.m; sourceTree = "<group>"; };
 		CF90459C0F959EE4001AE52C /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CF90459D0F959EE4001AE52C /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		CF90459E0F959EE4001AE52C /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -277,8 +283,6 @@
 		2E61033D0F98804A0097AD3D /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CF5EE9DE0F9C4738004712FF /* MEFuture.h */,
-				CF5EE9DF0F9C4738004712FF /* MEFuture.m */,
 				2E6103580F9880820097AD3D /* MEUser.h */,
 				2E6103590F9880820097AD3D /* MEUser.m */,
 				2E6103790F9883B30097AD3D /* MEPost.h */,
@@ -332,6 +336,7 @@
 				CF5EE8260F981D77004712FF /* ObjC Extensions */,
 				CF5EE8240F981D32004712FF /* Foundation Extensions */,
 				CF5EE8250F981D47004712FF /* UIKit Extensions */,
+				CF5EEB130F9D637C004712FF /* Cocomelo Extensions */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -459,6 +464,19 @@
 			name = Cache;
 			sourceTree = "<group>";
 		};
+		CF5EEB130F9D637C004712FF /* Cocomelo Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CF5EE9DE0F9C4738004712FF /* MEFuture.h */,
+				CF5EE9DF0F9C4738004712FF /* MEFuture.m */,
+				CF5EEA6E0F9C7D9B004712FF /* MEAttributedString.h */,
+				CF5EEA6F0F9C7D9B004712FF /* MEAttributedString.m */,
+				CF5EEA5F0F9C7BF8004712FF /* MEMutableAttributedString.h */,
+				CF5EEA600F9C7BF8004712FF /* MEMutableAttributedString.m */,
+			);
+			name = "Cocomelo Extensions";
+			sourceTree = "<group>";
+		};
 		CF90458C0F959D29001AE52C /* External Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -582,6 +600,8 @@
 				2EC19A590F9C1D5D00963971 /* MELoginViewController.m in Sources */,
 				CF5EE9B50F9C37E5004712FF /* MEImageCache.m in Sources */,
 				CF5EE9E00F9C4738004712FF /* MEFuture.m in Sources */,
+				CF5EEA610F9C7BF8004712FF /* MEMutableAttributedString.m in Sources */,
+				CF5EEA700F9C7D9B004712FF /* MEAttributedString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
