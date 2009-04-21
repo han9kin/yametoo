@@ -16,7 +16,6 @@
 
 @interface MEUserTableViewCell : UITableViewCell
 {
-    UIColor *mTextColor;
 }
 
 @end
@@ -44,6 +43,7 @@
         sLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 11, 210, 21)];
         [sLabel setTag:2];
         [sLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
+        [sLabel setHighlightedTextColor:[UIColor whiteColor]];
         [[sCell contentView] addSubview:sLabel];
         [sLabel release];
 
@@ -54,12 +54,6 @@
     }
 
     return sCell;
-}
-
-- (void)dealloc
-{
-    [mTextColor release];
-    [super dealloc];
 }
 
 - (UIButton *)selectedImageButton
@@ -79,23 +73,20 @@
 
 - (void)setClient:(MEClient *)aClient
 {
-    [mTextColor release];
+    [[self nameLabel] setText:[aClient userID]];
 
     if (aClient == [MEClientStore currentClient])
     {
         [[self selectedImageButton] setBackgroundImage:[UIImage imageNamed:@"checkmark_normal.png"] forState:UIControlStateNormal];
         [[self selectedImageButton] setBackgroundImage:[UIImage imageNamed:@"checkmark_highlighted.png"] forState:UIControlStateHighlighted];
-        mTextColor = [UIColor colorWithRed:(50 / 255.0) green:(79 / 255.0) blue:(133 / 255.0) alpha:1.0];
+        [[self nameLabel] setTextColor:[UIColor colorWithRed:(50 / 255.0) green:(79 / 255.0) blue:(133 / 255.0) alpha:1.0]];
     }
     else
     {
         [[self selectedImageButton] setBackgroundImage:nil forState:UIControlStateNormal];
         [[self selectedImageButton] setBackgroundImage:nil forState:UIControlStateHighlighted];
-        mTextColor = [UIColor blackColor];
+        [[self nameLabel] setTextColor:[UIColor blackColor]];
     }
-
-    [[self nameLabel] setText:[aClient userID]];
-    [[self nameLabel] setTextColor:[mTextColor retain]];
 
     if ([aClient passcode])
     {
@@ -115,7 +106,7 @@
 
     [[self selectedImageButton] setHighlighted:aSelected];
     [[self lockedImageButton] setHighlighted:aSelected];
-    [[self nameLabel] setTextColor:(aSelected ? [UIColor whiteColor] : mTextColor)];
+    [[self nameLabel] setHighlighted:aSelected];
 }
 
 @end
