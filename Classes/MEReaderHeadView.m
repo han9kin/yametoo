@@ -103,6 +103,7 @@
 
 - (void)setNickname:(NSString *)aNickname
 {
+    NSLog(@"MEReaderHeadView setNickname - %@", aNickname);
     [mNicknameButton setTitle:aNickname forState:UIControlStateNormal];
 }
 

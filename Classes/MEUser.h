@@ -26,6 +26,7 @@
 @property (nonatomic, readonly) UIImage  *faceImage;
 
 
++ (MEUser *)userWithUserID:(NSString *)aUserID;
 + (void)removeUnusedCachedUsers;
 
 

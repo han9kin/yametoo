@@ -13,7 +13,8 @@
 #define kLoginUserCellFaceImageViewTag  100
 #define kLoginUserCellUserIDLabelTag    200
 #define kPostCellBodyLabelTag           100
-#define kPostCellImageViewTag           200
+#define kPostCellTagsLabelTag           200
+#define kPostCellImageViewTag           300
 
 
 #define kTableLoginUserCellIdentifier   @"TableLoginUserCell"
@@ -28,5 +29,6 @@
 + (UITableViewCell *)tableViewCellForLoginUser;
 + (UITableViewCell *)tableViewCellForPost;
 + (UIFont *)fontForTableCellForPostBody;
++ (UIFont *)fontForTableCellForPostTag;
 
 @end

@@ -15,8 +15,10 @@
 {
     NSMutableArray *mPostArray;
     UITableView    *mTableView;
+    MEUser         *mUser;
 }
 
+- (void)setUser:(MEUser *)aUser;
 - (void)addPost:(MEPost *)aPost;
 - (void)removeAllPosts;
 

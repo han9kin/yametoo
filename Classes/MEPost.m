@@ -100,6 +100,23 @@
 
 
 #pragma mark -
+
+
+- (NSString *)tagsString
+{
+    NSMutableString *sResult = [NSMutableString string];
+    NSString        *sTag;
+    
+    for (sTag in mTagArray)
+    {
+        [sResult appendFormat:@"%@ ", sTag];
+    }
+    
+    return sResult;
+}
+
+
+#pragma mark -
 #pragma mark dynamic property accessors
 
 

@@ -12,6 +12,9 @@
 #import "MEReaderHeadView.h"
 
 
+#define kPostBodyWidth  250
+
+
 @implementation MEReaderView
 
 
@@ -87,6 +90,19 @@
 
 #pragma mark -
 #pragma mark Instance Methods
+
+
+- (void)setUser:(MEUser *)aUser
+{
+    NSLog(@"MEReaderView setUser - %@", aUser);
+    MEReaderHeadView *sHeaderView;
+
+    [mUser autorelease];
+    mUser = [aUser retain];
+
+    sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
+    [sHeaderView setNickname:[mUser nickname]];
+}
 
 
 - (void)addPost:(MEPost *)aPost
@@ -218,12 +234,14 @@
 {
     UITableViewCell *sResult = nil;
     UILabel         *sBodyLabel;
+    UILabel         *sTagsLabel;
     UIImageView     *sImageView;
     MEPost          *sPost;
     NSString        *sBody;
+    NSString        *sTags;
     CGSize           sSize;
-    CGRect           sBodyRect;
     UIImage         *sImage;
+    CGFloat          sYPos = 10;
     
     sResult = [aTableView dequeueReusableCellWithIdentifier:kTablePostCellIdentifier];
     if (!sResult)
@@ -231,19 +249,32 @@
         sResult = [METableViewCellFactory tableViewCellForPost];
     }
     sBodyLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellBodyLabelTag];
+    sTagsLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellTagsLabelTag];
     sImageView = (UIImageView *)[[sResult contentView] viewWithTag:kPostCellImageViewTag];
     
     sPost      = [self postForIndexPath:aIndexPath];
     sBody      = [sPost body];
-    sSize      = [sBody sizeWithFont:[sBodyLabel font] constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:UILineBreakModeCharacterWrap];
-    sBodyRect  = CGRectMake(60, 10, sSize.width, sSize.height);
+    sTags      = [sPost tagsString];
+    sImage     = ([sPost me2PhotoImage]) ? [sPost me2PhotoImage] : [sPost kindIconImage];
     
-    [sBodyLabel setText:sBody];
-    [sBodyLabel setFrame:sBodyRect];
-    
-    sImage = ([sPost me2PhotoImage]) ? [sPost me2PhotoImage] : [sPost kindIconImage];
     [sImageView setImage:sImage];
+    
+    sSize      = [sBody sizeWithFont:[sBodyLabel font]
+                   constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
+                       lineBreakMode:UILineBreakModeCharacterWrap];
+    [sBodyLabel setText:sBody];
+    [sBodyLabel setFrame:CGRectMake(60, sYPos, sSize.width, sSize.height)];
+    
+    sYPos     += (sSize.height + 5);
 
+    sSize      = [sTags sizeWithFont:[sTagsLabel font]
+                 constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
+                     lineBreakMode:UILineBreakModeCharacterWrap];
+    [sTagsLabel setText:sTags];
+    [sTagsLabel setFrame:CGRectMake(60, sYPos, sSize.width, sSize.height)];
+    
+    sYPos     += sSize.height;
+    
     return sResult;
 }
 
@@ -256,12 +287,22 @@
 {
     CGFloat   sResult = 0;
     MEPost   *sPost   = [self postForIndexPath:aIndexPath];
-    UIFont   *sFont   = [METableViewCellFactory fontForTableCellForPostBody];
     NSString *sBody   = [sPost body];
-    CGSize    sSize   = [sBody sizeWithFont:sFont constrainedToSize:CGSizeMake(250, 10000) lineBreakMode:UILineBreakModeCharacterWrap];
+    NSString *sTags   = [sPost tagsString];
+    CGSize    sSize;
+
+    sResult += 10;
+    sSize    = [sBody sizeWithFont:[METableViewCellFactory fontForTableCellForPostBody]
+                 constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
+                     lineBreakMode:UILineBreakModeCharacterWrap];
+    sResult += (sSize.height + 5);
+    sSize    = [sTags sizeWithFont:[METableViewCellFactory fontForTableCellForPostTag]
+                 constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
+                     lineBreakMode:UILineBreakModeCharacterWrap];
+    sResult += sSize.height;
+    sResult += 10;
     
-    sResult = sSize.height + 20;
-    sResult = (sResult < 70) ? 70 : sResult;
+    sResult  = (sResult < 70) ? 70 : sResult;
 
     return sResult;
 }

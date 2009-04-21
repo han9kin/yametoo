@@ -49,5 +49,6 @@
 
 - (id)initWithDictionary:(NSDictionary *)aPostDict;
 
+- (NSString *)tagsString;
 
 @end

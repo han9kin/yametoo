@@ -46,12 +46,15 @@
 
 - (void)viewWillAppear:(BOOL)aAnimated
 {
-
-    [mTopBarLabel setText:[NSString stringWithFormat:@"%@'s me2day", [[MEClientStore currentClient] userID]]];
+    MEClient *sClient = [MEClientStore currentClient];
+    NSString *sUserID = [sClient userID];
+    
+    [mTopBarLabel setText:[NSString stringWithFormat:@"%@'s me2day", sUserID]];
+    
+    [mReaderView setUser:[MEUser userWithUserID:sUserID]];
     [mReaderView removeAllPosts];
     
-    MEClient *sClient = [MEClientStore currentClient];
-    [sClient getPostsWithUserID:[sClient userID]
+    [sClient getPostsWithUserID:sUserID
                          offset:0
                           count:30
                        delegate:self];

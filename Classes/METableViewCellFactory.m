@@ -67,18 +67,12 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
 + (UITableViewCell *)tableViewCellForPost
 {
     UITableViewCell *sResult;
-    UILabel         *sBodyLabel;
     UIImageView     *sImageView;
     UIView          *sFrameView;
+    UILabel         *sBodyLabel;
+    UILabel         *sTagsLabel;    
     
     sResult = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:kTablePostCellIdentifier] autorelease];
-    
-    sBodyLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-    [sBodyLabel setTag:kPostCellBodyLabelTag];
-    [sBodyLabel setLineBreakMode:UILineBreakModeCharacterWrap];
-    [sBodyLabel setNumberOfLines:1000];
-    [sBodyLabel setFont:[METableViewCellFactory fontForTableCellForPostBody]];
-    [sBodyLabel setBackgroundColor:[UIColor lightGrayColor]];
 
     sFrameView = [[[UIImageView alloc] initWithFrame:CGRectMake(7, 9, 46, 46)] autorelease];
     [sFrameView setBackgroundColor:[UIColor lightGrayColor]];
@@ -86,7 +80,23 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
     sImageView = [[[UIImageView alloc] initWithFrame:CGRectMake(8, 10, 44, 44)] autorelease];
     [sImageView setTag:kPostCellImageViewTag];
     
+    sBodyLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+    [sBodyLabel setTag:kPostCellBodyLabelTag];
+    [sBodyLabel setLineBreakMode:UILineBreakModeCharacterWrap];
+    [sBodyLabel setNumberOfLines:1000];
+    [sBodyLabel setFont:[METableViewCellFactory fontForTableCellForPostBody]];
+    [sBodyLabel setTextColor:[UIColor darkGrayColor]];
+//    [sBodyLabel setBackgroundColor:[UIColor lightGrayColor]];
+    
+    sTagsLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+    [sTagsLabel setTag:kPostCellTagsLabelTag];
+    [sTagsLabel setLineBreakMode:UILineBreakModeCharacterWrap];
+    [sTagsLabel setNumberOfLines:1000];
+    [sTagsLabel setFont:[METableViewCellFactory fontForTableCellForPostTag]];
+    [sTagsLabel setTextColor:[UIColor grayColor]];
+    
     [[sResult contentView] addSubview:sBodyLabel];
+    [[sResult contentView] addSubview:sTagsLabel];
     [[sResult contentView] addSubview:sFrameView];
     [[sResult contentView] addSubview:sImageView];
     
@@ -97,6 +107,12 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
 + (UIFont *)fontForTableCellForPostBody
 {
     return [UIFont systemFontOfSize:14];
+}
+
+
++ (UIFont *)fontForTableCellForPostTag
+{
+    return [UIFont systemFontOfSize:10];
 }
 
 

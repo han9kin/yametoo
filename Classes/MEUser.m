@@ -67,6 +67,13 @@ static NSMutableDictionary *gCachedUsers = nil;
 #pragma mark -
 #pragma mark cache control
 
+
++ (MEUser *)userWithUserID:(NSString *)aUserID
+{
+    return [gCachedUsers objectForKey:aUserID];
+}
+
+
 + (void)removeUnusedCachedUsers
 {
     NSMutableArray *sUserIDs = [[NSMutableArray alloc] init];
