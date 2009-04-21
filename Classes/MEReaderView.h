@@ -8,11 +8,15 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "MEPost.h"
 
 
 @interface MEReaderView : UIView <UITableViewDataSource, UITableViewDelegate>
 {
-    UITableView *mTableView;
+    NSMutableArray *mPostArray;
+    UITableView    *mTableView;
 }
+
+- (void)addPost:(MEPost *)aPost;
 
 @end

@@ -10,8 +10,9 @@
 #import <Foundation/Foundation.h>
 
 
-#define kLoginUserCellFaceImageViewTag  0
-#define kLoginUserCellUserIDLabelTag    1
+#define kLoginUserCellFaceImageViewTag  100
+#define kLoginUserCellUserIDLabelTag    200
+#define kPostCellBodyLabelTag           100
 
 
 #define kTableLoginUserCellIdentifier   @"TableLoginUserCell"
@@ -25,5 +26,6 @@
 
 + (UITableViewCell *)tableViewCellForLoginUser;
 + (UITableViewCell *)tableViewCellForPost;
++ (UIFont *)fontForTableCellForPostBody;
 
 @end

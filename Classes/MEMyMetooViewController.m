@@ -10,6 +10,7 @@
 #import "MEMyMetooViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
+#import "MEPost.h"
 
 
 @implementation MEMyMetooViewController
@@ -45,7 +46,14 @@
 
 - (void)viewWillAppear:(BOOL)aAnimated
 {
-    [mTopBarLabel setText:[NSString stringWithFormat:@"%@'s me2day", [[MEClientStore currentClient] userID]]];    
+
+    [mTopBarLabel setText:[NSString stringWithFormat:@"%@'s me2day", [[MEClientStore currentClient] userID]]];
+    
+    MEClient *sClient = [MEClientStore currentClient];
+    [sClient getPostsWithUserID:[sClient userID]
+                         offset:0
+                          count:30
+                       delegate:self];
 }
 
 
@@ -61,8 +69,7 @@
 
 - (void)didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
+    [super didReceiveMemoryWarning];
 }
 
 
@@ -70,6 +77,24 @@
 {
     [super dealloc];
 }
+    
+
+#pragma mark -
+#pragma mark MEClientDelegate
+
+
+- (void)client:(MEClient *)aClient didGetPosts:(NSArray *)aPosts error:(NSError *)aError
+{
+    MEPost *sPost;
+    
+    for (sPost in aPosts)
+    {
+        NSLog(@"body = %@", [sPost body]);
+        NSLog(@"mReaderView = %@", mReaderView);
+        [mReaderView addPost:sPost];
+    }
+}
+
 
 
 @end

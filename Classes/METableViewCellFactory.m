@@ -67,9 +67,26 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
 + (UITableViewCell *)tableViewCellForPost
 {
     UITableViewCell *sResult;
+    UILabel         *sBodyLabel;
     
     sResult = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:kTablePostCellIdentifier] autorelease];
+    
+    sBodyLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+    [sBodyLabel setTag:kPostCellBodyLabelTag];
+    [sBodyLabel setLineBreakMode:UILineBreakModeCharacterWrap];
+    [sBodyLabel setNumberOfLines:1000];
+    [sBodyLabel setFont:[METableViewCellFactory fontForTableCellForPostBody]];
+//    [sBodyLabel setBackgroundColor:[UIColor lightGrayColor]];
+
+    [[sResult contentView] addSubview:sBodyLabel];
+    
     return sResult;
+}
+
+
++ (UIFont *)fontForTableCellForPostBody
+{
+    return [UIFont systemFontOfSize:14];
 }
 
 
