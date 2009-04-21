@@ -18,7 +18,8 @@
 NSString *MEClientErrorDomain = @"MEClientErrorDomain";
 
 
-static NSOperationQueue *gOperationQueue = nil;
+static NSOperationQueue    *gOperationQueue    = nil;
+static NSMutableDictionary *gLoadImageContexts = nil;
 
 
 @implementation MEClient
@@ -29,6 +30,11 @@ static NSOperationQueue *gOperationQueue = nil;
     if (!gOperationQueue)
     {
         gOperationQueue = [[NSOperationQueue alloc] init];
+    }
+
+    if (!gLoadImageContexts)
+    {
+        gLoadImageContexts = [[NSMutableDictionary alloc] init];
     }
 }
 
@@ -110,7 +116,20 @@ static NSOperationQueue *gOperationQueue = nil;
         }
         else
         {
-            sContext = [NSDictionary dictionaryWithObjectsAndKeys:aDelegate, @"delegate", aURL, @"url", aKey, @"key", nil];
+            NSMutableArray *sWaitingContexts;
+
+            sContext         = [NSDictionary dictionaryWithObjectsAndKeys:aDelegate, @"delegate", aURL, @"url", aKey, @"key", nil];
+            sWaitingContexts = [gLoadImageContexts objectForKey:aURL];
+
+            if (sWaitingContexts)
+            {
+                [sWaitingContexts addObject:sContext];
+                return;
+            }
+            else
+            {
+                [gLoadImageContexts setObject:[NSMutableArray array] forKey:aURL];
+            }
         }
     }
     else
@@ -249,13 +268,20 @@ static NSOperationQueue *gOperationQueue = nil;
 
 - (void)clientOperation:(MEClientOperation *)aOperation didReceiveImageResult:(NSData *)aData error:(NSError *)aError
 {
-    NSString *sKey      = [[aOperation context] objectForKey:@"key"];
-    NSURL    *sURL      = [[aOperation context] objectForKey:@"url"];
-    id        sDelegate = [[aOperation context] objectForKey:@"delegate"];
+    NSString     *sKey        = [[aOperation context] objectForKey:@"key"];
+    NSURL        *sURL        = [[aOperation context] objectForKey:@"url"];
+    id            sDelegate   = [[aOperation context] objectForKey:@"delegate"];
+    NSInvocation *sInvocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:@@@@"]];
+    id            sNil        = nil;
+    NSDictionary *sContext;
 
     if (aError)
     {
-        [sDelegate client:self didLoadImage:nil key:sKey error:aError];
+        [sInvocation setSelector:@selector(client:didLoadImage:key:error:)];
+        [sInvocation setArgument:&self atIndex:2];
+        [sInvocation setArgument:&sNil atIndex:3];
+        [sInvocation setArgument:&sKey atIndex:4];
+        [sInvocation setArgument:&aError atIndex:5];
     }
     else
     {
@@ -266,8 +292,23 @@ static NSOperationQueue *gOperationQueue = nil;
             [MEImageCache storeImage:sImage data:aData forURL:sURL];
         }
 
-        [sDelegate client:self didLoadImage:sImage key:sKey error:nil];
+        [sInvocation setSelector:@selector(client:didLoadImage:key:error:)];
+        [sInvocation setArgument:&self atIndex:2];
+        [sInvocation setArgument:&sImage atIndex:3];
+        [sInvocation setArgument:&sKey atIndex:4];
+        [sInvocation setArgument:&sNil atIndex:5];
     }
+
+    [sInvocation invokeWithTarget:sDelegate];
+
+    for (sContext in [gLoadImageContexts objectForKey:sURL])
+    {
+        sKey = [sContext objectForKey:@"key"];
+        [sInvocation setArgument:&sKey atIndex:4];
+        [sInvocation invokeWithTarget:[sContext objectForKey:@"delegate"]];
+    }
+
+    [gLoadImageContexts removeObjectForKey:sURL];
 }
 
 

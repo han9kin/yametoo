@@ -37,6 +37,7 @@
     }
     else
     {
+        [self release];
         return nil;
     }
 }
