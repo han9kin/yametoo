@@ -210,6 +210,21 @@ static NSMutableDictionary *gLoadImageContexts = nil;
 }
 
 
+- (void)getPersonWithUserID:(NSString *)aUserID delegate:(id)aDelegate
+{
+    MEClientOperation *sOperation = [[MEClientOperation alloc] init];
+
+    [sOperation setRequest:[self getPersonRequestWithUserID:aUserID]];
+    [sOperation setContext:aDelegate];
+    [sOperation setDelegate:self];
+    [sOperation setSelector:@selector(clientOperation:didReceiveGetPersonResult:error:)];
+    [sOperation retainContext];
+
+    [gOperationQueue addOperation:sOperation];
+    [sOperation release];
+}
+
+
 #pragma mark -
 #pragma mark retreive error from response
 
@@ -453,6 +468,36 @@ static NSMutableDictionary *gLoadImageContexts = nil;
         else
         {
             [sDelegate client:self didGetPosts:nil error:[self errorFromResultString:sSource]];
+        }
+
+        [sPool release];
+    }
+}
+
+
+- (void)clientOperation:(MEClientOperation *)aOperation didReceiveGetPersonResult:(NSData *)aData error:(NSError *)aError
+{
+    id sDelegate = [aOperation context];
+
+    if (aError)
+    {
+        [sDelegate client:self didGetPerson:nil error:aError];
+    }
+    else
+    {
+        NSAutoreleasePool *sPool   = [[NSAutoreleasePool alloc] init];
+        NSString          *sSource = [[[NSString alloc] initWithData:aData encoding:NSUTF8StringEncoding] autorelease];
+        NSDictionary      *sResult = [sSource JSONValue];
+
+        if (sResult)
+        {
+            MEUser *sUser = [[[MEUser alloc] initWithDictionary:sResult] autorelease];
+
+            [sDelegate client:self didGetPerson:sUser error:nil];
+        }
+        else
+        {
+            [sDelegate client:self didGetPerson:nil error:[self errorFromResultString:sSource]];
         }
 
         [sPool release];

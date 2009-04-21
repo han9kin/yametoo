@@ -14,6 +14,7 @@ extern NSString *MEClientErrorDomain;
 
 
 @class MEClient;
+@class MEUser;
 
 
 @protocol MEClientDelegate
@@ -24,6 +25,7 @@ extern NSString *MEClientErrorDomain;
 - (void)client:(MEClient *)aClient didCreatePostWithError:(NSError *)aError;
 - (void)client:(MEClient *)aClient didCreateCommentWithError:(NSError *)aError;
 - (void)client:(MEClient *)aClient didGetPosts:(NSArray *)aPosts error:(NSError *)aError;
+- (void)client:(MEClient *)aClient didGetPerson:(MEUser *)aUser error:(NSError *)aError;
 
 @end
 
@@ -45,5 +47,6 @@ extern NSString *MEClientErrorDomain;
 - (void)createPostWithBody:(NSString *)aBody tags:(NSString *)aTags icon:(NSInteger)aIcon attachedImage:(UIImage *)aImage delegate:(id)aDelegate;
 - (void)createCommentWithPostID:(NSString *)aPostID body:(NSString *)aBody delegate:(id)aDelegate;
 - (void)getPostsWithUserID:(NSString *)aUserID offset:(NSInteger)aOffset count:(NSInteger)aCount delegate:(id)aDelegate;
+- (void)getPersonWithUserID:(NSString *)aUserID delegate:(id)aDelegate;
 
 @end
