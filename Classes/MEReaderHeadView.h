@@ -29,6 +29,7 @@
 + (MEReaderHeadView *)readerHeadView;
 
 - (void)setNickname:(NSString *)aNickname;
+- (void)setHiddenPostButton:(BOOL)aFlag;
 
 - (IBAction)nicknameButtonTapped:(id)aSender;
 - (IBAction)newPostButtonTapped:(id)aSender;

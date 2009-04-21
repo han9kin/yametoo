@@ -51,7 +51,7 @@
         
         {
             mNewPostButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-            [mNewPostButton setTitle:@"#NewPost#" forState:UIControlStateNormal];
+            [mNewPostButton setTitle:NSLocalizedString(@"New Post", nil) forState:UIControlStateNormal];
             [mNewPostButton addTarget:self action:@selector(newPostButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
             
             sFrame.size.width  = kPostButtonWidth;
@@ -105,6 +105,12 @@
 {
     NSLog(@"MEReaderHeadView setNickname - %@", aNickname);
     [mNicknameButton setTitle:aNickname forState:UIControlStateNormal];
+}
+
+
+- (void)setHiddenPostButton:(BOOL)aFlag
+{
+    [mNewPostButton setHidden:aFlag];
 }
 
 

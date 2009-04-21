@@ -316,14 +316,17 @@ static NSMutableDictionary *gLoadImageContexts = nil;
 
     [sInvocation invokeWithTarget:sDelegate];
 
-    for (sContext in [gLoadImageContexts objectForKey:sURL])
+    if (sURL)
     {
-        sKey = [sContext objectForKey:@"key"];
-        [sInvocation setArgument:&sKey atIndex:4];
-        [sInvocation invokeWithTarget:[sContext objectForKey:@"delegate"]];
-    }
+        for (sContext in [gLoadImageContexts objectForKey:sURL])
+        {
+            sKey = [sContext objectForKey:@"key"];
+            [sInvocation setArgument:&sKey atIndex:4];
+            [sInvocation invokeWithTarget:[sContext objectForKey:@"delegate"]];
+        }
 
-    [gLoadImageContexts removeObjectForKey:sURL];
+        [gLoadImageContexts removeObjectForKey:sURL];
+    }
 }
 
 

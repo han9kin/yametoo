@@ -105,6 +105,15 @@
 }
 
 
+- (void)setHiddenPostButton:(BOOL)aFlag
+{
+    MEReaderHeadView *sHeaderView;
+    
+    sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
+    [sHeaderView setHiddenPostButton:aFlag];
+}
+
+
 - (void)addPost:(MEPost *)aPost
 {
     NSDate          *sDate        = [aPost pubDate];
@@ -207,7 +216,11 @@
     NSString        *sResult = nil;
     MEPost          *sTitlePost;
     NSDate          *sPubDate;
-    NSDateFormatter *sFormatter = [[[NSDateFormatter alloc] initWithDateFormat:@"%d %b %Y" allowNaturalLanguage:NO] autorelease];
+    NSDateFormatter *sFormatter = [[[NSDateFormatter alloc] init] autorelease];//initWithDateFormat:@"%d %b %Y" allowNaturalLanguage:NO] autorelease];
+  
+//    NSLog(@"locale id = %@", [NSLocale availableLocaleIdentifiers]);
+    [sFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease]];
+    [sFormatter setDateFormat:@"d LLL y"];
     
     sTitlePost = [self titlePostForSection:aSection];
     sPubDate   = [sTitlePost pubDate];

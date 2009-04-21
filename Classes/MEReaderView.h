@@ -19,6 +19,8 @@
 }
 
 - (void)setUser:(MEUser *)aUser;
+- (void)setHiddenPostButton:(BOOL)aFlag;
+
 - (void)addPost:(MEPost *)aPost;
 - (void)removeAllPosts;
 

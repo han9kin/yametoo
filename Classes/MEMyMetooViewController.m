@@ -52,6 +52,7 @@
     [mTopBarLabel setText:[NSString stringWithFormat:@"%@'s me2day", sUserID]];
     
     [mReaderView setUser:[MEUser userWithUserID:sUserID]];
+    [mReaderView setHiddenPostButton:NO];
     [mReaderView removeAllPosts];
     
     [sClient getPostsWithUserID:sUserID
