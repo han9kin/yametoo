@@ -126,7 +126,6 @@
     {
         if (mMe2PhotoImageURL)
         {
-            mMe2PhotoImage = [MEFuture future];
             [[MEClientStore currentClient] loadImageWithURL:mMe2PhotoImageURL key:@"me2PhotoImage" shouldCache:NO delegate:self];
         }
     }
@@ -141,7 +140,6 @@
     {
         if (mKindIconImageURL)
         {
-            mKindIconImage = [MEFuture future];
             [[MEClientStore currentClient] loadImageWithURL:mKindIconImageURL key:@"kindIconImage" shouldCache:YES delegate:self];
         }
     }
