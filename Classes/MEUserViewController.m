@@ -100,15 +100,6 @@
     }
 }
 
-- (void)setSelected:(BOOL)aSelected animated:(BOOL)aAnimated
-{
-    [super setSelected:aSelected animated:aAnimated];
-
-    [[self selectedImageButton] setHighlighted:aSelected];
-    [[self lockedImageButton] setHighlighted:aSelected];
-    [[self nameLabel] setHighlighted:aSelected];
-}
-
 @end
 
 
@@ -164,22 +155,15 @@
     mTableView = nil;
 }
 
-- (void)viewWillAppear:(BOOL)aAnimated
-{
-    [super viewWillAppear:aAnimated];
-
-    [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:aAnimated];
-}
-
 
 - (void)userListDidChange:(NSNotification *)aNotification
 {
-    [mTableView reloadData];
+    [mTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0];
 }
 
 - (void)currentUserDidChange:(NSNotification *)aNotification
 {
-    [mTableView reloadData];
+    [mTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0];
 }
 
 
