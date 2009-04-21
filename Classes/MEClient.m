@@ -259,7 +259,7 @@ static NSOperationQueue *gOperationQueue = nil;
     }
     else
     {
-        UIImage *sImage = [[UIImage alloc] initWithData:aData];
+        UIImage *sImage = [UIImage imageWithData:aData];
 
         if (sURL)
         {

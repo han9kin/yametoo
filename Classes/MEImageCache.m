@@ -65,7 +65,18 @@ static NSMutableDictionary *gCachedImages = nil;
 
     if (aURL)
     {
-        return [NSString stringWithFormat:@"%@/%@/%@/%@", sCacheDir, [aURL host], [aURL port], [aURL path]];
+        NSString *sPath = sCacheDir;
+
+        if ([aURL host])
+        {
+            sPath = [sPath stringByAppendingPathComponent:[aURL host]];
+        }
+        if ([aURL port])
+        {
+            sPath = [sPath stringByAppendingPathComponent:[[aURL port] stringValue]];
+        }
+
+        return [sPath stringByAppendingPathComponent:[aURL path]];
     }
     else
     {
@@ -83,7 +94,11 @@ static NSMutableDictionary *gCachedImages = nil;
     if (!sImage)
     {
         sImage = [UIImage imageWithContentsOfFile:[self cachePathWithURL:aURL]];
-        [gCachedImages setObject:sImage forKey:aURL];
+
+        if (sImage)
+        {
+            [gCachedImages setObject:sImage forKey:aURL];
+        }
     }
 
     return sImage;
