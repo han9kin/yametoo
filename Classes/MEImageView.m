@@ -30,6 +30,8 @@
 
 - (void)drawRect:(CGRect)aRect
 {
+    [[UIColor whiteColor] set];
+    UIRectFill(aRect);
     [mImage drawInRect:[self bounds]];
 }
 

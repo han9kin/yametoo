@@ -71,7 +71,8 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
     MEImageView     *sImageView;
     UIView          *sFrameView;
     UILabel         *sBodyLabel;
-    UILabel         *sTagsLabel;    
+    UILabel         *sTagsLabel;
+    UILabel         *sTimeLabel;
     
     sResult = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:kTablePostCellIdentifier] autorelease];
 
@@ -95,9 +96,17 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
     [sTagsLabel setNumberOfLines:1000];
     [sTagsLabel setFont:[METableViewCellFactory fontForTableCellForPostTag]];
     [sTagsLabel setTextColor:[UIColor grayColor]];
+//    [sTagsLabel setBackgroundColor:[UIColor lightGrayColor]];    
+
+    sTimeLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+    [sTimeLabel setTag:kPostCellTimeLabelTag];
+    [sTimeLabel setFont:[METableViewCellFactory fontForTableCellForPostTag]];
+    [sTimeLabel setTextColor:[UIColor grayColor]];
+//    [sTimeLabel setBackgroundColor:[UIColor lightGrayColor]];    
     
     [[sResult contentView] addSubview:sBodyLabel];
     [[sResult contentView] addSubview:sTagsLabel];
+    [[sResult contentView] addSubview:sTimeLabel];
     [[sResult contentView] addSubview:sFrameView];
     [[sResult contentView] addSubview:sImageView];
     

@@ -255,14 +255,17 @@
     UITableViewCell *sResult = nil;
     UILabel         *sBodyLabel;
     UILabel         *sTagsLabel;
+    UILabel         *sTimeLabel;
     MEImageView     *sImageView;
     MEPost          *sPost;
     NSString        *sBody;
     NSString        *sTags;
+    NSDate          *sPubDate;
+    NSString        *sTimeStr   = nil;
     CGSize           sSize;
-//    UIImage         *sImage;
     NSURL           *sImageURL;
     CGFloat          sYPos = 10;
+    NSDateFormatter *sFormatter = [[[NSDateFormatter alloc] init] autorelease];    
     
     sResult = [aTableView dequeueReusableCellWithIdentifier:kTablePostCellIdentifier];
     if (!sResult)
@@ -271,16 +274,16 @@
     }
     sBodyLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellBodyLabelTag];
     sTagsLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellTagsLabelTag];
+    sTimeLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellTimeLabelTag];
     sImageView = (MEImageView *)[[sResult contentView] viewWithTag:kPostCellImageViewTag];
     
     sPost      = [self postForIndexPath:aIndexPath];
     sBody      = [sPost body];
     sTags      = [sPost tagsString];
-//    sImage     = ([sPost me2PhotoImage]) ? [sPost me2PhotoImage] : [sPost kindIconImage];
+    sPubDate   = [sPost pubDate];
     sImageURL  = ([sPost me2PhotoImageURL]) ? [sPost me2PhotoImageURL] : [sPost kindIconImageURL];
     
     [sImageView setImageWithURL:sImageURL];
-//    [sImageView setImage:sImage];
     
     sSize      = [sBody sizeWithFont:[sBodyLabel font]
                    constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
@@ -290,11 +293,32 @@
     
     sYPos     += (sSize.height + 5);
 
-    sSize      = [sTags sizeWithFont:[sTagsLabel font]
-                 constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
-                     lineBreakMode:UILineBreakModeCharacterWrap];
-    [sTagsLabel setText:sTags];
-    [sTagsLabel setFrame:CGRectMake(60, sYPos, sSize.width, sSize.height)];
+    if (![sTags isEqualToString:@""])
+    {
+        sSize      = [sTags sizeWithFont:[sTagsLabel font]
+                     constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
+                         lineBreakMode:UILineBreakModeCharacterWrap];
+        [sTagsLabel setText:sTags];
+        [sTagsLabel setFrame:CGRectMake(60, sYPos, sSize.width, sSize.height)];
+        [sTagsLabel setHidden:NO];
+
+        sYPos     += (sSize.height + 5);
+    }
+    else
+    {
+        [sTagsLabel setHidden:YES];
+    }
+    
+    [sFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease]];
+    [sFormatter setDateFormat:@"a h시 mm분"];
+    sTimeStr = [sFormatter stringFromDate:sPubDate];
+    sTimeStr = [sTimeStr stringByReplacingOccurrencesOfString:@"AM" withString:@"오전"];
+    sTimeStr = [sTimeStr stringByReplacingOccurrencesOfString:@"PM" withString:@"오후"];
+    sSize      = [sTimeStr sizeWithFont:[sTimeLabel font]
+                   constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
+                       lineBreakMode:UILineBreakModeCharacterWrap];
+    [sTimeLabel setText:sTimeStr];
+    [sTimeLabel setFrame:CGRectMake(60, sYPos, 100, sSize.height)];
     
     sYPos     += sSize.height;
     
@@ -308,20 +332,36 @@
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    CGFloat   sResult = 0;
-    MEPost   *sPost   = [self postForIndexPath:aIndexPath];
-    NSString *sBody   = [sPost body];
-    NSString *sTags   = [sPost tagsString];
-    CGSize    sSize;
+    CGFloat          sResult    = 0;
+    MEPost          *sPost      = [self postForIndexPath:aIndexPath];
+    NSString        *sBody      = [sPost body];
+    NSString        *sTags      = [sPost tagsString];
+    NSDate          *sPubDate   = [sPost pubDate];
+    NSString        *sTimeStr   = nil;
+    NSDateFormatter *sFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    CGSize           sSize;
 
+    [sFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease]];
+    [sFormatter setDateFormat:@"HH:mm"];
+    sTimeStr = [sFormatter stringFromDate:sPubDate];
+    
     sResult += 10;
     sSize    = [sBody sizeWithFont:[METableViewCellFactory fontForTableCellForPostBody]
                  constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
                      lineBreakMode:UILineBreakModeCharacterWrap];
     sResult += (sSize.height + 5);
-    sSize    = [sTags sizeWithFont:[METableViewCellFactory fontForTableCellForPostTag]
-                 constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
-                     lineBreakMode:UILineBreakModeCharacterWrap];
+    
+    if (![sTags isEqualToString:@""])
+    {
+        sSize    = [sTags sizeWithFont:[METableViewCellFactory fontForTableCellForPostTag]
+                     constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
+                         lineBreakMode:UILineBreakModeCharacterWrap];
+        sResult += (sSize.height + 5);
+    }
+    
+    sSize    = [sTimeStr sizeWithFont:[METableViewCellFactory fontForTableCellForPostTag]
+                    constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
+                        lineBreakMode:UILineBreakModeCharacterWrap];
     sResult += sSize.height;
     sResult += 10;
     
@@ -339,12 +379,13 @@
                         change:(NSDictionary *)aChange
                        context:(void *)aContext
 {
+    UIImage          *sFaceImage;
+    MEReaderHeadView *sHeaderView;
+    
     if ([aKeyPath isEqualToString:@"faceImage"])
     {
-        UIImage *sFaceImage = [aChange objectForKey:@"new"];
-        NSLog(@"sFaceImage = %@", sFaceImage);
-        NSLog(@"size = %@", NSStringFromCGSize([sFaceImage size]));
-        MEReaderHeadView *sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
+        sFaceImage  = [aChange objectForKey:@"new"];
+        sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
         [sHeaderView setFaceImage:sFaceImage];
     }
     

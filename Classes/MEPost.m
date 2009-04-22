@@ -54,6 +54,7 @@
 @dynamic    kindIconImage;
 @synthesize me2PhotoImageURL = mMe2PhotoImageURL;
 @synthesize kindIconImageURL = mKindIconImageURL;
+@synthesize iconURL          = mIconURL;
 
 
 #pragma mark -

@@ -24,6 +24,7 @@
 
     NSURL      *mMe2PhotoImageURL;
     NSURL      *mKindIconImageURL;
+    NSURL      *mIconURL;
 
     UIImage    *mMe2PhotoImage;
     UIImage    *mKindIconImage;
@@ -32,7 +33,6 @@
 //    NSURL      *mMe2DayPageURL;
 //    NSURL      *mCallbackURL;
 //    NSString   *mContentType;
-//    NSURL      *mIconURL;
 }
 
 @property(nonatomic, readonly) NSString  *postID;
@@ -47,6 +47,7 @@
 @property(nonatomic, readonly) UIImage   *kindIconImage;
 @property(nonatomic, readonly) NSURL     *me2PhotoImageURL;
 @property(nonatomic, readonly) NSURL     *kindIconImageURL;
+@property(nonatomic, readonly) NSURL     *iconURL;
 
 
 - (id)initWithDictionary:(NSDictionary *)aPostDict;
