@@ -73,6 +73,8 @@
 
 - (void)dealloc
 {
+    [mUser removeObserver:self forKeyPath:@"faceImage"];
+    
     [mPostArray release];
     [mTableView release];
     [mUser      release];
@@ -98,6 +100,7 @@
 {
     MEReaderHeadView *sHeaderView;
 
+    [mUser removeObserver:self forKeyPath:@"faceImage"];    
     [mUser autorelease];
     mUser = [aUser retain];
 
@@ -256,32 +259,26 @@
     UILabel         *sBodyLabel;
     UILabel         *sTagsLabel;
     UILabel         *sTimeLabel;
+    UILabel         *sReplyLabel;
     MEImageView     *sImageView;
-    MEPost          *sPost;
-    NSString        *sBody;
-    NSString        *sTags;
-    NSDate          *sPubDate;
-    NSString        *sTimeStr   = nil;
+    MEPost          *sPost = [self postForIndexPath:aIndexPath];
+    NSString        *sBody = [sPost body];
+    NSString        *sTags = [sPost tagsString];
+    NSString        *sTimeStr;
     CGSize           sSize;
-    NSURL           *sImageURL;
+    NSURL           *sImageURL = ([sPost me2PhotoImageURL]) ? [sPost me2PhotoImageURL] : [sPost kindIconImageURL];
     CGFloat          sYPos = 10;
-    NSDateFormatter *sFormatter = [[[NSDateFormatter alloc] init] autorelease];    
     
     sResult = [aTableView dequeueReusableCellWithIdentifier:kTablePostCellIdentifier];
     if (!sResult)
     {
         sResult = [METableViewCellFactory tableViewCellForPost];
     }
-    sBodyLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellBodyLabelTag];
-    sTagsLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellTagsLabelTag];
-    sTimeLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellTimeLabelTag];
-    sImageView = (MEImageView *)[[sResult contentView] viewWithTag:kPostCellImageViewTag];
-    
-    sPost      = [self postForIndexPath:aIndexPath];
-    sBody      = [sPost body];
-    sTags      = [sPost tagsString];
-    sPubDate   = [sPost pubDate];
-    sImageURL  = ([sPost me2PhotoImageURL]) ? [sPost me2PhotoImageURL] : [sPost kindIconImageURL];
+    sBodyLabel  = (UILabel *)[[sResult contentView] viewWithTag:kPostCellBodyLabelTag];
+    sTagsLabel  = (UILabel *)[[sResult contentView] viewWithTag:kPostCellTagsLabelTag];
+    sTimeLabel  = (UILabel *)[[sResult contentView] viewWithTag:kPostCellTimeLabelTag];
+    sReplyLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellReplyLabelTag];
+    sImageView  = (MEImageView *)[[sResult contentView] viewWithTag:kPostCellImageViewTag];
     
     [sImageView setImageWithURL:sImageURL];
     
@@ -293,6 +290,7 @@
     
     sYPos     += (sSize.height + 5);
 
+    [sTagsLabel setHidden:YES];    
     if (![sTags isEqualToString:@""])
     {
         sSize      = [sTags sizeWithFont:[sTagsLabel font]
@@ -304,22 +302,17 @@
 
         sYPos     += (sSize.height + 5);
     }
-    else
-    {
-        [sTagsLabel setHidden:YES];
-    }
     
-    [sFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease]];
-    [sFormatter setDateFormat:@"a h시 mm분"];
-    sTimeStr = [sFormatter stringFromDate:sPubDate];
-    sTimeStr = [sTimeStr stringByReplacingOccurrencesOfString:@"AM" withString:@"오전"];
-    sTimeStr = [sTimeStr stringByReplacingOccurrencesOfString:@"PM" withString:@"오후"];
-    sSize      = [sTimeStr sizeWithFont:[sTimeLabel font]
-                   constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
-                       lineBreakMode:UILineBreakModeCharacterWrap];
+    sTimeStr = [sPost pubTimeString];
+    sSize    = [sTimeStr sizeWithFont:[sTimeLabel font]
+                    constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
+                        lineBreakMode:UILineBreakModeCharacterWrap];
     [sTimeLabel setText:sTimeStr];
     [sTimeLabel setFrame:CGRectMake(60, sYPos, 100, sSize.height)];
-    
+
+    [sReplyLabel setText:[NSString stringWithFormat:@"댓글 (%d)", [sPost commentsCount]]];
+    [sReplyLabel setFrame:CGRectMake(210, sYPos, 100, sSize.height)];
+
     sYPos     += sSize.height;
     
     return sResult;
@@ -336,15 +329,9 @@
     MEPost          *sPost      = [self postForIndexPath:aIndexPath];
     NSString        *sBody      = [sPost body];
     NSString        *sTags      = [sPost tagsString];
-    NSDate          *sPubDate   = [sPost pubDate];
-    NSString        *sTimeStr   = nil;
-    NSDateFormatter *sFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    NSString        *sTimeStr   = [sPost pubTimeString];
     CGSize           sSize;
 
-    [sFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease]];
-    [sFormatter setDateFormat:@"HH:mm"];
-    sTimeStr = [sFormatter stringFromDate:sPubDate];
-    
     sResult += 10;
     sSize    = [sBody sizeWithFont:[METableViewCellFactory fontForTableCellForPostBody]
                  constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)

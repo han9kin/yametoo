@@ -15,7 +15,8 @@
 #define kPostCellBodyLabelTag           100
 #define kPostCellTagsLabelTag           200
 #define kPostCellTimeLabelTag           300
-#define kPostCellImageViewTag           400
+#define kPostCellReplyLabelTag          400
+#define kPostCellImageViewTag           500
 
 
 #define kTableLoginUserCellIdentifier   @"TableLoginUserCell"

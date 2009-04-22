@@ -97,6 +97,8 @@
 
     [mMe2PhotoImage release];
     [mKindIconImage release];
+    
+    [mPubTimeStr release];
 
     [super dealloc];
 }
@@ -116,6 +118,24 @@
     }
     
     return sResult;
+}
+
+
+- (NSString *)pubTimeString
+{
+    NSDateFormatter *sFormatter = [[[NSDateFormatter alloc] init] autorelease];    
+    
+    if (!mPubTimeStr)
+    {
+        [sFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease]];
+        [sFormatter setDateFormat:@"a h시 mm분"];
+        mPubTimeStr = [sFormatter stringFromDate:mPubDate];
+        mPubTimeStr = [mPubTimeStr stringByReplacingOccurrencesOfString:@"AM" withString:@"오전"];
+        mPubTimeStr = [mPubTimeStr stringByReplacingOccurrencesOfString:@"PM" withString:@"오후"];
+        [mPubTimeStr retain];
+    }
+    
+    return mPubTimeStr;
 }
 
 

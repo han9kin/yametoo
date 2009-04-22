@@ -29,6 +29,8 @@
     UIImage    *mMe2PhotoImage;
     UIImage    *mKindIconImage;
 
+    NSString   *mPubTimeStr;
+    
 //    NSString   *mPermaLink;
 //    NSURL      *mMe2DayPageURL;
 //    NSURL      *mCallbackURL;
@@ -53,5 +55,6 @@
 - (id)initWithDictionary:(NSDictionary *)aPostDict;
 
 - (NSString *)tagsString;
+- (NSString *)pubTimeString;
 
 @end

@@ -73,6 +73,7 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
     UILabel         *sBodyLabel;
     UILabel         *sTagsLabel;
     UILabel         *sTimeLabel;
+    UILabel         *sReplyLabel;
     
     sResult = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:kTablePostCellIdentifier] autorelease];
 
@@ -88,7 +89,6 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
     [sBodyLabel setNumberOfLines:1000];
     [sBodyLabel setFont:[METableViewCellFactory fontForTableCellForPostBody]];
     [sBodyLabel setTextColor:[UIColor darkGrayColor]];
-//    [sBodyLabel setBackgroundColor:[UIColor lightGrayColor]];
     
     sTagsLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
     [sTagsLabel setTag:kPostCellTagsLabelTag];
@@ -96,17 +96,27 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
     [sTagsLabel setNumberOfLines:1000];
     [sTagsLabel setFont:[METableViewCellFactory fontForTableCellForPostTag]];
     [sTagsLabel setTextColor:[UIColor grayColor]];
-//    [sTagsLabel setBackgroundColor:[UIColor lightGrayColor]];    
 
     sTimeLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
     [sTimeLabel setTag:kPostCellTimeLabelTag];
     [sTimeLabel setFont:[METableViewCellFactory fontForTableCellForPostTag]];
     [sTimeLabel setTextColor:[UIColor grayColor]];
-//    [sTimeLabel setBackgroundColor:[UIColor lightGrayColor]];    
+
+    sReplyLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+    [sReplyLabel setTag:kPostCellReplyLabelTag];
+    [sReplyLabel setFont:[METableViewCellFactory fontForTableCellForPostTag]];
+    [sReplyLabel setTextColor:[UIColor grayColor]];
+    [sReplyLabel setTextAlignment:UITextAlignmentRight];
     
+//    [sBodyLabel  setBackgroundColor:[UIColor lightGrayColor]];    
+//    [sTagsLabel  setBackgroundColor:[UIColor lightGrayColor]];        
+//   [sTimeLabel  setBackgroundColor:[UIColor lightGrayColor]];
+//    [sReplyLabel setBackgroundColor:[UIColor lightGrayColor]];
+
     [[sResult contentView] addSubview:sBodyLabel];
     [[sResult contentView] addSubview:sTagsLabel];
     [[sResult contentView] addSubview:sTimeLabel];
+    [[sResult contentView] addSubview:sReplyLabel];
     [[sResult contentView] addSubview:sFrameView];
     [[sResult contentView] addSubview:sImageView];
     
