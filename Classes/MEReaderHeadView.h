@@ -13,7 +13,7 @@
 #define kReaderHeadViewHeight       70
 #define kFaceImageViewWidth         50
 #define kFaceImageViewHeight        50
-#define kNickButtonWidth            142
+#define kNickButtonWidth            152
 #define kNickButtonHeight           35
 #define kPostButtonWidth            90
 #define kPostButtonHeight           35
@@ -29,6 +29,7 @@
 + (MEReaderHeadView *)readerHeadView;
 
 - (void)setNickname:(NSString *)aNickname;
+- (void)setFaceImage:(UIImage *)aFaceImage;
 - (void)setHiddenPostButton:(BOOL)aFlag;
 
 - (IBAction)nicknameButtonTapped:(id)aSender;

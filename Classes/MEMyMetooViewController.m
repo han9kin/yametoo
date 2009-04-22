@@ -51,10 +51,10 @@
     
     [mTopBarLabel setText:[NSString stringWithFormat:@"%@'s me2day", sUserID]];
     
-    [mReaderView setUser:[MEUser userWithUserID:sUserID]];
     [mReaderView setHiddenPostButton:NO];
     [mReaderView removeAllPosts];
     
+    [sClient getPersonWithUserID:sUserID delegate:self];    
     [sClient getPostsWithUserID:sUserID
                          offset:0
                           count:30
@@ -86,6 +86,18 @@
 
 #pragma mark -
 #pragma mark MEClientDelegate
+
+
+- (void)client:(MEClient *)aClient didGetPerson:(MEUser *)aUser error:(NSError *)aError
+{
+    MEClient *sClient = [MEClientStore currentClient];
+    NSString *sUserID = [sClient userID];
+   
+    if ([sUserID isEqualToString:[aUser userID]])
+    {
+        [mReaderView setUser:aUser];
+    }
+}
 
 
 - (void)client:(MEClient *)aClient didGetPosts:(NSArray *)aPosts error:(NSError *)aError

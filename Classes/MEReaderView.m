@@ -75,6 +75,7 @@
 {
     [mPostArray release];
     [mTableView release];
+    [mUser      release];
     
     [super dealloc];
 }
@@ -95,7 +96,6 @@
 
 - (void)setUser:(MEUser *)aUser
 {
-    NSLog(@"MEReaderView setUser - %@", aUser);
     MEReaderHeadView *sHeaderView;
 
     [mUser autorelease];
@@ -103,6 +103,12 @@
 
     sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
     [sHeaderView setNickname:[mUser nickname]];
+    [sHeaderView setFaceImage:[mUser faceImage]];
+    
+    [mUser addObserver:self
+            forKeyPath:@"faceImage"
+               options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)
+               context:NULL];
 }
 
 
@@ -322,6 +328,27 @@
     sResult  = (sResult < 70) ? 70 : sResult;
 
     return sResult;
+}
+
+
+#pragma mark -
+
+
+- (void)observeValueForKeyPath:(NSString *)aKeyPath
+                      ofObject:(id)aObject
+                        change:(NSDictionary *)aChange
+                       context:(void *)aContext
+{
+    if ([aKeyPath isEqualToString:@"faceImage"])
+    {
+        UIImage *sFaceImage = [aChange objectForKey:@"new"];
+        NSLog(@"sFaceImage = %@", sFaceImage);
+        NSLog(@"size = %@", NSStringFromCGSize([sFaceImage size]));
+        MEReaderHeadView *sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
+        [sHeaderView setFaceImage:sFaceImage];
+    }
+    
+    [mUser removeObserver:self forKeyPath:aKeyPath];
 }
 
 

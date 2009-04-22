@@ -27,7 +27,7 @@
             
             sFrame.size.width  = kFaceImageViewWidth;
             sFrame.size.height = kFaceImageViewHeight;
-            sFrame.origin.x    = 10;
+            sFrame.origin.x    = 7;
             sFrame.origin.y    = 10;
             [mFaceImageView setFrame:sFrame];
             [mFaceImageView setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
@@ -42,7 +42,7 @@
             
             sFrame.size.width  = kNickButtonWidth;
             sFrame.size.height = kNickButtonHeight;
-            sFrame.origin.x    = 70;
+            sFrame.origin.x    = 65;
             sFrame.origin.y    = (int)((aFrame.size.height - sFrame.size.height ) / 2);
             [mNicknameButton setFrame:sFrame];
             
@@ -56,7 +56,7 @@
             
             sFrame.size.width  = kPostButtonWidth;
             sFrame.size.height = kPostButtonHeight;
-            sFrame.origin.x    = 220;
+            sFrame.origin.x    = 225;
             sFrame.origin.y    = (int)((aFrame.size.height - sFrame.size.height ) / 2);
             [mNewPostButton setFrame:sFrame];
             
@@ -103,8 +103,16 @@
 
 - (void)setNickname:(NSString *)aNickname
 {
-    NSLog(@"MEReaderHeadView setNickname - %@", aNickname);
-    [mNicknameButton setTitle:aNickname forState:UIControlStateNormal];
+    [mNicknameButton setTitle:[NSString stringWithFormat:@"%@'s me2day", aNickname] forState:UIControlStateNormal];
+}
+
+
+- (void)setFaceImage:(UIImage *)aFaceImage
+{
+    if ([aFaceImage isKindOfClass:[UIImage class]])
+    {
+        [mFaceImageView setImage:aFaceImage];
+    }
 }
 
 

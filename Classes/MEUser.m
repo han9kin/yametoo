@@ -167,10 +167,11 @@ static NSMutableDictionary *gCachedUsers = nil;
 #pragma mark MEClientDelegate
 
 
-- (void)client:(MEClient *)aClient didLoadImage:(UIImage *)aImage error:(NSError *)aError
+- (void)client:(MEClient *)aClient didLoadImage:(UIImage *)aImage key:aKey error:(NSError *)aError
 {
     if (mFaceImage != aImage)
     {
+        NSLog(@"faceImage = %@", aImage);
         [self willChangeValueForKey:@"faceImage"];
         [mFaceImage release];
         mFaceImage = [aImage retain];
