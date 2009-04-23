@@ -29,6 +29,11 @@ static NSString *kClientsKey = @"clients";
     return [mClientsByUserID allKeys];
 }
 
+- (MEClient *)anyClient
+{
+    return [[mClientsByUserID allValues] lastObject];
+}
+
 - (MEClient *)currentClient
 {
     return mCurrentClient;
@@ -137,6 +142,11 @@ SYNTHESIZE_SINGLETON_CLASS(MEClientStore, sharedStore);
 
 
 #pragma mark client access
+
++ (MEClient *)anyClient
+{
+    return [[self sharedStore] anyClient];
+}
 
 + (MEClient *)currentClient
 {
