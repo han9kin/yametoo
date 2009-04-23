@@ -312,11 +312,7 @@
     NSURL           *sImageURL = ([sPost me2PhotoImageURL]) ? [sPost me2PhotoImageURL] : [sPost kindIconImageURL];
     CGFloat          sYPos = 10;
     
-    sResult = [aTableView dequeueReusableCellWithIdentifier:kTablePostCellIdentifier];
-    if (!sResult)
-    {
-        sResult = [METableViewCellFactory tableViewCellForPost];
-    }
+    sResult     = [METableViewCellFactory postCellForTableView:aTableView];
     sBodyLabel  = (UILabel *)[[sResult contentView] viewWithTag:kPostCellBodyLabelTag];
     sTagsLabel  = (UILabel *)[[sResult contentView] viewWithTag:kPostCellTagsLabelTag];
     sTimeLabel  = (UILabel *)[[sResult contentView] viewWithTag:kPostCellTimeLabelTag];

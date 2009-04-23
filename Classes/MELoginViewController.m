@@ -23,6 +23,7 @@
     [super viewDidLoad];
     
     mFaceImageDict = [[NSMutableDictionary alloc] init];
+    [mTableView setBackgroundColor:[UIColor clearColor]];
     
     NSNotificationCenter *sCenter = [NSNotificationCenter defaultCenter];
     [sCenter addObserver:self
@@ -109,12 +110,7 @@
         NSArray         *sClients = [MEClientStore clients];
         MEClient        *sClient  = [sClients objectAtIndex:[aIndexPath row]];
         
-        sResult = [aTableView dequeueReusableCellWithIdentifier:kTableLoginUserCellIdentifier];
-        if (!sResult)
-        {
-            sResult = [METableViewCellFactory tableViewCellForLoginUser];
-        }
-        
+        sResult        = [METableViewCellFactory loginUserCellForTableView:aTableView];
         sFaceImageView = (UIImageView *)[[sResult contentView] viewWithTag:kLoginUserCellFaceImageViewTag];
         sUserIDLabel   = (UILabel *)[[sResult contentView] viewWithTag:kLoginUserCellUserIDLabelTag];
         
@@ -123,12 +119,8 @@
     }
     else
     {
-        sResult = [aTableView dequeueReusableCellWithIdentifier:kTableAddNewUserCellIdentifier];
-        if (!sResult)
-        {
-            sResult = [METableViewCellFactory tableViewCellForAddNewUser];
-        }
-        
+        sResult = [METableViewCellFactory addNewUserCellForTableView:aTableView];
+
         [sResult setFont:[UIFont boldSystemFontOfSize:17.0]];
         [sResult setText:NSLocalizedString(@"Other...", @"")];
     }

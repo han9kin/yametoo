@@ -32,11 +32,12 @@
 
 }
 
-+ (UITableViewCell *)tableViewCellForLoginUser;
-+ (UITableViewCell *)tableViewCellForAddNewUser;
++ (UITableViewCell *)loginUserCellForTableView:(UITableView *)aTableView;
++ (UITableViewCell *)addNewUserCellForTableView:(UITableView *)aTableView;
 
-+ (UITableViewCell *)tableViewCellForPost;
-+ (UIFont *)fontForTableCellForPostBody;
-+ (UIFont *)fontForTableCellForPostTag;
++ (UITableViewCell *)postCellForTableView:(UITableView *)aTableView;
+
++ (UIFont *)fontForPostBody;
++ (UIFont *)fontForPostTag;
 
 @end
