@@ -10,15 +10,9 @@
 #import "MEMutableAttributedString.h"
 
 
-NSString *MEFontAttributeName            = @"MEFont";
-NSString *MEForegroundColorAttributeName = @"MEForegroundColor";
-NSString *MEBackgroundColorAttributeName = @"MEBackgroundColor";
-NSString *MEShadowColorAttributeName     = @"MEShadowColor";
-NSString *MEShadowOffsetAttributeName    = @"MEShadowOffset";
-NSString *MELinkAttributeName            = @"MELink";
+@interface MEAttributedString (BaseObjectAccessing)
 
-
-@interface MEAttributedString (Private)
+- (id)initWithoutBaseObject;
 
 - (CFMutableAttributedStringRef)baseObject;
 - (void)setBaseObject:(CFMutableAttributedStringRef)aObject;
@@ -34,7 +28,7 @@ NSString *MELinkAttributeName            = @"MELink";
 
 - (id)init
 {
-    self = [super init];
+    self = [super initWithoutBaseObject];
 
     if (self)
     {
@@ -46,7 +40,7 @@ NSString *MELinkAttributeName            = @"MELink";
 
 - (id)initWithString:(NSString *)aString
 {
-    self = [super init];
+    self = [super initWithoutBaseObject];
 
     if (self)
     {
@@ -69,7 +63,7 @@ NSString *MELinkAttributeName            = @"MELink";
 
 - (id)initWithAttributedString:(MEAttributedString *)aAttributedString
 {
-    self = [super init];
+    self = [super initWithoutBaseObject];
 
     if (self)
     {
@@ -88,7 +82,7 @@ NSString *MELinkAttributeName            = @"MELink";
 
 - (id)initWithString:(NSString *)aString attributes:(NSDictionary *)aAttributes
 {
-    self = [super init];
+    self = [super initWithoutBaseObject];
 
     if (self)
     {

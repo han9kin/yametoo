@@ -61,6 +61,7 @@
 extern NSString *MEFontAttributeName;                // UIFont, default system font at a size of 17 points
 extern NSString *MEForegroundColorAttributeName;     // UIColor, default blackColor
 extern NSString *MEBackgroundColorAttributeName;     // UIColor, default nil: no background
+extern NSString *MEHighlightedColorAttributeName;    // UIColor, default nil: no highlighted
 extern NSString *MEShadowColorAttributeName;         // UIColor, default nil: no shadow
 extern NSString *MEShadowOffsetAttributeName;        // NSValue containing CGSize, default (0, -1)
 extern NSString *MELinkAttributeName;                // NSURL (preferred) or NSString

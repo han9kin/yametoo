@@ -31,6 +31,10 @@
 
 @implementation MEAttributedString
 
+- (id)initWithoutBaseObject
+{
+    return [super init];
+}
 
 - (void)dealloc
 {
@@ -199,3 +203,12 @@
 
 
 @end
+
+
+NSString *MEFontAttributeName             = @"MEFont";
+NSString *MEForegroundColorAttributeName  = @"MEForegroundColor";
+NSString *MEBackgroundColorAttributeName  = @"MEBackgroundColor";
+NSString *MEHighlightedColorAttributeName = @"MEHighlightedColor";
+NSString *MEShadowColorAttributeName      = @"MEShadowColor";
+NSString *MEShadowOffsetAttributeName     = @"MEShadowOffset";
+NSString *MELinkAttributeName             = @"MELink";
