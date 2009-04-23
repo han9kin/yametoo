@@ -98,6 +98,7 @@
     [mMe2PhotoImage release];
     [mKindIconImage release];
     
+    [mTagsStr    release];
     [mPubTimeStr release];
 
     [super dealloc];
@@ -109,15 +110,20 @@
 
 - (NSString *)tagsString
 {
-    NSMutableString *sResult = [NSMutableString string];
+    NSMutableString *sTagsStr = [NSMutableString string];
     NSString        *sTag;
     
-    for (sTag in mTagArray)
+    if (!mTagsStr)
     {
-        [sResult appendFormat:@"%@ ", sTag];
+        for (sTag in mTagArray)
+        {
+            [sTagsStr appendFormat:@"%@ ", sTag];
+        }
+        
+        mTagsStr = [[NSString alloc] initWithString:sTagsStr];
     }
     
-    return sResult;
+    return mTagsStr;
 }
 
 
@@ -127,7 +133,7 @@
     
     if (!mPubTimeStr)
     {
-        [sFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease]];
+//        [sFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease]];
         [sFormatter setDateFormat:@"a h시 mm분"];
         mPubTimeStr = [sFormatter stringFromDate:mPubDate];
         mPubTimeStr = [mPubTimeStr stringByReplacingOccurrencesOfString:@"AM" withString:@"오전"];

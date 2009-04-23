@@ -54,7 +54,8 @@
     [mReaderView setHiddenPostButton:NO];
     [mReaderView removeAllPosts];
     
-    [sClient getPersonWithUserID:sUserID delegate:self];    
+    [sClient getPersonWithUserID:sUserID delegate:self];
+//    NSLog(@"getPostsWithUserID");
     [sClient getPostsWithUserID:sUserID
                          offset:0
                           count:30
@@ -102,12 +103,9 @@
 
 - (void)client:(MEClient *)aClient didGetPosts:(NSArray *)aPosts error:(NSError *)aError
 {
-    MEPost *sPost;
-    
-    for (sPost in aPosts)
-    {
-        [mReaderView addPost:sPost];
-    }
+//    NSLog(@"b");    
+    [mReaderView addPosts:aPosts];
+//    NSLog(@"e");
 }
 
 

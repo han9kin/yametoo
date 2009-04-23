@@ -22,6 +22,7 @@
 - (void)setHiddenPostButton:(BOOL)aFlag;
 
 - (void)addPost:(MEPost *)aPost;
+- (void)addPosts:(NSArray *)aPostArray;
 - (void)removeAllPosts;
 
 @end

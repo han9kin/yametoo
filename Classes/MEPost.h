@@ -29,6 +29,7 @@
     UIImage    *mMe2PhotoImage;
     UIImage    *mKindIconImage;
 
+    NSString   *mTagsStr;
     NSString   *mPubTimeStr;
     
 //    NSString   *mPermaLink;

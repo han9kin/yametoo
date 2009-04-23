@@ -102,16 +102,16 @@
 
     [mUser removeObserver:self forKeyPath:@"faceImage"];    
     [mUser autorelease];
-    mUser = [aUser retain];
-
-    sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
-    [sHeaderView setNickname:[mUser nickname]];
-    [sHeaderView setFaceImage:[mUser faceImage]];
     
+    mUser = [aUser retain];
     [mUser addObserver:self
             forKeyPath:@"faceImage"
                options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)
                context:NULL];
+    
+    sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
+    [sHeaderView setNickname:[mUser nickname]];
+    [sHeaderView setFaceImage:[mUser faceImage]];
 }
 
 
@@ -158,6 +158,48 @@
     }
     
     [mTableView reloadData];
+}
+
+
+- (void)addPosts:(NSArray *)aPostArray
+{
+//    NSLog(@"addPosts");
+    MEPost          *sPost;
+    NSDateFormatter *sFormatter = [[NSDateFormatter alloc] init];
+
+    [sFormatter setDateStyle:kCFDateFormatterShortStyle];
+
+    for (sPost in aPostArray)
+    {
+        NSString       *sPostDateStr = [sFormatter stringFromDate:[sPost pubDate]];
+        NSMutableArray *sPostsOfDay;
+        BOOL            sIsAdded = NO;
+        
+        for (sPostsOfDay in mPostArray)
+        {
+            MEPost   *sTitlePost = [sPostsOfDay lastObject];
+            NSString *sDateStr   = [sFormatter stringFromDate:[sTitlePost pubDate]];
+            
+            if ([sDateStr isEqualToString:sPostDateStr])
+            {
+                [sPostsOfDay addObject:sPost];
+                sIsAdded = YES;
+                break;
+            }
+        }
+        
+        if (!sIsAdded)
+        {
+            sPostsOfDay = [NSMutableArray array];
+            [sPostsOfDay addObject:sPost];
+            [mPostArray addObject:sPostsOfDay];
+        }
+    }
+    
+    [sFormatter release];
+//    NSLog(@"b");
+    [mTableView reloadData];
+//    NSLog(@"e");
 }
 
 
@@ -255,6 +297,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
+//    NSLog(@"c");
     UITableViewCell *sResult = nil;
     UILabel         *sBodyLabel;
     UILabel         *sTagsLabel;
@@ -282,38 +325,40 @@
     
     [sImageView setImageWithURL:sImageURL];
     
-    sSize      = [sBody sizeWithFont:[sBodyLabel font]
-                   constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
-                       lineBreakMode:UILineBreakModeCharacterWrap];
+    sSize = [sBody sizeWithFont:[sBodyLabel font]
+              constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
+                  lineBreakMode:UILineBreakModeCharacterWrap];
     [sBodyLabel setText:sBody];
     [sBodyLabel setFrame:CGRectMake(60, sYPos, sSize.width, sSize.height)];
     
-    sYPos     += (sSize.height + 5);
+    sYPos += (sSize.height + 5);
 
-    [sTagsLabel setHidden:YES];    
     if (![sTags isEqualToString:@""])
     {
-        sSize      = [sTags sizeWithFont:[sTagsLabel font]
-                     constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
-                         lineBreakMode:UILineBreakModeCharacterWrap];
+        sSize = [sTags sizeWithFont:[sTagsLabel font]
+                  constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
+                      lineBreakMode:UILineBreakModeCharacterWrap];
         [sTagsLabel setText:sTags];
         [sTagsLabel setFrame:CGRectMake(60, sYPos, sSize.width, sSize.height)];
         [sTagsLabel setHidden:NO];
 
-        sYPos     += (sSize.height + 5);
+        sYPos += (sSize.height + 5);
+    }
+    else
+    {
+        [sTagsLabel setHidden:YES];
     }
     
     sTimeStr = [sPost pubTimeString];
-    sSize    = [sTimeStr sizeWithFont:[sTimeLabel font]
+/*    sSize    = [sTimeStr sizeWithFont:[sTimeLabel font]
                     constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
-                        lineBreakMode:UILineBreakModeCharacterWrap];
+                        lineBreakMode:UILineBreakModeCharacterWrap];*/
+    sSize.height = 13.0; // TimeStr height
     [sTimeLabel setText:sTimeStr];
     [sTimeLabel setFrame:CGRectMake(60, sYPos, 100, sSize.height)];
 
     [sReplyLabel setText:[NSString stringWithFormat:@"댓글 (%d)", [sPost commentsCount]]];
     [sReplyLabel setFrame:CGRectMake(210, sYPos, 100, sSize.height)];
-
-    sYPos     += sSize.height;
     
     return sResult;
 }
@@ -325,11 +370,12 @@
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
+//    NSLog(@"h");
     CGFloat          sResult    = 0;
     MEPost          *sPost      = [self postForIndexPath:aIndexPath];
     NSString        *sBody      = [sPost body];
     NSString        *sTags      = [sPost tagsString];
-    NSString        *sTimeStr   = [sPost pubTimeString];
+//    NSString        *sTimeStr   = [sPost pubTimeString];
     CGSize           sSize;
 
     sResult += 10;
@@ -346,12 +392,13 @@
         sResult += (sSize.height + 5);
     }
     
-    sSize    = [sTimeStr sizeWithFont:[METableViewCellFactory fontForTableCellForPostTag]
+/*    sSize    = [sTimeStr sizeWithFont:[METableViewCellFactory fontForTableCellForPostTag]
                     constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
                         lineBreakMode:UILineBreakModeCharacterWrap];
-    sResult += sSize.height;
+    sResult += sSize.height;*/
+    sResult += 13.0;    //  TimeStr Height
+
     sResult += 10;
-    
     sResult  = (sResult < 70) ? 70 : sResult;
 
     return sResult;
@@ -375,8 +422,6 @@
         sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
         [sHeaderView setFaceImage:sFaceImage];
     }
-    
-    [mUser removeObserver:self forKeyPath:aKeyPath];
 }
 
 

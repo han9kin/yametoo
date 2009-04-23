@@ -171,7 +171,6 @@ static NSMutableDictionary *gCachedUsers = nil;
 {
     if (mFaceImage != aImage)
     {
-        NSLog(@"faceImage = %@", aImage);
         [self willChangeValueForKey:@"faceImage"];
         [mFaceImage release];
         mFaceImage = [aImage retain];
