@@ -12,54 +12,31 @@
 #import "MEClient.h"
 #import "METableViewCellFactory.h"
 #import "MEUserDetailViewController.h"
+#import "MEUser.h"
 
 
 @implementation MELoginViewController
-
-/*
-// The designated initializer. Override to perform setup that is required before the view is loaded.
-- (id)initWithNibName:(NSString *)aNibNameOrNil bundle:(NSBundle *)aNibBundleOrNil
-{
-    self = [super initWithNibName:aNibNameOrNil bundle:aNibBundleOrNil];
-    if (self)
-    {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
 
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-//    NSLog(@"MELoginViewController viewDidLoad = %d", [self retainCount]);
-
-/*    MEClient *sClient;
+    mFaceImageDict = [[NSMutableDictionary alloc] init];
+    
+    NSNotificationCenter *sCenter = [NSNotificationCenter defaultCenter];
+    [sCenter addObserver:self
+                selector:@selector(userListDidChangeNotification:)
+                    name:MEClientStoreUserListDidChangeNotification
+                  object:nil];
+    
     NSArray  *sClients = [MEClientStore clients];
+    MEClient *sClient;
     for (sClient in sClients)
     {
-        NSLog(@"%@", [sClient userID]);
-    }*/
+        [sClient getPersonWithUserID:[sClient userID] delegate:self];
+    }
 }
-
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
-{
-    // Return YES for supported orientations
-    return (aInterfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
 
 - (void)didReceiveMemoryWarning
@@ -70,7 +47,9 @@
 
 - (void)dealloc
 {
-//    NSLog(@"NMLoginViewController dealloc");
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [mFaceImageDict release];
+    
     [super dealloc];
 }
 
@@ -91,11 +70,11 @@
     
     if (aSection == 0)
     {
-        sResult = NSLocalizedString(@"Registered User", @"");
+        sResult = NSLocalizedString(@"Select the user to login", @"");
     }
     else if (aSection == 1)
     {
-        sResult = NSLocalizedString(@"Add New User", @"");
+        sResult = NSLocalizedString(@"Add new user", @"");
     }
     
     return sResult;
@@ -137,16 +116,17 @@
         }
         
         sFaceImageView = (UIImageView *)[[sResult contentView] viewWithTag:kLoginUserCellFaceImageViewTag];
-        sUserIDLabel   = (UILabel *)    [[sResult contentView] viewWithTag:kLoginUserCellUserIDLabelTag];
+        sUserIDLabel   = (UILabel *)[[sResult contentView] viewWithTag:kLoginUserCellUserIDLabelTag];
         
+        [sFaceImageView setImage:[mFaceImageDict objectForKey:[sClient userID]]];
         [sUserIDLabel setText:[sClient userID]];
     }
     else
     {
-        sResult = [aTableView dequeueReusableCellWithIdentifier:@"add new user"];
+        sResult = [aTableView dequeueReusableCellWithIdentifier:kTableAddNewUserCellIdentifier];
         if (!sResult)
         {
-            sResult = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"add new user"] autorelease];
+            sResult = [METableViewCellFactory tableViewCellForAddNewUser];
         }
         
         [sResult setFont:[UIFont boldSystemFontOfSize:17.0]];
@@ -200,6 +180,34 @@
     }
     
     [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];
+}
+
+
+#pragma mark -
+#pragma mark MEClientDelegate
+
+
+- (void)client:(MEClient *)aClient didGetPerson:(MEUser *)aUser error:(NSError *)aError
+{
+    NSURL *sFaceImageURL = [aUser faceImageURL];
+    [aClient loadImageWithURL:sFaceImageURL key:[aUser userID] shouldCache:YES delegate:self];
+}
+
+
+- (void)client:(MEClient *)aClient didLoadImage:(UIImage *)aImage key:(NSString *)aKey error:(NSError *)aError
+{
+    [mFaceImageDict setObject:aImage forKey:aKey];
+    [mTableView reloadData];
+}
+
+
+#pragma mark -
+#pragma mark Notifications
+
+
+- (void)userListDidChangeNotification:(NSNotification *)aNotification
+{
+    [mTableView reloadData];
 }
 
 

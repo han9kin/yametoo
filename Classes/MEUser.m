@@ -60,6 +60,7 @@ static NSMutableDictionary *gCachedUsers = nil;
 
 @synthesize userID         = mUserID;
 @synthesize nickname       = mNickname;
+@synthesize faceImageURL   = mFaceImageURL;
 @synthesize homepageURLStr = mHomepageURLStr;
 @dynamic    faceImage;
 

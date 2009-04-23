@@ -11,7 +11,9 @@
 
 
 #define kLoginUserCellFaceImageViewTag  100
-#define kLoginUserCellUserIDLabelTag    200
+#define kLoginUserCellFrameViewTag      200
+#define kLoginUserCellUserIDLabelTag    300
+
 #define kPostCellBodyLabelTag           100
 #define kPostCellTagsLabelTag           200
 #define kPostCellTimeLabelTag           300
@@ -20,6 +22,8 @@
 
 
 #define kTableLoginUserCellIdentifier   @"TableLoginUserCell"
+#define kTableAddNewUserCellIdentifier  @"TableAddNewUserCell"
+
 #define kTablePostCellIdentifier        @"TablePostCell"
 
 
@@ -29,6 +33,8 @@
 }
 
 + (UITableViewCell *)tableViewCellForLoginUser;
++ (UITableViewCell *)tableViewCellForAddNewUser;
+
 + (UITableViewCell *)tableViewCellForPost;
 + (UIFont *)fontForTableCellForPostBody;
 + (UIFont *)fontForTableCellForPostTag;

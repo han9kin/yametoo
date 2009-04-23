@@ -13,6 +13,8 @@
 @interface MELoginViewController : UIViewController
 {
     IBOutlet UITableView *mTableView;
+    
+    NSMutableDictionary *mFaceImageDict;
 }
 
 @end

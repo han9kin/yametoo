@@ -44,22 +44,39 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
 {
     UITableViewCell *sResult;
     UIImageView     *sFaceImageView;
+    UIView          *sFrameView;
     UILabel         *sUserIDLabel;
     
     sResult = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:kTablePostCellIdentifier] autorelease];
-//    [[sResult contentView] setBackgroundColor:[UIColor lightGrayColor]];
+
+    sFrameView = [[[UIImageView alloc] initWithFrame:CGRectMake(29, 9, 52, 52)] autorelease];
+    [sFrameView setBackgroundColor:[UIColor lightGrayColor]];
+    [sFrameView setTag:kLoginUserCellFrameViewTag];
     
-    sFaceImageView = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 50, 50)] autorelease];
+    sFaceImageView = [[[UIImageView alloc] initWithFrame:CGRectMake(30, 10, 50, 50)] autorelease];
     [sFaceImageView setTag:kLoginUserCellFaceImageViewTag];
-//    [sFaceImageView setBackgroundColor:[UIColor redColor]];
     
-    sUserIDLabel = [[[UILabel alloc] initWithFrame:CGRectMake(70, 20, 180, 30)] autorelease];
+    sUserIDLabel = [[[UILabel alloc] initWithFrame:CGRectMake(90, 20, 180, 30)] autorelease];
     [sUserIDLabel setTag:kLoginUserCellUserIDLabelTag];
     [sUserIDLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
-//    [sUserIDLabel setBackgroundColor:[UIColor lightGrayColor]];
 
+    [[sResult contentView] addSubview:sFrameView];    
     [[sResult contentView] addSubview:sFaceImageView];
     [[sResult contentView] addSubview:sUserIDLabel];
+
+//    [[sResult contentView] setBackgroundColor:[UIColor lightGrayColor]];
+//    [sFaceImageView setBackgroundColor:[UIColor redColor]];
+//    [sUserIDLabel setBackgroundColor:[UIColor lightGrayColor]];
+    
+    return sResult;
+}
+
+
++ (UITableViewCell *)tableViewCellForAddNewUser
+{
+    UITableViewCell *sResult;
+    
+    sResult = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:kTableAddNewUserCellIdentifier] autorelease];
     
     return sResult;
 }

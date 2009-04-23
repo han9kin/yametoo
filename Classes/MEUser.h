@@ -22,6 +22,7 @@
 
 @property (nonatomic, readonly) NSString *userID;
 @property (nonatomic, readonly) NSString *nickname;
+@property (nonatomic, readonly) NSURL    *faceImageURL;
 @property (nonatomic, readonly) NSString *homepageURLStr;
 @property (nonatomic, readonly) UIImage  *faceImage;
 

@@ -106,7 +106,7 @@
     mUser = [aUser retain];
     [mUser addObserver:self
             forKeyPath:@"faceImage"
-               options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)
+               options:(NSKeyValueObservingOptionNew)
                context:NULL];
     
     sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];

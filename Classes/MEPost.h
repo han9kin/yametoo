@@ -22,9 +22,11 @@
     MEUser     *mUser;
     NSArray    *mTagArray;
 
-    NSURL      *mMe2PhotoImageURL;
+    NSURL      *mIconURL;           //  Thumbnail image of me2PhotoImage
     NSURL      *mKindIconImageURL;
-    NSURL      *mIconURL;
+    
+    //  Media
+    NSURL      *mMe2PhotoImageURL;
 
     UIImage    *mMe2PhotoImage;
     UIImage    *mKindIconImage;
