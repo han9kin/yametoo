@@ -42,19 +42,18 @@
 #pragma mark properties
 
 
-@synthesize postID           = mPostID;
-@synthesize body             = mBody;
-@synthesize kind             = mKind;
-@synthesize pubDate          = mPubDate;
-@synthesize commentsCount    = mCommentsCount;
-@synthesize metooCount       = mMetooCount;
-@synthesize user             = mUser;
-@synthesize tags             = mTagArray;
-@dynamic    me2PhotoImage;
-@dynamic    kindIconImage;
-@synthesize me2PhotoImageURL = mMe2PhotoImageURL;
-@synthesize kindIconImageURL = mKindIconImageURL;
-@synthesize iconURL          = mIconURL;
+@synthesize postID        = mPostID;
+@synthesize body          = mBody;
+@synthesize kind          = mKind;
+@synthesize pubDate       = mPubDate;
+@synthesize commentsCount = mCommentsCount;
+@synthesize metooCount    = mMetooCount;
+@synthesize user          = mUser;
+@synthesize tags          = mTags;
+@synthesize iconURL       = mIconURL;
+@synthesize photoURL      = mPhotoURL;
+@dynamic    tagsString;
+@dynamic    pubTimeString;
 
 
 #pragma mark -
@@ -67,16 +66,21 @@
 
     if (self)
     {
-        mPostID           = [[aPostDict objectForKey:@"post_id"] retain];
-        mBody             = [[aPostDict objectForKey:@"body"] retain];
-        mKind             = [[aPostDict objectForKey:@"kind"] retain];
-        mPubDate          = [[self dateFromString:[aPostDict objectForKey:@"pubDate"]] retain];
-        mCommentsCount    = [[aPostDict objectForKey:@"commentsCount"] integerValue];
-        mMetooCount       = [[aPostDict objectForKey:@"metooCount"] integerValue];
-        mUser             = [[MEUser alloc] initWithDictionary:[aPostDict objectForKey:@"author"]];
-        mTagArray         = [[[aPostDict objectForKey:@"tags"] valueForKey:@"name"] retain];
-        mMe2PhotoImageURL = [[NSURL alloc] initWithStringOrNil:[[aPostDict objectForKey:@"media"] objectForKey:@"photoUrl"]];
-        mKindIconImageURL = [[NSURL alloc] initWithStringOrNil:[aPostDict objectForKey:@"icon"]];
+        mPostID        = [[aPostDict objectForKey:@"post_id"] retain];
+        mBody          = [[aPostDict objectForKey:@"body"] retain];
+        mKind          = [[aPostDict objectForKey:@"kind"] retain];
+        mPubDate       = [[self dateFromString:[aPostDict objectForKey:@"pubDate"]] retain];
+        mCommentsCount = [[aPostDict objectForKey:@"commentsCount"] integerValue];
+        mMetooCount    = [[aPostDict objectForKey:@"metooCount"] integerValue];
+        mUser          = [[MEUser alloc] initWithDictionary:[aPostDict objectForKey:@"author"]];
+        mTags          = [[[aPostDict objectForKey:@"tags"] valueForKey:@"name"] retain];
+        mIconURL       = [[NSURL alloc] initWithStringOrNil:[aPostDict objectForKey:@"iconUrl"]];
+        mPhotoURL      = [[NSURL alloc] initWithStringOrNil:[[aPostDict objectForKey:@"media"] objectForKey:@"photoUrl"]];
+
+        if (!mIconURL)
+        {
+            mIconURL = [[NSURL alloc] initWithStringOrNil:[aPostDict objectForKey:@"icon"]];
+        }
     }
 
     return self;
@@ -90,58 +94,11 @@
     [mKind     release];
     [mPubDate  release];
     [mUser     release];
-    [mTagArray release];
-
-    [mMe2PhotoImageURL release];
-    [mKindIconImageURL release];
-
-    [mMe2PhotoImage release];
-    [mKindIconImage release];
-    
-    [mTagsStr    release];
-    [mPubTimeStr release];
+    [mTags     release];
+    [mIconURL  release];
+    [mPhotoURL release];
 
     [super dealloc];
-}
-
-
-#pragma mark -
-
-
-- (NSString *)tagsString
-{
-    NSMutableString *sTagsStr = [NSMutableString string];
-    NSString        *sTag;
-    
-    if (!mTagsStr)
-    {
-        for (sTag in mTagArray)
-        {
-            [sTagsStr appendFormat:@"%@ ", sTag];
-        }
-        
-        mTagsStr = [[NSString alloc] initWithString:sTagsStr];
-    }
-    
-    return mTagsStr;
-}
-
-
-- (NSString *)pubTimeString
-{
-    NSDateFormatter *sFormatter = [[[NSDateFormatter alloc] init] autorelease];    
-    
-    if (!mPubTimeStr)
-    {
-//        [sFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease]];
-        [sFormatter setDateFormat:@"a h시 mm분"];
-        mPubTimeStr = [sFormatter stringFromDate:mPubDate];
-        mPubTimeStr = [mPubTimeStr stringByReplacingOccurrencesOfString:@"AM" withString:@"오전"];
-        mPubTimeStr = [mPubTimeStr stringByReplacingOccurrencesOfString:@"PM" withString:@"오후"];
-        [mPubTimeStr retain];
-    }
-    
-    return mPubTimeStr;
 }
 
 
@@ -149,60 +106,32 @@
 #pragma mark dynamic property accessors
 
 
-- (UIImage *)me2PhotoImage
+- (NSString *)tagsString
 {
-    if (!mMe2PhotoImage)
-    {
-        if (mMe2PhotoImageURL)
-        {
-            [[MEClientStore currentClient] loadImageWithURL:mMe2PhotoImageURL key:@"me2PhotoImage" shouldCache:NO delegate:self];
-        }
-    }
-
-    return mMe2PhotoImage;
+    return [mTags componentsJoinedByString:@" "];
 }
 
 
-- (UIImage *)kindIconImage
+- (NSString *)pubTimeString
 {
-    if (!mKindIconImage)
+    static NSDateFormatter *sDateFormatter = nil;
+
+    if (!sDateFormatter)
     {
-        if (mKindIconImageURL)
+        sDateFormatter = [[NSDateFormatter alloc] init];
+        [sDateFormatter setLocale:[NSLocale currentLocale]];
+
+        if ([[[NSLocale currentLocale] localeIdentifier] hasPrefix:@"ko"])
         {
-            [[MEClientStore currentClient] loadImageWithURL:mKindIconImageURL key:@"kindIconImage" shouldCache:YES delegate:self];
+            [sDateFormatter setDateFormat:NSLocalizedString(@"h':'mm a", @"")];
+        }
+        else
+        {
+            [sDateFormatter setTimeStyle:NSDateFormatterShortStyle];
         }
     }
 
-    return mKindIconImage;
-}
-
-
-#pragma mark -
-#pragma mark MEClientDelegate
-
-
-- (void)client:(MEClient *)aClient didLoadImage:(UIImage *)aImage key:(NSString *)aKey error:(NSError *)aError
-{
-    if ([aKey isEqualToString:@"me2PhotoImage"])
-    {
-        if (mMe2PhotoImage != aImage)
-        {
-            [self willChangeValueForKey:@"me2PhotoImage"];
-            [mMe2PhotoImage release];
-            mMe2PhotoImage = [aImage retain];
-            [self didChangeValueForKey:@"me2PhotoImage"];
-        }
-    }
-    else if ([aKey isEqualToString:@"kindIconImage"])
-    {
-        if (mKindIconImage != aImage)
-        {
-            [self willChangeValueForKey:@"kindIconImage"];
-            [mKindIconImage release];
-            mKindIconImage = [aImage retain];
-            [self didChangeValueForKey:@"kindIconImage"];
-        }
-    }
+    return [sDateFormatter stringFromDate:mPubDate];
 }
 
 
