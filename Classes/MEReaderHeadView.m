@@ -101,6 +101,12 @@
 #pragma mark Instance Method
 
 
+- (void)setDelegate:(id)aDelegate
+{
+    mDelegate = aDelegate;
+}
+
+
 - (void)setNickname:(NSString *)aNickname
 {
     [mNicknameButton setTitle:[NSString stringWithFormat:@"%@'s me2day", aNickname] forState:UIControlStateNormal];
@@ -134,7 +140,10 @@
 
 - (IBAction)newPostButtonTapped:(id)aSender
 {
-    NSLog(@"newPostButtonTapped");
+    if ([mDelegate respondsToSelector:@selector(newPostButtonTapped:)])
+    {
+        [mDelegate newPostButtonTapped:self];
+    }
 }
 
 

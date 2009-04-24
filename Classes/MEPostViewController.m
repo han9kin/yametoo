@@ -19,9 +19,10 @@
 {
     [super viewDidLoad];
 
-    [mKeyboardToolbar setTintColor:[UIColor colorWithRed:0.565 green:0.596 blue:0.635 alpha:1.0]];
     [mBodyTextView setText:@""];
+    [mBodyTextView setReturnKeyType:UIReturnKeyNext];
     [mTagTextView  setText:@""];
+    [mTagTextView  setReturnKeyType:UIReturnKeyDone];
 }
 
 
@@ -42,6 +43,9 @@
 
 - (void)dealloc
 {
+    NSLog(@"postViewController dealloc");
+    [mAttachedImage release];
+    
     [super dealloc];
 }
 
@@ -52,31 +56,11 @@
 
 - (void)beginEditModeAnimation
 {
-    CGRect sFrame;
-
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.3];
-
-    sFrame = [mKeyboardToolbar frame];
-    sFrame.origin.y = 200;
-    [mKeyboardToolbar setFrame:sFrame];
-
-    [UIView commitAnimations];
 }
 
 
 - (void)beginNormalModeAnimation
 {
-    CGRect sFrame;
-
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.3];
-
-    sFrame = [mKeyboardToolbar frame];
-    sFrame.origin.y = 416;
-    [mKeyboardToolbar setFrame:sFrame];
-
-    [UIView commitAnimations];
 }
 
 
@@ -106,6 +90,13 @@
 }
 
 
+- (IBAction)cancelButtonTapped:(id)aSender
+{
+    NSLog(@"cancelButtonTapped");
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+
 - (IBAction)keyboardToolbarDoneButtonTapped:(id)aSender
 {
     [mBodyTextView resignFirstResponder];
@@ -121,8 +112,34 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)aTextView;
 {
-
     [self beginEditModeAnimation];
+}
+
+
+- (BOOL)textView:(UITextView *)aTextView shouldChangeTextInRange:(NSRange)aRange replacementText:(NSString *)aText
+{
+    if ([aText length] == 1 && [aText characterAtIndex:0] == 10)
+    {
+        if (aTextView == mBodyTextView)
+        {
+            [mTagTextView becomeFirstResponder];
+        }
+        else
+        {
+            [mTagTextView resignFirstResponder];
+        }
+    }
+    
+    return YES;
+}
+
+
+- (void)textViewDidChange:(UITextView *)aTextView
+{
+    NSLog(@"textViewDidChange");
+    NSRange sRange = [aTextView selectedRange];
+    NSLog(@"sRange = %@", NSStringFromRange(sRange));
+    [aTextView scrollRangeToVisible:sRange];
 }
 
 
@@ -130,10 +147,10 @@
 #pragma mark MEClientDelegate
 
 
-- (void)client:(MEClient *)aClient didLoginWithError:(NSError *)aError
+/*- (void)client:(MEClient *)aClient didLoginWithError:(NSError *)aError
 {
     NSLog(@"%@", aError);
-}
+}*/
 
 
 - (void)client:(MEClient *)aClient didCreatePostWithError:(NSError *)aError
@@ -148,6 +165,12 @@
         [mBodyTextView      setText:@""];
         [mTagTextView       setText:@""];
         [mAttachedImageView setImage:nil];
+        
+        [self dismissModalViewControllerAnimated:YES];
+    }
+    else
+    {
+        NSLog(@"error handling");
     }
 }
 

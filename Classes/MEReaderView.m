@@ -30,14 +30,17 @@
 
 - (void)initializeViews
 {
-    CGRect sBounds = [self bounds];
+    CGRect            sBounds   = [self bounds];
+    MEReaderHeadView *sHeadView = [MEReaderHeadView readerHeadView];
+    
+    [sHeadView setDelegate:self];
 
     mTableView = [[UITableView alloc] initWithFrame:sBounds style:UITableViewStylePlain];
     [mTableView setDataSource:self];
     [mTableView setDelegate:self];
-    [mTableView setTableHeaderView:[MEReaderHeadView readerHeadView]];
+    [mTableView setTableHeaderView:sHeadView];
     [mTableView setDelaysContentTouches:NO];
-
+    
     [self addSubview:mTableView];
 }
 
@@ -97,6 +100,12 @@
 
 #pragma mark -
 #pragma mark Instance Methods
+
+
+- (void)setDelegate:(id)aDelegate
+{
+    mDelegate = aDelegate;
+}
 
 
 - (void)setUser:(MEUser *)aUser
@@ -402,6 +411,20 @@
 
 
 #pragma mark -
+#pragma mark MEReaderHead Delegate
+
+
+- (void)newPostButtonTapped:(MEReaderHeadView *)aReaderHeadView
+{
+    if ([mDelegate respondsToSelector:@selector(newPostForReaderView:)])
+    {
+        [mDelegate newPostForReaderView:self];
+    }
+}
+
+
+#pragma mark -
+#pragma mark KVO
 
 
 - (void)observeValueForKeyPath:(NSString *)aKeyPath

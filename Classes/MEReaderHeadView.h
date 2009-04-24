@@ -21,6 +21,7 @@
 
 @interface MEReaderHeadView : UIView
 {
+    id           mDelegate;
     UIImageView *mFaceImageView;
     UIButton    *mNicknameButton;
     UIButton    *mNewPostButton;
@@ -28,11 +29,19 @@
 
 + (MEReaderHeadView *)readerHeadView;
 
+- (void)setDelegate:(id)aDelegate;
 - (void)setNickname:(NSString *)aNickname;
 - (void)setFaceImage:(UIImage *)aFaceImage;
 - (void)setHiddenPostButton:(BOOL)aFlag;
 
 - (IBAction)nicknameButtonTapped:(id)aSender;
 - (IBAction)newPostButtonTapped:(id)aSender;
+
+@end
+
+
+@protocol MEReaderHeadViewDelegate
+
+- (void)newPostButtonTapped:(MEReaderHeadView *)aHeaderView;
 
 @end

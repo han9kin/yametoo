@@ -14,7 +14,6 @@
 {
     IBOutlet UITextView  *mBodyTextView;
     IBOutlet UITextView  *mTagTextView;
-    IBOutlet UIToolbar   *mKeyboardToolbar;
     IBOutlet UIImageView *mAttachedImageView;
 
     UIImage              *mAttachedImage;
@@ -22,6 +21,7 @@
 
 - (IBAction)takePictureButtonTapped:(id)aSender;
 - (IBAction)postButtonTapped:(id)aSender;
+- (IBAction)cancelButtonTapped:(id)aSender;
 - (IBAction)keyboardToolbarDoneButtonTapped:(id)aSender;
 
 @end

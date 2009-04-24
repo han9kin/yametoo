@@ -13,16 +13,25 @@
 
 @interface MEReaderView : UIView <UITableViewDataSource, UITableViewDelegate>
 {
+    id              mDelegate;
     NSMutableArray *mPostArray;
     UITableView    *mTableView;
     MEUser         *mUser;
 }
 
+- (void)setDelegate:(id)aDelegate;
 - (void)setUser:(MEUser *)aUser;
 - (void)setHiddenPostButton:(BOOL)aFlag;
 
 - (void)addPost:(MEPost *)aPost;
 - (void)addPosts:(NSArray *)aPostArray;
 - (void)removeAllPosts;
+
+@end
+
+
+@protocol MEReaderView
+
+- (void)newPostForReaderView:(MEReaderView *)aReaderView;
 
 @end

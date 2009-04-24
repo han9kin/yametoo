@@ -11,31 +11,10 @@
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEPost.h"
+#import "MEPostViewController.h"
 
 
 @implementation MEMyMetooViewController
-
-
-/*
-// The designated initializer. Override to perform setup that is required before the view is loaded.
-- (id)initWithNibName:(NSString *)aNibNameOrNil bundle:(NSBundle *)aNibBundleOrNil
-{
-    self = [super initWithNibName:aNibNameOrNil bundle:aNibBundleOrNil];
-    if (self)
-    {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
 
 
 - (void)viewDidLoad
@@ -51,26 +30,16 @@
     
     [mTopBarLabel setText:[NSString stringWithFormat:@"%@'s me2day", sUserID]];
     
+    [mReaderView setDelegate:self];
     [mReaderView setHiddenPostButton:NO];
     [mReaderView removeAllPosts];
     
     [sClient getPersonWithUserID:sUserID delegate:self];
-//    NSLog(@"getPostsWithUserID");
     [sClient getPostsWithUserID:sUserID
                          offset:0
                           count:30
                        delegate:self];
 }
-
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
-{
-    // Return YES for supported orientations
-    return (aInterfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
 
 - (void)didReceiveMemoryWarning
@@ -103,11 +72,22 @@
 
 - (void)client:(MEClient *)aClient didGetPosts:(NSArray *)aPosts error:(NSError *)aError
 {
-//    NSLog(@"b");    
     [mReaderView addPosts:aPosts];
-//    NSLog(@"e");
 }
 
+
+#pragma mark -
+#pragma mark MEReaderView Delegate
+
+
+- (void)newPostForReaderView:(MEReaderView *)aReaderView
+{
+    UIViewController *sViewController;
+    
+    sViewController = [[MEPostViewController alloc] initWithNibName:@"PostViewController" bundle:nil];
+    [self presentModalViewController:sViewController animated:YES];
+    [sViewController release];
+}
 
 
 @end
