@@ -35,6 +35,11 @@
     [super dealloc];
 }
 
+- (BOOL)errorOccurred
+{
+    return mErrorOccurred;
+}
+
 - (MEAttributedString *)attributedString
 {
     return mAttributedString;
@@ -44,6 +49,7 @@
 {
     return nil;
 }
+
 
 + (MEAttributedString *)attributedStringFromString:(NSString *)aString
 {
@@ -60,20 +66,38 @@
     sHandler = [[[self alloc] init] autorelease];
 
     [sParser setDelegate:sHandler];
+    [sParser parse];
 
-    if ([sParser parse])
+    if ([sHandler errorOccurred])
     {
-        sResult = [[sHandler attributedString] copy];
+        sResult = [[MEAttributedString alloc] initWithString:aString attributes:[sHandler defaultAttributes]];
     }
     else
     {
-        NSLog(@"%@", [sParser parserError]);
-        sResult = [[MEAttributedString alloc] initWithString:aString attributes:[sHandler defaultAttributes]];
+        sResult = [[sHandler attributedString] copy];
     }
 
     [sPool release];
 
     return [sResult autorelease];
 }
+
+
+#pragma mark NSXMLParserDelegate
+
+- (void)parser:(NSXMLParser *)aParser parseErrorOccurred:(NSError *)aError
+{
+    switch ([aError code])
+    {
+        case NSXMLParserEntityReferenceMissingSemiError:
+            break;
+
+        default:
+            NSLog(@"METextParser %@", aError);
+            mErrorOccurred = YES;
+            break;
+    }
+}
+
 
 @end

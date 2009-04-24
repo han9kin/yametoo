@@ -19,6 +19,8 @@
 
     NSMutableArray            *mAttributesStack;
     NSMutableString           *mCurrentString;
+
+    BOOL                       mErrorOccurred;
 }
 
 + (MEAttributedString *)attributedStringFromString:(NSString *)aString;
