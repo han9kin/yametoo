@@ -14,4 +14,6 @@
 
 - (NSString *)md5String;
 
+- (NSString *)stringByReplacingCharacterEntities;
+
 @end
