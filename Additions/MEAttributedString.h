@@ -10,9 +10,12 @@
 #import <Foundation/Foundation.h>
 
 
+@class MEAttributedLayoutManager;
+
 @interface MEAttributedString : NSObject
 {
-    CFTypeRef mBaseObject;
+    CFTypeRef                  mBaseObject;
+    MEAttributedLayoutManager *mLayoutManager;
 }
 
 
@@ -41,7 +44,7 @@
 
 
 #pragma mark -
-#pragma Comparing Attributed Strings
+#pragma mark Comparing Attributed Strings
 
 - (BOOL)isEqualToAttributedString:(MEAttributedString *)aOtherString;
 
@@ -50,6 +53,13 @@
 #pragma mark Extracting a Substring
 
 - (MEAttributedString *)attributedSubstringFromRange:(NSRange)aRange;
+
+
+#pragma mark -
+#pragma mark Handling Layout Manager
+
+- (MEAttributedLayoutManager *)layoutManager;
+- (CGSize)sizeForWidth:(CGFloat)aWidth;
 
 
 @end

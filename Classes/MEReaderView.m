@@ -11,6 +11,9 @@
 #import "METableViewCellFactory.h"
 #import "MEReaderHeadView.h"
 #import "MEImageView.h"
+#import "MEUser.h"
+#import "MEAttributedLabel.h"
+#import "MEAttributedString.h"
 
 
 #define kPostBodyWidth  250
@@ -298,21 +301,21 @@
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
 //    NSLog(@"c");
-    UITableViewCell *sResult = nil;
-    UILabel         *sBodyLabel;
-    UILabel         *sTagsLabel;
-    UILabel         *sTimeLabel;
-    UILabel         *sReplyLabel;
-    MEImageView     *sImageView;
-    MEPost          *sPost = [self postForIndexPath:aIndexPath];
-    NSString        *sBody = [sPost body];
-    NSString        *sTags = [sPost tagsString];
-    NSString        *sTimeStr;
-    CGSize           sSize;
-    CGFloat          sYPos = 10;
+    UITableViewCell    *sResult = nil;
+    MEAttributedLabel  *sBodyLabel;
+    UILabel            *sTagsLabel;
+    UILabel            *sTimeLabel;
+    UILabel            *sReplyLabel;
+    MEImageView        *sImageView;
+    MEPost             *sPost = [self postForIndexPath:aIndexPath];
+    MEAttributedString *sBody = [sPost body];
+    NSString           *sTags = [sPost tagsString];
+    NSString           *sTimeStr;
+    CGSize              sSize;
+    CGFloat             sYPos = 10;
 
     sResult     = [METableViewCellFactory postCellForTableView:aTableView];
-    sBodyLabel  = (UILabel *)[[sResult contentView] viewWithTag:kPostCellBodyLabelTag];
+    sBodyLabel  = (MEAttributedLabel *)[[sResult contentView] viewWithTag:kPostCellBodyLabelTag];
     sTagsLabel  = (UILabel *)[[sResult contentView] viewWithTag:kPostCellTagsLabelTag];
     sTimeLabel  = (UILabel *)[[sResult contentView] viewWithTag:kPostCellTimeLabelTag];
     sReplyLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellReplyLabelTag];
@@ -320,12 +323,11 @@
 
     [sImageView setImageWithURL:[sPost iconURL]];
 
-    sSize = [sBody sizeWithFont:[sBodyLabel font]
-              constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
-                  lineBreakMode:UILineBreakModeCharacterWrap];
-    [sBodyLabel setText:sBody];
-    [sBodyLabel setFrame:CGRectMake(60, sYPos, sSize.width, sSize.height)];
+    [sBodyLabel setFrame:CGRectMake(60, sYPos, kPostBodyWidth, 0)];
+    [sBodyLabel setAttributedText:sBody];
+    [sBodyLabel sizeToFit];
 
+    sSize  = [sBodyLabel frame].size;
     sYPos += (sSize.height + 5);
 
     if (![sTags isEqualToString:@""])
@@ -366,22 +368,21 @@
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
 //    NSLog(@"h");
-    CGFloat          sResult    = 0;
-    MEPost          *sPost      = [self postForIndexPath:aIndexPath];
-    NSString        *sBody      = [sPost body];
-    NSString        *sTags      = [sPost tagsString];
+    CGFloat             sResult    = 0;
+    MEPost             *sPost      = [self postForIndexPath:aIndexPath];
+    MEAttributedString *sBody      = [sPost body];
+    NSString           *sTags      = [sPost tagsString];
 //    NSString        *sTimeStr   = [sPost pubTimeString];
-    CGSize           sSize;
+    CGSize              sSize;
+
 
     sResult += 10;
-    sSize    = [sBody sizeWithFont:[METableViewCellFactory fontForTableCellForPostBody]
-                 constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
-                     lineBreakMode:UILineBreakModeCharacterWrap];
+    sSize    = [sBody sizeForWidth:kPostBodyWidth];
     sResult += (sSize.height + 5);
 
     if (![sTags isEqualToString:@""])
     {
-        sSize    = [sTags sizeWithFont:[METableViewCellFactory fontForTableCellForPostTag]
+        sSize    = [sTags sizeWithFont:[METableViewCellFactory fontForPostTag]
                      constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
                          lineBreakMode:UILineBreakModeCharacterWrap];
         sResult += (sSize.height + 5);

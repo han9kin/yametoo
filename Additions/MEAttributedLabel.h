@@ -15,8 +15,6 @@
 @interface MEAttributedLabel : UIView
 {
     MEAttributedString *mText;
-    NSMutableArray     *mLayoutInfos;
-    CGSize              mContentSize;
 }
 
 @property(nonatomic, copy) MEAttributedString *attributedText;

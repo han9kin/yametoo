@@ -8,6 +8,7 @@
  */
 
 #import "MEAttributedString.h"
+#import "MEAttributedLayoutManager.h"
 #import "MEMutableAttributedString.h"
 
 
@@ -39,6 +40,7 @@
 - (void)dealloc
 {
     CFRelease(mBaseObject);
+    [mLayoutManager release];
     [super dealloc];
 }
 
@@ -155,7 +157,7 @@
 
 
 #pragma mark -
-#pragma Identifying and Comparing Attributed Strings
+#pragma mark Identifying and Comparing Attributed Strings
 
 - (NSUInteger)hash
 {
@@ -185,7 +187,14 @@
 
 - (NSString *)description
 {
-    return [(id)CFCopyDescription([self baseObject]) autorelease];
+    CFStringRef  sBaseDescription;
+    NSString    *sDescription;
+
+    sBaseDescription = CFCopyDescription([self baseObject]);
+    sDescription     = [NSString stringWithFormat:@"<%@: %p> %@", NSStringFromClass([self class]), self, sBaseDescription];
+    CFRelease(sBaseDescription);
+
+    return sDescription;
 }
 
 
@@ -199,6 +208,27 @@
     [sString setBaseObject:CFAttributedStringCreateWithSubstring(NULL, [self baseObject], *(CFRange *)&aRange)];
 
     return sString;
+}
+
+
+#pragma mark -
+#pragma mark Handling Layout Manager
+
+- (MEAttributedLayoutManager *)layoutManager
+{
+    return mLayoutManager;
+}
+
+- (CGSize)sizeForWidth:(CGFloat)aWidth
+{
+    if (!mLayoutManager)
+    {
+        mLayoutManager = [[MEAttributedLayoutManager alloc] init];
+    }
+
+    [mLayoutManager layoutAttributedString:self forWidth:aWidth];
+
+    return [mLayoutManager layoutSize];
 }
 
 

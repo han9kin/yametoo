@@ -13,6 +13,7 @@
 #import "MEClientOperation.h"
 #import "MEImageCache.h"
 #import "MEPost.h"
+#import "MEUser.h"
 
 
 NSString *MEClientErrorDomain = @"MEClientErrorDomain";

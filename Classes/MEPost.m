@@ -9,9 +9,12 @@
 
 #import "NSURL+MEAdditions.h"
 #import "MEPost.h"
+#import "MEUser.h"
 #import "MEFuture.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
+#import "MEBodyTextParser.h"
+#import "MEAttributedString.h"
 
 
 @interface MEPost (DateFormatting)
@@ -67,7 +70,7 @@
     if (self)
     {
         mPostID        = [[aPostDict objectForKey:@"post_id"] retain];
-        mBody          = [[aPostDict objectForKey:@"body"] retain];
+        mBody          = [[MEBodyTextParser attributedStringFromString:[aPostDict objectForKey:@"body"]] retain];
         mKind          = [[aPostDict objectForKey:@"kind"] retain];
         mPubDate       = [[self dateFromString:[aPostDict objectForKey:@"pubDate"]] retain];
         mCommentsCount = [[aPostDict objectForKey:@"commentsCount"] integerValue];
