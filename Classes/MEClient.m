@@ -230,6 +230,21 @@ static NSMutableDictionary *gQueuedOperations = nil;
 }
 
 
+- (void)getFriendsWithUserID:(NSString *)aUserID delegate:(id)aDelegate
+{
+    MEClientOperation *sOperation = [[MEClientOperation alloc] init];
+
+    [sOperation setRequest:[self getFriendsRequestWithUserID:aUserID]];
+    [sOperation setContext:aDelegate];
+    [sOperation setDelegate:self];
+    [sOperation setSelector:@selector(clientOperation:didReceiveGetFriendsResult:error:)];
+    [sOperation retainContext];
+
+    [gOperationQueue addOperation:sOperation];
+    [sOperation release];
+}
+
+
 #pragma mark -
 #pragma mark retreive error from response
 
@@ -525,6 +540,52 @@ static NSMutableDictionary *gQueuedOperations = nil;
     }
 
     [gQueuedOperations removeObjectForKey:sURL];
+}
+
+
+- (void)clientOperation:(MEClientOperation *)aOperation didReceiveGetFriendsResult:(NSData *)aData error:(NSError *)aError
+{
+    id sDelegate = [aOperation context];
+
+    if (aError)
+    {
+        [sDelegate client:self didGetFriends:nil error:aError];
+    }
+    else
+    {
+        NSAutoreleasePool *sPool   = [[NSAutoreleasePool alloc] init];
+        NSString          *sSource = [[[NSString alloc] initWithData:aData encoding:NSUTF8StringEncoding] autorelease];
+        NSDictionary      *sResult = [sSource JSONValue];
+        NSError           *sError;
+
+        if (sResult)
+        {
+            sError = [self errorFromResultDictionary:sResult];
+
+            if (sError)
+            {
+                [sDelegate client:self didGetFriends:nil error:sError];
+            }
+            else
+            {
+                NSMutableArray *sFriends = [NSMutableArray array];
+                NSDictionary   *sDict;
+
+                for (sDict in [sResult objectForKey:@"friends"])
+                {
+                    [sFriends addObject:[[[MEUser alloc] initWithDictionary:sDict] autorelease]];
+                }
+
+                [sDelegate client:self didGetFriends:sFriends error:nil];
+            }
+        }
+        else
+        {
+            [sDelegate client:self didGetFriends:nil error:[self errorFromResultString:sSource]];
+        }
+
+        [sPool release];
+    }
 }
 
 

@@ -157,4 +157,10 @@ static NSMutableDictionary *gCachedUsers = nil;
 }
 
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %p userID=%@ nickname=%@>", NSStringFromClass([self class]), self, mUserID, mNickname];
+}
+
+
 @end
