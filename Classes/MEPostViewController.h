@@ -20,6 +20,7 @@
 }
 
 - (IBAction)takePictureButtonTapped:(id)aSender;
+- (IBAction)fromPhotoLibraryButtonTapped:(id)aSender;
 - (IBAction)postButtonTapped:(id)aSender;
 - (IBAction)cancelButtonTapped:(id)aSender;
 - (IBAction)keyboardToolbarDoneButtonTapped:(id)aSender;

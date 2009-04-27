@@ -81,6 +81,19 @@
 }
 
 
+- (IBAction)fromPhotoLibraryButtonTapped:(id)aSender
+{
+    UIApplication           *sApp                   = [UIApplication sharedApplication];
+    UIWindow                *sKeyWindow             = [sApp keyWindow];
+    UIImagePickerController *sImagePickerController = [[UIImagePickerController alloc] init];
+    
+    [sImagePickerController setDelegate:self];
+    [sImagePickerController setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+    [sKeyWindow addSubview:[sImagePickerController view]];
+    [sKeyWindow bringSubviewToFront:[sImagePickerController view]];
+}
+
+
 - (IBAction)postButtonTapped:(id)aSender
 {
     NSString *sBody = [mBodyTextView text];
@@ -92,7 +105,6 @@
 
 - (IBAction)cancelButtonTapped:(id)aSender
 {
-    NSLog(@"cancelButtonTapped");
     [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -136,9 +148,7 @@
 
 - (void)textViewDidChange:(UITextView *)aTextView
 {
-    NSLog(@"textViewDidChange");
     NSRange sRange = [aTextView selectedRange];
-    NSLog(@"sRange = %@", NSStringFromRange(sRange));
     [aTextView scrollRangeToVisible:sRange];
 }
 
@@ -155,8 +165,6 @@
 
 - (void)client:(MEClient *)aClient didCreatePostWithError:(NSError *)aError
 {
-    NSLog(@"%@", aError);
-
     if (!aError)
     {
         [mAttachedImage release];
@@ -187,9 +195,21 @@
     [[aPicker view] setHidden:YES];
     [[aPicker view] removeFromSuperview];
     [aPicker autorelease];
-
+    
     [mAttachedImage autorelease];
+    
+/*    sSize = [aImage size];
+    sSize.width  /= 2;
+    sSize.height /= 2;
+    
+    UIGraphicsBeginImageContext(sSize);
+    [aImage drawInRect:CGRectMake(0, 0, sSize.width, sSize.height)];
+    mAttachedImage = UIGraphicsGetImageFromCurrentImageContext();
+    [mAttachedImage retain];
+    UIGraphicsEndImageContext();*/
+    
     mAttachedImage = [aImage retain];
+
     [mAttachedImageView setImage:mAttachedImage];
 }
 
