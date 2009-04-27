@@ -23,27 +23,72 @@ static NSMutableDictionary *gCachedUsers = nil;
 
 @implementation MEUser (Private)
 
-- (void)setNickname:(NSString *)aNickName
+- (void)setNickname:(NSString *)aNickname
 {
-    if (![mNickname isEqualToString:aNickName])
+    if (aNickname && ![mNickname isEqualToString:aNickname])
     {
         [mNickname release];
-        mNickname = [aNickName retain];
+        mNickname = [aNickname retain];
     }
 }
 
 - (void)setFaceImageURL:(NSURL *)aFaceImageURL
 {
-    if (![mFaceImageURL isEqual:aFaceImageURL])
+    if (aFaceImageURL && ![mFaceImageURL isEqual:aFaceImageURL])
     {
         [mFaceImageURL release];
         mFaceImageURL = [aFaceImageURL retain];
     }
 }
 
+- (void)setUserDescription:(NSString *)aUserDescription
+{
+    if (aUserDescription && ![mUserDescription isEqualToString:aUserDescription])
+    {
+        [mUserDescription release];
+        mUserDescription = [aUserDescription retain];
+    }
+}
+
+- (void)setHomepageURLString:(NSString *)aHomepageURLString
+{
+    if (aHomepageURLString && ![mHomepageURLString isEqualToString:aHomepageURLString])
+    {
+        [mHomepageURLString release];
+        mHomepageURLString = [aHomepageURLString retain];
+    }
+}
+
+- (void)setPhoneNumber:(NSString *)aPhoneNumber
+{
+    if (aPhoneNumber && ![mPhoneNumber isEqualToString:aPhoneNumber])
+    {
+        [mPhoneNumber release];
+        mPhoneNumber = [aPhoneNumber retain];
+    }
+}
+
+- (void)setEmail:(NSString *)aEmail
+{
+    if (aEmail && ![mEmail isEqualToString:aEmail])
+    {
+        [mEmail release];
+        mEmail = [aEmail retain];
+    }
+}
+
+- (void)setMessenger:(NSString *)aMessenger
+{
+    if (aMessenger && ![mMessenger isEqualToString:aMessenger])
+    {
+        [mMessenger release];
+        mMessenger = [aMessenger retain];
+    }
+}
+
 - (void)setPostIcons:(NSArray *)aPostIcons
 {
-    if (mPostIcons != aPostIcons)
+    if (aPostIcons && ![mPostIcons isEqualToArray:aPostIcons])
     {
         [mPostIcons release];
         mPostIcons = [aPostIcons retain];
@@ -60,11 +105,15 @@ static NSMutableDictionary *gCachedUsers = nil;
 #pragma mark properties
 
 
-@synthesize userID         = mUserID;
-@synthesize nickname       = mNickname;
-@synthesize faceImageURL   = mFaceImageURL;
-@synthesize homepageURLStr = mHomepageURLStr;
-@synthesize postIcons      = mPostIcons;
+@synthesize userID            = mUserID;
+@synthesize nickname          = mNickname;
+@synthesize faceImageURL      = mFaceImageURL;
+@synthesize userDescription   = mUserDescription;
+@synthesize homepageURLString = mHomepageURLString;
+@synthesize phoneNumber       = mPhoneNumber;
+@synthesize email             = mEmail;
+@synthesize messenger         = mMessenger;
+@synthesize postIcons         = mPostIcons;
 
 
 #pragma mark -
@@ -126,6 +175,11 @@ static NSMutableDictionary *gCachedUsers = nil;
 
         [self setNickname:[aUserDict objectForKey:@"nickname"]];
         [self setFaceImageURL:[NSURL URLWithStringOrNil:[aUserDict objectForKey:@"face"]]];
+        [self setUserDescription:[aUserDict objectForKey:@"description"]];
+        [self setHomepageURLString:[aUserDict objectForKey:@"homepage"]];
+        [self setPhoneNumber:[aUserDict objectForKey:@"cellphone"]];
+        [self setEmail:[aUserDict objectForKey:@"email"]];
+        [self setMessenger:[aUserDict objectForKey:@"messenger"]];
 
         if ([aUserDict objectForKey:@"postIcons"] && [[MEClientStore userIDs] containsObject:mUserID])
         {
@@ -147,11 +201,15 @@ static NSMutableDictionary *gCachedUsers = nil;
 
 - (void)dealloc
 {
-    [mUserID         release];
-    [mNickname       release];
-    [mFaceImageURL   release];
-    [mHomepageURLStr release];
-    [mPostIcons      release];
+    [mUserID release];
+    [mNickname release];
+    [mFaceImageURL release];
+    [mUserDescription release];
+    [mHomepageURLString release];
+    [mPhoneNumber release];
+    [mEmail release];
+    [mMessenger release];
+    [mPostIcons release];
 
     [super dealloc];
 }
