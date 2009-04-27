@@ -13,10 +13,11 @@
 
 @interface MEReaderView : UIView <UITableViewDataSource, UITableViewDelegate>
 {
-    id              mDelegate;
-    NSMutableArray *mPostArray;
-    UITableView    *mTableView;
-    MEUser         *mUser;
+    id                   mDelegate;
+    NSMutableArray      *mPostArray;
+    UITableView         *mTableView;
+    MEUser              *mUser;
+    NSMutableDictionary *mCellHeightDict;
 }
 
 - (void)setDelegate:(id)aDelegate;

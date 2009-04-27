@@ -17,6 +17,7 @@
 
 
 #define kPostBodyWidth  250
+#define kTimeStrHeight  13.0
 
 
 @implementation MEReaderView
@@ -24,7 +25,8 @@
 
 - (void)initializeVariables
 {
-    mPostArray = [[NSMutableArray alloc] init];
+    mPostArray      = [[NSMutableArray alloc] init];
+    mCellHeightDict = [[NSMutableDictionary alloc] init];
 }
 
 
@@ -81,9 +83,10 @@
 {
     [mUser removeObserver:self forKeyPath:@"faceImage"];
 
-    [mPostArray release];
-    [mTableView release];
-    [mUser      release];
+    [mPostArray      release];
+    [mTableView      release];
+    [mUser           release];
+    [mCellHeightDict release];
 
     [super dealloc];
 }
@@ -175,7 +178,6 @@
 
 - (void)addPosts:(NSArray *)aPostArray
 {
-//    NSLog(@"addPosts");
     MEPost          *sPost;
     NSDateFormatter *sFormatter = [[NSDateFormatter alloc] init];
 
@@ -209,15 +211,14 @@
     }
 
     [sFormatter release];
-//    NSLog(@"b");
     [mTableView reloadData];
-//    NSLog(@"e");
 }
 
 
 - (void)removeAllPosts
 {
-    [mPostArray removeAllObjects];
+    [mPostArray      removeAllObjects];
+    [mCellHeightDict removeAllObjects];
 }
 
 
@@ -277,18 +278,20 @@
 
 - (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)aSection
 {
-    NSString        *sResult = nil;
-    MEPost          *sTitlePost;
-    NSDate          *sPubDate;
-    NSDateFormatter *sFormatter = [[[NSDateFormatter alloc] init] autorelease];//initWithDateFormat:@"%d %b %Y" allowNaturalLanguage:NO] autorelease];
-
-//    NSLog(@"locale id = %@", [NSLocale availableLocaleIdentifiers]);
-    [sFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease]];
-    [sFormatter setDateFormat:@"d LLL y"];
+    static NSDateFormatter *sFormatter = nil;
+    
+    NSString *sResult = nil;
+    MEPost   *sTitlePost;
+    
+    if (!sFormatter)
+    {
+        sFormatter = [[NSDateFormatter alloc] init];
+        [sFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease]];
+        [sFormatter setDateFormat:@"d LLL y"];
+    }
 
     sTitlePost = [self titlePostForSection:aSection];
-    sPubDate   = [sTitlePost pubDate];
-    sResult    = [[sFormatter stringFromDate:sPubDate] uppercaseString];
+    sResult    = [[sFormatter stringFromDate:[sTitlePost pubDate]] uppercaseString];
 
     return sResult;
 }
@@ -309,7 +312,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-//    NSLog(@"c");
     UITableViewCell    *sResult = nil;
     MEAttributedLabel  *sBodyLabel;
     UILabel            *sTagsLabel;
@@ -356,10 +358,7 @@
     }
 
     sTimeStr = [sPost pubTimeString];
-/*    sSize    = [sTimeStr sizeWithFont:[sTimeLabel font]
-                    constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
-                        lineBreakMode:UILineBreakModeCharacterWrap];*/
-    sSize.height = 13.0; // TimeStr height
+    sSize.height = kTimeStrHeight;
     [sTimeLabel setText:sTimeStr];
     [sTimeLabel setFrame:CGRectMake(60, sYPos, 100, sSize.height)];
 
@@ -376,35 +375,40 @@
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-//    NSLog(@"h");
-    CGFloat             sResult    = 0;
-    MEPost             *sPost      = [self postForIndexPath:aIndexPath];
-    MEAttributedString *sBody      = [sPost body];
-    NSString           *sTags      = [sPost tagsString];
-//    NSString        *sTimeStr   = [sPost pubTimeString];
+    CGFloat             sResult = 0;
+    MEPost             *sPost   = [self postForIndexPath:aIndexPath];
+    NSNumber           *sHeight = [mCellHeightDict objectForKey:[sPost postID]];
+    MEAttributedString *sBody;
+    NSString           *sTags;
     CGSize              sSize;
-
-
-    sResult += 10;
-    sSize    = [sBody sizeForWidth:kPostBodyWidth];
-    sResult += (sSize.height + 5);
-
-    if (![sTags isEqualToString:@""])
+    
+    if (sHeight)
     {
-        sSize    = [sTags sizeWithFont:[METableViewCellFactory fontForPostTag]
-                     constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
-                         lineBreakMode:UILineBreakModeCharacterWrap];
-        sResult += (sSize.height + 5);
+        sResult = [sHeight floatValue];
     }
+    else
+    {
+        sBody = [sPost body];
+        sTags = [sPost tagsString];
+        
+        sResult += 10;
+        sSize    = [sBody sizeForWidth:kPostBodyWidth];
+        sResult += (sSize.height + 5);
+        
+        if (![sTags isEqualToString:@""])
+        {
+            sSize    = [sTags sizeWithFont:[METableViewCellFactory fontForPostTag]
+                         constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
+                             lineBreakMode:UILineBreakModeCharacterWrap];
+            sResult += (sSize.height + 5);
+        }
+        
+        sResult += kTimeStrHeight;
+        sResult += 10;
+        sResult  = (sResult < 70) ? 70 : sResult;
 
-/*    sSize    = [sTimeStr sizeWithFont:[METableViewCellFactory fontForTableCellForPostTag]
-                    constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
-                        lineBreakMode:UILineBreakModeCharacterWrap];
-    sResult += sSize.height;*/
-    sResult += 13.0;    //  TimeStr Height
-
-    sResult += 10;
-    sResult  = (sResult < 70) ? 70 : sResult;
+        [mCellHeightDict setObject:[NSNumber numberWithFloat:sResult] forKey:[sPost postID]];
+    }
 
     return sResult;
 }
