@@ -102,52 +102,42 @@ static NSMutableDictionary *gLoadImageContexts = nil;
 #pragma mark client behaviors
 
 
-- (void)loadImageWithURL:(NSURL *)aURL key:(NSString *)aKey shouldCache:(BOOL)aShouldCache delegate:(id)aDelegate
+- (void)loadImageWithURL:(NSURL *)aURL key:(id)aKey delegate:(id)aDelegate
 {
-    NSDictionary *sContext;
+    UIImage *sImage = [MEImageCache imageForURL:aURL];
 
-    if (aShouldCache)
+    if (sImage)
     {
-        UIImage *sImage = [MEImageCache imageForURL:aURL];
-
-        if (sImage)
-        {
-            [aDelegate client:self didLoadImage:sImage key:aKey error:nil];
-            return;
-        }
-        else
-        {
-            NSMutableArray *sWaitingContexts;
-
-            sContext         = [NSDictionary dictionaryWithObjectsAndKeys:aDelegate, @"delegate", aURL, @"url", aKey, @"key", nil];
-            sWaitingContexts = [gLoadImageContexts objectForKey:aURL];
-
-            if (sWaitingContexts)
-            {
-                [sWaitingContexts addObject:sContext];
-                return;
-            }
-            else
-            {
-                [gLoadImageContexts setObject:[NSMutableArray array] forKey:aURL];
-            }
-        }
+        [aDelegate client:self didLoadImage:sImage key:aKey error:nil];
     }
     else
     {
-        sContext = [NSDictionary dictionaryWithObjectsAndKeys:aDelegate, @"delegate", aKey, @"key", nil];
+        NSDictionary   *sContext;
+        NSMutableArray *sWaitingContexts;
+
+        sContext         = [NSDictionary dictionaryWithObjectsAndKeys:aDelegate, @"delegate", aURL, @"url", aKey, @"key", nil];
+        sWaitingContexts = [gLoadImageContexts objectForKey:aURL];
+
+        if (sWaitingContexts)
+        {
+            [sWaitingContexts addObject:sContext];
+        }
+        else
+        {
+            [gLoadImageContexts setObject:[NSMutableArray array] forKey:aURL];
+
+            MEClientOperation *sOperation = [[MEClientOperation alloc] init];
+
+            [sOperation setRequest:[NSMutableURLRequest requestWithURL:aURL]];
+            [sOperation setContext:sContext];
+            [sOperation setDelegate:self];
+            [sOperation setSelector:@selector(clientOperation:didReceiveImageResult:error:)];
+            [sOperation retainContext];
+
+            [gOperationQueue addOperation:sOperation];
+            [sOperation release];
+        }
     }
-
-    MEClientOperation *sOperation = [[MEClientOperation alloc] init];
-
-    [sOperation setRequest:[NSMutableURLRequest requestWithURL:aURL]];
-    [sOperation setContext:sContext];
-    [sOperation setDelegate:self];
-    [sOperation setSelector:@selector(clientOperation:didReceiveImageResult:error:)];
-    [sOperation retainContext];
-
-    [gOperationQueue addOperation:sOperation];
-    [sOperation release];
 }
 
 
@@ -291,43 +281,35 @@ static NSMutableDictionary *gLoadImageContexts = nil;
     id            sNil        = nil;
     NSDictionary *sContext;
 
+    [sInvocation setSelector:@selector(client:didLoadImage:key:error:)];
+    [sInvocation setArgument:&self atIndex:2];
+    [sInvocation setArgument:&sKey atIndex:4];
+
     if (aError)
     {
-        [sInvocation setSelector:@selector(client:didLoadImage:key:error:)];
-        [sInvocation setArgument:&self atIndex:2];
         [sInvocation setArgument:&sNil atIndex:3];
-        [sInvocation setArgument:&sKey atIndex:4];
         [sInvocation setArgument:&aError atIndex:5];
     }
     else
     {
         UIImage *sImage = [UIImage imageWithData:aData];
 
-        if (sURL)
-        {
-            [MEImageCache storeImage:sImage data:aData forURL:sURL];
-        }
+        [MEImageCache storeImage:sImage data:aData forURL:sURL];
 
-        [sInvocation setSelector:@selector(client:didLoadImage:key:error:)];
-        [sInvocation setArgument:&self atIndex:2];
         [sInvocation setArgument:&sImage atIndex:3];
-        [sInvocation setArgument:&sKey atIndex:4];
         [sInvocation setArgument:&sNil atIndex:5];
     }
 
     [sInvocation invokeWithTarget:sDelegate];
 
-    if (sURL)
+    for (sContext in [gLoadImageContexts objectForKey:sURL])
     {
-        for (sContext in [gLoadImageContexts objectForKey:sURL])
-        {
-            sKey = [sContext objectForKey:@"key"];
-            [sInvocation setArgument:&sKey atIndex:4];
-            [sInvocation invokeWithTarget:[sContext objectForKey:@"delegate"]];
-        }
-
-        [gLoadImageContexts removeObjectForKey:sURL];
+        sKey = [sContext objectForKey:@"key"];
+        [sInvocation setArgument:&sKey atIndex:4];
+        [sInvocation invokeWithTarget:[sContext objectForKey:@"delegate"]];
     }
+
+    [gLoadImageContexts removeObjectForKey:sURL];
 }
 
 

@@ -41,7 +41,7 @@ extern NSString *MEClientErrorDomain;
 @property (nonatomic, copy)     NSString *passcode;
 
 
-- (void)loadImageWithURL:(NSURL *)aURL key:(NSString *)aKey shouldCache:(BOOL)aShouldCache delegate:(id)aDelegate;
+- (void)loadImageWithURL:(NSURL *)aURL key:(id)aKey delegate:(id)aDelegate;
 
 - (void)loginWithUserID:(NSString *)aUserID userKey:(NSString *)aUserKey delegate:(id)aDelegate;
 - (void)createPostWithBody:(NSString *)aBody tags:(NSString *)aTags icon:(NSInteger)aIcon attachedImage:(UIImage *)aImage delegate:(id)aDelegate;

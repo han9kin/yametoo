@@ -19,10 +19,12 @@
 #define kPostButtonHeight           35
 
 
+@class MEImageView;
+
 @interface MEReaderHeadView : UIView
 {
     id           mDelegate;
-    UIImageView *mFaceImageView;
+    MEImageView *mFaceImageView;
     UIButton    *mNicknameButton;
     UIButton    *mNewPostButton;
 }
@@ -31,7 +33,7 @@
 
 - (void)setDelegate:(id)aDelegate;
 - (void)setNickname:(NSString *)aNickname;
-- (void)setFaceImage:(UIImage *)aFaceImage;
+- (void)setFaceImageURL:(NSURL *)aFaceImageURL;
 - (void)setHiddenPostButton:(BOOL)aFlag;
 
 - (IBAction)nicknameButtonTapped:(id)aSender;

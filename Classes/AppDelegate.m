@@ -28,19 +28,22 @@
 #pragma mark -
 
 
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)aApplication
+{
+    [MEImageCache removeCachedImagesInMemory];
+}
+
+
 - (void)applicationDidFinishLaunching:(UIApplication *)aApplication
 {
-    // Override point for customization after app launch
-    //[mWindow addSubview:[mViewController view]];
-
     [MEImageCache removeCachedImagesInDisk];
-    
+
     NSNotificationCenter *sCenter = [NSNotificationCenter defaultCenter];
     [sCenter addObserver:self
                 selector:@selector(currentUserDidChangeNotification:)
                     name:MEClientStoreCurrentUserDidChangeNotification
                   object:nil];
-    
+
     mLoginViewController = [[MELoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
     [[mLoginViewController view] setFrame:CGRectMake(0, 20, 320, 460)];
     [mWindow addSubview:[mLoginViewController view]];
@@ -53,7 +56,7 @@
     [mLoginViewController release];
     [mViewController      release];
     [mWindow              release];
-    
+
     [super dealloc];
 }
 
@@ -65,13 +68,13 @@
 - (void)currentUserDidChangeNotification:(NSNotification *)aNotification
 {
     NSArray *sSubviews = [mWindow subviews];
-    
+
     if ([sSubviews containsObject:[mLoginViewController view]])
     {
         [[mLoginViewController view] removeFromSuperview];
         [mLoginViewController autorelease];
         mLoginViewController = nil;
-        
+
         [mWindow addSubview:[mViewController view]];
         [mWindow makeKeyAndVisible];
     }

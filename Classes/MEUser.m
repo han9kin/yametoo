@@ -37,14 +37,6 @@ static NSMutableDictionary *gCachedUsers = nil;
     {
         [mFaceImageURL release];
         mFaceImageURL = [aFaceImageURL retain];
-
-        if (mFaceImageURL)
-        {
-            [self willChangeValueForKey:@"faceImage"];
-            [mFaceImage release];
-            mFaceImage = nil;
-            [self didChangeValueForKey:@"faceImage"];
-        }
     }
 }
 
@@ -62,36 +54,29 @@ static NSMutableDictionary *gCachedUsers = nil;
 @synthesize nickname       = mNickname;
 @synthesize faceImageURL   = mFaceImageURL;
 @synthesize homepageURLStr = mHomepageURLStr;
-@dynamic    faceImage;
 
 
 #pragma mark -
 #pragma mark cache control
 
 
-+ (MEUser *)userWithUserID:(NSString *)aUserID
++ (void)removeUnusedCachedUsers
 {
-    return [gCachedUsers objectForKey:aUserID];
+    MEUser *sUser;
+
+    for (sUser in [gCachedUsers allValues])
+    {
+        if (([sUser retainCount] == 1) && ![[MEClientStore userIDs] containsObject:[sUser userID]])
+        {
+            [gCachedUsers removeObjectForKey:[sUser userID]];
+        }
+    }
 }
 
 
-+ (void)removeUnusedCachedUsers
++ (MEUser *)userWithUserID:(NSString *)aUserID
 {
-    NSMutableArray *sUserIDs = [[NSMutableArray alloc] init];
-    id              sObj;
-
-    for (sObj in [gCachedUsers allValues])
-    {
-        if ([sObj retainCount] == 1)
-        {
-            [sUserIDs addObject:[sObj userID]];
-        }
-    }
-
-    for (sObj in sUserIDs)
-    {
-        [gCachedUsers removeObjectForKey:sObj];
-    }
+    return [gCachedUsers objectForKey:aUserID];
 }
 
 
@@ -121,7 +106,11 @@ static NSMutableDictionary *gCachedUsers = nil;
         if (sUser)
         {
             [self release];
-            self = sUser;
+            self = [sUser retain];
+        }
+        else
+        {
+            [gCachedUsers setObject:self forKey:mUserID];
         }
 
         [self setNickname:[aUserDict objectForKey:@"nickname"]];
@@ -139,44 +128,7 @@ static NSMutableDictionary *gCachedUsers = nil;
     [mFaceImageURL   release];
     [mHomepageURLStr release];
 
-    [mFaceImage      release];
-
     [super dealloc];
-}
-
-
-#pragma mark -
-#pragma mark dynamic property accessor
-
-
-- (UIImage *)faceImage
-{
-    if (!mFaceImage)
-    {
-        if (mFaceImageURL)
-        {
-            mFaceImage = [MEFuture future];
-            [[MEClientStore currentClient] loadImageWithURL:mFaceImageURL key:nil shouldCache:YES delegate:self];
-        }
-    }
-
-    return mFaceImage;
-}
-
-
-#pragma mark -
-#pragma mark MEClientDelegate
-
-
-- (void)client:(MEClient *)aClient didLoadImage:(UIImage *)aImage key:aKey error:(NSError *)aError
-{
-    if (mFaceImage != aImage)
-    {
-        [self willChangeValueForKey:@"faceImage"];
-        [mFaceImage release];
-        mFaceImage = [aImage retain];
-        [self didChangeValueForKey:@"faceImage"];
-    }
 }
 
 

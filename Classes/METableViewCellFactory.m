@@ -44,7 +44,7 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
 + (UITableViewCell *)loginUserCellForTableView:(UITableView *)aTableView;
 {
     UITableViewCell *sResult;
-    UIImageView     *sFaceImageView;
+    MEImageView     *sFaceImageView;
     UIView          *sFrameView;
     UILabel         *sUserIDLabel;
 
@@ -57,7 +57,7 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
         [sFrameView setBackgroundColor:[UIColor lightGrayColor]];
         [sFrameView setTag:kLoginUserCellFrameViewTag];
 
-        sFaceImageView = [[[UIImageView alloc] initWithFrame:CGRectMake(30, 10, 50, 50)] autorelease];
+        sFaceImageView = [[[MEImageView alloc] initWithFrame:CGRectMake(30, 10, 50, 50)] autorelease];
         [sFaceImageView setTag:kLoginUserCellFaceImageViewTag];
 
         sUserIDLabel = [[[UILabel alloc] initWithFrame:CGRectMake(90, 20, 180, 30)] autorelease];

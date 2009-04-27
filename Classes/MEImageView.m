@@ -38,9 +38,9 @@
 
 - (void)dealloc
 {
+    [mURL   release];
     [mImage release];
-    [mKey   release];
-    
+
     [super dealloc];
 }
 
@@ -51,15 +51,21 @@
 
 - (void)setImageWithURL:(NSURL *)aURL
 {
-    [mImage autorelease];
-    mImage = nil;
-    [self setNeedsDisplay];
-    
-    [mKey autorelease];
-    mKey = [[aURL description] retain];
-    
-    MEClient *sClient = [MEClientStore currentClient];
-    [sClient loadImageWithURL:aURL key:mKey shouldCache:YES delegate:self];
+    if (mURL != aURL)
+    {
+        [mImage release];
+        mImage = nil;
+
+        [mURL release];
+        mURL = [aURL retain];
+
+        if (mURL)
+        {
+            [[MEClientStore anyClient] loadImageWithURL:mURL key:mURL delegate:self];
+        }
+
+        [self setNeedsDisplay];
+    }
 }
 
 
@@ -67,14 +73,17 @@
 #pragma mark MEClientDelegate
 
 
-- (void)client:(MEClient *)aClient didLoadImage:(UIImage *)aImage key:(NSString *)aKey error:(NSError *)aError
+- (void)client:(MEClient *)aClient didLoadImage:(UIImage *)aImage key:(id)aKey error:(NSError *)aError
 {
-    if ([mKey isEqualToString:aKey])
+    if ([mURL isEqual:aKey])
     {
-        [mImage autorelease];
-        mImage = [aImage retain];
-        
-        [self setNeedsDisplay];
+        if (mImage != aImage)
+        {
+            [mImage release];
+            mImage = [aImage retain];
+
+            [self setNeedsDisplay];
+        }
     }
 }
 

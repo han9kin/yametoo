@@ -12,8 +12,8 @@
 
 @interface MEImageView : UIView
 {
-    UIImage  *mImage;
-    NSString *mKey;
+    NSURL   *mURL;
+    UIImage *mImage;
 }
 
 - (void)setImageWithURL:(NSURL *)aURL;

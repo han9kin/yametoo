@@ -10,6 +10,7 @@
 #import "MELoginViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
+#import "MEImageView.h"
 #import "METableViewCellFactory.h"
 #import "MEUserDetailViewController.h"
 #import "MEUser.h"
@@ -18,25 +19,41 @@
 @implementation MELoginViewController
 
 
+- (id)initWithCoder:(NSCoder *)aCoder
+{
+    self = [super initWithCoder:aCoder];
+
+    if (self)
+    {
+        mFaceImageViews = [[NSMutableDictionary alloc] init];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userListDidChangeNotification:) name:MEClientStoreUserListDidChangeNotification object:nil];
+    }
+
+    return self;
+}
+
+
+- (id)initWithNibName:(NSString *)aNibName bundle:(NSBundle *)aBundle
+{
+    self = [super initWithNibName:aNibName bundle:aBundle];
+
+    if (self)
+    {
+        mFaceImageViews = [[NSMutableDictionary alloc] init];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userListDidChangeNotification:) name:MEClientStoreUserListDidChangeNotification object:nil];
+    }
+
+    return self;
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    mFaceImageDict = [[NSMutableDictionary alloc] init];
+
     [mTableView setBackgroundColor:[UIColor clearColor]];
-    
-    NSNotificationCenter *sCenter = [NSNotificationCenter defaultCenter];
-    [sCenter addObserver:self
-                selector:@selector(userListDidChangeNotification:)
-                    name:MEClientStoreUserListDidChangeNotification
-                  object:nil];
-    
-    NSArray  *sClients = [MEClientStore clients];
-    MEClient *sClient;
-    for (sClient in sClients)
-    {
-        [sClient getPersonWithUserID:[sClient userID] delegate:self];
-    }
 }
 
 
@@ -49,8 +66,8 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [mFaceImageDict release];
-    
+    [mFaceImageViews release];
+
     [super dealloc];
 }
 
@@ -68,7 +85,7 @@
 - (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)aSection
 {
     NSString *sResult = nil;
-    
+
     if (aSection == 0)
     {
         sResult = NSLocalizedString(@"Select the user to login", @"");
@@ -77,7 +94,7 @@
     {
         sResult = NSLocalizedString(@"Add new user", @"");
     }
-    
+
     return sResult;
 }
 
@@ -85,7 +102,7 @@
 - (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)aSection
 {
     NSInteger sResult;
-    
+
     if (aSection == 0)
     {
         sResult = [[MEClientStore clients] count];
@@ -94,7 +111,7 @@
     {
         sResult = 1;
     }
-    
+
     return sResult;
 }
 
@@ -102,20 +119,32 @@
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
     UITableViewCell *sResult = nil;
-    
+
     if ([aIndexPath section] == 0)
     {
-        UIImageView     *sFaceImageView;
-        UILabel         *sUserIDLabel;
-        NSArray         *sClients = [MEClientStore clients];
-        MEClient        *sClient  = [sClients objectAtIndex:[aIndexPath row]];
-        
+        MEImageView *sFaceImageView;
+        UILabel     *sUserIDLabel;
+        MEClient    *sClient;
+        MEUser      *sUser;
+
         sResult        = [METableViewCellFactory loginUserCellForTableView:aTableView];
-        sFaceImageView = (UIImageView *)[[sResult contentView] viewWithTag:kLoginUserCellFaceImageViewTag];
+        sFaceImageView = (MEImageView *)[[sResult contentView] viewWithTag:kLoginUserCellFaceImageViewTag];
         sUserIDLabel   = (UILabel *)[[sResult contentView] viewWithTag:kLoginUserCellUserIDLabelTag];
-        
-        [sFaceImageView setImage:[mFaceImageDict objectForKey:[sClient userID]]];
+
+        sClient = [[MEClientStore clients] objectAtIndex:[aIndexPath row]];
+        sUser   = [MEUser userWithUserID:[sClient userID]];
+
         [sUserIDLabel setText:[sClient userID]];
+
+        if (sUser)
+        {
+            [sFaceImageView setImageWithURL:[sUser faceImageURL]];
+        }
+        else
+        {
+            [mFaceImageViews setObject:sFaceImageView forKey:[sClient userID]];
+            [sClient getPersonWithUserID:[sClient userID] delegate:self];
+        }
     }
     else
     {
@@ -124,7 +153,7 @@
         [sResult setFont:[UIFont boldSystemFontOfSize:17.0]];
         [sResult setText:NSLocalizedString(@"Other...", @"")];
     }
-    
+
     return sResult;
 }
 
@@ -136,7 +165,7 @@
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
     CGFloat sResult = 0;
-    
+
     if ([aIndexPath section] == 0)
     {
         sResult = 70;
@@ -145,17 +174,17 @@
     {
         sResult = 44;
     }
-    
+
     return sResult;
 }
 
 
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    MEClient         *sClient;    
+    MEClient         *sClient;
     NSArray          *sClients = [MEClientStore clients];
-    UIViewController *sViewController;    
-    
+    UIViewController *sViewController;
+
     if ([aIndexPath section] == 0)
     {
         if ([aIndexPath row] < [sClients count])
@@ -170,7 +199,7 @@
         [self presentModalViewController:sViewController animated:YES];
         [sViewController release];
     }
-    
+
     [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];
 }
 
@@ -181,15 +210,13 @@
 
 - (void)client:(MEClient *)aClient didGetPerson:(MEUser *)aUser error:(NSError *)aError
 {
-    NSURL *sFaceImageURL = [aUser faceImageURL];
-    [aClient loadImageWithURL:sFaceImageURL key:[aUser userID] shouldCache:YES delegate:self];
-}
+    if (aUser)
+    {
+        MEImageView *sFaceImageView;
 
-
-- (void)client:(MEClient *)aClient didLoadImage:(UIImage *)aImage key:(NSString *)aKey error:(NSError *)aError
-{
-    [mFaceImageDict setObject:aImage forKey:aKey];
-    [mTableView reloadData];
+        sFaceImageView = [mFaceImageViews objectForKey:[aUser userID]];
+        [sFaceImageView setImageWithURL:[aUser faceImageURL]];
+    }
 }
 
 

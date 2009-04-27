@@ -16,7 +16,6 @@
     id                   mDelegate;
     NSMutableArray      *mPostArray;
     UITableView         *mTableView;
-    MEUser              *mUser;
     NSMutableDictionary *mCellHeightDict;
 }
 

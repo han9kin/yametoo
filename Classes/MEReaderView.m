@@ -34,7 +34,7 @@
 {
     CGRect            sBounds   = [self bounds];
     MEReaderHeadView *sHeadView = [MEReaderHeadView readerHeadView];
-    
+
     [sHeadView setDelegate:self];
 
     mTableView = [[UITableView alloc] initWithFrame:sBounds style:UITableViewStylePlain];
@@ -42,7 +42,7 @@
     [mTableView setDelegate:self];
     [mTableView setTableHeaderView:sHeadView];
     [mTableView setDelaysContentTouches:NO];
-    
+
     [self addSubview:mTableView];
 }
 
@@ -81,11 +81,8 @@
 
 - (void)dealloc
 {
-    [mUser removeObserver:self forKeyPath:@"faceImage"];
-
     [mPostArray      release];
     [mTableView      release];
-    [mUser           release];
     [mCellHeightDict release];
 
     [super dealloc];
@@ -115,18 +112,9 @@
 {
     MEReaderHeadView *sHeaderView;
 
-    [mUser removeObserver:self forKeyPath:@"faceImage"];
-    [mUser autorelease];
-
-    mUser = [aUser retain];
-    [mUser addObserver:self
-            forKeyPath:@"faceImage"
-               options:(NSKeyValueObservingOptionNew)
-               context:NULL];
-
     sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
-    [sHeaderView setNickname:[mUser nickname]];
-    [sHeaderView setFaceImage:[mUser faceImage]];
+    [sHeaderView setNickname:[aUser nickname]];
+    [sHeaderView setFaceImageURL:[aUser faceImageURL]];
 }
 
 
@@ -279,10 +267,10 @@
 - (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)aSection
 {
     static NSDateFormatter *sFormatter = nil;
-    
+
     NSString *sResult = nil;
     MEPost   *sTitlePost;
-    
+
     if (!sFormatter)
     {
         sFormatter = [[NSDateFormatter alloc] init];
@@ -381,7 +369,7 @@
     MEAttributedString *sBody;
     NSString           *sTags;
     CGSize              sSize;
-    
+
     if (sHeight)
     {
         sResult = [sHeight floatValue];
@@ -390,11 +378,11 @@
     {
         sBody = [sPost body];
         sTags = [sPost tagsString];
-        
+
         sResult += 10;
         sSize    = [sBody sizeForWidth:kPostBodyWidth];
         sResult += (sSize.height + 5);
-        
+
         if (![sTags isEqualToString:@""])
         {
             sSize    = [sTags sizeWithFont:[METableViewCellFactory fontForPostTag]
@@ -402,7 +390,7 @@
                              lineBreakMode:UILineBreakModeCharacterWrap];
             sResult += (sSize.height + 5);
         }
-        
+
         sResult += kTimeStrHeight;
         sResult += 10;
         sResult  = (sResult < 70) ? 70 : sResult;
@@ -423,27 +411,6 @@
     if ([mDelegate respondsToSelector:@selector(newPostForReaderView:)])
     {
         [mDelegate newPostForReaderView:self];
-    }
-}
-
-
-#pragma mark -
-#pragma mark KVO
-
-
-- (void)observeValueForKeyPath:(NSString *)aKeyPath
-                      ofObject:(id)aObject
-                        change:(NSDictionary *)aChange
-                       context:(void *)aContext
-{
-    UIImage          *sFaceImage;
-    MEReaderHeadView *sHeaderView;
-
-    if ([aKeyPath isEqualToString:@"faceImage"])
-    {
-        sFaceImage  = [aChange objectForKey:@"new"];
-        sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
-        [sHeaderView setFaceImage:sFaceImage];
     }
 }
 
