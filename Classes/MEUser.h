@@ -16,17 +16,20 @@
     NSString *mNickname;
     NSURL    *mFaceImageURL;
     NSString *mHomepageURLStr;
+    NSArray  *mPostIcons;
 }
 
-@property (nonatomic, readonly) NSString *userID;
-@property (nonatomic, readonly) NSString *nickname;
-@property (nonatomic, readonly) NSURL    *faceImageURL;
-@property (nonatomic, readonly) NSString *homepageURLStr;
+@property(nonatomic, readonly) NSString *userID;
+@property(nonatomic, readonly) NSString *nickname;
+@property(nonatomic, readonly) NSURL    *faceImageURL;
+@property(nonatomic, readonly) NSString *homepageURLStr;
+@property(nonatomic, readonly) NSArray  *postIcons;
 
 
 + (void)removeUnusedCachedUsers;
 + (MEUser *)userWithUserID:(NSString *)aUserID;
 
 - (id)initWithDictionary:(NSDictionary *)aUserDict;
+
 
 @end

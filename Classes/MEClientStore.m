@@ -70,6 +70,8 @@ static NSString *kClientsKey = @"clients";
 {
     [mClientsByUserID setObject:aClient forKey:aUserID];
 
+    [aClient getPersonWithUserID:aUserID delegate:nil];
+
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:mClientsByUserID] forKey:kClientsKey];
     [[NSNotificationCenter defaultCenter] postNotificationName:MEClientStoreUserListDidChangeNotification object:nil];
 }

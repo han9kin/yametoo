@@ -21,7 +21,7 @@
     NSDate             *mPubDate;
     NSInteger           mCommentsCount;
     NSInteger           mMetooCount;
-    MEUser             *mUser;
+    MEUser             *mAuthor;
     NSArray            *mTags;
     NSURL              *mIconURL;
     NSURL              *mPhotoURL;
@@ -33,7 +33,7 @@
 @property(nonatomic, readonly) NSDate             *pubDate;
 @property(nonatomic, readonly) NSInteger           commentsCount;
 @property(nonatomic, readonly) NSInteger           metooCount;
-@property(nonatomic, readonly) MEUser             *user;
+@property(nonatomic, readonly) MEUser             *author;
 @property(nonatomic, readonly) NSArray            *tags;
 @property(nonatomic, readonly) NSURL              *iconURL;
 @property(nonatomic, readonly) NSURL              *photoURL;

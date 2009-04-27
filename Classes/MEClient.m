@@ -19,8 +19,8 @@
 NSString *MEClientErrorDomain = @"MEClientErrorDomain";
 
 
-static NSOperationQueue    *gOperationQueue    = nil;
-static NSMutableDictionary *gLoadImageContexts = nil;
+static NSOperationQueue    *gOperationQueue   = nil;
+static NSMutableDictionary *gQueuedOperations = nil;
 
 
 @implementation MEClient
@@ -33,9 +33,9 @@ static NSMutableDictionary *gLoadImageContexts = nil;
         gOperationQueue = [[NSOperationQueue alloc] init];
     }
 
-    if (!gLoadImageContexts)
+    if (!gQueuedOperations)
     {
-        gLoadImageContexts = [[NSMutableDictionary alloc] init];
+        gQueuedOperations = [[NSMutableDictionary alloc] init];
     }
 }
 
@@ -115,8 +115,8 @@ static NSMutableDictionary *gLoadImageContexts = nil;
         NSDictionary   *sContext;
         NSMutableArray *sWaitingContexts;
 
-        sContext         = [NSDictionary dictionaryWithObjectsAndKeys:aDelegate, @"delegate", aURL, @"url", aKey, @"key", nil];
-        sWaitingContexts = [gLoadImageContexts objectForKey:aURL];
+        sContext         = [NSDictionary dictionaryWithObjectsAndKeys:aURL, @"url", aDelegate, @"delegate", aKey, @"key", nil];
+        sWaitingContexts = [gQueuedOperations objectForKey:aURL];
 
         if (sWaitingContexts)
         {
@@ -124,7 +124,7 @@ static NSMutableDictionary *gLoadImageContexts = nil;
         }
         else
         {
-            [gLoadImageContexts setObject:[NSMutableArray array] forKey:aURL];
+            [gQueuedOperations setObject:[NSMutableArray array] forKey:aURL];
 
             MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
@@ -203,16 +203,30 @@ static NSMutableDictionary *gLoadImageContexts = nil;
 
 - (void)getPersonWithUserID:(NSString *)aUserID delegate:(id)aDelegate
 {
-    MEClientOperation *sOperation = [[MEClientOperation alloc] init];
+    NSMutableURLRequest *sRequest         = [self getPersonRequestWithUserID:aUserID];
+    NSURL               *sURL             = [sRequest URL];
+    NSDictionary        *sContext         = [NSDictionary dictionaryWithObjectsAndKeys:sURL, @"url", aDelegate, @"delegate", nil];
+    NSMutableArray      *sWaitingContexts = [gQueuedOperations objectForKey:sURL];
 
-    [sOperation setRequest:[self getPersonRequestWithUserID:aUserID]];
-    [sOperation setContext:aDelegate];
-    [sOperation setDelegate:self];
-    [sOperation setSelector:@selector(clientOperation:didReceiveGetPersonResult:error:)];
-    [sOperation retainContext];
+    if (sWaitingContexts)
+    {
+        [sWaitingContexts addObject:sContext];
+    }
+    else
+    {
+        [gQueuedOperations setObject:[NSMutableArray array] forKey:sURL];
 
-    [gOperationQueue addOperation:sOperation];
-    [sOperation release];
+        MEClientOperation *sOperation = [[MEClientOperation alloc] init];
+
+        [sOperation setRequest:sRequest];
+        [sOperation setContext:sContext];
+        [sOperation setDelegate:self];
+        [sOperation setSelector:@selector(clientOperation:didReceiveGetPersonResult:error:)];
+        [sOperation retainContext];
+
+        [gOperationQueue addOperation:sOperation];
+        [sOperation release];
+    }
 }
 
 
@@ -278,38 +292,43 @@ static NSMutableDictionary *gLoadImageContexts = nil;
     NSURL        *sURL        = [[aOperation context] objectForKey:@"url"];
     id            sDelegate   = [[aOperation context] objectForKey:@"delegate"];
     NSInvocation *sInvocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:@@@@"]];
-    id            sNil        = nil;
+    UIImage      *sImage      = nil;
+    NSError      *sError      = nil;
     NSDictionary *sContext;
-
-    [sInvocation setSelector:@selector(client:didLoadImage:key:error:)];
-    [sInvocation setArgument:&self atIndex:2];
-    [sInvocation setArgument:&sKey atIndex:4];
 
     if (aError)
     {
-        [sInvocation setArgument:&sNil atIndex:3];
-        [sInvocation setArgument:&aError atIndex:5];
+        sError = aError;
     }
     else
     {
-        UIImage *sImage = [UIImage imageWithData:aData];
+        sImage = [UIImage imageWithData:aData];
 
-        [MEImageCache storeImage:sImage data:aData forURL:sURL];
-
-        [sInvocation setArgument:&sImage atIndex:3];
-        [sInvocation setArgument:&sNil atIndex:5];
+        if (sImage)
+        {
+            [MEImageCache storeImage:sImage data:aData forURL:sURL];
+        }
+        else
+        {
+            sError = [self errorFromResultString:@"Invalid Image Data"];
+        }
     }
 
+    [sInvocation setSelector:@selector(client:didLoadImage:key:error:)];
+    [sInvocation setArgument:&self atIndex:2];
+    [sInvocation setArgument:&sImage atIndex:3];
+    [sInvocation setArgument:&sKey atIndex:4];
+    [sInvocation setArgument:&sError atIndex:5];
     [sInvocation invokeWithTarget:sDelegate];
 
-    for (sContext in [gLoadImageContexts objectForKey:sURL])
+    for (sContext in [gQueuedOperations objectForKey:sURL])
     {
         sKey = [sContext objectForKey:@"key"];
         [sInvocation setArgument:&sKey atIndex:4];
         [sInvocation invokeWithTarget:[sContext objectForKey:@"delegate"]];
     }
 
-    [gLoadImageContexts removeObjectForKey:sURL];
+    [gQueuedOperations removeObjectForKey:sURL];
 }
 
 
@@ -463,11 +482,16 @@ static NSMutableDictionary *gLoadImageContexts = nil;
 
 - (void)clientOperation:(MEClientOperation *)aOperation didReceiveGetPersonResult:(NSData *)aData error:(NSError *)aError
 {
-    id sDelegate = [aOperation context];
+    NSURL        *sURL        = [[aOperation context] objectForKey:@"url"];
+    id            sDelegate   = [[aOperation context] objectForKey:@"delegate"];
+    NSInvocation *sInvocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:@@@"]];
+    MEUser       *sUser       = nil;
+    NSError      *sError      = nil;
+    NSDictionary *sContext;
 
     if (aError)
     {
-        [sDelegate client:self didGetPerson:nil error:aError];
+        sError = aError;
     }
     else
     {
@@ -477,17 +501,30 @@ static NSMutableDictionary *gLoadImageContexts = nil;
 
         if (sResult)
         {
-            MEUser *sUser = [[[MEUser alloc] initWithDictionary:sResult] autorelease];
-
-            [sDelegate client:self didGetPerson:sUser error:nil];
+            sUser = [[MEUser alloc] initWithDictionary:sResult];
         }
         else
         {
-            [sDelegate client:self didGetPerson:nil error:[self errorFromResultString:sSource]];
+            sError = [[self errorFromResultString:sSource] retain];
         }
 
         [sPool release];
+        [sUser autorelease];
+        [sError autorelease];
     }
+
+    [sInvocation setSelector:@selector(client:didGetPerson:error:)];
+    [sInvocation setArgument:&self atIndex:2];
+    [sInvocation setArgument:&sUser atIndex:3];
+    [sInvocation setArgument:&sError atIndex:4];
+    [sInvocation invokeWithTarget:sDelegate];
+
+    for (sContext in [gQueuedOperations objectForKey:sURL])
+    {
+        [sInvocation invokeWithTarget:[sContext objectForKey:@"delegate"]];
+    }
+
+    [gQueuedOperations removeObjectForKey:sURL];
 }
 
 

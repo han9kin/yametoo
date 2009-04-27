@@ -9,6 +9,7 @@
 
 #import "NSURL+MEAdditions.h"
 #import "MEUser.h"
+#import "MEPostIcon.h"
 #import "MEFuture.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
@@ -40,6 +41,15 @@ static NSMutableDictionary *gCachedUsers = nil;
     }
 }
 
+- (void)setPostIcons:(NSArray *)aPostIcons
+{
+    if (mPostIcons != aPostIcons)
+    {
+        [mPostIcons release];
+        mPostIcons = [aPostIcons retain];
+    }
+}
+
 @end
 
 
@@ -54,6 +64,7 @@ static NSMutableDictionary *gCachedUsers = nil;
 @synthesize nickname       = mNickname;
 @synthesize faceImageURL   = mFaceImageURL;
 @synthesize homepageURLStr = mHomepageURLStr;
+@synthesize postIcons      = mPostIcons;
 
 
 #pragma mark -
@@ -115,6 +126,19 @@ static NSMutableDictionary *gCachedUsers = nil;
 
         [self setNickname:[aUserDict objectForKey:@"nickname"]];
         [self setFaceImageURL:[NSURL URLWithStringOrNil:[aUserDict objectForKey:@"face"]]];
+
+        if ([aUserDict objectForKey:@"postIcons"] && [[MEClientStore userIDs] containsObject:mUserID])
+        {
+            NSMutableArray *sPostIcons = [NSMutableArray array];
+            NSDictionary   *sDict;
+
+            for (sDict in [aUserDict objectForKey:@"postIcons"])
+            {
+                [sPostIcons addObject:[[[MEPostIcon alloc] initWithDictionary:sDict] autorelease]];
+            }
+
+            [self setPostIcons:sPostIcons];
+        }
     }
 
     return self;
@@ -127,6 +151,7 @@ static NSMutableDictionary *gCachedUsers = nil;
     [mNickname       release];
     [mFaceImageURL   release];
     [mHomepageURLStr release];
+    [mPostIcons      release];
 
     [super dealloc];
 }

@@ -51,7 +51,7 @@
 @synthesize pubDate       = mPubDate;
 @synthesize commentsCount = mCommentsCount;
 @synthesize metooCount    = mMetooCount;
-@synthesize user          = mUser;
+@synthesize author        = mAuthor;
 @synthesize tags          = mTags;
 @synthesize iconURL       = mIconURL;
 @synthesize photoURL      = mPhotoURL;
@@ -75,7 +75,7 @@
         mPubDate       = [[self dateFromString:[aPostDict objectForKey:@"pubDate"]] retain];
         mCommentsCount = [[aPostDict objectForKey:@"commentsCount"] integerValue];
         mMetooCount    = [[aPostDict objectForKey:@"metooCount"] integerValue];
-        mUser          = [[MEUser alloc] initWithDictionary:[aPostDict objectForKey:@"author"]];
+        mAuthor        = [[MEUser userWithUserID:[[aPostDict objectForKey:@"author"] objectForKey:@"id"]] retain];
         mTags          = [[[aPostDict objectForKey:@"tags"] valueForKey:@"name"] retain];
         mIconURL       = [[NSURL alloc] initWithStringOrNil:[aPostDict objectForKey:@"iconUrl"]];
         mPhotoURL      = [[NSURL alloc] initWithStringOrNil:[[aPostDict objectForKey:@"media"] objectForKey:@"photoUrl"]];
@@ -83,6 +83,11 @@
         if (!mIconURL)
         {
             mIconURL = [[NSURL alloc] initWithStringOrNil:[aPostDict objectForKey:@"icon"]];
+        }
+
+        if (!mAuthor)
+        {
+            mAuthor = [[MEUser alloc] initWithDictionary:[aPostDict objectForKey:@"author"]];
         }
     }
 
@@ -96,7 +101,7 @@
     [mBody     release];
     [mKind     release];
     [mPubDate  release];
-    [mUser     release];
+    [mAuthor   release];
     [mTags     release];
     [mIconURL  release];
     [mPhotoURL release];

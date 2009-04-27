@@ -65,6 +65,7 @@
 		CF9045C90F95A85D001AE52C /* MEClientOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9045C80F95A85D001AE52C /* MEClientOperation.m */; };
 		CF9046430F95C4A4001AE52C /* NSURL+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9046420F95C4A4001AE52C /* NSURL+MEAdditions.m */; };
 		CFE72AA90FA1A0C400C54792 /* MEAttributedLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72AA80FA1A0C400C54792 /* MEAttributedLayoutManager.m */; };
+		CFE72BDD0FA5859300C54792 /* MEPostIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72BDC0FA5859300C54792 /* MEPostIcon.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -176,6 +177,8 @@
 		CF9046420F95C4A4001AE52C /* NSURL+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+MEAdditions.m"; sourceTree = "<group>"; };
 		CFE72AA70FA1A0C400C54792 /* MEAttributedLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEAttributedLayoutManager.h; sourceTree = "<group>"; };
 		CFE72AA80FA1A0C400C54792 /* MEAttributedLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEAttributedLayoutManager.m; sourceTree = "<group>"; };
+		CFE72BDB0FA5859300C54792 /* MEPostIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPostIcon.h; sourceTree = "<group>"; };
+		CFE72BDC0FA5859300C54792 /* MEPostIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPostIcon.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -310,6 +313,8 @@
 				2E6103590F9880820097AD3D /* MEUser.m */,
 				2E6103790F9883B30097AD3D /* MEPost.h */,
 				2E61037A0F9883B30097AD3D /* MEPost.m */,
+				CFE72BDB0FA5859300C54792 /* MEPostIcon.h */,
+				CFE72BDC0FA5859300C54792 /* MEPostIcon.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -648,6 +653,7 @@
 				CF528CFB0FA162DB007C7A03 /* MEBodyTextParser.m in Sources */,
 				CF528D540FA18609007C7A03 /* MEAttributedLabel.m in Sources */,
 				CFE72AA90FA1A0C400C54792 /* MEAttributedLayoutManager.m in Sources */,
+				CFE72BDD0FA5859300C54792 /* MEPostIcon.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -684,14 +690,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chang-Gi Kim";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sanghyuk Suh";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5BBDC45B-F75A-449D-8F9B-61A7014060F7";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "54346E26-8E7F-4EFA-95D6-2B861523A975";
 				SDKROOT = iphoneos2.2;
 			};
 			name = Debug;
@@ -700,13 +706,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chang-Gi Kim";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sanghyuk Suh";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5BBDC45B-F75A-449D-8F9B-61A7014060F7";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "54346E26-8E7F-4EFA-95D6-2B861523A975";
 				SDKROOT = iphoneos2.2;
 			};
 			name = Release;
