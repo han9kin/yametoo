@@ -91,53 +91,48 @@
     return sLayoutInfo;
 }
 
-- (UILabel *)labelWithText:(NSString *)aText
+- (void)setAttributesToLabel:(UILabel *)aLabel withText:(NSString *)aText
 {
-    UILabel *sLabel;
-    id       sValue;
-
-    sLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+    id sValue;
 
     sValue = [mAttributes objectForKey:MEFontAttributeName];
     if (sValue)
     {
-        [sLabel setFont:sValue];
+        [aLabel setFont:sValue];
     }
 
     sValue = [mAttributes objectForKey:MEForegroundColorAttributeName];
     if (sValue)
     {
-        [sLabel setTextColor:sValue];
+        [aLabel setTextColor:sValue];
     }
 
     sValue = [mAttributes objectForKey:MEBackgroundColorAttributeName];
     if (sValue)
     {
-        [sLabel setBackgroundColor:sValue];
+        [aLabel setBackgroundColor:sValue];
     }
 
     sValue = [mAttributes objectForKey:MEHighlightedColorAttributeName];
     if (sValue)
     {
-        [sLabel setHighlightedTextColor:sValue];
+        [aLabel setHighlightedTextColor:sValue];
     }
 
     sValue = [mAttributes objectForKey:MEShadowColorAttributeName];
     if (sValue)
     {
-        [sLabel setShadowColor:sValue];
+        [aLabel setShadowColor:sValue];
     }
 
     sValue = [mAttributes objectForKey:MEShadowOffsetAttributeName];
     if (sValue)
     {
-        [sLabel setShadowOffset:[sValue CGSizeValue]];
+        [aLabel setShadowOffset:[sValue CGSizeValue]];
     }
 
-    [sLabel setText:[aText substringWithRange:mTextRange]];
-    [sLabel setFrame:mLabelFrame];
-
-    return sLabel;
+    [aLabel setText:[aText substringWithRange:mTextRange]];
+    [aLabel setFrame:mLabelFrame];
 }
 
 - (NSString *)description
@@ -266,21 +261,42 @@
     NSString               *sText;
     CGRect                  sBounds;
 
-    for (sLabel in [aLabel subviews])
-    {
-        [sLabel removeFromSuperview];
-    }
+    NSArray                *sLabels;
+    NSUInteger              sCount;
+    NSUInteger              sIndex;
 
     sText   = [[aLabel attributedText] string];
     sBounds = [aLabel bounds];
 
+    sLabels = [aLabel subviews];
+    sCount  = [sLabels count];
+    sIndex  = 0;
+
     for (sLayoutInfo in mLayoutInfos)
     {
-        sLabel = [sLayoutInfo labelWithText:sText];
-
-        if (CGRectContainsRect(sBounds, [sLabel frame]))
+        if (CGRectContainsRect(sBounds, [sLayoutInfo labelFrame]))
         {
-            [aLabel addSubview:sLabel];
+            if (sIndex < sCount)
+            {
+                sLabel = [sLabels objectAtIndex:sIndex];
+                [sLayoutInfo setAttributesToLabel:sLabel withText:sText];
+                sIndex++;
+            }
+            else
+            {
+                sLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+                [sLayoutInfo setAttributesToLabel:sLabel withText:sText];
+                [aLabel addSubview:sLabel];
+                [sLabel release];
+            }
+        }
+    }
+
+    if (sIndex < sCount)
+    {
+        for (sLabel in [sLabels subarrayWithRange:NSMakeRange(sIndex, sCount - sIndex)])
+        {
+            [sLabel removeFromSuperview];
         }
     }
 }
