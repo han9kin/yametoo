@@ -15,13 +15,23 @@
 @implementation MEImageView
 
 
+#pragma mark -
+#pragma mark properties
+
+
+@synthesize userInfo = mUserInfo;
+
+
+#pragma mark -
+
+
 - (id)initWithFrame:(CGRect)aFrame
 {
     self = [super initWithFrame:aFrame];
 
     if (self)
     {
-
+        mUserInfo = [[NSMutableDictionary alloc] init];
     }
 
     return self;
@@ -38,8 +48,9 @@
 
 - (void)dealloc
 {
-    [mURL   release];
-    [mImage release];
+    [mURL      release];
+    [mImage    release];
+    [mUserInfo release];
 
     [super dealloc];
 }

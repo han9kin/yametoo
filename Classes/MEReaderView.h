@@ -8,7 +8,11 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "MEPost.h"
+
+
+@class MEPost;
+@class MEUser;
+@class MEMediaView;
 
 
 @interface MEReaderView : UIView <UITableViewDataSource, UITableViewDelegate>
@@ -17,6 +21,8 @@
     NSMutableArray      *mPostArray;
     UITableView         *mTableView;
     NSMutableDictionary *mCellHeightDict;
+    
+    MEMediaView         *mMediaView;
 }
 
 - (void)setDelegate:(id)aDelegate;

@@ -11,6 +11,8 @@
 #import "METableViewCellFactory.h"
 #import "MEReaderHeadView.h"
 #import "MEImageView.h"
+#import "MEMediaView.h"
+#import "MEPost.h"
 #import "MEUser.h"
 #import "MEAttributedLabel.h"
 #import "MEAttributedString.h"
@@ -41,7 +43,10 @@
     [mTableView setDataSource:self];
     [mTableView setDelegate:self];
     [mTableView setTableHeaderView:sHeadView];
-    [mTableView setDelaysContentTouches:NO];
+    [mTableView setDelaysContentTouches:YES];
+//    [mTableView setCanCancelContentTouches:YES];
+    
+    mMediaView = [[MEMediaView alloc] initWithFrame:CGRectZero];
 
     [self addSubview:mTableView];
 }
@@ -228,6 +233,28 @@
 }
 
 
+- (MEPost *)postForPostID:(NSString *)aPostID
+{
+    MEPost *sResult = nil;
+    MEPost *sPost;
+    NSArray *sArray;
+    
+    for (sArray in mPostArray)
+    {
+        for (sPost in sArray)
+        {
+            if ([[sPost postID] isEqualToString:aPostID])
+            {
+                sResult = sPost;
+                break;
+            }
+        }
+    }
+    
+    return sResult;
+}
+
+
 - (MEPost *)titlePostForSection:(NSInteger)aSection
 {
     MEPost  *sResult = nil;
@@ -243,6 +270,22 @@
     }
 
     return sResult;
+}
+
+
+#pragma mark -
+#pragma mark actions
+
+
+- (IBAction)imageViewTapped:(id)aSender
+{
+    MEImageView *sImageView = (MEImageView *)aSender;
+    NSString    *sPostID    = [[sImageView userInfo] objectForKey:@"postID"];
+    MEPost      *sPost      = [self postForPostID:sPostID];
+
+    [mMediaView setPhotoURL:[sPost photoURL]];
+    [mMediaView setFrame:CGRectMake(0, 0, 320, 480)];
+    [[self window] addSubview:mMediaView];
 }
 
 
@@ -320,6 +363,8 @@
     sReplyLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellReplyLabelTag];
     sImageView  = (MEImageView *)[[sResult contentView] viewWithTag:kPostCellImageViewTag];
 
+    [sImageView addTarget:self action:@selector(imageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [[sImageView userInfo] setValue:[sPost postID] forKey:@"postID"];
     [sImageView setImageWithURL:[sPost iconURL]];
 
     [sBodyLabel setFrame:CGRectMake(60, sYPos, kPostBodyWidth, 0)];

@@ -10,11 +10,14 @@
 #import <UIKit/UIKit.h>
 
 
-@interface MEImageView : UIView
+@interface MEImageView : UIControl
 {
-    NSURL   *mURL;
-    UIImage *mImage;
+    NSURL               *mURL;
+    UIImage             *mImage;
+    NSMutableDictionary *mUserInfo;
 }
+
+@property(nonatomic, readonly) NSMutableDictionary *userInfo;
 
 - (void)setImageWithURL:(NSURL *)aURL;
 

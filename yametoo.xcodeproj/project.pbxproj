@@ -15,6 +15,8 @@
 		2899E5220DE3E06400AC0155 /* PostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* PostViewController.xib */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* MEPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* MEPostViewController.m */; };
+		2E2B6BDA0FA5A48200F4B830 /* MEMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2B6BD90FA5A48200F4B830 /* MEMediaView.m */; };
+		2E2B6C610FA5B04B00F4B830 /* MEDrawingFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2B6C600FA5B04B00F4B830 /* MEDrawingFunctions.m */; };
 		2E2EB1300F96F35F005C54E5 /* EXFGPS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2EB1210F96F35F005C54E5 /* EXFGPS.m */; };
 		2E2EB1310F96F35F005C54E5 /* EXFHandlers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2EB1230F96F35F005C54E5 /* EXFHandlers.m */; };
 		2E2EB1320F96F35F005C54E5 /* EXFJFIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2EB1250F96F35F005C54E5 /* EXFJFIF.m */; };
@@ -80,6 +82,10 @@
 		28D7ACF60DDB3853001CB0EB /* MEPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPostViewController.h; sourceTree = "<group>"; };
 		28D7ACF70DDB3853001CB0EB /* MEPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPostViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2E2B6BD80FA5A48200F4B830 /* MEMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEMediaView.h; sourceTree = "<group>"; };
+		2E2B6BD90FA5A48200F4B830 /* MEMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEMediaView.m; sourceTree = "<group>"; };
+		2E2B6C5F0FA5B04B00F4B830 /* MEDrawingFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEDrawingFunctions.h; sourceTree = "<group>"; };
+		2E2B6C600FA5B04B00F4B830 /* MEDrawingFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEDrawingFunctions.m; sourceTree = "<group>"; };
 		2E2EB11E0F96F35F005C54E5 /* EXF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXF.h; sourceTree = "<group>"; };
 		2E2EB11F0F96F35F005C54E5 /* EXFConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFConstants.h; sourceTree = "<group>"; };
 		2E2EB1200F96F35F005C54E5 /* EXFGPS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFGPS.h; sourceTree = "<group>"; };
@@ -302,6 +308,8 @@
 				2E6102270F985AA40097AD3D /* MEReaderHeadView.m */,
 				2E6102CA0F986B930097AD3D /* MEReaderView.h */,
 				2E6102CB0F986B930097AD3D /* MEReaderView.m */,
+				2E2B6BD80FA5A48200F4B830 /* MEMediaView.h */,
+				2E2B6BD90FA5A48200F4B830 /* MEMediaView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -517,6 +525,8 @@
 				CF528D530FA18609007C7A03 /* MEAttributedLabel.m */,
 				CFE72AA70FA1A0C400C54792 /* MEAttributedLayoutManager.h */,
 				CFE72AA80FA1A0C400C54792 /* MEAttributedLayoutManager.m */,
+				2E2B6C5F0FA5B04B00F4B830 /* MEDrawingFunctions.h */,
+				2E2B6C600FA5B04B00F4B830 /* MEDrawingFunctions.m */,
 			);
 			name = "Cocomelo Extensions";
 			sourceTree = "<group>";
@@ -653,6 +663,8 @@
 				CF528CFB0FA162DB007C7A03 /* MEBodyTextParser.m in Sources */,
 				CF528D540FA18609007C7A03 /* MEAttributedLabel.m in Sources */,
 				CFE72AA90FA1A0C400C54792 /* MEAttributedLayoutManager.m in Sources */,
+				2E2B6BDA0FA5A48200F4B830 /* MEMediaView.m in Sources */,
+				2E2B6C610FA5B04B00F4B830 /* MEDrawingFunctions.m in Sources */,
 				CFE72BDD0FA5859300C54792 /* MEPostIcon.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
