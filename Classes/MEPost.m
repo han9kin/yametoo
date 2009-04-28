@@ -10,7 +10,6 @@
 #import "NSURL+MEAdditions.h"
 #import "MEPost.h"
 #import "MEUser.h"
-#import "MEFuture.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEPostBodyTextParser.h"

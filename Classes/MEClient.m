@@ -217,6 +217,21 @@ static NSMutableDictionary *gQueuedOperations = nil;
 }
 
 
+- (void)getMetoosWithPostID:(NSString *)aPostID delegate:(id)aDelegate
+{
+    MEClientOperation *sOperation = [[MEClientOperation alloc] init];
+
+    [sOperation setRequest:[self getMetoosRequestWithPostID:aPostID]];
+    [sOperation setContext:aDelegate];
+    [sOperation setDelegate:self];
+    [sOperation setSelector:@selector(clientOperation:didReceiveGetMetoosResult:error:)];
+    [sOperation retainContext];
+
+    [gOperationQueue addOperation:sOperation];
+    [sOperation release];
+}
+
+
 - (void)getPersonWithUserID:(NSString *)aUserID delegate:(id)aDelegate
 {
     NSMutableURLRequest *sRequest         = [self getPersonRequestWithUserID:aUserID];
@@ -254,6 +269,21 @@ static NSMutableDictionary *gQueuedOperations = nil;
     [sOperation setContext:aDelegate];
     [sOperation setDelegate:self];
     [sOperation setSelector:@selector(clientOperation:didReceiveGetPostsResult:error:)];
+    [sOperation retainContext];
+
+    [gOperationQueue addOperation:sOperation];
+    [sOperation release];
+}
+
+
+- (void)metooWithPostID:(NSString *)aPostID delegate:(id)aDelegate
+{
+    MEClientOperation *sOperation = [[MEClientOperation alloc] init];
+
+    [sOperation setRequest:[self metooRequestWithPostID:aPostID]];
+    [sOperation setContext:aDelegate];
+    [sOperation setDelegate:self];
+    [sOperation setSelector:@selector(clientOperation:didReceiveMetooResult:error:)];
     [sOperation retainContext];
 
     [gOperationQueue addOperation:sOperation];
@@ -544,20 +574,66 @@ static NSMutableDictionary *gQueuedOperations = nil;
             }
             else
             {
-                NSMutableArray *sFriends = [NSMutableArray array];
+                NSMutableArray *sUsers = [NSMutableArray array];
                 NSDictionary   *sDict;
 
                 for (sDict in [sResult objectForKey:@"friends"])
                 {
-                    [sFriends addObject:[[[MEUser alloc] initWithDictionary:sDict] autorelease]];
+                    [sUsers addObject:[[[MEUser alloc] initWithDictionary:sDict] autorelease]];
                 }
 
-                [sDelegate client:self didGetFriends:sFriends error:nil];
+                [sDelegate client:self didGetFriends:sUsers error:nil];
             }
         }
         else
         {
             [sDelegate client:self didGetFriends:nil error:[self errorFromResultString:sSource]];
+        }
+
+        [sPool release];
+    }
+}
+
+
+- (void)clientOperation:(MEClientOperation *)aOperation didReceiveGetMetoosResult:(NSData *)aData error:(NSError *)aError
+{
+    id sDelegate = [aOperation context];
+
+    if (aError)
+    {
+        [sDelegate client:self didGetMetoos:nil error:aError];
+    }
+    else
+    {
+        NSAutoreleasePool *sPool   = [[NSAutoreleasePool alloc] init];
+        NSString          *sSource = [[[NSString alloc] initWithData:aData encoding:NSUTF8StringEncoding] autorelease];
+        NSDictionary      *sResult = [sSource JSONValue];
+        NSError           *sError;
+
+        if (sResult)
+        {
+            sError = [self errorFromResultDictionary:sResult];
+
+            if (sError)
+            {
+                [sDelegate client:self didGetMetoos:nil error:sError];
+            }
+            else
+            {
+                NSMutableArray *sUsers = [NSMutableArray array];
+                NSDictionary   *sDict;
+
+                for (sDict in [sResult objectForKey:@"metoos"])
+                {
+                    [sUsers addObject:[[[MEUser alloc] initWithDictionary:[sDict objectForKey:@"author"]] autorelease]];
+                }
+
+                [sDelegate client:self didGetMetoos:sUsers error:nil];
+            }
+        }
+        else
+        {
+            [sDelegate client:self didGetMetoos:nil error:[self errorFromResultString:sSource]];
         }
 
         [sPool release];
@@ -644,6 +720,44 @@ static NSMutableDictionary *gQueuedOperations = nil;
         else
         {
             [sDelegate client:self didGetPosts:nil error:[self errorFromResultString:sSource]];
+        }
+
+        [sPool release];
+    }
+}
+
+
+- (void)clientOperation:(MEClientOperation *)aOperation didReceiveMetooResult:(NSData *)aData error:(NSError *)aError
+{
+    id sDelegate = [aOperation context];
+
+    if (aError)
+    {
+        [sDelegate client:self didMetooWithError:aError];
+    }
+    else
+    {
+        NSAutoreleasePool *sPool   = [[NSAutoreleasePool alloc] init];
+        NSString          *sSource = [[[NSString alloc] initWithData:aData encoding:NSUTF8StringEncoding] autorelease];
+        NSDictionary      *sResult = [sSource JSONValue];
+        NSError           *sError;
+
+        if (sResult)
+        {
+            sError = [self errorFromResultDictionary:sResult];
+
+            if (sError)
+            {
+                [sDelegate client:self didMetooWithError:sError];
+            }
+            else
+            {
+                [sDelegate client:self didMetooWithError:nil];
+            }
+        }
+        else
+        {
+            [sDelegate client:self didMetooWithError:[self errorFromResultString:sSource]];
         }
 
         [sPool release];
