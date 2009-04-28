@@ -90,22 +90,6 @@
 						<reference key="IBUIParentViewController" ref="1037244882"/>
 						<string key="IBUINibName">FriendsViewController</string>
 					</object>
-					<object class="IBUIViewController" id="199369104">
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="227118773">
-							<string key="IBUITitle">Tags</string>
-							<reference key="IBUITabBar"/>
-						</object>
-						<reference key="IBUIParentViewController" ref="1037244882"/>
-						<string key="IBUINibName">TagsViewController</string>
-					</object>
-					<object class="IBUIViewController" id="366483062">
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="201813884">
-							<string key="IBUITitle">Post</string>
-							<reference key="IBUITabBar"/>
-						</object>
-						<reference key="IBUIParentViewController" ref="1037244882"/>
-						<string key="IBUINibName">PostViewController</string>
-					</object>
 					<reference ref="1058589956"/>
 				</object>
 				<object class="IBUITabBar" key="IBUITabBar" id="865761552">
@@ -187,10 +171,8 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="865761552"/>
-							<reference ref="366483062"/>
 							<reference ref="779560552"/>
 							<reference ref="189615296"/>
-							<reference ref="199369104"/>
 							<reference ref="1058589956"/>
 						</object>
 						<reference key="parent" ref="957960031"/>
@@ -199,20 +181,6 @@
 						<int key="objectID">18</int>
 						<reference key="object" ref="865761552"/>
 						<reference key="parent" ref="1037244882"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">19</int>
-						<reference key="object" ref="366483062"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="201813884"/>
-						</object>
-						<reference key="parent" ref="1037244882"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">22</int>
-						<reference key="object" ref="201813884"/>
-						<reference key="parent" ref="366483062"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">27</int>
@@ -241,20 +209,6 @@
 						<int key="objectID">28</int>
 						<reference key="object" ref="844358533"/>
 						<reference key="parent" ref="189615296"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">31</int>
-						<reference key="object" ref="199369104"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="227118773"/>
-						</object>
-						<reference key="parent" ref="1037244882"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">30</int>
-						<reference key="object" ref="227118773"/>
-						<reference key="parent" ref="199369104"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">32</int>
@@ -304,17 +258,12 @@
 					<string>17.IBEditorWindowLastContentRect</string>
 					<string>17.IBPluginDependency</string>
 					<string>18.IBPluginDependency</string>
-					<string>19.CustomClassName</string>
-					<string>19.IBPluginDependency</string>
-					<string>22.IBPluginDependency</string>
 					<string>26.IBPluginDependency</string>
 					<string>27.CustomClassName</string>
 					<string>28.IBPluginDependency</string>
 					<string>29.CustomClassName</string>
 					<string>3.CustomClassName</string>
 					<string>3.IBPluginDependency</string>
-					<string>30.IBPluginDependency</string>
-					<string>31.CustomClassName</string>
 					<string>34.CustomClassName</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
@@ -326,17 +275,12 @@
 					<string>{{547, 622}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>MEPostViewController</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>MEMyMetooViewController</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>MEFriendsViewController</string>
 					<string>AppDelegate</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>METagsViewController</string>
 					<string>MESettingsViewController</string>
 				</object>
 			</object>
@@ -440,56 +384,12 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">MEPostViewController</string>
-					<string key="superclassName">UIViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSMutableArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>keyboardToolbarDoneButtonTapped:</string>
-							<string>postButtonTapped:</string>
-							<string>takePictureButtonTapped:</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSMutableArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>mAttachedImageView</string>
-							<string>mBodyTextView</string>
-							<string>mKeyboardToolbar</string>
-							<string>mTagTextView</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>UIImageView</string>
-							<string>UITextView</string>
-							<string>UIToolbar</string>
-							<string>UITextView</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/MEPostViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">MEPostViewController</string>
-					<string key="superclassName">UIViewController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBUserSource</string>
-						<string key="minorKey"/>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">MEReaderView</string>
 					<string key="superclassName">UIView</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">mDelegate</string>
+						<string key="NS.object.0">id</string>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Classes/MEReaderView.h</string>
@@ -504,11 +404,10 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">METagsViewController</string>
-					<string key="superclassName">UIViewController</string>
+					<string key="className">NSObject</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/METagsViewController.h</string>
+						<string key="minorKey">Additions/MEFuture.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
