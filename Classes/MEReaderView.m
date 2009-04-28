@@ -17,6 +17,7 @@
 #import "MEAttributedLabel.h"
 #import "MEAttributedString.h"
 #import "MEUserInfoViewController.h"
+#import "MEActionPopupViewController.h"
 
 
 #define kPostBodyWidth  250
@@ -414,6 +415,15 @@
 
 #pragma mark -
 #pragma mark TableView Delegate
+
+
+- (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
+{
+    [aTableView deselectRowAtIndexPath:aIndexPath animated:YES];
+    
+    MEActionPopupViewController *sViewController = [[MEActionPopupViewController alloc] initWithNibName:@"ActionPopupViewController" bundle:nil];
+    [[self window] addSubview:[sViewController view]];
+}
 
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)aIndexPath

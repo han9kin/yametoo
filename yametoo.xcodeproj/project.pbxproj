@@ -33,6 +33,8 @@
 		2E7521000FA6CDA300B0D4FA /* MEUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E7520FF0FA6CDA300B0D4FA /* MEUserInfoViewController.m */; };
 		2E7521020FA6CDBE00B0D4FA /* UserInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E7521010FA6CDBE00B0D4FA /* UserInfoViewController.xib */; };
 		2E7521E30FA6EDB900B0D4FA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E7521E20FA6EDB900B0D4FA /* QuartzCore.framework */; };
+		2E75224B0FA7098C00B0D4FA /* ActionPopupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E75224A0FA7098C00B0D4FA /* ActionPopupViewController.xib */; };
+		2E7522530FA70A0000B0D4FA /* MEActionPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E7522520FA70A0000B0D4FA /* MEActionPopupViewController.m */; };
 		2EC19A590F9C1D5D00963971 /* MELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC19A580F9C1D5D00963971 /* MELoginViewController.m */; };
 		2EC19A5B0F9C1E9800963971 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EC19A5A0F9C1E9800963971 /* LoginViewController.xib */; };
 		2EC19F740F9DCFAC00963971 /* MEImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC19F730F9DCFAC00963971 /* MEImageView.m */; };
@@ -122,6 +124,9 @@
 		2E7520FF0FA6CDA300B0D4FA /* MEUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEUserInfoViewController.m; sourceTree = "<group>"; };
 		2E7521010FA6CDBE00B0D4FA /* UserInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserInfoViewController.xib; sourceTree = "<group>"; };
 		2E7521E20FA6EDB900B0D4FA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		2E75224A0FA7098C00B0D4FA /* ActionPopupViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActionPopupViewController.xib; sourceTree = "<group>"; };
+		2E7522510FA70A0000B0D4FA /* MEActionPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEActionPopupViewController.h; sourceTree = "<group>"; };
+		2E7522520FA70A0000B0D4FA /* MEActionPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEActionPopupViewController.m; sourceTree = "<group>"; };
 		2EC19A570F9C1D5D00963971 /* MELoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELoginViewController.h; sourceTree = "<group>"; };
 		2EC19A580F9C1D5D00963971 /* MELoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MELoginViewController.m; sourceTree = "<group>"; };
 		2EC19A5A0F9C1E9800963971 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -264,6 +269,7 @@
 				2EE00DEB0F970EE600135D42 /* FriendsViewController.xib */,
 				2899E5210DE3E06400AC0155 /* PostViewController.xib */,
 				2E7521010FA6CDBE00B0D4FA /* UserInfoViewController.xib */,
+				2E75224A0FA7098C00B0D4FA /* ActionPopupViewController.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				CF528C970FA06BC1007C7A03 /* Localizable.strings */,
 				CF528CB70FA149B6007C7A03 /* CharacterEntity.strings */,
@@ -378,6 +384,15 @@
 			name = UserInfoViewController;
 			sourceTree = "<group>";
 		};
+		2E75224C0FA709C100B0D4FA /* ActionPopupViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2E7522510FA70A0000B0D4FA /* MEActionPopupViewController.h */,
+				2E7522520FA70A0000B0D4FA /* MEActionPopupViewController.m */,
+			);
+			name = ActionPopupViewController;
+			sourceTree = "<group>";
+		};
 		2EC19A560F9C1D4800963971 /* LoginViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -449,6 +464,7 @@
 				2E6D55D40F95C77C00AA1DF6 /* SettingsViewController */,
 				CF5EE75E0F971639004712FF /* UserViewController */,
 				CF5EE8570F98503B004712FF /* UserDetailViewController */,
+				2E75224C0FA709C100B0D4FA /* ActionPopupViewController */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -625,6 +641,7 @@
 				CF528C980FA06BC2007C7A03 /* Localizable.strings in Resources */,
 				CF528CB80FA149B6007C7A03 /* CharacterEntity.strings in Resources */,
 				2E7521020FA6CDBE00B0D4FA /* UserInfoViewController.xib in Resources */,
+				2E75224B0FA7098C00B0D4FA /* ActionPopupViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -682,6 +699,7 @@
 				CFE72CB80FA6A36B00C54792 /* MEComment.m in Sources */,
 				CFE72CCB0FA6A80800C54792 /* MECommentBodyTextParser.m in Sources */,
 				2E7521000FA6CDA300B0D4FA /* MEUserInfoViewController.m in Sources */,
+				2E7522530FA70A0000B0D4FA /* MEActionPopupViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
