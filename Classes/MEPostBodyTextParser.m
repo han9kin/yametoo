@@ -1,5 +1,5 @@
 /*
- *  MEBodyTextParser.m
+ *  MEPostBodyTextParser.m
  *  yametoo
  *
  *  Created by han9kin on 09. 04. 24.
@@ -7,7 +7,7 @@
  *
  */
 
-#import "MEBodyTextParser.h"
+#import "MEPostBodyTextParser.h"
 #import "MEMutableAttributedString.h"
 
 
@@ -15,7 +15,7 @@ static NSDictionary *gDefaultAttributes = nil;
 static NSDictionary *gLinkAttributes    = nil;
 
 
-@implementation MEBodyTextParser
+@implementation MEPostBodyTextParser
 
 + (void)initialize
 {

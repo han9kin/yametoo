@@ -46,7 +46,7 @@
 		CF528C980FA06BC2007C7A03 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF528C970FA06BC1007C7A03 /* Localizable.strings */; };
 		CF528CB80FA149B6007C7A03 /* CharacterEntity.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF528CB70FA149B6007C7A03 /* CharacterEntity.strings */; };
 		CF528CE70FA15683007C7A03 /* METextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF528CE60FA15683007C7A03 /* METextParser.m */; };
-		CF528CFB0FA162DB007C7A03 /* MEBodyTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF528CFA0FA162DB007C7A03 /* MEBodyTextParser.m */; };
+		CF528CFB0FA162DB007C7A03 /* MEPostBodyTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF528CFA0FA162DB007C7A03 /* MEPostBodyTextParser.m */; };
 		CF528D540FA18609007C7A03 /* MEAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF528D530FA18609007C7A03 /* MEAttributedLabel.m */; };
 		CF5EE6B40F95DE8D004712FF /* NSNull+NilObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE6B30F95DE8D004712FF /* NSNull+NilObject.m */; };
 		CF5EE75D0F97162F004712FF /* MESettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE75C0F97162F004712FF /* MESettingsViewController.m */; };
@@ -68,6 +68,8 @@
 		CF9046430F95C4A4001AE52C /* NSURL+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9046420F95C4A4001AE52C /* NSURL+MEAdditions.m */; };
 		CFE72AA90FA1A0C400C54792 /* MEAttributedLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72AA80FA1A0C400C54792 /* MEAttributedLayoutManager.m */; };
 		CFE72BDD0FA5859300C54792 /* MEPostIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72BDC0FA5859300C54792 /* MEPostIcon.m */; };
+		CFE72CB80FA6A36B00C54792 /* MEComment.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72CB70FA6A36B00C54792 /* MEComment.m */; };
+		CFE72CCB0FA6A80800C54792 /* MECommentBodyTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72CCA0FA6A80800C54792 /* MECommentBodyTextParser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -143,8 +145,8 @@
 		CF528CB70FA149B6007C7A03 /* CharacterEntity.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = CharacterEntity.strings; sourceTree = "<group>"; };
 		CF528CE50FA15683007C7A03 /* METextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = METextParser.h; sourceTree = "<group>"; };
 		CF528CE60FA15683007C7A03 /* METextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = METextParser.m; sourceTree = "<group>"; };
-		CF528CF90FA162DB007C7A03 /* MEBodyTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBodyTextParser.h; sourceTree = "<group>"; };
-		CF528CFA0FA162DB007C7A03 /* MEBodyTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBodyTextParser.m; sourceTree = "<group>"; };
+		CF528CF90FA162DB007C7A03 /* MEPostBodyTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPostBodyTextParser.h; sourceTree = "<group>"; };
+		CF528CFA0FA162DB007C7A03 /* MEPostBodyTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPostBodyTextParser.m; sourceTree = "<group>"; };
 		CF528D520FA18609007C7A03 /* MEAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEAttributedLabel.h; sourceTree = "<group>"; };
 		CF528D530FA18609007C7A03 /* MEAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEAttributedLabel.m; sourceTree = "<group>"; };
 		CF5EE6B30F95DE8D004712FF /* NSNull+NilObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNull+NilObject.m"; sourceTree = "<group>"; };
@@ -185,6 +187,10 @@
 		CFE72AA80FA1A0C400C54792 /* MEAttributedLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEAttributedLayoutManager.m; sourceTree = "<group>"; };
 		CFE72BDB0FA5859300C54792 /* MEPostIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPostIcon.h; sourceTree = "<group>"; };
 		CFE72BDC0FA5859300C54792 /* MEPostIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPostIcon.m; sourceTree = "<group>"; };
+		CFE72CB60FA6A36B00C54792 /* MEComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEComment.h; sourceTree = "<group>"; };
+		CFE72CB70FA6A36B00C54792 /* MEComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEComment.m; sourceTree = "<group>"; };
+		CFE72CC90FA6A80800C54792 /* MECommentBodyTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MECommentBodyTextParser.h; sourceTree = "<group>"; };
+		CFE72CCA0FA6A80800C54792 /* MECommentBodyTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MECommentBodyTextParser.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -323,6 +329,8 @@
 				2E61037A0F9883B30097AD3D /* MEPost.m */,
 				CFE72BDB0FA5859300C54792 /* MEPostIcon.h */,
 				CFE72BDC0FA5859300C54792 /* MEPostIcon.m */,
+				CFE72CB60FA6A36B00C54792 /* MEComment.h */,
+				CFE72CB70FA6A36B00C54792 /* MEComment.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -409,8 +417,10 @@
 			children = (
 				CF528CE50FA15683007C7A03 /* METextParser.h */,
 				CF528CE60FA15683007C7A03 /* METextParser.m */,
-				CF528CF90FA162DB007C7A03 /* MEBodyTextParser.h */,
-				CF528CFA0FA162DB007C7A03 /* MEBodyTextParser.m */,
+				CF528CF90FA162DB007C7A03 /* MEPostBodyTextParser.h */,
+				CF528CFA0FA162DB007C7A03 /* MEPostBodyTextParser.m */,
+				CFE72CC90FA6A80800C54792 /* MECommentBodyTextParser.h */,
+				CFE72CCA0FA6A80800C54792 /* MECommentBodyTextParser.m */,
 			);
 			name = Parser;
 			sourceTree = "<group>";
@@ -660,12 +670,14 @@
 				CF5EEA700F9C7D9B004712FF /* MEAttributedString.m in Sources */,
 				2EC19F740F9DCFAC00963971 /* MEImageView.m in Sources */,
 				CF528CE70FA15683007C7A03 /* METextParser.m in Sources */,
-				CF528CFB0FA162DB007C7A03 /* MEBodyTextParser.m in Sources */,
+				CF528CFB0FA162DB007C7A03 /* MEPostBodyTextParser.m in Sources */,
 				CF528D540FA18609007C7A03 /* MEAttributedLabel.m in Sources */,
 				CFE72AA90FA1A0C400C54792 /* MEAttributedLayoutManager.m in Sources */,
 				2E2B6BDA0FA5A48200F4B830 /* MEMediaView.m in Sources */,
 				2E2B6C610FA5B04B00F4B830 /* MEDrawingFunctions.m in Sources */,
 				CFE72BDD0FA5859300C54792 /* MEPostIcon.m in Sources */,
+				CFE72CB80FA6A36B00C54792 /* MEComment.m in Sources */,
+				CFE72CCB0FA6A80800C54792 /* MECommentBodyTextParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

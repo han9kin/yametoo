@@ -1,5 +1,5 @@
 /*
- *  MEBodyTextParser.h
+ *  MEPostBodyTextParser.h
  *  yametoo
  *
  *  Created by han9kin on 09. 04. 24.
@@ -11,7 +11,7 @@
 #import "METextParser.h"
 
 
-@interface MEBodyTextParser : METextParser
+@interface MEPostBodyTextParser : METextParser
 {
 
 }

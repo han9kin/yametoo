@@ -22,11 +22,12 @@ extern NSString *MEClientErrorDomain;
 - (void)client:(MEClient *)aClient didLoadImage:(UIImage *)aImage key:(NSString *)aKey error:(NSError *)aError;
 
 - (void)client:(MEClient *)aClient didLoginWithError:(NSError *)aError;
-- (void)client:(MEClient *)aClient didCreatePostWithError:(NSError *)aError;
 - (void)client:(MEClient *)aClient didCreateCommentWithError:(NSError *)aError;
-- (void)client:(MEClient *)aClient didGetPosts:(NSArray *)aPosts error:(NSError *)aError;
-- (void)client:(MEClient *)aClient didGetPerson:(MEUser *)aUser error:(NSError *)aError;
+- (void)client:(MEClient *)aClient didCreatePostWithError:(NSError *)aError;
+- (void)client:(MEClient *)aClient didGetComments:(NSArray *)aComments error:(NSError *)aError;
 - (void)client:(MEClient *)aClient didGetFriends:(NSArray *)aFriends error:(NSError *)aError;
+- (void)client:(MEClient *)aClient didGetPerson:(MEUser *)aUser error:(NSError *)aError;
+- (void)client:(MEClient *)aClient didGetPosts:(NSArray *)aPosts error:(NSError *)aError;
 
 @end
 
@@ -45,10 +46,11 @@ extern NSString *MEClientErrorDomain;
 - (void)loadImageWithURL:(NSURL *)aURL key:(id)aKey delegate:(id)aDelegate;
 
 - (void)loginWithUserID:(NSString *)aUserID userKey:(NSString *)aUserKey delegate:(id)aDelegate;
-- (void)createPostWithBody:(NSString *)aBody tags:(NSString *)aTags icon:(NSInteger)aIcon attachedImage:(UIImage *)aImage delegate:(id)aDelegate;
 - (void)createCommentWithPostID:(NSString *)aPostID body:(NSString *)aBody delegate:(id)aDelegate;
-- (void)getPostsWithUserID:(NSString *)aUserID offset:(NSInteger)aOffset count:(NSInteger)aCount delegate:(id)aDelegate;
-- (void)getPersonWithUserID:(NSString *)aUserID delegate:(id)aDelegate;
+- (void)createPostWithBody:(NSString *)aBody tags:(NSString *)aTags icon:(NSInteger)aIcon attachedImage:(UIImage *)aImage delegate:(id)aDelegate;
+- (void)getCommentsWithPostID:(NSString *)aPostID delegate:(id)aDelegate;
 - (void)getFriendsWithUserID:(NSString *)aUserID delegate:(id)aDelegate;
+- (void)getPersonWithUserID:(NSString *)aUserID delegate:(id)aDelegate;
+- (void)getPostsWithUserID:(NSString *)aUserID offset:(NSInteger)aOffset count:(NSInteger)aCount delegate:(id)aDelegate;
 
 @end
