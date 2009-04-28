@@ -26,7 +26,7 @@ static NSDictionary *gLinkAttributes    = nil;
 
     if (!gLinkAttributes)
     {
-        gLinkAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:[UIColor colorWithRed:0.90 green:0.35 blue:0.01 alpha:1.0], MEForegroundColorAttributeName, [UIColor whiteColor], MEHighlightedColorAttributeName, nil];
+        gLinkAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:[UIColor orangeColor], MEForegroundColorAttributeName, [UIColor whiteColor], MEHighlightedColorAttributeName, nil];
     }
 }
 
