@@ -36,7 +36,7 @@
 @end
 
 
-@protocol MEReaderView
+@protocol MEReaderViewDelegate
 
 - (void)newPostForReaderView:(MEReaderView *)aReaderView;
 

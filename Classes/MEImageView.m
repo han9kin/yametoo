@@ -60,6 +60,12 @@
 #pragma mark Instance Methods
 
 
+- (void)setDelegate:(id)aDelegate
+{
+    mDelegate = aDelegate;
+}
+
+
 - (void)setImageWithURL:(NSURL *)aURL
 {
     if (mURL != aURL)
@@ -92,6 +98,8 @@
         {
             [mImage release];
             mImage = [aImage retain];
+            
+            [mDelegate imageView:self imageDidLoad:mImage];
 
             [self setNeedsDisplay];
         }

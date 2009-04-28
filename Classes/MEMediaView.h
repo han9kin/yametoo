@@ -15,8 +15,13 @@
 
 @interface MEMediaView : UIView
 {
-    NSURL       *mPhotoURL;
-    MEImageView *mImageView;
+    NSURL                   *mPhotoURL;
+    UIActivityIndicatorView *mIndicator;
+    UIView                  *mFrameView;
+    MEImageView             *mImageView;
+    UIButton                *mCloseButton;
+    
+    CGRect                   mImageRect;
 }
 
 @property (nonatomic, copy) NSURL *photoURL;

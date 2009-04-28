@@ -282,10 +282,14 @@
     MEImageView *sImageView = (MEImageView *)aSender;
     NSString    *sPostID    = [[sImageView userInfo] objectForKey:@"postID"];
     MEPost      *sPost      = [self postForPostID:sPostID];
+    NSURL       *sPhotoURL  = [sPost photoURL];
 
-    [mMediaView setPhotoURL:[sPost photoURL]];
-    [mMediaView setFrame:CGRectMake(0, 0, 320, 480)];
-    [[self window] addSubview:mMediaView];
+    if (sPhotoURL)
+    {
+        [mMediaView setPhotoURL:sPhotoURL];
+        [mMediaView setFrame:CGRectMake(0, 0, 320, 480)];
+        [[self window] addSubview:mMediaView];
+    }
 }
 
 

@@ -12,6 +12,7 @@
 
 @interface MEImageView : UIControl
 {
+    id                   mDelegate;
     NSURL               *mURL;
     UIImage             *mImage;
     NSMutableDictionary *mUserInfo;
@@ -19,6 +20,14 @@
 
 @property(nonatomic, readonly) NSMutableDictionary *userInfo;
 
+- (void)setDelegate:(id)aDelegate;
 - (void)setImageWithURL:(NSURL *)aURL;
+
+@end
+
+
+@protocol MEImageViewDelegate
+
+- (void)imageView:(MEImageView *)aImageView imageDidLoad:(UIImage *)aImage;
 
 @end
