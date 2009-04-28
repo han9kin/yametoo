@@ -66,7 +66,6 @@
    
     if ([sUserID isEqualToString:[aUser userID]])
     {
-        NSLog(@"email = %@", [aUser email]);
         [mReaderView setUser:aUser];
     }
 }

@@ -16,13 +16,13 @@
     IBOutlet UITextView  *mTagTextView;
     IBOutlet UIImageView *mAttachedImageView;
 
-    UIImage              *mAttachedImage;
+    CALayer *mCharCountLayer;
+    UIImage *mAttachedImage;
 }
 
 - (IBAction)takePictureButtonTapped:(id)aSender;
 - (IBAction)fromPhotoLibraryButtonTapped:(id)aSender;
 - (IBAction)postButtonTapped:(id)aSender;
 - (IBAction)cancelButtonTapped:(id)aSender;
-- (IBAction)keyboardToolbarDoneButtonTapped:(id)aSender;
 
 @end

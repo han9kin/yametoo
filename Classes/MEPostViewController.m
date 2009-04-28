@@ -10,6 +10,7 @@
 #import "MEPostViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
+#import "MEDrawingFunctions.h"
 
 
 @implementation MEPostViewController
@@ -23,28 +24,25 @@
     [mBodyTextView setReturnKeyType:UIReturnKeyNext];
     [mTagTextView  setText:@""];
     [mTagTextView  setReturnKeyType:UIReturnKeyDone];
+    
+    mCharCountLayer = [[CALayer layer] retain];
+    [mCharCountLayer setHidden:YES];
+    [mCharCountLayer setFrame:CGRectMake(200, 195, 0, 0)];
+    
+    [[[self view] layer] addSublayer:mCharCountLayer];
 }
 
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
-{
-    // Return YES for supported orientations
-    return (aInterfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
 - (void)didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
+    [super didReceiveMemoryWarning];
 }
+
 
 - (void)dealloc
 {
-    NSLog(@"postViewController dealloc");
-    [mAttachedImage release];
+    [mCharCountLayer release];
+    [mAttachedImage  release];
     
     [super dealloc];
 }
@@ -54,13 +52,33 @@
 #pragma mark Private
 
 
-- (void)beginEditModeAnimation
+- (void)updateCharCounter
 {
-}
+    UIImage  *sImage = nil;
+    NSString *sBody  = [mBodyTextView text];
+    UIFont   *sFont  = [UIFont systemFontOfSize:17];
+    NSString *sStr   = [NSString stringWithFormat:NSLocalizedString(@"%d character(s) remains", nil), (150 - [sBody length])];
+    CGSize    sSize  = [sStr sizeWithFont:sFont];
+    CGRect    sFrame;
+    
+    sSize.width  += 10;
+    sSize.height += 6;
 
-
-- (void)beginNormalModeAnimation
-{
+    UIGraphicsBeginImageContext(sSize);
+    [[UIColor orangeColor] set];
+    MERoundRectFill(CGRectMake(0, 0, sSize.width, sSize.height), 3);
+    
+    [[UIColor blackColor] set];
+    [sStr drawAtPoint:CGPointMake(5, 5) withFont:sFont];
+    
+    sImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    sFrame = CGRectMake(320 - sSize.width - 20, 195, sSize.width, sSize.height);
+    
+    [mCharCountLayer setOpacity:0.8];
+    [mCharCountLayer setContents:(id)[sImage CGImage]];
+    [mCharCountLayer setFrame:sFrame];
 }
 
 
@@ -109,22 +127,39 @@
 }
 
 
-- (IBAction)keyboardToolbarDoneButtonTapped:(id)aSender
-{
-    [mBodyTextView resignFirstResponder];
-    [mTagTextView resignFirstResponder];
-
-    [self beginNormalModeAnimation];
-}
-
-
 #pragma mark -
 #pragma mark TextViewDelegate
 
 
 - (void)textViewDidBeginEditing:(UITextView *)aTextView;
 {
-    [self beginEditModeAnimation];
+    if (aTextView == mBodyTextView)
+    {
+        [self updateCharCounter];
+        [mCharCountLayer setHidden:NO];
+    }
+}
+
+
+- (void)textViewDidEndEditing:(UITextView *)aTextView
+{
+    if (aTextView == mBodyTextView)
+    {
+        [mCharCountLayer setContents:nil];
+        [mCharCountLayer setHidden:YES];
+    }
+}
+
+
+- (void)textViewDidChange:(UITextView *)aTextView
+{
+    if (aTextView == mBodyTextView)
+    {
+        [self updateCharCounter];
+    }
+
+    NSRange sRange = [aTextView selectedRange];
+    [aTextView scrollRangeToVisible:sRange];
 }
 
 
@@ -132,7 +167,7 @@
 {
     if ([aText length] == 1 && [aText characterAtIndex:0] == 10)
     {
-        if (aTextView == mBodyTextView)
+        if (aTextView == mBodyTextView)        
         {
             [mTagTextView becomeFirstResponder];
         }
@@ -141,26 +176,21 @@
             [mTagTextView resignFirstResponder];
         }
     }
+    else if (aTextView == mBodyTextView)
+    {
+        NSString *sBody = [mBodyTextView text];
+        if ([sBody length] >= 150)
+        {
+            return NO;
+        }
+    }
     
     return YES;
 }
 
 
-- (void)textViewDidChange:(UITextView *)aTextView
-{
-    NSRange sRange = [aTextView selectedRange];
-    [aTextView scrollRangeToVisible:sRange];
-}
-
-
 #pragma mark -
 #pragma mark MEClientDelegate
-
-
-/*- (void)client:(MEClient *)aClient didLoginWithError:(NSError *)aError
-{
-    NSLog(@"%@", aError);
-}*/
 
 
 - (void)client:(MEClient *)aClient didCreatePostWithError:(NSError *)aError
@@ -197,17 +227,6 @@
     [aPicker autorelease];
     
     [mAttachedImage autorelease];
-    
-/*    sSize = [aImage size];
-    sSize.width  /= 2;
-    sSize.height /= 2;
-    
-    UIGraphicsBeginImageContext(sSize);
-    [aImage drawInRect:CGRectMake(0, 0, sSize.width, sSize.height)];
-    mAttachedImage = UIGraphicsGetImageFromCurrentImageContext();
-    [mAttachedImage retain];
-    UIGraphicsEndImageContext();*/
-    
     mAttachedImage = [aImage retain];
 
     [mAttachedImageView setImage:mAttachedImage];
