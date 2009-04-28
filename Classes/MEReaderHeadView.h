@@ -44,6 +44,7 @@
 
 @protocol MEReaderHeadViewDelegate
 
+- (void)nicknameButtonTapped:(MEReaderHeadView *)aHeaderView;
 - (void)newPostButtonTapped:(MEReaderHeadView *)aHeaderView;
 
 @end

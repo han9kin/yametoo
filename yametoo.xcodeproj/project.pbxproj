@@ -30,6 +30,8 @@
 		2E61035A0F9880820097AD3D /* MEUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6103590F9880820097AD3D /* MEUser.m */; };
 		2E61037B0F9883B30097AD3D /* MEPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E61037A0F9883B30097AD3D /* MEPost.m */; };
 		2E6D55820F95BAF400AA1DF6 /* yametoo_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E6D55810F95BAF400AA1DF6 /* yametoo_icon.png */; };
+		2E7521000FA6CDA300B0D4FA /* MEUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E7520FF0FA6CDA300B0D4FA /* MEUserInfoViewController.m */; };
+		2E7521020FA6CDBE00B0D4FA /* UserInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E7521010FA6CDBE00B0D4FA /* UserInfoViewController.xib */; };
 		2EC19A590F9C1D5D00963971 /* MELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC19A580F9C1D5D00963971 /* MELoginViewController.m */; };
 		2EC19A5B0F9C1E9800963971 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EC19A5A0F9C1E9800963971 /* LoginViewController.xib */; };
 		2EC19F740F9DCFAC00963971 /* MEImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC19F730F9DCFAC00963971 /* MEImageView.m */; };
@@ -117,6 +119,9 @@
 		2E6103790F9883B30097AD3D /* MEPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPost.h; sourceTree = "<group>"; };
 		2E61037A0F9883B30097AD3D /* MEPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPost.m; sourceTree = "<group>"; };
 		2E6D55810F95BAF400AA1DF6 /* yametoo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yametoo_icon.png; sourceTree = "<group>"; };
+		2E7520FE0FA6CDA300B0D4FA /* MEUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEUserInfoViewController.h; sourceTree = "<group>"; };
+		2E7520FF0FA6CDA300B0D4FA /* MEUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEUserInfoViewController.m; sourceTree = "<group>"; };
+		2E7521010FA6CDBE00B0D4FA /* UserInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserInfoViewController.xib; sourceTree = "<group>"; };
 		2EC19A570F9C1D5D00963971 /* MELoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELoginViewController.h; sourceTree = "<group>"; };
 		2EC19A580F9C1D5D00963971 /* MELoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MELoginViewController.m; sourceTree = "<group>"; };
 		2EC19A5A0F9C1E9800963971 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -261,6 +266,7 @@
 				2EE00DEB0F970EE600135D42 /* FriendsViewController.xib */,
 				2EE00DFF0F97134A00135D42 /* TagsViewController.xib */,
 				2899E5210DE3E06400AC0155 /* PostViewController.xib */,
+				2E7521010FA6CDBE00B0D4FA /* UserInfoViewController.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				CF528C970FA06BC1007C7A03 /* Localizable.strings */,
 				CF528CB70FA149B6007C7A03 /* CharacterEntity.strings */,
@@ -365,6 +371,15 @@
 			name = SettingsViewController;
 			sourceTree = "<group>";
 		};
+		2E7520FD0FA6CD7E00B0D4FA /* UserInfoViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2E7520FE0FA6CDA300B0D4FA /* MEUserInfoViewController.h */,
+				2E7520FF0FA6CDA300B0D4FA /* MEUserInfoViewController.m */,
+			);
+			name = UserInfoViewController;
+			sourceTree = "<group>";
+		};
 		2EC19A560F9C1D4800963971 /* LoginViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -439,6 +454,7 @@
 			children = (
 				2EC19A560F9C1D4800963971 /* LoginViewController */,
 				2EE00DA10F970AEE00135D42 /* MymetooViewController */,
+				2E7520FD0FA6CD7E00B0D4FA /* UserInfoViewController */,
 				2EE00DB60F970D1000135D42 /* FriendsViewController */,
 				2EE00DFB0F9710A900135D42 /* TagViewController */,
 				2E6D55D30F95C77000AA1DF6 /* PostViewController */,
@@ -621,6 +637,7 @@
 				2EC19A5B0F9C1E9800963971 /* LoginViewController.xib in Resources */,
 				CF528C980FA06BC2007C7A03 /* Localizable.strings in Resources */,
 				CF528CB80FA149B6007C7A03 /* CharacterEntity.strings in Resources */,
+				2E7521020FA6CDBE00B0D4FA /* UserInfoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -678,6 +695,7 @@
 				CFE72BDD0FA5859300C54792 /* MEPostIcon.m in Sources */,
 				CFE72CB80FA6A36B00C54792 /* MEComment.m in Sources */,
 				CFE72CCB0FA6A80800C54792 /* MECommentBodyTextParser.m in Sources */,
+				2E7521000FA6CDA300B0D4FA /* MEUserInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

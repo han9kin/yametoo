@@ -123,7 +123,10 @@
 
 - (IBAction)nicknameButtonTapped:(id)aSender
 {
-    NSLog(@"nicknameButtonTapped");
+    if ([mDelegate respondsToSelector:@selector(nicknameButtonTapped:)])
+    {
+        [mDelegate nicknameButtonTapped:self];
+    }
 }
 
 

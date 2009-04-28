@@ -16,6 +16,7 @@
 #import "MEUser.h"
 #import "MEAttributedLabel.h"
 #import "MEAttributedString.h"
+#import "MEUserInfoViewController.h"
 
 
 #define kPostBodyWidth  250
@@ -86,6 +87,8 @@
 
 - (void)dealloc
 {
+    [mUser           release];
+    
     [mPostArray      release];
     [mTableView      release];
     [mCellHeightDict release];
@@ -116,6 +119,9 @@
 - (void)setUser:(MEUser *)aUser
 {
     MEReaderHeadView *sHeaderView;
+    
+    [mUser autorelease];
+    mUser = [aUser retain];
 
     sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
     [sHeaderView setNickname:[aUser nickname]];
@@ -453,6 +459,14 @@
 
 #pragma mark -
 #pragma mark MEReaderHead Delegate
+
+
+- (void)nicknameButtonTapped:(MEReaderHeadView *)aHeaderView;
+{
+    MEUserInfoViewController *sUserInfoViewController = [[MEUserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil];
+    [sUserInfoViewController setUser:mUser];
+    [[self window] addSubview:[sUserInfoViewController view]];
+}
 
 
 - (void)newPostButtonTapped:(MEReaderHeadView *)aReaderHeadView

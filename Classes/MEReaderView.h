@@ -18,6 +18,9 @@
 @interface MEReaderView : UIView <UITableViewDataSource, UITableViewDelegate>
 {
     id                   mDelegate;
+    
+    MEUser              *mUser;
+    
     NSMutableArray      *mPostArray;
     UITableView         *mTableView;
     NSMutableDictionary *mCellHeightDict;
@@ -38,6 +41,7 @@
 
 @protocol MEReaderViewDelegate
 
+//- (void)userInfoForReaderView:(MEReaderView *)aReaderView;
 - (void)newPostForReaderView:(MEReaderView *)aReaderView;
 
 @end

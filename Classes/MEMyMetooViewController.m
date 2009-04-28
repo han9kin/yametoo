@@ -12,6 +12,7 @@
 #import "MEClient.h"
 #import "MEPost.h"
 #import "MEPostViewController.h"
+#import "MEUser.h"
 
 
 @implementation MEMyMetooViewController
@@ -65,6 +66,7 @@
    
     if ([sUserID isEqualToString:[aUser userID]])
     {
+        NSLog(@"email = %@", [aUser email]);
         [mReaderView setUser:aUser];
     }
 }
@@ -78,6 +80,13 @@
 
 #pragma mark -
 #pragma mark MEReaderView Delegate
+
+
+/*- (void)userInfoForReaderView:(MEReaderView *)aReaderView
+{
+    NSLog(@"userInfoForReaderView");
+    NSLog(@"user = %@", mUser);
+}*/
 
 
 - (void)newPostForReaderView:(MEReaderView *)aReaderView
