@@ -25,6 +25,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    [mShowRepliesButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+    [mShowPhotoButton   setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
 }
 
 
@@ -36,6 +39,8 @@
 
 - (void)dealloc
 {
+    [mPostID release];
+    
     [super dealloc];
 }
 
@@ -47,6 +52,18 @@
 - (void)setDelegate:(id)aDelegate
 {
     mDelegate = aDelegate;
+}
+
+
+- (void)setShowPhotoButtonEnabled:(BOOL)aFlag
+{
+    [mShowPhotoButton setEnabled:aFlag];
+}
+
+
+- (void)setShowRepliesButtonEnabled:(BOOL)aFlag
+{
+    [mShowRepliesButton setEnabled:aFlag];
 }
 
 

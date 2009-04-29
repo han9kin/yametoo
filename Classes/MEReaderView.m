@@ -438,11 +438,20 @@
     
     [aTableView deselectRowAtIndexPath:aIndexPath animated:YES];
 
-    sPost            = [self postForIndexPath:aIndexPath];        
+    sPost            = [self postForIndexPath:aIndexPath];
     sViewController  = [[MEActionPopupViewController alloc] initWithNibName:@"ActionPopupViewController" bundle:nil];
     [sViewController setDelegate:self];
     [sViewController setPostID:[sPost postID]];
     [[self window] addSubview:[sViewController view]];
+    
+    if (![sPost photoURL])
+    {
+        [sViewController setShowPhotoButtonEnabled:NO];
+    }
+    if ([sPost commentsCount] == 0)
+    {
+        [sViewController setShowRepliesButtonEnabled:NO];
+    }
 }
 
 

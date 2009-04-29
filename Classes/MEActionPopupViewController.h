@@ -27,9 +27,11 @@
     IBOutlet UIButton *mCancelButton;
 }
 
-@property (nonatomic, copy) NSString *postID;
+@property (nonatomic, retain) NSString *postID;
 
 - (void)setDelegate:(id)aDelegate;
+- (void)setShowPhotoButtonEnabled:(BOOL)aFlag;
+- (void)setShowRepliesButtonEnabled:(BOOL)aFlag;
 
 - (IBAction)showRepliesButtonTapped:(id)aSender;
 - (IBAction)postReplyButtonTapped:(id)aSender;
