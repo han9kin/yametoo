@@ -67,7 +67,7 @@
     if (self)
     {
         mPasscodeFields = [[NSMutableArray alloc] initWithCapacity:4];
-        mClient         = aClient;
+        mClient         = [aClient retain];
         mMode           = aMode;
         mDelegate       = aDelegate;
 
@@ -88,6 +88,7 @@
     [mKeyboardLockView release];
     [mCancelButton release];
     [mPasscode release];
+    [mClient release];
 
     [super dealloc];
 }

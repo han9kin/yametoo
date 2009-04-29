@@ -277,16 +277,32 @@
 
 - (void)modifyButtonTapped
 {
+    MEClient *sClient;
+
     if ([[mUserKeyField text] length])
     {
-        MEClient *sClient;
-
         sClient = [[MEClient alloc] init];
         [sClient loginWithUserID:mUserID userKey:[mUserKeyField text] delegate:self];
     }
     else
     {
-        [self showAlert:@"Please enter the user key."];
+        sClient = [MEClientStore clientForUserID:mUserID];
+
+        if ([mPasscodeSwitch isOn])
+        {
+            UIViewController *sViewController;
+
+            sViewController = [[MEPasscodeViewController alloc] initWithClient:sClient mode:kMEPasscodeViewModeChange delegate:self];
+            [self presentModalViewController:sViewController animated:NO];
+            [sViewController release];
+        }
+        else
+        {
+            [sClient setPasscode:nil];
+
+            [[self navigationController] popViewControllerAnimated:YES];
+            [mParentViewController dismissModalViewControllerAnimated:YES];
+        }
     }
 }
 
@@ -324,8 +340,6 @@
             sViewController = [[MEPasscodeViewController alloc] initWithClient:aClient mode:kMEPasscodeViewModeChange delegate:self];
             [self presentModalViewController:sViewController animated:NO];
             [sViewController release];
-
-            [aClient retain];
         }
         else
         {
@@ -361,14 +375,11 @@
 
     [[self navigationController] popViewControllerAnimated:YES];
     [mParentViewController dismissModalViewControllerAnimated:YES];
-
-    [aClient release];
 }
 
 - (void)passcodeViewController:(MEPasscodeViewController *)aViewController didCancelChangingPasscodeClient:(MEClient *)aClient
 {
     [self dismissModalViewControllerAnimated:NO];
-    [aClient release];
 }
 
 

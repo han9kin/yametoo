@@ -11,6 +11,7 @@
 #import <time.h>
 #import <unistd.h>
 #import <JSON/JSON.h>
+#import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEClient+Requests.h"
 #import "MEClientOperation.h"
@@ -125,6 +126,8 @@ static NSMutableDictionary *gQueuedOperations = nil;
     {
         mPasscode = nil;
     }
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:MEClientStoreUserListDidChangeNotification object:nil];
 }
 
 
