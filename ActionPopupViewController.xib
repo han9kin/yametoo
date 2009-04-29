@@ -166,15 +166,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">showPhotoButtonTapped:</string>
-						<reference key="source" ref="626697047"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">12</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">showRepliesButtonTapped:</string>
 						<reference key="source" ref="626697047"/>
 						<reference key="destination" ref="372490531"/>
@@ -352,6 +343,7 @@
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>mCancelButton</string>
+							<string>mDelegate</string>
 							<string>mPostReplyButton</string>
 							<string>mShowPhotoButton</string>
 							<string>mShowRepliesButton</string>
@@ -359,6 +351,7 @@
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIButton</string>
+							<string>id</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>

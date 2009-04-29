@@ -12,52 +12,41 @@
 
 @implementation MEActionPopupViewController
 
-/*
-// The designated initializer. Override to perform setup that is required before the view is loaded.
-- (id)initWithNibName:(NSString *)aNibNameOrNil bundle:(NSBundle *)aNibBundleOrNil
-{
-    self = [super initWithNibName:aNibNameOrNil bundle:aNibBundleOrNil];
-    if (self)
-    {
-        // Custom initialization
-    }
-    return self;
-}
-*/
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
+#pragma mark -
 
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+
+@synthesize postID = mPostID;
+
+
+#pragma mark -
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 }
-*/
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
-{
-    // Return YES for supported orientations
-    return (aInterfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
 - (void)didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
+    [super didReceiveMemoryWarning];
 }
+
 
 - (void)dealloc
 {
     [super dealloc];
+}
+
+
+#pragma mark -
+#pragma mark Instance Methods
+
+
+- (void)setDelegate:(id)aDelegate
+{
+    mDelegate = aDelegate;
 }
 
 
@@ -67,25 +56,37 @@
 
 - (IBAction)showRepliesButtonTapped:(id)aSender
 {
-    NSLog(@"showRepliesButtonTapped");
+    if ([mDelegate respondsToSelector:@selector(actionPopupViewController:buttonTapped:)])
+    {
+        [mDelegate actionPopupViewController:self buttonTapped:kActionPopupViewShowRepliesButton];
+    }
 }
 
 
 - (IBAction)postReplyButtonTapped:(id)aSender
 {
-    NSLog(@"postReplyButtonTapped");
+    if ([mDelegate respondsToSelector:@selector(actionPopupViewController:buttonTapped:)])
+    {
+        [mDelegate actionPopupViewController:self buttonTapped:kActionPopupViewPostReplyButton];
+    }
 }
 
 
 - (IBAction)showPhotoButtonTapped:(id)aSender
 {
-    NSLog(@"showPhotoButtonTapped");
+    if ([mDelegate respondsToSelector:@selector(actionPopupViewController:buttonTapped:)])
+    {
+        [mDelegate actionPopupViewController:self buttonTapped:kActionPopupViewShowPhotoButton];
+    }
 }
 
 
 - (IBAction)cancelButtonTapped:(id)aSender
 {
-    NSLog(@"cencelButton");
+    if ([mDelegate respondsToSelector:@selector(actionPopupViewController:buttonTapped:)])
+    {
+        [mDelegate actionPopupViewController:self buttonTapped:kActionPopupViewCancelButton];
+    }
 }
 
 

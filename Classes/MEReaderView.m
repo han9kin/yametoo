@@ -27,6 +27,9 @@
 @implementation MEReaderView
 
 
+#pragma mark -
+
+
 - (void)initializeVariables
 {
     mPostArray      = [[NSMutableArray alloc] init];
@@ -281,6 +284,24 @@
 
 
 #pragma mark -
+#pragma mark Privates
+
+
+- (void)showPhotoImageOfPostID:(NSString *)aPostID
+{
+    MEPost *sPost     = [self postForPostID:aPostID];
+    NSURL  *sPhotoURL = [sPost photoURL];
+    
+    if (sPhotoURL)
+    {
+        [mMediaView setPhotoURL:sPhotoURL];
+        [mMediaView setFrame:CGRectMake(0, 0, 320, 480)];
+        [[self window] addSubview:mMediaView];
+    }
+}
+
+
+#pragma mark -
 #pragma mark actions
 
 
@@ -288,15 +309,8 @@
 {
     MEImageView *sImageView = (MEImageView *)aSender;
     NSString    *sPostID    = [[sImageView userInfo] objectForKey:@"postID"];
-    MEPost      *sPost      = [self postForPostID:sPostID];
-    NSURL       *sPhotoURL  = [sPost photoURL];
 
-    if (sPhotoURL)
-    {
-        [mMediaView setPhotoURL:sPhotoURL];
-        [mMediaView setFrame:CGRectMake(0, 0, 320, 480)];
-        [[self window] addSubview:mMediaView];
-    }
+    [self showPhotoImageOfPostID:sPostID];
 }
 
 
@@ -419,9 +433,15 @@
 
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    [aTableView deselectRowAtIndexPath:aIndexPath animated:YES];
+    MEPost *sPost;
+    MEActionPopupViewController *sViewController;
     
-    MEActionPopupViewController *sViewController = [[MEActionPopupViewController alloc] initWithNibName:@"ActionPopupViewController" bundle:nil];
+    [aTableView deselectRowAtIndexPath:aIndexPath animated:YES];
+
+    sPost            = [self postForIndexPath:aIndexPath];        
+    sViewController  = [[MEActionPopupViewController alloc] initWithNibName:@"ActionPopupViewController" bundle:nil];
+    [sViewController setDelegate:self];
+    [sViewController setPostID:[sPost postID]];
     [[self window] addSubview:[sViewController view]];
 }
 
@@ -485,6 +505,37 @@
     {
         [mDelegate newPostForReaderView:self];
     }
+}
+
+
+#pragma mark -
+#pragma mark ActionPopupViewController Delegate
+
+
+- (void)actionPopupViewController:(MEActionPopupViewController *)aActionPopupViewController
+                     buttonTapped:(NSInteger)aButtonIndex
+{
+    NSString *sPostID = [aActionPopupViewController postID];
+    
+    if (aButtonIndex == kActionPopupViewShowRepliesButton)
+    {
+    
+    }
+    else if (aButtonIndex == kActionPopupViewPostReplyButton)
+    {
+    
+    }
+    else if (aButtonIndex == kActionPopupViewShowPhotoButton)
+    {
+        [self showPhotoImageOfPostID:sPostID];
+    }
+    else if (aButtonIndex == kActionPopupViewCancelButton)
+    {
+    
+    }
+    
+    [[aActionPopupViewController view] removeFromSuperview];
+    [aActionPopupViewController autorelease];
 }
 
 

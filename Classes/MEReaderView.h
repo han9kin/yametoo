@@ -41,7 +41,6 @@
 
 @protocol MEReaderViewDelegate
 
-//- (void)userInfoForReaderView:(MEReaderView *)aReaderView;
 - (void)newPostForReaderView:(MEReaderView *)aReaderView;
 
 @end

@@ -81,13 +81,6 @@
 #pragma mark MEReaderView Delegate
 
 
-/*- (void)userInfoForReaderView:(MEReaderView *)aReaderView
-{
-    NSLog(@"userInfoForReaderView");
-    NSLog(@"user = %@", mUser);
-}*/
-
-
 - (void)newPostForReaderView:(MEReaderView *)aReaderView
 {
     UIViewController *sViewController;
