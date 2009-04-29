@@ -7,6 +7,9 @@
  *
  */
 
+#import <stdlib.h>
+#import <time.h>
+#import <unistd.h>
 #import <JSON/JSON.h>
 #import "MEClient.h"
 #import "MEClient+Requests.h"
@@ -45,8 +48,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
 #pragma mark properties
 
 
-@synthesize userID   = mUserID;
-@synthesize passcode = mPasscode;
+@synthesize userID = mUserID;
 
 
 #pragma mark -
@@ -96,6 +98,52 @@ static NSMutableDictionary *gQueuedOperations = nil;
 - (NSComparisonResult)compareByUserID:(MEClient *)aClient
 {
     return [[self userID] compare:[aClient userID]];
+}
+
+
+#pragma mark -
+#pragma mark passcode
+
+
+- (void)setPasscode:(NSString *)aPasscode
+{
+    [mPasscode release];
+
+    if (aPasscode)
+    {
+        char sSalt[3];
+
+        srandom(time(NULL));
+
+        sSalt[0] = 'a' + random() % 26;
+        sSalt[1] = 'a' + random() % 26;
+        sSalt[2] = 0;
+
+        mPasscode = [[NSString alloc] initWithUTF8String:crypt([aPasscode UTF8String], sSalt)];
+    }
+    else
+    {
+        mPasscode = nil;
+    }
+}
+
+
+- (BOOL)checkPasscode:(NSString *)aPasscode
+{
+    if (mPasscode)
+    {
+        return [mPasscode isEqualToString:[NSString stringWithUTF8String:crypt([aPasscode UTF8String], [mPasscode UTF8String])]];
+    }
+    else
+    {
+        return YES;
+    }
+}
+
+
+- (BOOL)hasPasscode
+{
+    return mPasscode ? YES : NO;
 }
 
 
@@ -318,17 +366,21 @@ static NSMutableDictionary *gQueuedOperations = nil;
 
     if (sCode)
     {
-        if ([[aDict objectForKey:@"description"] length])
+        if ([[aDict objectForKey:@"message"] length] && [[aDict objectForKey:@"description"] length])
         {
-            sMessage = [aDict objectForKey:@"description"];
+            sMessage = [NSString stringWithFormat:@"%@ (%@)", [aDict objectForKey:@"message"], [aDict objectForKey:@"description"]];
         }
         else if ([[aDict objectForKey:@"message"] length])
         {
             sMessage = [aDict objectForKey:@"message"];
         }
+        else if ([[aDict objectForKey:@"description"] length])
+        {
+            sMessage = [aDict objectForKey:@"description"];
+        }
         else
         {
-            sMessage = @"Unknown";
+            sMessage = @"Unknown error from server.";
         }
 
         sUserInfo = [NSDictionary dictionaryWithObject:sMessage forKey:NSLocalizedDescriptionKey];
@@ -488,14 +540,20 @@ static NSMutableDictionary *gQueuedOperations = nil;
 
         if (sResult)
         {
-            [sDelegate client:self didCreatePostWithError:nil];
+            NSError *sError = [self errorFromResultDictionary:sResult];
+
+            if (sError)
+            {
+                [sDelegate client:self didCreatePostWithError:sError];
+            }
+            else
+            {
+                [sDelegate client:self didCreatePostWithError:nil];
+            }
         }
         else
         {
-            NSDictionary *sUserInfo = [NSDictionary dictionaryWithObject:sSource forKey:NSLocalizedDescriptionKey];
-            NSError      *sError    = [NSError errorWithDomain:MEClientErrorDomain code:0 userInfo:sUserInfo];
-
-            [sDelegate client:self didCreatePostWithError:sError];
+            [sDelegate client:self didCreatePostWithError:[self errorFromResultString:sSource]];
         }
 
         [sPool release];
@@ -662,7 +720,12 @@ static NSMutableDictionary *gQueuedOperations = nil;
 
         if (sResult)
         {
-            sUser = [[MEUser alloc] initWithDictionary:sResult];
+            sError = [[self errorFromResultDictionary:sResult] retain];
+
+            if (!sError)
+            {
+                sUser = [[MEUser alloc] initWithDictionary:sResult];
+            }
         }
         else
         {
@@ -701,21 +764,37 @@ static NSMutableDictionary *gQueuedOperations = nil;
     {
         NSAutoreleasePool *sPool   = [[NSAutoreleasePool alloc] init];
         NSString          *sSource = [[[NSString alloc] initWithData:aData encoding:NSUTF8StringEncoding] autorelease];
-        NSArray           *sResult = [sSource JSONValue];
+        id                 sResult = [sSource JSONValue];
 
         if (sResult)
         {
-            NSDictionary   *sPostDict;
-            NSMutableArray *sPosts;
-
-            sPosts = [NSMutableArray arrayWithCapacity:[sResult count]];
-
-            for (sPostDict in sResult)
+            if ([sResult isKindOfClass:[NSArray class]])
             {
-                [sPosts addObject:[[[MEPost alloc] initWithDictionary:sPostDict] autorelease]];
-            }
+                NSDictionary   *sPostDict;
+                NSMutableArray *sPosts;
 
-            [sDelegate client:self didGetPosts:sPosts error:nil];
+                sPosts = [NSMutableArray arrayWithCapacity:[sResult count]];
+
+                for (sPostDict in sResult)
+                {
+                    [sPosts addObject:[[[MEPost alloc] initWithDictionary:sPostDict] autorelease]];
+                }
+
+                [sDelegate client:self didGetPosts:sPosts error:nil];
+            }
+            else
+            {
+                NSError *sError = [self errorFromResultDictionary:sResult];
+
+                if (sError)
+                {
+                    [sDelegate client:self didGetPosts:nil error:sError];
+                }
+                else
+                {
+                    [sDelegate client:self didGetPosts:nil error:[self errorFromResultString:@"Unexpected response from server."]];
+                }
+            }
         }
         else
         {
@@ -740,11 +819,10 @@ static NSMutableDictionary *gQueuedOperations = nil;
         NSAutoreleasePool *sPool   = [[NSAutoreleasePool alloc] init];
         NSString          *sSource = [[[NSString alloc] initWithData:aData encoding:NSUTF8StringEncoding] autorelease];
         NSDictionary      *sResult = [sSource JSONValue];
-        NSError           *sError;
 
         if (sResult)
         {
-            sError = [self errorFromResultDictionary:sResult];
+            NSError *sError = [self errorFromResultDictionary:sResult];
 
             if (sError)
             {

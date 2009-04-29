@@ -9,6 +9,7 @@
 
 #import "UIViewController+MEAdditions.h"
 #import "MEUserDetailViewController.h"
+#import "MEPasscodeViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 
@@ -94,7 +95,7 @@
     return sCell;
 }
 
-- (UITableViewCell *)buttonCellForTableView:(UITableView *)aTableView
+- (UITableViewCell *)buttonCellForTableView:(UITableView *)aTableView disabled:(BOOL)aDisabled
 {
     UITableViewCell *sCell = [aTableView dequeueReusableCellWithIdentifier:@"Button"];
 
@@ -103,6 +104,17 @@
         sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Button"] autorelease];
 
         [sCell setTextAlignment:UITextAlignmentCenter];
+    }
+
+    if (aDisabled)
+    {
+        [sCell setTextColor:[UIColor lightGrayColor]];
+        [sCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    }
+    else
+    {
+        [sCell setTextColor:[UIColor blackColor]];
+        [sCell setSelectionStyle:UITableViewCellSelectionStyleBlue];
     }
 
     return sCell;
@@ -149,7 +161,7 @@
     {
         UIBarButtonItem *sBarButtonItem;
 
-        sBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Modify", @"") style:UIBarButtonItemStylePlain target:self action:@selector(modifyButtonTapped)];
+        sBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(modifyButtonTapped)];
         [[self navigationItem] setRightBarButtonItem:sBarButtonItem];
         [sBarButtonItem release];
 
@@ -175,11 +187,11 @@
         [sNavigationBar pushNavigationItem:sNavigationItem animated:NO];
         [sNavigationItem release];
 
-        sBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonTapped)];
+        sBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonTapped)];
         [sNavigationItem setLeftBarButtonItem:sBarButtonItem];
         [sBarButtonItem release];
 
-        sBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add", @"") style:UIBarButtonItemStylePlain target:self action:@selector(addButtonTapped)];
+        sBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(addButtonTapped)];
         [sNavigationItem setRightBarButtonItem:sBarButtonItem];
         [sBarButtonItem release];
 
@@ -198,9 +210,24 @@
 {
     [super viewDidUnload];
 
-    mTableView    = nil;
-    mUserIDField  = nil;
-    mUserKeyField = nil;
+    mTableView      = nil;
+    mUserIDField    = nil;
+    mUserKeyField   = nil;
+    mPasscodeSwitch = nil;
+}
+
+- (void)viewWillAppear:(BOOL)aAnimated
+{
+    [super viewWillAppear:aAnimated];
+
+    if (mUserIDField)
+    {
+        [mUserIDField becomeFirstResponder];
+    }
+    else
+    {
+        [mUserKeyField becomeFirstResponder];
+    }
 }
 
 - (BOOL)hidesBottomBarWhenPushed
@@ -259,20 +286,23 @@
     }
     else
     {
-        [self showAlert:@"Please enter required fields."];
+        [self showAlert:@"Please enter the user key."];
     }
 }
 
 - (void)deleteButtonTapped
 {
-    UIActionSheet *sActionSheet;
-    NSString      *sTitle;
+    if (![mUserID isEqualToString:[[MEClientStore currentClient] userID]])
+    {
+        UIActionSheet *sActionSheet;
+        NSString      *sTitle;
 
-    sTitle = [NSString stringWithFormat:NSLocalizedString(@"Delete user \"%@\".", @""), mUserID];
+        sTitle = [NSString stringWithFormat:NSLocalizedString(@"Delete user \"%@\".", @""), mUserID];
 
-    sActionSheet = [[UIActionSheet alloc] initWithTitle:sTitle delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:NSLocalizedString(@"Delete User", @"") otherButtonTitles:nil];
-    [sActionSheet showInView:[self view]];
-    [sActionSheet release];
+        sActionSheet = [[UIActionSheet alloc] initWithTitle:sTitle delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:NSLocalizedString(@"Delete User", @"") otherButtonTitles:nil];
+        [sActionSheet showInView:[self view]];
+        [sActionSheet release];
+    }
 }
 
 
@@ -287,22 +317,57 @@
     }
     else
     {
-        [MEClientStore addClient:aClient];
-
-        if (mUserID)
+        if ([mPasscodeSwitch isOn])
         {
-            [self showAlert:NSLocalizedString(@"User Key modified successfully.", @"")];
-        }
+            UIViewController *sViewController;
 
-        if (![MEClientStore currentClient])
+            sViewController = [[MEPasscodeViewController alloc] initWithClient:aClient mode:kMEPasscodeViewModeChange delegate:self];
+            [self presentModalViewController:sViewController animated:NO];
+            [sViewController release];
+
+            [aClient retain];
+        }
+        else
         {
-            [MEClientStore setCurrentUserID:[aClient userID]];
-        }
+            [MEClientStore addClient:aClient];
 
-        [mUserKeyField setText:nil];
-        [mParentViewController dismissModalViewControllerAnimated:YES];
+            if (![MEClientStore currentClient])
+            {
+                [MEClientStore setCurrentUserID:[aClient userID]];
+            }
+
+            [[self navigationController] popViewControllerAnimated:YES];
+            [mParentViewController dismissModalViewControllerAnimated:YES];
+        }
     }
 
+    [aClient release];
+}
+
+
+#pragma mark MEPasscodeViewControllerDelegate
+
+
+- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didFinishChangingPasscodeClient:(MEClient *)aClient
+{
+    [MEClientStore addClient:aClient];
+
+    if (![MEClientStore currentClient])
+    {
+        [MEClientStore setCurrentUserID:[aClient userID]];
+    }
+
+    [self dismissModalViewControllerAnimated:NO];
+
+    [[self navigationController] popViewControllerAnimated:YES];
+    [mParentViewController dismissModalViewControllerAnimated:YES];
+
+    [aClient release];
+}
+
+- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didCancelChangingPasscodeClient:(MEClient *)aClient
+{
+    [self dismissModalViewControllerAnimated:NO];
     [aClient release];
 }
 
@@ -346,7 +411,7 @@
         switch ([aIndexPath section])
         {
             case 0:
-                sCell = [self buttonCellForTableView:aTableView];
+                sCell = [self buttonCellForTableView:aTableView disabled:[mUserID isEqualToString:[[MEClientStore currentClient] userID]]];
                 [sCell setText:NSLocalizedString(@"Delete this User", @"")];
                 break;
 
@@ -364,6 +429,8 @@
             case 2:
                 sCell = [self switchCellForTableView:aTableView];
                 [sCell setText:NSLocalizedString(@"Passcode Lock", @"")];
+                mPasscodeSwitch = [sCell switch];
+                [mPasscodeSwitch setOn:[[MEClientStore clientForUserID:mUserID] hasPasscode]];
                 break;
         }
     }
@@ -398,6 +465,8 @@
             case 1:
                 sCell = [self switchCellForTableView:aTableView];
                 [sCell setText:NSLocalizedString(@"Passcode Lock", @"")];
+                mPasscodeSwitch = [sCell switch];
+                [mPasscodeSwitch setOn:YES];
                 break;
         }
     }

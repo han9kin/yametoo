@@ -12,6 +12,7 @@
 #import "MEClient.h"
 #import "MEImageView.h"
 #import "METableViewCellFactory.h"
+#import "MEPasscodeViewController.h"
 #import "MEUserDetailViewController.h"
 #import "MEUser.h"
 
@@ -181,16 +182,28 @@
 
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    MEClient         *sClient;
-    NSArray          *sClients = [MEClientStore clients];
     UIViewController *sViewController;
+    NSArray          *sClients;
+    MEClient         *sClient;
+
+    sClients = [MEClientStore clients];
 
     if ([aIndexPath section] == 0)
     {
         if ([aIndexPath row] < [sClients count])
         {
             sClient = [sClients objectAtIndex:[aIndexPath row]];
-            [MEClientStore setCurrentUserID:[sClient userID]];
+
+            if ([sClient hasPasscode])
+            {
+                sViewController = [[MEPasscodeViewController alloc] initWithClient:sClient mode:kMEPasscodeViewModeAuthenticate delegate:self];
+                [self presentModalViewController:sViewController animated:NO];
+                [sViewController release];
+            }
+            else
+            {
+                [MEClientStore setCurrentUserID:[sClient userID]];
+            }
         }
     }
     else
@@ -217,6 +230,23 @@
         sFaceImageView = [mFaceImageViews objectForKey:[aUser userID]];
         [sFaceImageView setImageWithURL:[aUser faceImageURL]];
     }
+}
+
+
+#pragma mark -
+#pragma mark MEPasscodeViewControllerDelegate
+
+
+- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didFinishAuthenticationClient:(MEClient *)aClient
+{
+    [self dismissModalViewControllerAnimated:NO];
+    [MEClientStore setCurrentUserID:[aClient userID]];
+}
+
+
+- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didCancelAuthenticationClient:(MEClient *)aClient
+{
+    [self dismissModalViewControllerAnimated:NO];
 }
 
 

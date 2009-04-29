@@ -62,21 +62,37 @@
 
 
 #pragma mark -
+
+
+- (void)showMainView
+{
+    if (mLoginViewController)
+    {
+        if ([[mWindow subviews] containsObject:[mLoginViewController view]])
+        {
+            [[mLoginViewController view] removeFromSuperview];
+            [mLoginViewController autorelease];
+            mLoginViewController = nil;
+
+            [mWindow addSubview:[mViewController view]];
+            [mWindow makeKeyAndVisible];
+        }
+        else
+        {
+            [self performSelector:_cmd withObject:nil afterDelay:0.1];
+        }
+    }
+}
+
+#pragma mark -
 #pragma mark Notifications
 
 
 - (void)currentUserDidChangeNotification:(NSNotification *)aNotification
 {
-    NSArray *sSubviews = [mWindow subviews];
-
-    if ([sSubviews containsObject:[mLoginViewController view]])
+    if ([MEClientStore currentClient])
     {
-        [[mLoginViewController view] removeFromSuperview];
-        [mLoginViewController autorelease];
-        mLoginViewController = nil;
-
-        [mWindow addSubview:[mViewController view]];
-        [mWindow makeKeyAndVisible];
+        [self showMainView];
     }
 }
 

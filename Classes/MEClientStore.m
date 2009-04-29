@@ -68,9 +68,16 @@ static NSString *kClientsKey = @"clients";
 
 - (void)addClient:(MEClient *)aClient forUserID:(NSString *)aUserID
 {
-    [mClientsByUserID setObject:aClient forKey:aUserID];
-
-    [aClient getPersonWithUserID:aUserID delegate:nil];
+    if ([[mCurrentClient userID] isEqualToString:aUserID])
+    {
+        [self setCurrentClient:aClient];
+        [mClientsByUserID setObject:aClient forKey:aUserID];
+    }
+    else
+    {
+        [mClientsByUserID setObject:aClient forKey:aUserID];
+        [aClient getPersonWithUserID:aUserID delegate:nil];
+    }
 
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:mClientsByUserID] forKey:kClientsKey];
     [[NSNotificationCenter defaultCenter] postNotificationName:MEClientStoreUserListDidChangeNotification object:nil];
@@ -130,11 +137,6 @@ SYNTHESIZE_SINGLETON_CLASS(MEClientStore, sharedStore);
 + (NSArray *)userIDs
 {
     return [[self sharedStore] userIDs];
-}
-
-+ (NSString *)passcodeForUserID:(NSString *)aUserID
-{
-    return [[[self sharedStore] clientForUserID:aUserID] passcode];
 }
 
 + (void)setCurrentUserID:(NSString *)aUserID

@@ -41,8 +41,12 @@ extern NSString *MEClientErrorDomain;
     NSString *mPasscode;
 }
 
-@property (nonatomic, readonly) NSString *userID;
-@property (nonatomic, copy)     NSString *passcode;
+@property(nonatomic, readonly) NSString *userID;
+
+
+- (void)setPasscode:(NSString *)aPasscode;
+- (BOOL)checkPasscode:(NSString *)aPasscode;
+- (BOOL)hasPasscode;
 
 
 - (void)loadImageWithURL:(NSURL *)aURL key:(id)aKey delegate:(id)aDelegate;

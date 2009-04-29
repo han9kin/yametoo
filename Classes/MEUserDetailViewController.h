@@ -15,6 +15,7 @@
     UITableView      *mTableView;
     UITextField      *mUserIDField;
     UITextField      *mUserKeyField;
+    UISwitch         *mPasscodeSwitch;
 
     UIViewController *mParentViewController;
 

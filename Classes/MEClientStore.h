@@ -26,7 +26,6 @@ extern NSString *MEClientStoreCurrentUserDidChangeNotification;
 #pragma mark user authentication
 
 + (NSArray *)userIDs;
-+ (NSString *)passcodeForUserID:(NSString *)aUserID;
 + (void)setCurrentUserID:(NSString *)aUserID;
 
 

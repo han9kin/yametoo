@@ -10,6 +10,7 @@
 #import "UIViewController+MEAdditions.h"
 #import "MEUserViewController.h"
 #import "MEUserDetailViewController.h"
+#import "MEPasscodeViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 
@@ -88,7 +89,7 @@
         [[self nameLabel] setTextColor:[UIColor blackColor]];
     }
 
-    if ([aClient passcode])
+    if ([aClient hasPasscode])
     {
         [[self lockedImageButton] setBackgroundImage:[UIImage imageNamed:@"locked_normal.png"] forState:UIControlStateNormal];
         [[self lockedImageButton] setBackgroundImage:[UIImage imageNamed:@"locked_highlighted.png"] forState:UIControlStateHighlighted];
@@ -126,10 +127,12 @@
     [super dealloc];
 }
 
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
 }
+
 
 - (void)loadView
 {
@@ -156,14 +159,36 @@
 }
 
 
-- (void)userListDidChange:(NSNotification *)aNotification
+#pragma mark MEPasscodeViewControllerDelegate
+
+
+- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didFinishAuthenticationClient:(MEClient *)aClient
 {
-    [mTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0];
+    NSIndexPath *sIndexPath;
+
+    [self dismissModalViewControllerAnimated:NO];
+
+    sIndexPath = [mTableView indexPathForSelectedRow];
+
+    if (sIndexPath)
+    {
+        [MEClientStore setCurrentUserID:[[[MEClientStore clients] objectAtIndex:[sIndexPath row]] userID]];
+        [mTableView deselectRowAtIndexPath:sIndexPath animated:YES];
+    }
+    else
+    {
+        UIViewController *sViewController;
+
+        sViewController = [[MEUserDetailViewController alloc] initWithUserID:[aClient userID] parentViewController:nil];
+        [[self navigationController] pushViewController:sViewController animated:YES];
+        [sViewController release];
+    }
 }
 
-- (void)currentUserDidChange:(NSNotification *)aNotification
+- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didCancelAuthenticationClient:(MEClient *)aClient
 {
-    [mTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0];
+    [self dismissModalViewControllerAnimated:NO];
+    [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:YES];
 }
 
 
@@ -179,6 +204,7 @@
 {
     return NSLocalizedString(@"Choose an User...", @"");
 }
+
 
 - (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)aSection
 {
@@ -225,11 +251,21 @@
 
     if ([aIndexPath row] < [sClients count])
     {
+        MEClient         *sClient = [sClients objectAtIndex:[aIndexPath row]];
         UIViewController *sViewController;
 
-        sViewController = [[MEUserDetailViewController alloc] initWithUserID:[[sClients objectAtIndex:[aIndexPath row]] userID] parentViewController:nil];
-        [[self navigationController] pushViewController:sViewController animated:YES];
-        [sViewController release];
+        if ([sClient hasPasscode])
+        {
+            sViewController = [[MEPasscodeViewController alloc] initWithClient:sClient mode:kMEPasscodeViewModeAuthenticate delegate:self];
+            [self presentModalViewController:sViewController animated:NO];
+            [sViewController release];
+        }
+        else
+        {
+            sViewController = [[MEUserDetailViewController alloc] initWithUserID:[[sClients objectAtIndex:[aIndexPath row]] userID] parentViewController:nil];
+            [[self navigationController] pushViewController:sViewController animated:YES];
+            [sViewController release];
+        }
     }
 }
 
@@ -240,10 +276,28 @@
 
     if ([aIndexPath row] < [sClients count])
     {
-        MEClient *sClient;
+        MEClient *sClient = [sClients objectAtIndex:[aIndexPath row]];
 
-        sClient = [sClients objectAtIndex:[aIndexPath row]];
-        [MEClientStore setCurrentUserID:[sClient userID]];
+        if (sClient == [MEClientStore currentClient])
+        {
+            [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];
+        }
+        else
+        {
+            if ([sClient hasPasscode])
+            {
+                UIViewController *sViewController;
+
+                sViewController = [[MEPasscodeViewController alloc] initWithClient:sClient mode:kMEPasscodeViewModeAuthenticate delegate:self];
+                [self presentModalViewController:sViewController animated:NO];
+                [sViewController release];
+            }
+            else
+            {
+                [MEClientStore setCurrentUserID:[sClient userID]];
+                [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];
+            }
+        }
     }
     else
     {
@@ -252,9 +306,24 @@
         sViewController = [[MEUserDetailViewController alloc] initWithUserID:nil parentViewController:self];
         [self presentModalViewController:sViewController animated:YES];
         [sViewController release];
+
+        [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];
     }
 
-    [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];
+}
+
+
+#pragma mark MEClientStoreNotifications
+
+
+- (void)userListDidChange:(NSNotification *)aNotification
+{
+    [mTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0];
+}
+
+- (void)currentUserDidChange:(NSNotification *)aNotification
+{
+    [mTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0];
 }
 
 
