@@ -41,6 +41,7 @@
 		2ED163E60F9589D3009557F1 /* MEClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED163E50F9589D3009557F1 /* MEClient.m */; };
 		2ED164440F959B2A009557F1 /* NSString+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED164430F959B2A009557F1 /* NSString+MEAdditions.m */; };
 		2ED1646A0F959F46009557F1 /* MEClient+Requests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED164690F959F46009557F1 /* MEClient+Requests.m */; };
+		2ED4E7F30FA84A06000BFE2F /* white_round_rect.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED4E7F20FA84A06000BFE2F /* white_round_rect.png */; };
 		2EE00DA40F970B1500135D42 /* MEMyMetooViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE00DA30F970B1500135D42 /* MEMyMetooViewController.m */; };
 		2EE00DA60F970B4700135D42 /* MyMetooViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE00DA50F970B4700135D42 /* MyMetooViewController.xib */; };
 		2EE00DEA0F970ECF00135D42 /* MEFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE00DE90F970ECF00135D42 /* MEFriendsViewController.m */; };
@@ -138,6 +139,7 @@
 		2ED164430F959B2A009557F1 /* NSString+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MEAdditions.m"; sourceTree = "<group>"; };
 		2ED164680F959F46009557F1 /* MEClient+Requests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MEClient+Requests.h"; sourceTree = "<group>"; };
 		2ED164690F959F46009557F1 /* MEClient+Requests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MEClient+Requests.m"; sourceTree = "<group>"; };
+		2ED4E7F20FA84A06000BFE2F /* white_round_rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = white_round_rect.png; sourceTree = "<group>"; };
 		2EE00DA20F970B1500135D42 /* MEMyMetooViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEMyMetooViewController.h; sourceTree = "<group>"; };
 		2EE00DA30F970B1500135D42 /* MEMyMetooViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEMyMetooViewController.m; sourceTree = "<group>"; };
 		2EE00DA50F970B4700135D42 /* MyMetooViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyMetooViewController.xib; sourceTree = "<group>"; };
@@ -353,6 +355,7 @@
 				CF5EE9400F9BFEBD004712FF /* checkmark_normal.png */,
 				CF5EE9410F9BFEBD004712FF /* locked_highlighted.png */,
 				CF5EE9420F9BFEBD004712FF /* locked_normal.png */,
+				2ED4E7F20FA84A06000BFE2F /* white_round_rect.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -642,6 +645,7 @@
 				CF528CB80FA149B6007C7A03 /* CharacterEntity.strings in Resources */,
 				2E7521020FA6CDBE00B0D4FA /* UserInfoViewController.xib in Resources */,
 				2E75224B0FA7098C00B0D4FA /* ActionPopupViewController.xib in Resources */,
+				2ED4E7F30FA84A06000BFE2F /* white_round_rect.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
