@@ -74,6 +74,8 @@
 		CFE72BDD0FA5859300C54792 /* MEPostIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72BDC0FA5859300C54792 /* MEPostIcon.m */; };
 		CFE72CB80FA6A36B00C54792 /* MEComment.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72CB70FA6A36B00C54792 /* MEComment.m */; };
 		CFE72CCB0FA6A80800C54792 /* MECommentBodyTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72CCA0FA6A80800C54792 /* MECommentBodyTextParser.m */; };
+		CFE72DAF0FA7ED7100C54792 /* MEPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72DAE0FA7ED7100C54792 /* MEPasscodeViewController.m */; };
+		CFE72DE90FA815B100C54792 /* keypad_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE72DE80FA815B100C54792 /* keypad_highlighted.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -200,6 +202,9 @@
 		CFE72CB70FA6A36B00C54792 /* MEComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEComment.m; sourceTree = "<group>"; };
 		CFE72CC90FA6A80800C54792 /* MECommentBodyTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MECommentBodyTextParser.h; sourceTree = "<group>"; };
 		CFE72CCA0FA6A80800C54792 /* MECommentBodyTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MECommentBodyTextParser.m; sourceTree = "<group>"; };
+		CFE72DAD0FA7ED7100C54792 /* MEPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPasscodeViewController.h; sourceTree = "<group>"; };
+		CFE72DAE0FA7ED7100C54792 /* MEPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPasscodeViewController.m; sourceTree = "<group>"; };
+		CFE72DE80FA815B100C54792 /* keypad_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = keypad_highlighted.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -355,6 +360,7 @@
 				CF5EE9400F9BFEBD004712FF /* checkmark_normal.png */,
 				CF5EE9410F9BFEBD004712FF /* locked_highlighted.png */,
 				CF5EE9420F9BFEBD004712FF /* locked_normal.png */,
+				CFE72DE80FA815B100C54792 /* keypad_highlighted.png */,
 				2ED4E7F20FA84A06000BFE2F /* white_round_rect.png */,
 			);
 			path = Images;
@@ -467,6 +473,7 @@
 				2E6D55D40F95C77C00AA1DF6 /* SettingsViewController */,
 				CF5EE75E0F971639004712FF /* UserViewController */,
 				CF5EE8570F98503B004712FF /* UserDetailViewController */,
+				CFE72DAC0FA7ED5700C54792 /* PasscodeViewController */,
 				2E75224C0FA709C100B0D4FA /* ActionPopupViewController */,
 			);
 			name = Controllers;
@@ -589,6 +596,15 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
+		CFE72DAC0FA7ED5700C54792 /* PasscodeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CFE72DAD0FA7ED7100C54792 /* MEPasscodeViewController.h */,
+				CFE72DAE0FA7ED7100C54792 /* MEPasscodeViewController.m */,
+			);
+			name = PasscodeViewController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -645,6 +661,7 @@
 				CF528CB80FA149B6007C7A03 /* CharacterEntity.strings in Resources */,
 				2E7521020FA6CDBE00B0D4FA /* UserInfoViewController.xib in Resources */,
 				2E75224B0FA7098C00B0D4FA /* ActionPopupViewController.xib in Resources */,
+				CFE72DE90FA815B100C54792 /* keypad_highlighted.png in Resources */,
 				2ED4E7F30FA84A06000BFE2F /* white_round_rect.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -704,6 +721,7 @@
 				CFE72CCB0FA6A80800C54792 /* MECommentBodyTextParser.m in Sources */,
 				2E7521000FA6CDA300B0D4FA /* MEUserInfoViewController.m in Sources */,
 				2E7522530FA70A0000B0D4FA /* MEActionPopupViewController.m in Sources */,
+				CFE72DAF0FA7ED7100C54792 /* MEPasscodeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
