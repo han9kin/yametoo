@@ -27,6 +27,7 @@
 - (NSMutableURLRequest *)getMetoosRequestWithPostID:(NSString *)aPostID;
 - (NSMutableURLRequest *)getPersonRequestWithUserID:(NSString *)aUserID;
 - (NSMutableURLRequest *)getPostsRequestWithUserID:(NSString *)aUserID
+                                             scope:(MEClientGetPostsScope)aScope
                                             offset:(NSInteger)aOffset
                                              count:(NSInteger)aCount;
 - (NSMutableURLRequest *)getSettingsRequest;

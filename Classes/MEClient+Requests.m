@@ -27,11 +27,17 @@ static NSString *kGetCommentsRequestFormat   = @"http://me2day.net/api/get_comme
 static NSString *kGetFriendsRequestFormat    = @"http://me2day.net/api/get_friends/%@.json";
 static NSString *kGetMetoosRequestFormat     = @"http://me2day.net/api/get_metoos.json?post_id=%@";
 static NSString *kGetPersonRequestFormat     = @"http://me2day.net/api/get_person/%@.json";
-static NSString *kGetPostsRequestFormat      = @"http://me2day.net/api/get_posts/%@.json?offset=%d&count=%d";
+static NSString *kGetPostsRequestFormat      = @"http://me2day.net/api/get_posts/%@.json?scope=%@&offset=%d&count=%d";
 static NSString *kGetSettingsRequestFormat   = @"http://me2day.net/api/get_settings.json?uid=%@&ukey=%@&akey=%@";
 static NSString *kGetTagsRequestFormat       = @"http://me2day.net/api/get_tags.json?user_id=%@";
 static NSString *kMetooRequestFormat         = @"http://me2day.net/api/metoo.json?uid=%@&ukey=%@&akey=%@&post_id=%@";
 static NSString *kTrackCommentsRequestFormat = @"http://me2day.net/api/track_comments/%@.json?scope=%@";
+
+
+static NSString *kGetPostsScopeValue[] = {
+    @"all",
+    @"friend[all]",
+};
 
 
 @implementation MEClient (Requests)
@@ -150,12 +156,12 @@ static NSString *kTrackCommentsRequestFormat = @"http://me2day.net/api/track_com
 }
 
 
-- (NSMutableURLRequest *)getPostsRequestWithUserID:(NSString *)aUserID offset:(NSInteger)aOffset count:(NSInteger)aCount
+- (NSMutableURLRequest *)getPostsRequestWithUserID:(NSString *)aUserID scope:(MEClientGetPostsScope)aScope offset:(NSInteger)aOffset count:(NSInteger)aCount
 {
     NSMutableURLRequest *sRequest;
     NSString            *sURLStr;
 
-    sURLStr  = [NSString stringWithFormat:kGetPostsRequestFormat, aUserID, aOffset, aCount];
+    sURLStr  = [NSString stringWithFormat:kGetPostsRequestFormat, aUserID, kGetPostsScopeValue[aScope], aOffset, aCount];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
 
     return sRequest;

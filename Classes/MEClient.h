@@ -13,6 +13,13 @@
 extern NSString *MEClientErrorDomain;
 
 
+typedef enum MEClientGetPostsScope
+{
+    kMEClientGetPostsScopeAll = 0,
+    kMEClientGetPostsScopeFriendAll,
+} MEClientGetPostsScope;
+
+
 @class MEClient;
 @class MEUser;
 
@@ -58,7 +65,7 @@ extern NSString *MEClientErrorDomain;
 - (void)getFriendsWithUserID:(NSString *)aUserID delegate:(id)aDelegate;
 - (void)getMetoosWithPostID:(NSString *)aPostID delegate:(id)aDelegate;
 - (void)getPersonWithUserID:(NSString *)aUserID delegate:(id)aDelegate;
-- (void)getPostsWithUserID:(NSString *)aUserID offset:(NSInteger)aOffset count:(NSInteger)aCount delegate:(id)aDelegate;
+- (void)getPostsWithUserID:(NSString *)aUserID scope:(MEClientGetPostsScope)aScope offset:(NSInteger)aOffset count:(NSInteger)aCount delegate:(id)aDelegate;
 - (void)metooWithPostID:(NSString *)aPostID delegate:(id)aDelegate;
 
 @end

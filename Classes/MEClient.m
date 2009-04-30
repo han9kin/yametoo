@@ -312,11 +312,11 @@ static NSMutableDictionary *gQueuedOperations = nil;
 }
 
 
-- (void)getPostsWithUserID:(NSString *)aUserID offset:(NSInteger)aOffset count:(NSInteger)aCount delegate:(id)aDelegate
+- (void)getPostsWithUserID:(NSString *)aUserID scope:(MEClientGetPostsScope)aScope offset:(NSInteger)aOffset count:(NSInteger)aCount delegate:(id)aDelegate
 {
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
-    [sOperation setRequest:[self getPostsRequestWithUserID:aUserID offset:aOffset count:aCount]];
+    [sOperation setRequest:[self getPostsRequestWithUserID:aUserID scope:aScope offset:aOffset count:aCount]];
     [sOperation setContext:aDelegate];
     [sOperation setDelegate:self];
     [sOperation setSelector:@selector(clientOperation:didReceiveGetPostsResult:error:)];

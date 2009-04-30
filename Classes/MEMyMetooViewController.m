@@ -28,15 +28,16 @@
 {
     MEClient *sClient = [MEClientStore currentClient];
     NSString *sUserID = [sClient userID];
-    
+
     [mTopBarLabel setText:[NSString stringWithFormat:@"%@'s me2day", sUserID]];
-    
+
     [mReaderView setDelegate:self];
     [mReaderView setHiddenPostButton:NO];
     [mReaderView removeAllPosts];
-    
+
     [sClient getPersonWithUserID:sUserID delegate:self];
     [sClient getPostsWithUserID:sUserID
+                          scope:kMEClientGetPostsScopeAll
                          offset:0
                           count:30
                        delegate:self];
@@ -53,7 +54,7 @@
 {
     [super dealloc];
 }
-    
+
 
 #pragma mark -
 #pragma mark MEClientDelegate
@@ -63,7 +64,7 @@
 {
     MEClient *sClient = [MEClientStore currentClient];
     NSString *sUserID = [sClient userID];
-   
+
     if ([sUserID isEqualToString:[aUser userID]])
     {
         [mReaderView setUser:aUser];
@@ -84,7 +85,7 @@
 - (void)newPostForReaderView:(MEReaderView *)aReaderView
 {
     UIViewController *sViewController;
-    
+
     sViewController = [[MEPostViewController alloc] initWithNibName:@"PostViewController" bundle:nil];
     [self presentModalViewController:sViewController animated:YES];
     [sViewController release];
