@@ -19,6 +19,7 @@
 
 #define kCommentCellBodyLabelTag        100
 #define kCommentCellFaceImageViewTag    200
+#define kCommentCellFrameViewTag        300
 
 
 #define kPostCellBodyPadding            10

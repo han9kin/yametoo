@@ -11,11 +11,16 @@
 
 
 @class MEPost;
+@class MEImageView;
+@class MEPostBodyView;
 
 
 @interface MEReplyViewController : UIViewController
 {
-    IBOutlet UITableView *mTableView;
+    IBOutlet MEImageView    *mIconView;
+    IBOutlet MEPostBodyView *mPostBodyView;
+    IBOutlet UIScrollView   *mPostScrollView;
+    IBOutlet UITableView    *mTableView;
     
     MEPost         *mPost;
     NSMutableArray *mComments;

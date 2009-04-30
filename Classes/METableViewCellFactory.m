@@ -128,22 +128,30 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
 + (UITableViewCell *)commentCellForTableView:(UITableView *)aTableView
 {
     UITableViewCell   *sResult = nil;
+    UIView            *sFrameView;
     MEImageView       *sImageView;
-    MEAttributedLabel *sBodyLabel;    
+    MEAttributedLabel *sBodyLabel;
 
     sResult = [aTableView dequeueReusableCellWithIdentifier:kTableCommentCellIdentifier];
     if (!sResult)
     {
         sResult = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:kTableCommentCellIdentifier] autorelease];        
         
-        sBodyLabel = [[[MEAttributedLabel alloc] initWithFrame:CGRectZero] autorelease];
+        sBodyLabel = [[MEAttributedLabel alloc] initWithFrame:CGRectZero];
         [sBodyLabel setTag:kCommentCellBodyLabelTag];
-        
-        sImageView = [[[MEImageView alloc] initWithFrame:CGRectMake(8, 10, 44, 44)] autorelease];
-        [sImageView setTag:kCommentCellFaceImageViewTag];
-        
         [[sResult contentView] addSubview:sBodyLabel];
-        [[sResult contentView] addSubview:sImageView];        
+        [sBodyLabel release];
+
+        sFrameView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [sFrameView setTag:kCommentCellFrameViewTag];
+        [sFrameView setBackgroundColor:[UIColor lightGrayColor]];
+        [[sResult contentView] addSubview:sFrameView];
+        [sFrameView release];
+        
+        sImageView = [[MEImageView alloc] initWithFrame:CGRectZero];
+        [sImageView setTag:kCommentCellFaceImageViewTag];
+        [[sResult contentView] addSubview:sImageView];
+        [sImageView release];
     }
     
     return sResult;

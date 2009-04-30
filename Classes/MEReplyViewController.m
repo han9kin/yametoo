@@ -17,6 +17,7 @@
 #import "MEAttributedLabel.h"
 #import "MEImageView.h"
 #import "METableViewCellFactory.h"
+#import "MEPostBodyView.h"
 
 
 @interface MEReplyViewController (Privates)
@@ -58,6 +59,20 @@
     [super viewDidLoad];
     
     mComments = [[NSMutableArray alloc] init];
+    
+    [mIconView setImageWithURL:[mPost iconURL]];
+    
+    NSLog(@"mPostBodyView = %@", mPostBodyView);
+    [mPostBodyView setBodyText:[mPost body]];
+    [mPostBodyView setTagsText:[mPost tagsString]];
+    [mPostBodyView setTimeText:[mPost pubTimeString]];
+    [mPostBodyView setNumberOfComments:[mPost commentsCount]];
+    [mPostBodyView layoutIfNeeded];
+    
+    NSLog(@"size = %@", NSStringFromCGSize([mPostBodyView frame].size));
+    
+    NSLog(@"mPostScrollView = %@", mPostScrollView);
+    [mPostScrollView setContentSize:[mPostBodyView frame].size];
     
     [self getComments];
 }
@@ -127,27 +142,57 @@
 }
 
 
+#define kCommentTextWidth   240
+#define kFaceImageSize      44
+
+
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
     UITableViewCell    *sResult    = nil;
     MEAttributedLabel  *sBodyLabel;
+    UIView             *sFrame;
     MEImageView        *sImageView;
     MEComment          *sComment   = [mComments objectAtIndex:[aIndexPath row]];
     MEAttributedString *sBody      = [sComment body];
     MEUser             *sUser      = [sComment author];
     NSURL              *sFaceImage = [sUser faceImageURL];
+    MEUser             *sPostOwner = [mPost author];
+    BOOL                sIsSameUser;
+    CGRect              sTextRect;
+    CGRect              sImageRect;
+    CGRect              sFrameRect;
+    
+    sIsSameUser = (sUser == sPostOwner) ? YES : NO;
     
     sResult    = [METableViewCellFactory commentCellForTableView:aTableView];
     sBodyLabel = (MEAttributedLabel *)[[sResult contentView] viewWithTag:kCommentCellBodyLabelTag];
     sImageView = (MEImageView *)[[sResult contentView] viewWithTag:kCommentCellFaceImageViewTag];
+    sFrame     = (UIView *)[[sResult contentView] viewWithTag:kCommentCellFrameViewTag];
     
-    [sBodyLabel setFrame:CGRectMake(70, 10, 240, 0)];
+    if (sIsSameUser)
+    {
+        sTextRect  = CGRectMake(10, 10, kCommentTextWidth, 0);
+        sImageRect = CGRectMake(266, 10, kFaceImageSize, kFaceImageSize);
+    }
+    else
+    {
+        sTextRect = CGRectMake(70, 10, kCommentTextWidth, 0);
+        sImageRect = CGRectMake(10, 10, kFaceImageSize, kFaceImageSize);
+    }
+
+    [sBodyLabel setFrame:sTextRect];
     [sBodyLabel setAttributedText:sBody];
     [sBodyLabel sizeToFit];
-    
-    NSLog(@"sImageView = %@", sImageView);
-    [sImageView setFrame:CGRectMake(10, 10, 44, 44)];
+
+    [sImageView setFrame:sImageRect];
     [sImageView setImageWithURL:sFaceImage];
+    
+    sFrameRect = sImageRect;
+    sFrameRect.origin.x    -= 1;
+    sFrameRect.origin.y    -= 1;
+    sFrameRect.size.width  += 2;
+    sFrameRect.size.height += 2;
+    [sFrame setFrame:sFrameRect];
 
     return sResult;
 }
@@ -166,7 +211,7 @@
     
     sResult  = 10;
     sSize    = [sCommentStr sizeForWidth:240];
-    sResult += (sSize.height > 44) ? sSize.height : 44;
+    sResult += (sSize.height > kFaceImageSize) ? sSize.height : kFaceImageSize;
     sResult += 10;
     
     return sResult;
