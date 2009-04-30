@@ -71,6 +71,7 @@
     if ([sHandler errorOccurred])
     {
         sResult = [[MEAttributedString alloc] initWithString:aString attributes:[sHandler defaultAttributes]];
+        NSLog(@"Error Source Text: %@", aString);
     }
     else
     {
