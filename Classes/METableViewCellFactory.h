@@ -36,7 +36,4 @@
 
 + (UITableViewCell *)postCellForTableView:(UITableView *)aTableView;
 
-+ (UIFont *)fontForPostBody;
-+ (UIFont *)fontForPostTag;
-
 @end

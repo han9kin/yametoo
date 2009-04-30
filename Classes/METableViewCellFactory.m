@@ -124,16 +124,4 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
 }
 
 
-+ (UIFont *)fontForPostBody
-{
-    return [UIFont systemFontOfSize:14];
-}
-
-
-+ (UIFont *)fontForPostTag
-{
-    return [UIFont systemFontOfSize:10];
-}
-
-
 @end
