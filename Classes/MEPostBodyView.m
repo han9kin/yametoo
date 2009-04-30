@@ -27,10 +27,49 @@
     return [UIFont systemFontOfSize:10.0];
 }
 
+- (void)initSelf
+{
+    mBodyLabel = [[MEAttributedLabel alloc] initWithFrame:CGRectZero];
+    [self addSubview:mBodyLabel];
+
+    mTagsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    [mTagsLabel setLineBreakMode:UILineBreakModeCharacterWrap];
+    [mTagsLabel setNumberOfLines:0];
+    [mTagsLabel setFont:[MEPostBodyView tagFont]];
+    [mTagsLabel setTextColor:[UIColor grayColor]];
+    [self addSubview:mTagsLabel];
+    [mTagsLabel release];
+
+    mTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    [mTimeLabel setFont:[MEPostBodyView tagFont]];
+    [mTimeLabel setTextColor:[UIColor grayColor]];
+    [self addSubview:mTimeLabel];
+    [mTimeLabel release];
+
+    mCommentsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    [mCommentsLabel setFont:[MEPostBodyView tagFont]];
+    [mCommentsLabel setTextColor:[UIColor grayColor]];
+    [mCommentsLabel setTextAlignment:UITextAlignmentRight];
+    [self addSubview:mCommentsLabel];
+    [mCommentsLabel release];
+}
+
 @end
 
 
 @implementation MEPostBodyView
+
+- (id)initWithCoder:(NSCoder *)aCoder
+{
+    self = [super initWithCoder:aCoder];
+
+    if (self)
+    {
+        [self initSelf];
+    }
+
+    return self;
+}
 
 - (id)initWithFrame:(CGRect)aFrame
 {
@@ -38,29 +77,7 @@
 
     if (self)
     {
-        mBodyLabel = [[MEAttributedLabel alloc] initWithFrame:CGRectZero];
-        [self addSubview:mBodyLabel];
-
-        mTagsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        [mTagsLabel setLineBreakMode:UILineBreakModeCharacterWrap];
-        [mTagsLabel setNumberOfLines:0];
-        [mTagsLabel setFont:[MEPostBodyView tagFont]];
-        [mTagsLabel setTextColor:[UIColor grayColor]];
-        [self addSubview:mTagsLabel];
-        [mTagsLabel release];
-
-        mTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        [mTimeLabel setFont:[MEPostBodyView tagFont]];
-        [mTimeLabel setTextColor:[UIColor grayColor]];
-        [self addSubview:mTimeLabel];
-        [mTimeLabel release];
-
-        mCommentsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        [mCommentsLabel setFont:[MEPostBodyView tagFont]];
-        [mCommentsLabel setTextColor:[UIColor grayColor]];
-        [mCommentsLabel setTextAlignment:UITextAlignmentRight];
-        [self addSubview:mCommentsLabel];
-        [mCommentsLabel release];
+        [self initSelf];
     }
 
     return self;
