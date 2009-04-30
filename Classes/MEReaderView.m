@@ -413,10 +413,7 @@
     [sImageView setImageWithURL:[sPost iconURL]];
 
     sBodyView = (MEPostBodyView *)[[sResult contentView] viewWithTag:kPostCellBodyViewTag];
-    [sBodyView setBodyText:[sPost body]];
-    [sBodyView setTagsText:[sPost tagsString]];
-    [sBodyView setTimeText:[sPost pubTimeString]];
-    [sBodyView setNumberOfComments:[sPost commentsCount]];
+    [sBodyView setPost:sPost];
 
     return sResult;
 }
@@ -474,7 +471,7 @@
     }
     else
     {
-        sResult = [MEPostBodyView heightWithBodyText:[sPost body] tagsText:[sPost tagsString]] + kPostCellBodyPadding * 2;
+        sResult = [MEPostBodyView heightWithPost:sPost] + kPostCellBodyPadding * 2;
 
         if (mShowsPostAuthor)
         {

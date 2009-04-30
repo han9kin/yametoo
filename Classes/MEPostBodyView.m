@@ -8,6 +8,7 @@
  */
 
 #import "MEPostBodyView.h"
+#import "MEPost.h"
 #import "MEAttributedLabel.h"
 #import "MEAttributedString.h"
 
@@ -92,13 +93,13 @@
 }
 
 
-+ (CGFloat)heightWithBodyText:(MEAttributedString *)aBodyText tagsText:(NSString *)aTagsText
++ (CGFloat)heightWithPost:(MEPost *)aPost
 {
     CGFloat sHeight = 0;
 
-    sHeight += [aBodyText sizeForWidth:kBodyWidth].height;
+    sHeight += [[aPost body] sizeForWidth:kBodyWidth].height;
     sHeight += kLabelSpacing;
-    sHeight += [aTagsText sizeWithFont:[MEPostBodyView tagFont] constrainedToSize:CGSizeMake(kBodyWidth, 1000) lineBreakMode:UILineBreakModeCharacterWrap].height;
+    sHeight += [[aPost tagsString] sizeWithFont:[MEPostBodyView tagFont] constrainedToSize:CGSizeMake(kBodyWidth, 1000) lineBreakMode:UILineBreakModeCharacterWrap].height;
     sHeight += kLabelSpacing;
     sHeight += kBottomLabelHeight;
 
@@ -106,32 +107,14 @@
 }
 
 
-- (void)setBodyText:(MEAttributedString *)aBodyText
+- (void)setPost:(MEPost *)aPost
 {
-    if (![[mBodyLabel attributedText] isEqual:aBodyText])
-    {
-        [mBodyLabel setAttributedText:aBodyText];
-        [self setNeedsLayout];
-    }
-}
+    [mBodyLabel setAttributedText:[aPost body]];
+    [mTagsLabel setText:[aPost tagsString]];
+    [mTimeLabel setText:[aPost pubTimeString]];
+    [mCommentsLabel setText:[NSString stringWithFormat:NSLocalizedString(@"Comments (%d)", @""), [aPost commentsCount]]];
 
-- (void)setTagsText:(NSString *)aTagsText
-{
-    if (![[mTagsLabel text] isEqualToString:aTagsText])
-    {
-        [mTagsLabel setText:aTagsText];
-        [self setNeedsLayout];
-    }
-}
-
-- (void)setTimeText:(NSString *)aTimeText
-{
-    [mTimeLabel setText:aTimeText];
-}
-
-- (void)setNumberOfComments:(NSInteger)aNumberOfComments
-{
-    [mCommentsLabel setText:[NSString stringWithFormat:NSLocalizedString(@"Comments (%d)", @""), aNumberOfComments]];
+    [self setNeedsLayout];
 }
 
 

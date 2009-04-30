@@ -11,7 +11,7 @@
 
 
 @class MEAttributedLabel;
-@class MEAttributedString;
+@class MEPost;
 
 @interface MEPostBodyView : UIView
 {
@@ -21,11 +21,8 @@
     UILabel           *mCommentsLabel;
 }
 
-+ (CGFloat)heightWithBodyText:(MEAttributedString *)aBodyText tagsText:(NSString *)aTagsText;
++ (CGFloat)heightWithPost:(MEPost *)aPost;
 
-- (void)setBodyText:(MEAttributedString *)aBodyText;
-- (void)setTagsText:(NSString *)aTagsText;
-- (void)setTimeText:(NSString *)aTimeText;
-- (void)setNumberOfComments:(NSInteger)aNumberOfComments;
+- (void)setPost:(MEPost *)aPost;
 
 @end

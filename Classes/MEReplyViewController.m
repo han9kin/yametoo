@@ -34,7 +34,7 @@
 {
     MEClient *sClient = [MEClientStore currentClient];
     [sClient getCommentsWithPostID:[mPost postID] delegate:self];
-//    [sClient getCommentsWithPostID:@"http://me2day.net/killk/2009/04/08#15:22:32" delegate:self];    
+//    [sClient getCommentsWithPostID:@"http://me2day.net/killk/2009/04/08#15:22:32" delegate:self];
 }
 
 
@@ -57,23 +57,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     mComments = [[NSMutableArray alloc] init];
-    
+
     [mIconView setImageWithURL:[mPost iconURL]];
-    
-    NSLog(@"mPostBodyView = %@", mPostBodyView);
-    [mPostBodyView setBodyText:[mPost body]];
-    [mPostBodyView setTagsText:[mPost tagsString]];
-    [mPostBodyView setTimeText:[mPost pubTimeString]];
-    [mPostBodyView setNumberOfComments:[mPost commentsCount]];
+
+    [mPostBodyView setPost:mPost];
     [mPostBodyView layoutIfNeeded];
-    
-    NSLog(@"size = %@", NSStringFromCGSize([mPostBodyView frame].size));
-    
-    NSLog(@"mPostScrollView = %@", mPostScrollView);
+
     [mPostScrollView setContentSize:[mPostBodyView frame].size];
-    
+
     [self getComments];
 }
 
@@ -88,10 +81,10 @@
 - (void)dealloc
 {
     NSLog(@"MEReplyViewController dealloc");
-    
+
     [mPost     release];
     [mComments release];
-    
+
     [super dealloc];
 }
 
@@ -121,7 +114,7 @@
     }
     else
     {
-    
+
     }
 }
 
@@ -161,14 +154,14 @@
     CGRect              sTextRect;
     CGRect              sImageRect;
     CGRect              sFrameRect;
-    
+
     sIsSameUser = (sUser == sPostOwner) ? YES : NO;
-    
+
     sResult    = [METableViewCellFactory commentCellForTableView:aTableView];
     sBodyLabel = (MEAttributedLabel *)[[sResult contentView] viewWithTag:kCommentCellBodyLabelTag];
     sImageView = (MEImageView *)[[sResult contentView] viewWithTag:kCommentCellFaceImageViewTag];
     sFrame     = (UIView *)[[sResult contentView] viewWithTag:kCommentCellFrameViewTag];
-    
+
     if (sIsSameUser)
     {
         sTextRect  = CGRectMake(10, 10, kCommentTextWidth, 0);
@@ -186,7 +179,7 @@
 
     [sImageView setFrame:sImageRect];
     [sImageView setImageWithURL:sFaceImage];
-    
+
     sFrameRect = sImageRect;
     sFrameRect.origin.x    -= 1;
     sFrameRect.origin.y    -= 1;
@@ -208,12 +201,12 @@
     MEComment          *sComment    = [mComments objectAtIndex:[aIndexPath row]];
     MEAttributedString *sCommentStr = [sComment body];
     CGSize              sSize;
-    
+
     sResult  = 10;
     sSize    = [sCommentStr sizeForWidth:240];
     sResult += (sSize.height > kFaceImageSize) ? sSize.height : kFaceImageSize;
     sResult += 10;
-    
+
     return sResult;
 }
 
