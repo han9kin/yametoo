@@ -61,8 +61,6 @@
         [mCommentsLabel setTextAlignment:UITextAlignmentRight];
         [self addSubview:mCommentsLabel];
         [mCommentsLabel release];
-
-        [self setClipsToBounds:YES];
     }
 
     return self;
