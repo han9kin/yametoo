@@ -244,8 +244,6 @@
 				2E61033D0F98804A0097AD3D /* Model */,
 				2E6101930F982B810097AD3D /* View */,
 				CF5EE7620F97164F004712FF /* Controllers */,
-				1D3623240D0F684500981E51 /* AppDelegate.h */,
-				1D3623250D0F684500981E51 /* AppDelegate.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -386,51 +384,6 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
-		2E6D55D30F95C77000AA1DF6 /* PostViewController */ = {
-			isa = PBXGroup;
-			children = (
-				28D7ACF60DDB3853001CB0EB /* MEPostViewController.h */,
-				28D7ACF70DDB3853001CB0EB /* MEPostViewController.m */,
-			);
-			name = PostViewController;
-			sourceTree = "<group>";
-		};
-		2E6D55D40F95C77C00AA1DF6 /* SettingsViewController */ = {
-			isa = PBXGroup;
-			children = (
-				CF5EE75B0F97162F004712FF /* MESettingsViewController.h */,
-				CF5EE75C0F97162F004712FF /* MESettingsViewController.m */,
-			);
-			name = SettingsViewController;
-			sourceTree = "<group>";
-		};
-		2E7520FD0FA6CD7E00B0D4FA /* UserInfoViewController */ = {
-			isa = PBXGroup;
-			children = (
-				2E7520FE0FA6CDA300B0D4FA /* MEUserInfoViewController.h */,
-				2E7520FF0FA6CDA300B0D4FA /* MEUserInfoViewController.m */,
-			);
-			name = UserInfoViewController;
-			sourceTree = "<group>";
-		};
-		2E75224C0FA709C100B0D4FA /* ActionPopupViewController */ = {
-			isa = PBXGroup;
-			children = (
-				2E7522510FA70A0000B0D4FA /* MEActionPopupViewController.h */,
-				2E7522520FA70A0000B0D4FA /* MEActionPopupViewController.m */,
-			);
-			name = ActionPopupViewController;
-			sourceTree = "<group>";
-		};
-		2EC19A560F9C1D4800963971 /* LoginViewController */ = {
-			isa = PBXGroup;
-			children = (
-				2EC19A570F9C1D5D00963971 /* MELoginViewController.h */,
-				2EC19A580F9C1D5D00963971 /* MELoginViewController.m */,
-			);
-			name = LoginViewController;
-			sourceTree = "<group>";
-		};
 		2ED164410F959B05009557F1 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
@@ -440,33 +393,6 @@
 				CF5EEB130F9D637C004712FF /* Cocomelo Extensions */,
 			);
 			path = Additions;
-			sourceTree = "<group>";
-		};
-		2ED4E84C0FA96103000BFE2F /* ReplyViewController */ = {
-			isa = PBXGroup;
-			children = (
-				2ED4E84D0FA9611D000BFE2F /* MEReplyViewController.h */,
-				2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */,
-			);
-			name = ReplyViewController;
-			sourceTree = "<group>";
-		};
-		2EE00DA10F970AEE00135D42 /* MymetooViewController */ = {
-			isa = PBXGroup;
-			children = (
-				2EE00DA20F970B1500135D42 /* MEMyMetooViewController.h */,
-				2EE00DA30F970B1500135D42 /* MEMyMetooViewController.m */,
-			);
-			name = MymetooViewController;
-			sourceTree = "<group>";
-		};
-		2EE00DB60F970D1000135D42 /* FriendsViewController */ = {
-			isa = PBXGroup;
-			children = (
-				2EE00DE80F970ECF00135D42 /* MEFriendsViewController.h */,
-				2EE00DE90F970ECF00135D42 /* MEFriendsViewController.m */,
-			);
-			name = FriendsViewController;
 			sourceTree = "<group>";
 		};
 		CF528CE40FA15670007C7A03 /* Parser */ = {
@@ -482,30 +408,11 @@
 			name = Parser;
 			sourceTree = "<group>";
 		};
-		CF5EE75E0F971639004712FF /* UserViewController */ = {
-			isa = PBXGroup;
-			children = (
-				CF5EE75F0F97164A004712FF /* MEUserViewController.h */,
-				CF5EE7600F97164A004712FF /* MEUserViewController.m */,
-			);
-			name = "User\U001bViewController";
-			sourceTree = "<group>";
-		};
 		CF5EE7620F97164F004712FF /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				2ED4E84C0FA96103000BFE2F /* ReplyViewController */,
-				2EC19A560F9C1D4800963971 /* LoginViewController */,
-				2EE00DA10F970AEE00135D42 /* MymetooViewController */,
-				2E7520FD0FA6CD7E00B0D4FA /* UserInfoViewController */,
-				2EE00DB60F970D1000135D42 /* FriendsViewController */,
-				2E6D55D30F95C77000AA1DF6 /* PostViewController */,
-				2E6D55D40F95C77C00AA1DF6 /* SettingsViewController */,
-				CF5EE75E0F971639004712FF /* UserViewController */,
-				CFE72E9B0FA8639E00C54792 /* AboutViewController */,
-				CF5EE8570F98503B004712FF /* UserDetailViewController */,
-				CFE72DAC0FA7ED5700C54792 /* PasscodeViewController */,
-				2E75224C0FA709C100B0D4FA /* ActionPopupViewController */,
+				CFE72F740FA9983300C54792 /* Application Controller */,
+				CFE72F750FA9983B00C54792 /* View Controller */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -565,15 +472,6 @@
 			name = "ObjC Extensions";
 			sourceTree = "<group>";
 		};
-		CF5EE8570F98503B004712FF /* UserDetailViewController */ = {
-			isa = PBXGroup;
-			children = (
-				CF5EE8630F98525E004712FF /* MEUserDetailViewController.h */,
-				CF5EE8640F98525E004712FF /* MEUserDetailViewController.m */,
-			);
-			name = UserDetailViewController;
-			sourceTree = "<group>";
-		};
 		CF5EE9B20F9C37C1004712FF /* Cache */ = {
 			isa = PBXGroup;
 			children = (
@@ -627,22 +525,44 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
-		CFE72DAC0FA7ED5700C54792 /* PasscodeViewController */ = {
+		CFE72F740FA9983300C54792 /* Application Controller */ = {
 			isa = PBXGroup;
 			children = (
-				CFE72DAD0FA7ED7100C54792 /* MEPasscodeViewController.h */,
-				CFE72DAE0FA7ED7100C54792 /* MEPasscodeViewController.m */,
+				1D3623240D0F684500981E51 /* AppDelegate.h */,
+				1D3623250D0F684500981E51 /* AppDelegate.m */,
 			);
-			name = PasscodeViewController;
+			name = "Application Controller";
 			sourceTree = "<group>";
 		};
-		CFE72E9B0FA8639E00C54792 /* AboutViewController */ = {
+		CFE72F750FA9983B00C54792 /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
+				2ED4E84D0FA9611D000BFE2F /* MEReplyViewController.h */,
+				2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */,
+				2EC19A570F9C1D5D00963971 /* MELoginViewController.h */,
+				2EC19A580F9C1D5D00963971 /* MELoginViewController.m */,
+				2EE00DA20F970B1500135D42 /* MEMyMetooViewController.h */,
+				2EE00DA30F970B1500135D42 /* MEMyMetooViewController.m */,
+				2E7520FE0FA6CDA300B0D4FA /* MEUserInfoViewController.h */,
+				2E7520FF0FA6CDA300B0D4FA /* MEUserInfoViewController.m */,
+				2EE00DE80F970ECF00135D42 /* MEFriendsViewController.h */,
+				2EE00DE90F970ECF00135D42 /* MEFriendsViewController.m */,
+				28D7ACF60DDB3853001CB0EB /* MEPostViewController.h */,
+				28D7ACF70DDB3853001CB0EB /* MEPostViewController.m */,
+				CF5EE75B0F97162F004712FF /* MESettingsViewController.h */,
+				CF5EE75C0F97162F004712FF /* MESettingsViewController.m */,
+				CF5EE75F0F97164A004712FF /* MEUserViewController.h */,
+				CF5EE7600F97164A004712FF /* MEUserViewController.m */,
 				CFE72E9C0FA863B900C54792 /* MEAboutViewController.h */,
 				CFE72E9D0FA863B900C54792 /* MEAboutViewController.m */,
+				CF5EE8630F98525E004712FF /* MEUserDetailViewController.h */,
+				CF5EE8640F98525E004712FF /* MEUserDetailViewController.m */,
+				CFE72DAD0FA7ED7100C54792 /* MEPasscodeViewController.h */,
+				CFE72DAE0FA7ED7100C54792 /* MEPasscodeViewController.m */,
+				2E7522510FA70A0000B0D4FA /* MEActionPopupViewController.h */,
+				2E7522520FA70A0000B0D4FA /* MEActionPopupViewController.m */,
 			);
-			name = AboutViewController;
+			name = "View Controller";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
