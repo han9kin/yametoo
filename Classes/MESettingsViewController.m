@@ -10,6 +10,7 @@
 #import "UIViewController+MEAdditions.h"
 #import "MESettingsViewController.h"
 #import "MEUserViewController.h"
+#import "MEAboutViewController.h"
 
 
 @implementation MESettingsViewController
@@ -35,6 +36,7 @@
 
     mTableView = [[UITableView alloc] initWithFrame:[[self view] bounds] style:UITableViewStyleGrouped];
     [mTableView setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
+    [mTableView setScrollEnabled:NO];
     [mTableView setDataSource:self];
     [mTableView setDelegate:self];
     [[self view] addSubview:mTableView];
@@ -61,7 +63,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
 {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)aSection
@@ -80,7 +82,17 @@
         sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Default"] autorelease];
     }
 
-    [sCell setText:NSLocalizedString(@"User", @"")];
+    switch ([aIndexPath section])
+    {
+        case 0:
+            [sCell setText:NSLocalizedString(@"User", @"")];
+            break;
+
+        case 1:
+            [sCell setText:NSLocalizedString(@"About", @"")];
+            break;
+    }
+
     [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 
     return sCell;
@@ -94,7 +106,17 @@
 {
     UIViewController *sViewController;
 
-    sViewController = [[MEUserViewController alloc] initWithNibName:nil bundle:nil];
+    switch ([aIndexPath section])
+    {
+        case 0:
+            sViewController = [[MEUserViewController alloc] init];
+            break;
+
+        case 1:
+            sViewController = [[MEAboutViewController alloc] init];
+            break;
+    }
+
     [[self navigationController] pushViewController:sViewController animated:YES];
     [sViewController release];
 }

@@ -14,6 +14,7 @@
 #import "METableViewCellFactory.h"
 #import "MEPasscodeViewController.h"
 #import "MEUserDetailViewController.h"
+#import "MEAboutViewController.h"
 #import "MEUser.h"
 
 
@@ -79,7 +80,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
 {
-    return 2;
+    return 3;
 }
 
 
@@ -94,6 +95,10 @@
     else if (aSection == 1)
     {
         sResult = NSLocalizedString(@"Add new user", @"");
+    }
+    else if (aSection == 2)
+    {
+        sResult = NSLocalizedString(@"About", @"");
     }
 
     return sResult;
@@ -147,12 +152,19 @@
             [sClient getPersonWithUserID:[sClient userID] delegate:self];
         }
     }
-    else
+    else if ([aIndexPath section] == 1)
     {
         sResult = [METableViewCellFactory addNewUserCellForTableView:aTableView];
 
         [sResult setFont:[UIFont boldSystemFontOfSize:17.0]];
         [sResult setText:NSLocalizedString(@"Other...", @"")];
+    }
+    else
+    {
+        sResult = [METableViewCellFactory addNewUserCellForTableView:aTableView];
+
+        [sResult setFont:[UIFont boldSystemFontOfSize:17.0]];
+        [sResult setText:NSLocalizedString(@"About", @"")];
     }
 
     return sResult;
@@ -206,9 +218,15 @@
             }
         }
     }
-    else
+    else if ([aIndexPath section] == 1)
     {
         sViewController = [[MEUserDetailViewController alloc] initWithUserID:nil parentViewController:self];
+        [self presentModalViewController:sViewController animated:YES];
+        [sViewController release];
+    }
+    else
+    {
+        sViewController = [[MEAboutViewController alloc] init];
         [self presentModalViewController:sViewController animated:YES];
         [sViewController release];
     }

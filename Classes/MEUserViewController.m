@@ -106,9 +106,9 @@
 
 @implementation MEUserViewController
 
-- (id)initWithNibName:(NSString *)aNibName bundle:(NSBundle *)aBundle
+- (id)init
 {
-    self = [super initWithNibName:aNibName bundle:aBundle];
+    self = [super initWithNibName:nil bundle:nil];
 
     if (self)
     {
