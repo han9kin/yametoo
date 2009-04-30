@@ -42,15 +42,11 @@
 
 - (void)initializeViews
 {
-    CGRect            sBounds   = [self bounds];
-    MEReaderHeadView *sHeadView = [MEReaderHeadView readerHeadView];
-
-    [sHeadView setDelegate:self];
+    CGRect sBounds = [self bounds];
 
     mTableView = [[UITableView alloc] initWithFrame:sBounds style:UITableViewStylePlain];
     [mTableView setDataSource:self];
     [mTableView setDelegate:self];
-    [mTableView setTableHeaderView:sHeadView];
     [mTableView setDelaysContentTouches:YES];
 //    [mTableView setCanCancelContentTouches:YES];
 
@@ -131,6 +127,15 @@
     mUser = [aUser retain];
 
     sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
+
+    if (!sHeaderView)
+    {
+        sHeaderView = [MEReaderHeadView readerHeadView];
+
+        [sHeaderView setDelegate:self];
+        [mTableView setTableHeaderView:sHeaderView];
+    }
+
     [sHeaderView setNickname:[aUser nickname]];
     [sHeaderView setFaceImageURL:[aUser faceImageURL]];
 }
@@ -406,24 +411,24 @@
     [aTableView deselectRowAtIndexPath:aIndexPath animated:YES];
 
     sPost = [self postForIndexPath:aIndexPath];
-    
+
     sReplyViewController = [[MEReplyViewController alloc] initWithNibName:@"MEReplyViewController" bundle:nil];
     [sReplyViewController setPost:sPost];
-    [[self window] addSubview:[sReplyViewController view]];    
+    [[self window] addSubview:[sReplyViewController view]];
 }
 
 
 /*    MEPost *sPost;
  MEActionPopupViewController *sViewController;
- 
 
- 
+
+
  sPost            = [self postForIndexPath:aIndexPath];
  sViewController  = [[MEActionPopupViewController alloc] initWithNibName:@"ActionPopupViewController" bundle:nil];
  [sViewController setDelegate:self];
  [sViewController setPostID:[sPost postID]];
  [[self window] addSubview:[sViewController view]];
- 
+
  if (![sPost photoURL])
  {
  [sViewController setShowPhotoButtonEnabled:NO];

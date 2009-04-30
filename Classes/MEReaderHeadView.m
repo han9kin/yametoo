@@ -82,10 +82,7 @@
 
 + (MEReaderHeadView *)readerHeadView
 {
-    MEReaderHeadView *sResult;
-
-    sResult = [[[MEReaderHeadView alloc] initWithFrame:CGRectMake(0, 0, 320, kReaderHeadViewHeight)] autorelease];
-    return sResult;
+    return [[[MEReaderHeadView alloc] initWithFrame:CGRectMake(0, 0, 320, kReaderHeadViewHeight)] autorelease];
 }
 
 

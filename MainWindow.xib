@@ -47,50 +47,47 @@
 			<object class="IBUITabBarController" id="1037244882">
 				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
-				<object class="IBUINavigationController" key="IBUISelectedViewController" id="1058589956">
-					<object class="IBUITabBarItem" key="IBUITabBarItem" id="512283544">
-						<string key="IBUITitle">Settings</string>
+				<object class="IBUIViewController" key="IBUISelectedViewController" id="779560552">
+					<object class="IBUITabBarItem" key="IBUITabBarItem" id="38879982">
+						<string key="IBUITitle">MyMetoo</string>
 						<reference key="IBUITabBar"/>
 					</object>
 					<reference key="IBUIParentViewController" ref="1037244882"/>
-					<object class="IBUINavigationBar" key="IBUINavigationBar" id="57484749">
-						<nil key="NSNextResponder"/>
-						<int key="NSvFlags">256</int>
-						<string key="NSFrameSize">{320, 44}</string>
-						<bool key="IBUIOpaque">NO</bool>
-						<bool key="IBUIClipsSubviews">YES</bool>
-						<bool key="IBUIMultipleTouchEnabled">YES</bool>
-					</object>
-					<object class="NSMutableArray" key="IBUIViewControllers">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="IBUIViewController" id="435907899">
-							<object class="IBUINavigationItem" key="IBUINavigationItem" id="657514023">
-								<reference key="IBUINavigationBar"/>
-								<string key="IBUITitle">Settings</string>
-							</object>
-							<reference key="IBUIParentViewController" ref="1058589956"/>
-						</object>
-					</object>
 				</object>
 				<object class="NSMutableArray" key="IBUIViewControllers">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="IBUIViewController" id="779560552">
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="38879982">
-							<string key="IBUITitle">MyMetoo</string>
-							<reference key="IBUITabBar"/>
-						</object>
-						<reference key="IBUIParentViewController" ref="1037244882"/>
-						<string key="IBUINibName">MyMetooViewController</string>
-					</object>
+					<reference ref="779560552"/>
 					<object class="IBUIViewController" id="189615296">
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="844358533">
 							<string key="IBUITitle">Friends</string>
 							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1037244882"/>
-						<string key="IBUINibName">FriendsViewController</string>
 					</object>
-					<reference ref="1058589956"/>
+					<object class="IBUINavigationController" id="1058589956">
+						<object class="IBUITabBarItem" key="IBUITabBarItem" id="512283544">
+							<string key="IBUITitle">Settings</string>
+							<reference key="IBUITabBar"/>
+						</object>
+						<reference key="IBUIParentViewController" ref="1037244882"/>
+						<object class="IBUINavigationBar" key="IBUINavigationBar" id="57484749">
+							<nil key="NSNextResponder"/>
+							<int key="NSvFlags">256</int>
+							<string key="NSFrameSize">{320, 44}</string>
+							<bool key="IBUIOpaque">NO</bool>
+							<bool key="IBUIClipsSubviews">YES</bool>
+							<bool key="IBUIMultipleTouchEnabled">YES</bool>
+						</object>
+						<object class="NSMutableArray" key="IBUIViewControllers">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBUIViewController" id="435907899">
+								<object class="IBUINavigationItem" key="IBUINavigationItem" id="657514023">
+									<string key="IBUITitle">Settings</string>
+								</object>
+								<reference key="IBUIParentViewController" ref="1058589956"/>
+							</object>
+						</object>
+					</object>
 				</object>
 				<object class="IBUITabBar" key="IBUITabBar" id="865761552">
 					<nil key="NSNextResponder"/>
@@ -365,34 +362,9 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">MEMyMetooViewController</string>
 					<string key="superclassName">UIViewController</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSMutableArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>mReaderView</string>
-							<string>mTopBarLabel</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>MEReaderView</string>
-							<string>UILabel</string>
-						</object>
-					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Classes/MEMyMetooViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">MEReaderView</string>
-					<string key="superclassName">UIView</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">mDelegate</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/MEReaderView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

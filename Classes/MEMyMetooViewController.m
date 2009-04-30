@@ -7,32 +7,68 @@
  *
  */
 
+#import "UIViewController+MEAdditions.h"
 #import "MEMyMetooViewController.h"
+#import "MEPostViewController.h"
+#import "MEReaderView.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
-#import "MEPost.h"
-#import "MEPostViewController.h"
 #import "MEUser.h"
+#import "MEPost.h"
 
 
 @implementation MEMyMetooViewController
 
 
+- (void)loadView
+{
+    [super loadView];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-}
 
-
-- (void)viewWillAppear:(BOOL)aAnimated
-{
     MEClient *sClient = [MEClientStore currentClient];
     NSString *sUserID = [sClient userID];
 
-    [mTopBarLabel setText:[NSString stringWithFormat:@"%@'s me2day", sUserID]];
+    UIView   *sView;
+    UILabel  *sLabel;
 
+    sView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)];
+    [sView setBackgroundColor:[UIColor colorWithRed:1.0 green:0.7 blue:0.7 alpha:1.0]];
+    [[self view] addSubview:sView];
+    [sView release];
+
+    sLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 25)];
+    [sLabel setBackgroundColor:[UIColor clearColor]];
+    [sLabel setTextColor:[UIColor blackColor]];
+    [sLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
+    [sLabel setText:[NSString stringWithFormat:NSLocalizedString(@"%@'s me2day", @""), sUserID]];
+    [sView addSubview:sLabel];
+
+    mReaderView = [[MEReaderView alloc] initWithFrame:CGRectMake(0, 25, 320, 386)];
     [mReaderView setDelegate:self];
     [mReaderView setHiddenPostButton:NO];
+    [[self view] addSubview:mReaderView];
+    [mReaderView release];
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+
+    mReaderView = nil;
+}
+
+
+- (void)viewDidAppear:(BOOL)aAnimated
+{
+    [super viewDidAppear:aAnimated];
+
+    MEClient *sClient = [MEClientStore currentClient];
+    NSString *sUserID = [sClient userID];
+
     [mReaderView removeAllPosts];
 
     [sClient getPersonWithUserID:sUserID delegate:self];

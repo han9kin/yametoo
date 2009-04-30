@@ -10,9 +10,11 @@
 #import <UIKit/UIKit.h>
 
 
+@class MEReaderView;
+
 @interface MEFriendsViewController : UIViewController
 {
-
+    MEReaderView *mReaderView;
 }
 
 @end

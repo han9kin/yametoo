@@ -7,57 +7,97 @@
  *
  */
 
+#import "UIViewController+MEAdditions.h"
 #import "MEFriendsViewController.h"
+#import "MEReaderView.h"
+#import "MEClientStore.h"
+#import "MEClient.h"
+#import "MEUser.h"
+#import "MEPost.h"
 
 
 @implementation MEFriendsViewController
 
-/*
-// The designated initializer. Override to perform setup that is required before the view is loaded.
-- (id)initWithNibName:(NSString *)aNibNameOrNil bundle:(NSBundle *)aNibBundleOrNil
-{
-    self = [super initWithNibName:aNibNameOrNil bundle:aNibBundleOrNil];
-    if (self)
-    {
-        // Custom initialization
-    }
-    return self;
-}
-*/
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView
 {
+    [super loadView];
 }
-*/
 
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-}
-*/
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
-{
-    // Return YES for supported orientations
-    return (aInterfaceOrientation == UIInterfaceOrientationPortrait);
+    MEClient *sClient = [MEClientStore currentClient];
+    NSString *sUserID = [sClient userID];
+
+    UIView   *sView;
+    UILabel  *sLabel;
+
+    sView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)];
+    [sView setBackgroundColor:[UIColor colorWithRed:1.0 green:0.7 blue:0.7 alpha:1.0]];
+    [[self view] addSubview:sView];
+    [sView release];
+
+    sLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 25)];
+    [sLabel setBackgroundColor:[UIColor clearColor]];
+    [sLabel setTextColor:[UIColor blackColor]];
+    [sLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
+    [sLabel setText:[NSString stringWithFormat:NSLocalizedString(@"%@'s friends", @""), sUserID]];
+    [sView addSubview:sLabel];
+
+    mReaderView = [[MEReaderView alloc] initWithFrame:CGRectMake(0, 25, 320, 386)];
+    [mReaderView setDelegate:self];
+    [[self view] addSubview:mReaderView];
+    [mReaderView release];
 }
-*/
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+
+    mReaderView = nil;
+}
+
+
+- (void)viewDidAppear:(BOOL)aAnimated
+{
+    [super viewDidAppear:aAnimated];
+
+    MEClient *sClient = [MEClientStore currentClient];
+    NSString *sUserID = [sClient userID];
+
+    [mReaderView removeAllPosts];
+
+    [sClient getPostsWithUserID:sUserID
+                          scope:kMEClientGetPostsScopeFriendAll
+                         offset:0
+                          count:30
+                       delegate:self];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
+    NSLog(@"didReceiveMemoryWarning");
+    [super didReceiveMemoryWarning];
 }
+
 
 - (void)dealloc
 {
     [super dealloc];
 }
+
+
+#pragma mark -
+#pragma mark MEClientDelegate
+
+
+- (void)client:(MEClient *)aClient didGetPosts:(NSArray *)aPosts error:(NSError *)aError
+{
+    [mReaderView addPosts:aPosts];
+}
+
 
 @end
