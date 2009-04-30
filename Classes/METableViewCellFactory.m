@@ -10,7 +10,7 @@
 #import "METableViewCellFactory.h"
 #import "ObjCUtil.h"
 #import "MEImageView.h"
-#import "MEAttributedLabel.h"
+#import "MEPostBodyView.h"
 
 
 @implementation METableViewCellFactory
@@ -93,58 +93,32 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
 
 + (UITableViewCell *)postCellForTableView:(UITableView *)aTableView
 {
-    UITableViewCell   *sResult;
-    MEImageView       *sImageView;
-    UIView            *sFrameView;
-    MEAttributedLabel *sBodyLabel;
-    UILabel           *sTagsLabel;
-    UILabel           *sTimeLabel;
-    UILabel           *sReplyLabel;
+    UITableViewCell *sResult;
+    UIView          *sFrameView;
+    MEImageView     *sImageView;
+    MEPostBodyView  *sBodyView;
 
     sResult = [aTableView dequeueReusableCellWithIdentifier:kTablePostCellIdentifier];
-     if (!sResult)
-     {
+
+    if (!sResult)
+    {
         sResult = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:kTablePostCellIdentifier] autorelease];
 
-        sFrameView = [[[UIImageView alloc] initWithFrame:CGRectMake(7, 9, 46, 46)] autorelease];
+        sFrameView = [[UIImageView alloc] initWithFrame:CGRectMake(7, kPostCellBodyPadding - 1, 46, 46)];
         [sFrameView setBackgroundColor:[UIColor lightGrayColor]];
-
-        sImageView = [[[MEImageView alloc] initWithFrame:CGRectMake(8, 10, 44, 44)] autorelease];
-        [sImageView setTag:kPostCellImageViewTag];
-
-        sBodyLabel = [[[MEAttributedLabel alloc] initWithFrame:CGRectZero] autorelease];
-        [sBodyLabel setTag:kPostCellBodyLabelTag];
-
-        sTagsLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-        [sTagsLabel setTag:kPostCellTagsLabelTag];
-        [sTagsLabel setLineBreakMode:UILineBreakModeCharacterWrap];
-        [sTagsLabel setNumberOfLines:1000];
-        [sTagsLabel setFont:[METableViewCellFactory fontForPostTag]];
-        [sTagsLabel setTextColor:[UIColor grayColor]];
-
-        sTimeLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-        [sTimeLabel setTag:kPostCellTimeLabelTag];
-        [sTimeLabel setFont:[METableViewCellFactory fontForPostTag]];
-        [sTimeLabel setTextColor:[UIColor grayColor]];
-
-        sReplyLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-        [sReplyLabel setTag:kPostCellReplyLabelTag];
-        [sReplyLabel setFont:[METableViewCellFactory fontForPostTag]];
-        [sReplyLabel setTextColor:[UIColor grayColor]];
-        [sReplyLabel setTextAlignment:UITextAlignmentRight];
-
-    //    [sBodyLabel  setBackgroundColor:[UIColor lightGrayColor]];
-    //    [sTagsLabel  setBackgroundColor:[UIColor lightGrayColor]];
-    //   [sTimeLabel  setBackgroundColor:[UIColor lightGrayColor]];
-    //    [sReplyLabel setBackgroundColor:[UIColor lightGrayColor]];
-
-        [[sResult contentView] addSubview:sBodyLabel];
-        [[sResult contentView] addSubview:sTagsLabel];
-        [[sResult contentView] addSubview:sTimeLabel];
-        [[sResult contentView] addSubview:sReplyLabel];
         [[sResult contentView] addSubview:sFrameView];
+        [sFrameView release];
+
+        sImageView = [[MEImageView alloc] initWithFrame:CGRectMake(8, kPostCellBodyPadding, 44, 44)];
+        [sImageView setTag:kPostCellImageViewTag];
         [[sResult contentView] addSubview:sImageView];
-     }
+        [sImageView release];
+
+        sBodyView = [[MEPostBodyView alloc] initWithFrame:CGRectMake(60, kPostCellBodyPadding, 250, 0)];
+        [sBodyView setTag:kPostCellBodyViewTag];
+        [[sResult contentView] addSubview:sBodyView];
+        [sBodyView release];
+    }
 
     return sResult;
 }

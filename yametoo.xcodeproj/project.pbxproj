@@ -78,6 +78,7 @@
 		CFE72DE90FA815B100C54792 /* keypad_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE72DE80FA815B100C54792 /* keypad_highlighted.png */; };
 		CFE72E9E0FA863B900C54792 /* MEAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72E9D0FA863B900C54792 /* MEAboutViewController.m */; };
 		CFE72EA90FA8678E00C54792 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = CFE72EA80FA8678E00C54792 /* Credits.html */; };
+		CFE72F070FA9672400C54792 /* MEPostBodyView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72F060FA9672400C54792 /* MEPostBodyView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -210,6 +211,8 @@
 		CFE72E9C0FA863B900C54792 /* MEAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEAboutViewController.h; sourceTree = "<group>"; };
 		CFE72E9D0FA863B900C54792 /* MEAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEAboutViewController.m; sourceTree = "<group>"; };
 		CFE72EA80FA8678E00C54792 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
+		CFE72F050FA9672400C54792 /* MEPostBodyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPostBodyView.h; sourceTree = "<group>"; };
+		CFE72F060FA9672400C54792 /* MEPostBodyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPostBodyView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -339,6 +342,8 @@
 				2E6102CB0F986B930097AD3D /* MEReaderView.m */,
 				2E2B6BD80FA5A48200F4B830 /* MEMediaView.h */,
 				2E2B6BD90FA5A48200F4B830 /* MEMediaView.m */,
+				CFE72F050FA9672400C54792 /* MEPostBodyView.h */,
+				CFE72F060FA9672400C54792 /* MEPostBodyView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -740,6 +745,7 @@
 				2E7522530FA70A0000B0D4FA /* MEActionPopupViewController.m in Sources */,
 				CFE72DAF0FA7ED7100C54792 /* MEPasscodeViewController.m in Sources */,
 				CFE72E9E0FA863B900C54792 /* MEAboutViewController.m in Sources */,
+				CFE72F070FA9672400C54792 /* MEPostBodyView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -776,14 +782,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chang-Gi Kim";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sanghyuk Suh";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5BBDC45B-F75A-449D-8F9B-61A7014060F7";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "54346E26-8E7F-4EFA-95D6-2B861523A975";
 				SDKROOT = iphoneos2.2;
 			};
 			name = Debug;
@@ -792,13 +798,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chang-Gi Kim";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sanghyuk Suh";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5BBDC45B-F75A-449D-8F9B-61A7014060F7";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "54346E26-8E7F-4EFA-95D6-2B861523A975";
 				SDKROOT = iphoneos2.2;
 			};
 			name = Release;

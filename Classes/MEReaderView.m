@@ -11,6 +11,7 @@
 #import "METableViewCellFactory.h"
 #import "MEReaderHeadView.h"
 #import "MEImageView.h"
+#import "MEPostBodyView.h"
 #import "MEMediaView.h"
 #import "MEPost.h"
 #import "MEUser.h"
@@ -50,7 +51,7 @@
     [mTableView setTableHeaderView:sHeadView];
     [mTableView setDelaysContentTouches:YES];
 //    [mTableView setCanCancelContentTouches:YES];
-    
+
     mMediaView = [[MEMediaView alloc] initWithFrame:CGRectZero];
 
     [self addSubview:mTableView];
@@ -92,7 +93,7 @@
 - (void)dealloc
 {
     [mUser           release];
-    
+
     [mPostArray      release];
     [mTableView      release];
     [mCellHeightDict release];
@@ -123,7 +124,7 @@
 - (void)setUser:(MEUser *)aUser
 {
     MEReaderHeadView *sHeaderView;
-    
+
     [mUser autorelease];
     mUser = [aUser retain];
 
@@ -248,7 +249,7 @@
     MEPost *sResult = nil;
     MEPost *sPost;
     NSArray *sArray;
-    
+
     for (sArray in mPostArray)
     {
         for (sPost in sArray)
@@ -260,7 +261,7 @@
             }
         }
     }
-    
+
     return sResult;
 }
 
@@ -291,7 +292,7 @@
 {
     MEPost *sPost     = [self postForPostID:aPostID];
     NSURL  *sPhotoURL = [sPost photoURL];
-    
+
     if (sPhotoURL)
     {
         [mMediaView setPhotoURL:sPhotoURL];
@@ -368,60 +369,24 @@
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    UITableViewCell    *sResult = nil;
-    MEAttributedLabel  *sBodyLabel;
-    UILabel            *sTagsLabel;
-    UILabel            *sTimeLabel;
-    UILabel            *sReplyLabel;
-    MEImageView        *sImageView;
-    MEPost             *sPost = [self postForIndexPath:aIndexPath];
-    MEAttributedString *sBody = [sPost body];
-    NSString           *sTags = [sPost tagsString];
-    NSString           *sTimeStr;
-    CGSize              sSize;
-    CGFloat             sYPos = 10;
+    UITableViewCell *sResult;
+    MEImageView     *sImageView;
+    MEPostBodyView  *sBodyView;
+    MEPost          *sPost;
 
-    sResult     = [METableViewCellFactory postCellForTableView:aTableView];
-    sBodyLabel  = (MEAttributedLabel *)[[sResult contentView] viewWithTag:kPostCellBodyLabelTag];
-    sTagsLabel  = (UILabel *)[[sResult contentView] viewWithTag:kPostCellTagsLabelTag];
-    sTimeLabel  = (UILabel *)[[sResult contentView] viewWithTag:kPostCellTimeLabelTag];
-    sReplyLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellReplyLabelTag];
-    sImageView  = (MEImageView *)[[sResult contentView] viewWithTag:kPostCellImageViewTag];
+    sResult    = [METableViewCellFactory postCellForTableView:aTableView];
+    sImageView = (MEImageView *)[[sResult contentView] viewWithTag:kPostCellImageViewTag];
+    sBodyView  = (MEPostBodyView *)[[sResult contentView] viewWithTag:kPostCellBodyViewTag];
+    sPost      = [self postForIndexPath:aIndexPath];
 
     [sImageView addTarget:self action:@selector(imageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
     [[sImageView userInfo] setValue:[sPost postID] forKey:@"postID"];
     [sImageView setImageWithURL:[sPost iconURL]];
 
-    [sBodyLabel setFrame:CGRectMake(60, sYPos, kPostBodyWidth, 0)];
-    [sBodyLabel setAttributedText:sBody];
-    [sBodyLabel sizeToFit];
-
-    sSize  = [sBodyLabel frame].size;
-    sYPos += (sSize.height + 5);
-
-    if (![sTags isEqualToString:@""])
-    {
-        sSize = [sTags sizeWithFont:[sTagsLabel font]
-                  constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
-                      lineBreakMode:UILineBreakModeCharacterWrap];
-        [sTagsLabel setText:sTags];
-        [sTagsLabel setFrame:CGRectMake(60, sYPos, sSize.width, sSize.height)];
-        [sTagsLabel setHidden:NO];
-
-        sYPos += (sSize.height + 5);
-    }
-    else
-    {
-        [sTagsLabel setHidden:YES];
-    }
-
-    sTimeStr = [sPost pubTimeString];
-    sSize.height = kTimeStrHeight;
-    [sTimeLabel setText:sTimeStr];
-    [sTimeLabel setFrame:CGRectMake(60, sYPos, 100, sSize.height)];
-
-    [sReplyLabel setText:[NSString stringWithFormat:@"댓글 (%d)", [sPost commentsCount]]];
-    [sReplyLabel setFrame:CGRectMake(210, sYPos, 100, sSize.height)];
+    [sBodyView setBodyText:[sPost body]];
+    [sBodyView setTagsText:[sPost tagsString]];
+    [sBodyView setTimeText:[sPost pubTimeString]];
+    [sBodyView setNumberOfComments:[sPost commentsCount]];
 
     return sResult;
 }
@@ -435,7 +400,7 @@
 {
     MEPost *sPost;
     MEActionPopupViewController *sViewController;
-    
+
     [aTableView deselectRowAtIndexPath:aIndexPath animated:YES];
 
     sPost            = [self postForIndexPath:aIndexPath];
@@ -443,7 +408,7 @@
     [sViewController setDelegate:self];
     [sViewController setPostID:[sPost postID]];
     [[self window] addSubview:[sViewController view]];
-    
+
     if (![sPost photoURL])
     {
         [sViewController setShowPhotoButtonEnabled:NO];
@@ -457,12 +422,9 @@
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    CGFloat             sResult = 0;
-    MEPost             *sPost   = [self postForIndexPath:aIndexPath];
-    NSNumber           *sHeight = [mCellHeightDict objectForKey:[sPost postID]];
-    MEAttributedString *sBody;
-    NSString           *sTags;
-    CGSize              sSize;
+    CGFloat   sResult = 0;
+    MEPost   *sPost   = [self postForIndexPath:aIndexPath];
+    NSNumber *sHeight = [mCellHeightDict objectForKey:[sPost postID]];
 
     if (sHeight)
     {
@@ -470,24 +432,8 @@
     }
     else
     {
-        sBody = [sPost body];
-        sTags = [sPost tagsString];
-
-        sResult += 10;
-        sSize    = [sBody sizeForWidth:kPostBodyWidth];
-        sResult += (sSize.height + 5);
-
-        if (![sTags isEqualToString:@""])
-        {
-            sSize    = [sTags sizeWithFont:[METableViewCellFactory fontForPostTag]
-                         constrainedToSize:CGSizeMake(kPostBodyWidth, 10000)
-                             lineBreakMode:UILineBreakModeCharacterWrap];
-            sResult += (sSize.height + 5);
-        }
-
-        sResult += kTimeStrHeight;
-        sResult += 10;
-        sResult  = (sResult < 70) ? 70 : sResult;
+        sResult = [MEPostBodyView heightWithBodyText:[sPost body] tagsText:[sPost tagsString]] + kPostCellBodyPadding * 2;
+        sResult = (sResult < 70) ? 70 : sResult;
 
         [mCellHeightDict setObject:[NSNumber numberWithFloat:sResult] forKey:[sPost postID]];
     }
@@ -525,14 +471,14 @@
                      buttonTapped:(NSInteger)aButtonIndex
 {
     NSString *sPostID = [aActionPopupViewController postID];
-    
+
     if (aButtonIndex == kActionPopupViewShowRepliesButton)
     {
-    
+
     }
     else if (aButtonIndex == kActionPopupViewPostReplyButton)
     {
-    
+
     }
     else if (aButtonIndex == kActionPopupViewShowPhotoButton)
     {
@@ -540,9 +486,9 @@
     }
     else if (aButtonIndex == kActionPopupViewCancelButton)
     {
-    
+
     }
-    
+
     [[aActionPopupViewController view] removeFromSuperview];
     [aActionPopupViewController autorelease];
 }
