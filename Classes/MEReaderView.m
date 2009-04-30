@@ -18,7 +18,9 @@
 #import "MEAttributedLabel.h"
 #import "MEAttributedString.h"
 #import "MEUserInfoViewController.h"
-#import "MEActionPopupViewController.h"
+//#import "MEActionPopupViewController.h"
+#import "MEReplyViewController.h"
+#import "MEReplyViewController.h"
 
 
 #define kPostBodyWidth  250
@@ -398,26 +400,38 @@
 
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    MEPost *sPost;
-    MEActionPopupViewController *sViewController;
+    MEReplyViewController *sReplyViewController;
+    MEPost                *sPost;
 
     [aTableView deselectRowAtIndexPath:aIndexPath animated:YES];
 
-    sPost            = [self postForIndexPath:aIndexPath];
-    sViewController  = [[MEActionPopupViewController alloc] initWithNibName:@"ActionPopupViewController" bundle:nil];
-    [sViewController setDelegate:self];
-    [sViewController setPostID:[sPost postID]];
-    [[self window] addSubview:[sViewController view]];
-
-    if (![sPost photoURL])
-    {
-        [sViewController setShowPhotoButtonEnabled:NO];
-    }
-    if ([sPost commentsCount] == 0)
-    {
-        [sViewController setShowRepliesButtonEnabled:NO];
-    }
+    sPost = [self postForIndexPath:aIndexPath];
+    
+    sReplyViewController = [[MEReplyViewController alloc] initWithNibName:@"MEReplyViewController" bundle:nil];
+    [sReplyViewController setPost:sPost];
+    [[self window] addSubview:[sReplyViewController view]];    
 }
+
+
+/*    MEPost *sPost;
+ MEActionPopupViewController *sViewController;
+ 
+
+ 
+ sPost            = [self postForIndexPath:aIndexPath];
+ sViewController  = [[MEActionPopupViewController alloc] initWithNibName:@"ActionPopupViewController" bundle:nil];
+ [sViewController setDelegate:self];
+ [sViewController setPostID:[sPost postID]];
+ [[self window] addSubview:[sViewController view]];
+ 
+ if (![sPost photoURL])
+ {
+ [sViewController setShowPhotoButtonEnabled:NO];
+ }
+ if ([sPost commentsCount] == 0)
+ {
+ [sViewController setShowRepliesButtonEnabled:NO];
+ }*/
 
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)aIndexPath
@@ -467,7 +481,7 @@
 #pragma mark ActionPopupViewController Delegate
 
 
-- (void)actionPopupViewController:(MEActionPopupViewController *)aActionPopupViewController
+/*- (void)actionPopupViewController:(MEActionPopupViewController *)aActionPopupViewController
                      buttonTapped:(NSInteger)aButtonIndex
 {
     NSString *sPostID = [aActionPopupViewController postID];
@@ -491,7 +505,7 @@
 
     [[aActionPopupViewController view] removeFromSuperview];
     [aActionPopupViewController autorelease];
-}
+}*/
 
 
 @end

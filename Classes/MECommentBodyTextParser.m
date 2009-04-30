@@ -21,7 +21,7 @@ static NSDictionary *gLinkAttributes    = nil;
 {
     if (!gDefaultAttributes)
     {
-        gDefaultAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:[UIFont systemFontOfSize:14], MEFontAttributeName, [UIColor darkGrayColor], MEForegroundColorAttributeName, [UIColor whiteColor], MEHighlightedColorAttributeName, nil];
+        gDefaultAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:[UIFont systemFontOfSize:12], MEFontAttributeName, [UIColor darkGrayColor], MEForegroundColorAttributeName, [UIColor whiteColor], MEHighlightedColorAttributeName, nil];
     }
 
     if (!gLinkAttributes)

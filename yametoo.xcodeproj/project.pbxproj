@@ -42,6 +42,9 @@
 		2ED164440F959B2A009557F1 /* NSString+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED164430F959B2A009557F1 /* NSString+MEAdditions.m */; };
 		2ED1646A0F959F46009557F1 /* MEClient+Requests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED164690F959F46009557F1 /* MEClient+Requests.m */; };
 		2ED4E7F30FA84A06000BFE2F /* white_round_rect.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED4E7F20FA84A06000BFE2F /* white_round_rect.png */; };
+		2ED4E8290FA8507B000BFE2F /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2ED4E8280FA8507B000BFE2F /* Entitlements.plist */; };
+		2ED4E8330FA942D6000BFE2F /* MEReplyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED4E8320FA942D6000BFE2F /* MEReplyViewController.xib */; };
+		2ED4E84F0FA9611D000BFE2F /* MEReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */; };
 		2EE00DA40F970B1500135D42 /* MEMyMetooViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE00DA30F970B1500135D42 /* MEMyMetooViewController.m */; };
 		2EE00DA60F970B4700135D42 /* MyMetooViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE00DA50F970B4700135D42 /* MyMetooViewController.xib */; };
 		2EE00DEA0F970ECF00135D42 /* MEFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE00DE90F970ECF00135D42 /* MEFriendsViewController.m */; };
@@ -145,6 +148,10 @@
 		2ED164680F959F46009557F1 /* MEClient+Requests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MEClient+Requests.h"; sourceTree = "<group>"; };
 		2ED164690F959F46009557F1 /* MEClient+Requests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MEClient+Requests.m"; sourceTree = "<group>"; };
 		2ED4E7F20FA84A06000BFE2F /* white_round_rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = white_round_rect.png; sourceTree = "<group>"; };
+		2ED4E8280FA8507B000BFE2F /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		2ED4E8320FA942D6000BFE2F /* MEReplyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEReplyViewController.xib; sourceTree = "<group>"; };
+		2ED4E84D0FA9611D000BFE2F /* MEReplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReplyViewController.h; sourceTree = "<group>"; };
+		2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReplyViewController.m; sourceTree = "<group>"; };
 		2EE00DA20F970B1500135D42 /* MEMyMetooViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEMyMetooViewController.h; sourceTree = "<group>"; };
 		2EE00DA30F970B1500135D42 /* MEMyMetooViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEMyMetooViewController.m; sourceTree = "<group>"; };
 		2EE00DA50F970B4700135D42 /* MyMetooViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyMetooViewController.xib; sourceTree = "<group>"; };
@@ -285,9 +292,11 @@
 				2899E5210DE3E06400AC0155 /* PostViewController.xib */,
 				2E7521010FA6CDBE00B0D4FA /* UserInfoViewController.xib */,
 				2E75224A0FA7098C00B0D4FA /* ActionPopupViewController.xib */,
+				2ED4E8320FA942D6000BFE2F /* MEReplyViewController.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				CF528C970FA06BC1007C7A03 /* Localizable.strings */,
 				CF528CB70FA149B6007C7A03 /* CharacterEntity.strings */,
+				2ED4E8280FA8507B000BFE2F /* Entitlements.plist */,
 				CFE72EA80FA8678E00C54792 /* Credits.html */,
 			);
 			name = Resources;
@@ -433,6 +442,15 @@
 			path = Additions;
 			sourceTree = "<group>";
 		};
+		2ED4E84C0FA96103000BFE2F /* ReplyViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2ED4E84D0FA9611D000BFE2F /* MEReplyViewController.h */,
+				2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */,
+			);
+			name = ReplyViewController;
+			sourceTree = "<group>";
+		};
 		2EE00DA10F970AEE00135D42 /* MymetooViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -476,6 +494,7 @@
 		CF5EE7620F97164F004712FF /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2ED4E84C0FA96103000BFE2F /* ReplyViewController */,
 				2EC19A560F9C1D4800963971 /* LoginViewController */,
 				2EE00DA10F970AEE00135D42 /* MymetooViewController */,
 				2E7520FD0FA6CD7E00B0D4FA /* UserInfoViewController */,
@@ -684,6 +703,8 @@
 				2E75224B0FA7098C00B0D4FA /* ActionPopupViewController.xib in Resources */,
 				CFE72DE90FA815B100C54792 /* keypad_highlighted.png in Resources */,
 				2ED4E7F30FA84A06000BFE2F /* white_round_rect.png in Resources */,
+				2ED4E8290FA8507B000BFE2F /* Entitlements.plist in Resources */,
+				2ED4E8330FA942D6000BFE2F /* MEReplyViewController.xib in Resources */,
 				CFE72EA90FA8678E00C54792 /* Credits.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -745,6 +766,7 @@
 				2E7522530FA70A0000B0D4FA /* MEActionPopupViewController.m in Sources */,
 				CFE72DAF0FA7ED7100C54792 /* MEPasscodeViewController.m in Sources */,
 				CFE72E9E0FA863B900C54792 /* MEAboutViewController.m in Sources */,
+				2ED4E84F0FA9611D000BFE2F /* MEReplyViewController.m in Sources */,
 				CFE72F070FA9672400C54792 /* MEPostBodyView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -777,6 +799,34 @@
 				PRODUCT_NAME = yametoo;
 			};
 			name = Release;
+		};
+		2ED4E8250FA8503B000BFE2F /* Distribution - AdHoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chang-Gi Kim";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
+				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F2D137CE-7E3F-47B3-A688-F0DC4FEE5DD2";
+				SDKROOT = iphoneos2.2;
+			};
+			name = "Distribution - AdHoc";
+		};
+		2ED4E8260FA8503B000BFE2F /* Distribution - AdHoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = yametoo_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = yametoo;
+			};
+			name = "Distribution - AdHoc";
 		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -817,6 +867,7 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
+				2ED4E8260FA8503B000BFE2F /* Distribution - AdHoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -826,6 +877,7 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+				2ED4E8250FA8503B000BFE2F /* Distribution - AdHoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -46,6 +46,7 @@
 
 - (void)didReceiveMemoryWarning
 {
+    NSLog(@"didReceiveMemoryWarning");
     [super didReceiveMemoryWarning];
 }
 

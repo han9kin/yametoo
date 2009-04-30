@@ -17,6 +17,10 @@
 #define kPostCellImageViewTag           100
 #define kPostCellBodyViewTag            200
 
+#define kCommentCellBodyLabelTag        100
+#define kCommentCellFaceImageViewTag    200
+
+
 #define kPostCellBodyPadding            10
 
 
@@ -24,6 +28,7 @@
 #define kTableAddNewUserCellIdentifier  @"TableAddNewUserCell"
 
 #define kTablePostCellIdentifier        @"TablePostCell"
+#define kTableCommentCellIdentifier     @"TableCommentCell"
 
 
 @interface METableViewCellFactory : NSObject
@@ -35,5 +40,6 @@
 + (UITableViewCell *)addNewUserCellForTableView:(UITableView *)aTableView;
 
 + (UITableViewCell *)postCellForTableView:(UITableView *)aTableView;
++ (UITableViewCell *)commentCellForTableView:(UITableView *)aTableView;
 
 @end

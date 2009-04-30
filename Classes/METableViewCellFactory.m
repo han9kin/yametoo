@@ -11,6 +11,7 @@
 #import "ObjCUtil.h"
 #import "MEImageView.h"
 #import "MEPostBodyView.h"
+#import "MEAttributedLabel.h"
 
 
 @implementation METableViewCellFactory
@@ -120,6 +121,31 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
         [sBodyView release];
     }
 
+    return sResult;
+}
+
+
++ (UITableViewCell *)commentCellForTableView:(UITableView *)aTableView
+{
+    UITableViewCell   *sResult = nil;
+    MEImageView       *sImageView;
+    MEAttributedLabel *sBodyLabel;    
+
+    sResult = [aTableView dequeueReusableCellWithIdentifier:kTableCommentCellIdentifier];
+    if (!sResult)
+    {
+        sResult = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:kTableCommentCellIdentifier] autorelease];        
+        
+        sBodyLabel = [[[MEAttributedLabel alloc] initWithFrame:CGRectZero] autorelease];
+        [sBodyLabel setTag:kCommentCellBodyLabelTag];
+        
+        sImageView = [[[MEImageView alloc] initWithFrame:CGRectMake(8, 10, 44, 44)] autorelease];
+        [sImageView setTag:kCommentCellFaceImageViewTag];
+        
+        [[sResult contentView] addSubview:sBodyLabel];
+        [[sResult contentView] addSubview:sImageView];        
+    }
+    
     return sResult;
 }
 
