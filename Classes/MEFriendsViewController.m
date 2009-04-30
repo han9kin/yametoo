@@ -48,6 +48,7 @@
 
     mReaderView = [[MEReaderView alloc] initWithFrame:CGRectMake(0, 25, 320, 386)];
     [mReaderView setDelegate:self];
+    [mReaderView setShowsPostAuthor:YES];
     [[self view] addSubview:mReaderView];
     [mReaderView release];
 }

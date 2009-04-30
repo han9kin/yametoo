@@ -46,9 +46,7 @@
 		2ED4E8330FA942D6000BFE2F /* MEReplyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED4E8320FA942D6000BFE2F /* MEReplyViewController.xib */; };
 		2ED4E84F0FA9611D000BFE2F /* MEReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */; };
 		2EE00DA40F970B1500135D42 /* MEMyMetooViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE00DA30F970B1500135D42 /* MEMyMetooViewController.m */; };
-		2EE00DA60F970B4700135D42 /* MyMetooViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE00DA50F970B4700135D42 /* MyMetooViewController.xib */; };
 		2EE00DEA0F970ECF00135D42 /* MEFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE00DE90F970ECF00135D42 /* MEFriendsViewController.m */; };
-		2EE00DEC0F970EE600135D42 /* FriendsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE00DEB0F970EE600135D42 /* FriendsViewController.xib */; };
 		2EEDB9560F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEDB9550F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m */; };
 		CF528C980FA06BC2007C7A03 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF528C970FA06BC1007C7A03 /* Localizable.strings */; };
 		CF528CB80FA149B6007C7A03 /* CharacterEntity.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF528CB70FA149B6007C7A03 /* CharacterEntity.strings */; };
@@ -154,10 +152,8 @@
 		2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReplyViewController.m; sourceTree = "<group>"; };
 		2EE00DA20F970B1500135D42 /* MEMyMetooViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEMyMetooViewController.h; sourceTree = "<group>"; };
 		2EE00DA30F970B1500135D42 /* MEMyMetooViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEMyMetooViewController.m; sourceTree = "<group>"; };
-		2EE00DA50F970B4700135D42 /* MyMetooViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyMetooViewController.xib; sourceTree = "<group>"; };
 		2EE00DE80F970ECF00135D42 /* MEFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEFriendsViewController.h; sourceTree = "<group>"; };
 		2EE00DE90F970ECF00135D42 /* MEFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEFriendsViewController.m; sourceTree = "<group>"; };
-		2EE00DEB0F970EE600135D42 /* FriendsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendsViewController.xib; sourceTree = "<group>"; };
 		2EEDB9540F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableURLRequest+MEAdditions.h"; sourceTree = "<group>"; };
 		2EEDB9550F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableURLRequest+MEAdditions.m"; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* yametoo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yametoo_Prefix.pch; sourceTree = "<group>"; };
@@ -285,8 +281,6 @@
 				2E6D55800F95BADC00AA1DF6 /* Images */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				2EC19A5A0F9C1E9800963971 /* LoginViewController.xib */,
-				2EE00DA50F970B4700135D42 /* MyMetooViewController.xib */,
-				2EE00DEB0F970EE600135D42 /* FriendsViewController.xib */,
 				2899E5210DE3E06400AC0155 /* PostViewController.xib */,
 				2E7521010FA6CDBE00B0D4FA /* UserInfoViewController.xib */,
 				2E75224A0FA7098C00B0D4FA /* ActionPopupViewController.xib */,
@@ -610,8 +604,6 @@
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				2899E5220DE3E06400AC0155 /* PostViewController.xib in Resources */,
 				2E6D55820F95BAF400AA1DF6 /* yametoo_icon.png in Resources */,
-				2EE00DA60F970B4700135D42 /* MyMetooViewController.xib in Resources */,
-				2EE00DEC0F970EE600135D42 /* FriendsViewController.xib in Resources */,
 				CF5EE9430F9BFEBD004712FF /* checkmark_highlighted.png in Resources */,
 				CF5EE9440F9BFEBD004712FF /* checkmark_normal.png in Resources */,
 				CF5EE9450F9BFEBD004712FF /* locked_highlighted.png in Resources */,

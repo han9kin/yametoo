@@ -14,8 +14,10 @@
 #define kLoginUserCellFrameViewTag      200
 #define kLoginUserCellUserIDLabelTag    300
 
-#define kPostCellImageViewTag           100
+#define kPostCellIconImageViewTag       100
 #define kPostCellBodyViewTag            200
+#define kPostCellFaceImageViewTag       300
+#define kPostCellAuthorNameLabelTag     400
 
 #define kCommentCellBodyLabelTag        100
 #define kCommentCellFaceImageViewTag    200
@@ -41,6 +43,7 @@
 + (UITableViewCell *)addNewUserCellForTableView:(UITableView *)aTableView;
 
 + (UITableViewCell *)postCellForTableView:(UITableView *)aTableView;
++ (UITableViewCell *)postCellWithAuthorForTableView:(UITableView *)aTableView;
 + (UITableViewCell *)commentCellForTableView:(UITableView *)aTableView;
 
 @end

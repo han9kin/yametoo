@@ -24,6 +24,7 @@
     NSMutableArray      *mPostArray;
     UITableView         *mTableView;
     NSMutableDictionary *mCellHeightDict;
+    BOOL                 mShowsPostAuthor;
 
     MEMediaView         *mMediaView;
 }
@@ -31,6 +32,7 @@
 - (void)setDelegate:(id)aDelegate;
 - (void)setUser:(MEUser *)aUser;
 - (void)setHiddenPostButton:(BOOL)aFlag;
+- (void)setShowsPostAuthor:(BOOL)aFlag;
 
 - (void)addPost:(MEPost *)aPost;
 - (void)addPosts:(NSArray *)aPostArray;

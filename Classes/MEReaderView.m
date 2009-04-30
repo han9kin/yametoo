@@ -150,6 +150,12 @@
 }
 
 
+- (void)setShowsPostAuthor:(BOOL)aFlag
+{
+    mShowsPostAuthor = aFlag;
+}
+
+
 - (void)addPost:(MEPost *)aPost
 {
     NSDate          *sDate        = [aPost pubDate];
@@ -377,19 +383,36 @@
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
     UITableViewCell *sResult;
+    UILabel         *sLabel;
     MEImageView     *sImageView;
     MEPostBodyView  *sBodyView;
     MEPost          *sPost;
 
-    sResult    = [METableViewCellFactory postCellForTableView:aTableView];
-    sImageView = (MEImageView *)[[sResult contentView] viewWithTag:kPostCellImageViewTag];
-    sBodyView  = (MEPostBodyView *)[[sResult contentView] viewWithTag:kPostCellBodyViewTag];
-    sPost      = [self postForIndexPath:aIndexPath];
+    sPost = [self postForIndexPath:aIndexPath];
 
+    if (mShowsPostAuthor)
+    {
+        sResult = [METableViewCellFactory postCellWithAuthorForTableView:aTableView];
+
+        sImageView = (MEImageView *)[[sResult contentView] viewWithTag:kPostCellFaceImageViewTag];
+        [sImageView addTarget:self action:@selector(imageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [[sImageView userInfo] setValue:[[sPost author] userID] forKey:@"userID"];
+        [sImageView setImageWithURL:[[sPost author] faceImageURL]];
+
+        sLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellAuthorNameLabelTag];
+        [sLabel setText:[[sPost author] nickname]];
+    }
+    else
+    {
+        sResult = [METableViewCellFactory postCellForTableView:aTableView];
+    }
+
+    sImageView = (MEImageView *)[[sResult contentView] viewWithTag:kPostCellIconImageViewTag];
     [sImageView addTarget:self action:@selector(imageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
     [[sImageView userInfo] setValue:[sPost postID] forKey:@"postID"];
     [sImageView setImageWithURL:[sPost iconURL]];
 
+    sBodyView = (MEPostBodyView *)[[sResult contentView] viewWithTag:kPostCellBodyViewTag];
     [sBodyView setBodyText:[sPost body]];
     [sBodyView setTagsText:[sPost tagsString]];
     [sBodyView setTimeText:[sPost pubTimeString]];
@@ -452,7 +475,16 @@
     else
     {
         sResult = [MEPostBodyView heightWithBodyText:[sPost body] tagsText:[sPost tagsString]] + kPostCellBodyPadding * 2;
-        sResult = (sResult < 70) ? 70 : sResult;
+
+        if (mShowsPostAuthor)
+        {
+            sResult += 20;
+            sResult  = (sResult < 115) ? 115 : sResult;
+        }
+        else
+        {
+            sResult  = (sResult < 70) ? 70 : sResult;
+        }
 
         [mCellHeightDict setObject:[NSNumber numberWithFloat:sResult] forKey:[sPost postID]];
     }

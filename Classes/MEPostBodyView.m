@@ -37,12 +37,14 @@
     [mTagsLabel setNumberOfLines:0];
     [mTagsLabel setFont:[MEPostBodyView tagFont]];
     [mTagsLabel setTextColor:[UIColor grayColor]];
+    [mTagsLabel setHighlightedTextColor:[UIColor colorWithWhite:0.8 alpha:1.0]];
     [self addSubview:mTagsLabel];
     [mTagsLabel release];
 
     mTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     [mTimeLabel setFont:[MEPostBodyView tagFont]];
     [mTimeLabel setTextColor:[UIColor grayColor]];
+    [mTimeLabel setHighlightedTextColor:[UIColor colorWithWhite:0.8 alpha:1.0]];
     [self addSubview:mTimeLabel];
     [mTimeLabel release];
 
@@ -50,6 +52,7 @@
     [mCommentsLabel setFont:[MEPostBodyView tagFont]];
     [mCommentsLabel setTextColor:[UIColor grayColor]];
     [mCommentsLabel setTextAlignment:UITextAlignmentRight];
+    [mCommentsLabel setHighlightedTextColor:[UIColor colorWithWhite:0.8 alpha:1.0]];
     [self addSubview:mCommentsLabel];
     [mCommentsLabel release];
 }
