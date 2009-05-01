@@ -25,4 +25,6 @@
 
 + (MEAttributedString *)attributedStringFromString:(NSString *)aString;
 
+- (void)flushCurrentString;
+
 @end

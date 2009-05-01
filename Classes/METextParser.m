@@ -50,6 +50,32 @@
     return nil;
 }
 
+- (void)flushCurrentString
+{
+    NSArray            *sWords;
+    NSString           *sString;
+    MEAttributedString *sAttributedString;
+
+    sWords = [mCurrentString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
+    if ([sWords count] > 2)
+    {
+        sWords = [[sWords mutableCopy] autorelease];
+        [(NSMutableArray *)sWords removeObject:@"" inRange:NSMakeRange(1, [sWords count] - 2)];
+    }
+
+    sString = [sWords componentsJoinedByString:@" "];
+
+    if ([sString length])
+    {
+        sAttributedString = [[MEAttributedString alloc] initWithString:sString attributes:[mAttributesStack lastObject]];
+        [mAttributedString appendAttributedString:sAttributedString];
+        [sAttributedString release];
+    }
+
+    [mCurrentString setString:@""];
+}
+
 
 + (MEAttributedString *)attributedStringFromString:(NSString *)aString
 {

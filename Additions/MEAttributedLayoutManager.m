@@ -177,6 +177,7 @@
 - (void)layoutAttributedString:(MEAttributedString *)aString forWidth:(CGFloat)aWidth
 {
     NSAutoreleasePool *sPool;
+    NSCharacterSet    *sWhites;
     NSString          *sText;
     NSUInteger         sLen;
     NSUInteger         sLoc;
@@ -191,7 +192,7 @@
         mLayoutWidth = aWidth;
 
         sPool   = [[NSAutoreleasePool alloc] init];
-
+        sWhites = [NSCharacterSet whitespaceCharacterSet];
         sText   = [aString string];
         sLen    = [aString length];
         sLoc    = 0;
@@ -207,6 +208,23 @@
             NSRange                 sRange;
 
             sAttributes = [aString attributesAtIndex:sLoc effectiveRange:&sRange];
+
+            if (sWidth == 0)
+            {
+                for (; sLoc < NSMaxRange(sRange); sLoc++)
+                {
+                    if (![sWhites characterIsMember:[sText characterAtIndex:sLoc]])
+                    {
+                        break;
+                    }
+                }
+
+                if (sLoc >= NSMaxRange(sRange))
+                {
+                    continue;
+                }
+            }
+
             sRange      = NSMakeRange(sLoc, NSMaxRange(sRange) - sLoc);
             sLayoutText = [sText substringWithRange:sRange];
             sLayoutInfo = [MEAttributedLayoutInfo layoutInfoWithAttributes:sAttributes text:sLayoutText range:&sRange rect:sRect];

@@ -384,7 +384,7 @@
 				CF5EE8260F981D77004712FF /* ObjC Extensions */,
 				CF5EE8240F981D32004712FF /* Foundation Extensions */,
 				CF5EE8250F981D47004712FF /* UIKit Extensions */,
-				CF5EEB130F9D637C004712FF /* Cocomelo Extensions */,
+				CF5EEB130F9D637C004712FF /* Yame Extensions */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -475,7 +475,7 @@
 			name = Cache;
 			sourceTree = "<group>";
 		};
-		CF5EEB130F9D637C004712FF /* Cocomelo Extensions */ = {
+		CF5EEB130F9D637C004712FF /* Yame Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				CF5EE9DE0F9C4738004712FF /* MEFuture.h */,
@@ -491,7 +491,7 @@
 				2E2B6C5F0FA5B04B00F4B830 /* MEDrawingFunctions.h */,
 				2E2B6C600FA5B04B00F4B830 /* MEDrawingFunctions.m */,
 			);
-			name = "Cocomelo Extensions";
+			name = "Yame Extensions";
 			sourceTree = "<group>";
 		};
 		CF90458C0F959D29001AE52C /* External Sources */ = {

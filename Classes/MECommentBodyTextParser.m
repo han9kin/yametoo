@@ -35,15 +35,6 @@ static NSDictionary *gLinkAttributes    = nil;
     return gDefaultAttributes;
 }
 
-- (void)flushCurrentString
-{
-    if ([mCurrentString length])
-    {
-        [mAttributedString appendAttributedString:[[[MEAttributedString alloc] initWithString:mCurrentString attributes:[mAttributesStack lastObject]] autorelease]];
-        [mCurrentString setString:@""];
-    }
-}
-
 
 #pragma mark NSXMLParserDelegate
 
