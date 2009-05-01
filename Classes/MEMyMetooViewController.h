@@ -14,6 +14,7 @@
 
 @interface MEMyMetooViewController : UIViewController
 {
+    UILabel      *mTitleLabel;
     MEReaderView *mReaderView;
 }
 

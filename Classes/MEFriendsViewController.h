@@ -14,6 +14,7 @@
 
 @interface MEFriendsViewController : UIViewController
 {
+    UILabel      *mTitleLabel;
     MEReaderView *mReaderView;
 }
 

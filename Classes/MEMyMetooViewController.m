@@ -29,23 +29,19 @@
 {
     [super viewDidLoad];
 
-    MEClient *sClient = [MEClientStore currentClient];
-    NSString *sUserID = [sClient userID];
-
-    UIView   *sView;
-    UILabel  *sLabel;
+    UIView *sView;
 
     sView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)];
     [sView setBackgroundColor:[UIColor colorWithRed:1.0 green:0.7 blue:0.7 alpha:1.0]];
     [[self view] addSubview:sView];
     [sView release];
 
-    sLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 25)];
-    [sLabel setBackgroundColor:[UIColor clearColor]];
-    [sLabel setTextColor:[UIColor blackColor]];
-    [sLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
-    [sLabel setText:[NSString stringWithFormat:NSLocalizedString(@"%@'s me2day", @""), sUserID]];
-    [sView addSubview:sLabel];
+    mTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 25)];
+    [mTitleLabel setBackgroundColor:[UIColor clearColor]];
+    [mTitleLabel setTextColor:[UIColor blackColor]];
+    [mTitleLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
+    [sView addSubview:mTitleLabel];
+    [mTitleLabel release];
 
     mReaderView = [[MEReaderView alloc] initWithFrame:CGRectMake(0, 25, 320, 386)];
     [mReaderView setDelegate:self];
@@ -58,6 +54,7 @@
 {
     [super viewDidUnload];
 
+    mTitleLabel = nil;
     mReaderView = nil;
 }
 
@@ -69,6 +66,7 @@
     MEClient *sClient = [MEClientStore currentClient];
     NSString *sUserID = [sClient userID];
 
+    [mTitleLabel setText:[NSString stringWithFormat:NSLocalizedString(@"%@'s me2day", @""), sUserID]];
     [mReaderView removeAllPosts];
 
     [sClient getPersonWithUserID:sUserID delegate:self];
