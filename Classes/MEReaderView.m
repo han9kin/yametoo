@@ -17,10 +17,6 @@
 #import "MEUser.h"
 #import "MEAttributedLabel.h"
 #import "MEAttributedString.h"
-#import "MEUserInfoViewController.h"
-//#import "MEActionPopupViewController.h"
-#import "MEReplyViewController.h"
-#import "MEReplyViewController.h"
 
 
 #define kPostBodyWidth  250
@@ -31,11 +27,18 @@
 
 
 #pragma mark -
+#pragma mark properties
+
+
+@synthesize dataSource = mDataSource;
+@synthesize delegate   = mDelegate;
+
+
+#pragma mark -
 
 
 - (void)initializeVariables
 {
-    mPostArray      = [[NSMutableArray alloc] init];
     mCellHeightDict = [[NSMutableDictionary alloc] init];
 }
 
@@ -50,28 +53,13 @@
     [mTableView setDelaysContentTouches:YES];
 //    [mTableView setCanCancelContentTouches:YES];
 
-    mMediaView = [[MEMediaView alloc] initWithFrame:CGRectZero];
-
     [self addSubview:mTableView];
+    [mTableView release];
 }
 
 
 #pragma mark -
 #pragma mark init/dealloc
-
-
-- (id)initWithFrame:(CGRect)aFrame
-{
-    self = [super initWithFrame:aFrame];
-
-    if (self)
-    {
-        [self initializeVariables];
-        [self initializeViews];
-    }
-
-    return self;
-}
 
 
 - (id)initWithCoder:(NSCoder *)aCoder
@@ -88,57 +76,29 @@
 }
 
 
+- (id)initWithFrame:(CGRect)aFrame
+{
+    self = [super initWithFrame:aFrame];
+
+    if (self)
+    {
+        [self initializeVariables];
+        [self initializeViews];
+    }
+
+    return self;
+}
+
+
 - (void)dealloc
 {
-    [mUser           release];
-
-    [mPostArray      release];
-    [mTableView      release];
     [mCellHeightDict release];
-
     [super dealloc];
 }
 
 
 #pragma mark -
-
-
-- (void)drawRect:(CGRect)aRect
-{
-    // Drawing code
-}
-
-
-#pragma mark -
 #pragma mark Instance Methods
-
-
-- (void)setDelegate:(id)aDelegate
-{
-    mDelegate = aDelegate;
-}
-
-
-- (void)setUser:(MEUser *)aUser
-{
-    MEReaderHeadView *sHeaderView;
-
-    [mUser autorelease];
-    mUser = [aUser retain];
-
-    sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
-
-    if (!sHeaderView)
-    {
-        sHeaderView = [MEReaderHeadView readerHeadView];
-
-        [sHeaderView setDelegate:self];
-        [mTableView setTableHeaderView:sHeaderView];
-    }
-
-    [sHeaderView setNickname:[aUser nickname]];
-    [sHeaderView setFaceImageURL:[aUser faceImageURL]];
-}
 
 
 - (void)setHiddenPostButton:(BOOL)aFlag
@@ -156,161 +116,58 @@
 }
 
 
-- (void)addPost:(MEPost *)aPost
+- (NSIndexPath *)indexPathForSelectedPost
 {
-    NSDate          *sDate        = [aPost pubDate];
-    NSDateFormatter *sFormatter   = [[[NSDateFormatter alloc] init] autorelease];
-    NSString        *sPostDateStr;
-    NSString        *sDateStr;
-    NSMutableArray  *sPostsOfDay;
-    BOOL             sIsAdded = NO;
+    return [mTableView indexPathForSelectedRow];
+}
 
-    [sFormatter setDateStyle:kCFDateFormatterShortStyle];
-    sPostDateStr = [sFormatter stringFromDate:sDate];
 
-    for (sPostsOfDay in mPostArray)
+- (void)selectPostAtIndexPath:(NSIndexPath *)aIndexPath animated:(BOOL)aAnimated scrollPosition:(UITableViewScrollPosition)aScrollPosition
+{
+    [mTableView selectRowAtIndexPath:aIndexPath animated:aAnimated scrollPosition:aScrollPosition];
+}
+
+
+- (void)deselectPostAtIndexPath:(NSIndexPath *)aIndexPath animated:(BOOL)aAnimated
+{
+    [mTableView deselectRowAtIndexPath:aIndexPath animated:aAnimated];
+}
+
+
+- (void)reloadData
+{
+    if ([mDataSource respondsToSelector:@selector(authorOfPostsInReaderView:)])
     {
-        if ([sPostsOfDay count] != 0)
+        MEReaderHeadView *sHeaderView;
+        MEUser           *sUser;
+
+        sUser = [mDataSource authorOfPostsInReaderView:self];
+
+        if (sUser)
         {
-            MEPost *sPost = [sPostsOfDay objectAtIndex:0];
-            sDateStr = [sFormatter stringFromDate:[sPost pubDate]];
-            if ([sDateStr isEqualToString:sPostDateStr])
+            sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
+
+            if (!sHeaderView)
             {
-                [sPostsOfDay addObject:aPost];
-                sIsAdded = YES;
+                sHeaderView = [MEReaderHeadView readerHeadView];
+
+                [sHeaderView setDelegate:self];
+                [mTableView setTableHeaderView:sHeaderView];
             }
+
+            [sHeaderView setNickname:[sUser nickname]];
+            [sHeaderView setFaceImageURL:[sUser faceImageURL]];
         }
-    }
-
-    if (!sIsAdded)
-    {
-        sPostsOfDay = [NSMutableArray array];
-        [sPostsOfDay addObject:aPost];
-        [mPostArray addObject:sPostsOfDay];
-    }
-
-    [mTableView reloadData];
-}
-
-
-- (void)addPosts:(NSArray *)aPostArray
-{
-    MEPost          *sPost;
-    NSDateFormatter *sFormatter = [[NSDateFormatter alloc] init];
-
-    [sFormatter setDateStyle:kCFDateFormatterShortStyle];
-
-    for (sPost in aPostArray)
-    {
-        NSString       *sPostDateStr = [sFormatter stringFromDate:[sPost pubDate]];
-        NSMutableArray *sPostsOfDay;
-        BOOL            sIsAdded = NO;
-
-        for (sPostsOfDay in mPostArray)
+        else
         {
-            MEPost   *sTitlePost = [sPostsOfDay lastObject];
-            NSString *sDateStr   = [sFormatter stringFromDate:[sTitlePost pubDate]];
-
-            if ([sDateStr isEqualToString:sPostDateStr])
-            {
-                [sPostsOfDay addObject:sPost];
-                sIsAdded = YES;
-                break;
-            }
-        }
-
-        if (!sIsAdded)
-        {
-            sPostsOfDay = [NSMutableArray array];
-            [sPostsOfDay addObject:sPost];
-            [mPostArray addObject:sPostsOfDay];
+            [mTableView setTableHeaderView:nil];
         }
     }
 
-    [sFormatter release];
-    [mTableView reloadData];
-}
-
-
-- (void)removeAllPosts
-{
-    [mPostArray      removeAllObjects];
-    [mCellHeightDict removeAllObjects];
-}
-
-
-- (MEPost *)postForIndexPath:(NSIndexPath *)aIndexPath
-{
-    MEPost  *sResult = nil;
-    NSArray *sPostArrayOfDay;
-
-    if ([mPostArray count] > [aIndexPath section])
+    if (mDataSource)
     {
-        sPostArrayOfDay = [mPostArray objectAtIndex:[aIndexPath section]];
-        if ([sPostArrayOfDay count] > [aIndexPath row])
-        {
-            sResult = [sPostArrayOfDay objectAtIndex:[aIndexPath row]];
-        }
-    }
-
-    return sResult;
-}
-
-
-- (MEPost *)postForPostID:(NSString *)aPostID
-{
-    MEPost *sResult = nil;
-    MEPost *sPost;
-    NSArray *sArray;
-
-    for (sArray in mPostArray)
-    {
-        for (sPost in sArray)
-        {
-            if ([[sPost postID] isEqualToString:aPostID])
-            {
-                sResult = sPost;
-                break;
-            }
-        }
-    }
-
-    return sResult;
-}
-
-
-- (MEPost *)titlePostForSection:(NSInteger)aSection
-{
-    MEPost  *sResult = nil;
-    NSArray *sPostArrayOfDay;
-
-    if ([mPostArray count] > aSection)
-    {
-        sPostArrayOfDay = [mPostArray objectAtIndex:aSection];
-        if ([sPostArrayOfDay count] > 0)
-        {
-            sResult = [sPostArrayOfDay objectAtIndex:0];
-        }
-    }
-
-    return sResult;
-}
-
-
-#pragma mark -
-#pragma mark Privates
-
-
-- (void)showPhotoImageOfPostID:(NSString *)aPostID
-{
-    MEPost *sPost     = [self postForPostID:aPostID];
-    NSURL  *sPhotoURL = [sPost photoURL];
-
-    if (sPhotoURL)
-    {
-        [mMediaView setPhotoURL:sPhotoURL];
-        [mMediaView setFrame:CGRectMake(0, 0, 320, 480)];
-        [[self window] addSubview:mMediaView];
+        [mCellHeightDict removeAllObjects];
+        [mTableView reloadData];
     }
 }
 
@@ -319,12 +176,27 @@
 #pragma mark actions
 
 
-- (IBAction)imageViewTapped:(id)aSender
+- (void)faceImageViewTapped:(id)aSender
 {
-    MEImageView *sImageView = (MEImageView *)aSender;
-    NSString    *sPostID    = [[sImageView userInfo] objectForKey:@"postID"];
+    if ([mDelegate respondsToSelector:@selector(readerView:didTapUserInfoButtonForUser:)])
+    {
+        MEImageView *sImageView = (MEImageView *)aSender;
+        MEUser      *sAuthor    = [[sImageView userInfo] objectForKey:@"author"];
 
-    [self showPhotoImageOfPostID:sPostID];
+        [mDelegate readerView:self didTapUserInfoButtonForUser:sAuthor];
+    }
+}
+
+
+- (void)iconImageViewTapped:(id)aSender
+{
+    if ([mDelegate respondsToSelector:@selector(readerView:didTapPostIconButtonForPost:)])
+    {
+        MEImageView *sImageView = (MEImageView *)aSender;
+        MEPost      *sPost      = [[sImageView userInfo] objectForKey:@"post"];
+
+        [mDelegate readerView:self didTapPostIconButtonForPost:sPost];
+    }
 }
 
 
@@ -334,49 +206,19 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
 {
-    NSInteger sResult;
-
-    sResult = [mPostArray count];
-    if (sResult == 0)
-    {
-        sResult = 1;
-    }
-
-    return sResult;
+    return [mDataSource numberOfSectionsInReaderView:self];
 }
 
 
 - (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)aSection
 {
-    static NSDateFormatter *sFormatter = nil;
-
-    NSString *sResult = nil;
-    MEPost   *sTitlePost;
-
-    if (!sFormatter)
-    {
-        sFormatter = [[NSDateFormatter alloc] init];
-        [sFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease]];
-        [sFormatter setDateFormat:@"d LLL y"];
-    }
-
-    sTitlePost = [self titlePostForSection:aSection];
-    sResult    = [[sFormatter stringFromDate:[sTitlePost pubDate]] uppercaseString];
-
-    return sResult;
+    return [mDataSource readerView:self titleForSection:aSection];
 }
 
 
 - (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)aSection
 {
-    NSInteger sResult = 0;
-
-    if ([mPostArray count] > 0)
-    {
-        sResult = [[mPostArray objectAtIndex:aSection] count];
-    }
-
-    return sResult;
+    return [mDataSource readerView:self numberOfPostsInSection:aSection];
 }
 
 
@@ -388,15 +230,15 @@
     MEPostBodyView  *sBodyView;
     MEPost          *sPost;
 
-    sPost = [self postForIndexPath:aIndexPath];
+    sPost = [mDataSource readerView:self postAtIndexPath:aIndexPath];
 
     if (mShowsPostAuthor)
     {
         sResult = [METableViewCellFactory postCellWithAuthorForTableView:aTableView];
 
         sImageView = (MEImageView *)[[sResult contentView] viewWithTag:kPostCellFaceImageViewTag];
-        [sImageView addTarget:self action:@selector(imageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [[sImageView userInfo] setValue:[[sPost author] userID] forKey:@"userID"];
+        [sImageView addTarget:self action:@selector(faceImageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [[sImageView userInfo] setValue:[sPost author] forKey:@"author"];
         [sImageView setImageWithURL:[[sPost author] faceImageURL]];
 
         sLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellAuthorNameLabelTag];
@@ -408,8 +250,8 @@
     }
 
     sImageView = (MEImageView *)[[sResult contentView] viewWithTag:kPostCellIconImageViewTag];
-    [sImageView addTarget:self action:@selector(imageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [[sImageView userInfo] setValue:[sPost postID] forKey:@"postID"];
+    [sImageView addTarget:self action:@selector(iconImageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [[sImageView userInfo] setValue:sPost forKey:@"post"];
     [sImageView setImageWithURL:[sPost iconURL]];
 
     sBodyView = (MEPostBodyView *)[[sResult contentView] viewWithTag:kPostCellBodyViewTag];
@@ -423,46 +265,10 @@
 #pragma mark TableView Delegate
 
 
-- (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
-{
-    MEReplyViewController *sReplyViewController;
-    MEPost                *sPost;
-
-    [aTableView deselectRowAtIndexPath:aIndexPath animated:YES];
-
-    sPost = [self postForIndexPath:aIndexPath];
-
-    sReplyViewController = [[MEReplyViewController alloc] initWithNibName:@"MEReplyViewController" bundle:nil];
-    [sReplyViewController setPost:sPost];
-    [[self window] addSubview:[sReplyViewController view]];
-}
-
-
-/*    MEPost *sPost;
- MEActionPopupViewController *sViewController;
-
-
-
- sPost            = [self postForIndexPath:aIndexPath];
- sViewController  = [[MEActionPopupViewController alloc] initWithNibName:@"ActionPopupViewController" bundle:nil];
- [sViewController setDelegate:self];
- [sViewController setPostID:[sPost postID]];
- [[self window] addSubview:[sViewController view]];
-
- if (![sPost photoURL])
- {
- [sViewController setShowPhotoButtonEnabled:NO];
- }
- if ([sPost commentsCount] == 0)
- {
- [sViewController setShowRepliesButtonEnabled:NO];
- }*/
-
-
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
     CGFloat   sResult = 0;
-    MEPost   *sPost   = [self postForIndexPath:aIndexPath];
+    MEPost   *sPost   = [mDataSource readerView:self postAtIndexPath:aIndexPath];
     NSNumber *sHeight = [mCellHeightDict objectForKey:[sPost postID]];
 
     if (sHeight)
@@ -490,56 +296,35 @@
 }
 
 
+- (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
+{
+    if ([mDelegate respondsToSelector:@selector(readerView:didSelectPostAtIndexPath:)])
+    {
+        [mDelegate readerView:self didSelectPostAtIndexPath:aIndexPath];
+    }
+}
+
+
 #pragma mark -
 #pragma mark MEReaderHead Delegate
 
 
 - (void)nicknameButtonTapped:(MEReaderHeadView *)aHeaderView;
 {
-    MEUserInfoViewController *sUserInfoViewController = [[MEUserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil];
-    [sUserInfoViewController setUser:mUser];
-    [[self window] addSubview:[sUserInfoViewController view]];
+    if ([mDelegate respondsToSelector:@selector(readerView:didTapUserInfoButtonForUser:)])
+    {
+        [mDelegate readerView:self didTapUserInfoButtonForUser:[mDataSource authorOfPostsInReaderView:self]];
+    }
 }
 
 
 - (void)newPostButtonTapped:(MEReaderHeadView *)aReaderHeadView
 {
-    if ([mDelegate respondsToSelector:@selector(newPostForReaderView:)])
+    if ([mDelegate respondsToSelector:@selector(readerViewDidTapNewPostButton:)])
     {
-        [mDelegate newPostForReaderView:self];
+        [mDelegate readerViewDidTapNewPostButton:self];
     }
 }
-
-
-#pragma mark -
-#pragma mark ActionPopupViewController Delegate
-
-
-/*- (void)actionPopupViewController:(MEActionPopupViewController *)aActionPopupViewController
-                     buttonTapped:(NSInteger)aButtonIndex
-{
-    NSString *sPostID = [aActionPopupViewController postID];
-
-    if (aButtonIndex == kActionPopupViewShowRepliesButton)
-    {
-
-    }
-    else if (aButtonIndex == kActionPopupViewPostReplyButton)
-    {
-
-    }
-    else if (aButtonIndex == kActionPopupViewShowPhotoButton)
-    {
-        [self showPhotoImageOfPostID:sPostID];
-    }
-    else if (aButtonIndex == kActionPopupViewCancelButton)
-    {
-
-    }
-
-    [[aActionPopupViewController view] removeFromSuperview];
-    [aActionPopupViewController autorelease];
-}*/
 
 
 @end

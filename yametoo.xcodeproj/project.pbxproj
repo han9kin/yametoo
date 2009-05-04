@@ -45,8 +45,6 @@
 		2ED4E8290FA8507B000BFE2F /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2ED4E8280FA8507B000BFE2F /* Entitlements.plist */; };
 		2ED4E8330FA942D6000BFE2F /* MEReplyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED4E8320FA942D6000BFE2F /* MEReplyViewController.xib */; };
 		2ED4E84F0FA9611D000BFE2F /* MEReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */; };
-		2EE00DA40F970B1500135D42 /* MEMyMetooViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE00DA30F970B1500135D42 /* MEMyMetooViewController.m */; };
-		2EE00DEA0F970ECF00135D42 /* MEFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE00DE90F970ECF00135D42 /* MEFriendsViewController.m */; };
 		2EEDB9560F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEDB9550F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m */; };
 		CF528C980FA06BC2007C7A03 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF528C970FA06BC1007C7A03 /* Localizable.strings */; };
 		CF528CB80FA149B6007C7A03 /* CharacterEntity.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF528CB70FA149B6007C7A03 /* CharacterEntity.strings */; };
@@ -80,6 +78,7 @@
 		CFE72E9E0FA863B900C54792 /* MEAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72E9D0FA863B900C54792 /* MEAboutViewController.m */; };
 		CFE72EA90FA8678E00C54792 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = CFE72EA80FA8678E00C54792 /* Credits.html */; };
 		CFE72F070FA9672400C54792 /* MEPostBodyView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72F060FA9672400C54792 /* MEPostBodyView.m */; };
+		CFE72FE80FAE8D0200C54792 /* MEReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72FE70FAE8D0200C54792 /* MEReaderViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -150,10 +149,6 @@
 		2ED4E8320FA942D6000BFE2F /* MEReplyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEReplyViewController.xib; sourceTree = "<group>"; };
 		2ED4E84D0FA9611D000BFE2F /* MEReplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReplyViewController.h; sourceTree = "<group>"; };
 		2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReplyViewController.m; sourceTree = "<group>"; };
-		2EE00DA20F970B1500135D42 /* MEMyMetooViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEMyMetooViewController.h; sourceTree = "<group>"; };
-		2EE00DA30F970B1500135D42 /* MEMyMetooViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEMyMetooViewController.m; sourceTree = "<group>"; };
-		2EE00DE80F970ECF00135D42 /* MEFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEFriendsViewController.h; sourceTree = "<group>"; };
-		2EE00DE90F970ECF00135D42 /* MEFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEFriendsViewController.m; sourceTree = "<group>"; };
 		2EEDB9540F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableURLRequest+MEAdditions.h"; sourceTree = "<group>"; };
 		2EEDB9550F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableURLRequest+MEAdditions.m"; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* yametoo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yametoo_Prefix.pch; sourceTree = "<group>"; };
@@ -216,6 +211,8 @@
 		CFE72EA80FA8678E00C54792 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		CFE72F050FA9672400C54792 /* MEPostBodyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPostBodyView.h; sourceTree = "<group>"; };
 		CFE72F060FA9672400C54792 /* MEPostBodyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPostBodyView.m; sourceTree = "<group>"; };
+		CFE72FE60FAE8D0200C54792 /* MEReaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReaderViewController.h; sourceTree = "<group>"; };
+		CFE72FE70FAE8D0200C54792 /* MEReaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReaderViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -535,12 +532,10 @@
 				2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */,
 				2EC19A570F9C1D5D00963971 /* MELoginViewController.h */,
 				2EC19A580F9C1D5D00963971 /* MELoginViewController.m */,
-				2EE00DA20F970B1500135D42 /* MEMyMetooViewController.h */,
-				2EE00DA30F970B1500135D42 /* MEMyMetooViewController.m */,
+				CFE72FE60FAE8D0200C54792 /* MEReaderViewController.h */,
+				CFE72FE70FAE8D0200C54792 /* MEReaderViewController.m */,
 				2E7520FE0FA6CDA300B0D4FA /* MEUserInfoViewController.h */,
 				2E7520FF0FA6CDA300B0D4FA /* MEUserInfoViewController.m */,
-				2EE00DE80F970ECF00135D42 /* MEFriendsViewController.h */,
-				2EE00DE90F970ECF00135D42 /* MEFriendsViewController.m */,
 				28D7ACF60DDB3853001CB0EB /* MEPostViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* MEPostViewController.m */,
 				CF5EE75B0F97162F004712FF /* MESettingsViewController.h */,
@@ -648,8 +643,6 @@
 				2E2EB1340F96F35F005C54E5 /* EXFMetaData.m in Sources */,
 				2E2EB1350F96F35F005C54E5 /* EXFTagDefinitionHolder.m in Sources */,
 				2E2EB1360F96F35F005C54E5 /* EXFUtils.m in Sources */,
-				2EE00DA40F970B1500135D42 /* MEMyMetooViewController.m in Sources */,
-				2EE00DEA0F970ECF00135D42 /* MEFriendsViewController.m in Sources */,
 				CF5EE75D0F97162F004712FF /* MESettingsViewController.m in Sources */,
 				CF5EE7610F97164A004712FF /* MEUserViewController.m in Sources */,
 				CF5EE8160F981C4E004712FF /* MEClientStore.m in Sources */,
@@ -680,6 +673,7 @@
 				CFE72E9E0FA863B900C54792 /* MEAboutViewController.m in Sources */,
 				2ED4E84F0FA9611D000BFE2F /* MEReplyViewController.m in Sources */,
 				CFE72F070FA9672400C54792 /* MEPostBodyView.m in Sources */,
+				CFE72FE80FAE8D0200C54792 /* MEReaderViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

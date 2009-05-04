@@ -12,37 +12,59 @@
 
 @class MEPost;
 @class MEUser;
-@class MEMediaView;
+@class MEReaderView;
 
 
-@interface MEReaderView : UIView <UITableViewDataSource, UITableViewDelegate>
-{
-    id                   mDelegate;
+@protocol MEReaderViewDataSource <NSObject>
 
-    MEUser              *mUser;
+@optional
 
-    NSMutableArray      *mPostArray;
-    UITableView         *mTableView;
-    NSMutableDictionary *mCellHeightDict;
-    BOOL                 mShowsPostAuthor;
+- (MEUser *)authorOfPostsInReaderView:(MEReaderView *)aReaderView;
 
-    MEMediaView         *mMediaView;
-}
+@required
 
-- (void)setDelegate:(id)aDelegate;
-- (void)setUser:(MEUser *)aUser;
-- (void)setHiddenPostButton:(BOOL)aFlag;
-- (void)setShowsPostAuthor:(BOOL)aFlag;
+- (NSInteger)numberOfSectionsInReaderView:(MEReaderView *)aReaderView;
+- (NSString *)readerView:(MEReaderView *)aReaderView titleForSection:(NSInteger)aSection;
+- (NSInteger)readerView:(MEReaderView *)aReaderView numberOfPostsInSection:(NSInteger)aSection;
+- (MEPost *)readerView:(MEReaderView *)aReaderView postAtIndexPath:(NSIndexPath *)aIndexPath;
 
-- (void)addPost:(MEPost *)aPost;
-- (void)addPosts:(NSArray *)aPostArray;
-- (void)removeAllPosts;
+@end
+
+@protocol MEReaderViewDelegate <NSObject>
+
+@optional
+
+- (void)readerViewDidTapNewPostButton:(MEReaderView *)aReaderView;
+- (void)readerView:(MEReaderView *)aReaderView didTapUserInfoButtonForUser:(MEUser *)aUser;
+- (void)readerView:(MEReaderView *)aReaderView didTapPostIconButtonForPost:(MEPost *)aPost;
+- (void)readerView:(MEReaderView *)aReaderView didSelectPostAtIndexPath:(NSIndexPath *)aIndexPath;
 
 @end
 
 
-@protocol MEReaderViewDelegate
 
-- (void)newPostForReaderView:(MEReaderView *)aReaderView;
+@interface MEReaderView : UIView <UITableViewDataSource, UITableViewDelegate>
+{
+    id<MEReaderViewDataSource>  mDataSource;
+    id<MEReaderViewDelegate>    mDelegate;
+
+    UITableView                *mTableView;
+    NSMutableDictionary        *mCellHeightDict;
+    BOOL                        mShowsPostAuthor;
+}
+
+@property(nonatomic, assign) id<MEReaderViewDataSource> dataSource;
+@property(nonatomic, assign) id<MEReaderViewDelegate>   delegate;
+
+
+- (void)setHiddenPostButton:(BOOL)aFlag;
+- (void)setShowsPostAuthor:(BOOL)aFlag;
+
+- (NSIndexPath *)indexPathForSelectedPost;
+- (void)selectPostAtIndexPath:(NSIndexPath *)aIndexPath animated:(BOOL)aAnimated scrollPosition:(UITableViewScrollPosition)aScrollPosition;
+- (void)deselectPostAtIndexPath:(NSIndexPath *)aIndexPath animated:(BOOL)aAnimated;
+
+- (void)reloadData;
+
 
 @end
