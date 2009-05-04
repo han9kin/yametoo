@@ -70,7 +70,12 @@
     [mPostBodyView   setPost:mPost];
     [mPostBodyView   layoutIfNeeded];
     [mPostScrollView setContentSize:[mPostBodyView frame].size];
+}
 
+
+- (void)viewDidAppear:(BOOL)aAnimated
+{
+    [super viewDidAppear:aAnimated];
     [self getComments];
 }
 
@@ -99,10 +104,10 @@
 
 - (IBAction)addCommentButtonTapped:(id)aSender
 {
-    NSLog(@"addCommentButtonTapped");
-    UIViewController *sViewController;
+    MEAddCommentViewController *sViewController;
     
     sViewController = [[MEAddCommentViewController alloc] initWithNibName:@"AddCommentViewController" bundle:nil];
+    [sViewController setPost:mPost];
     [self presentModalViewController:sViewController animated:YES];
     [sViewController release];
 }
@@ -110,8 +115,9 @@
 
 - (IBAction)closeButtonTapped:(id)aSender
 {
-    [[self view] removeFromSuperview];
-    [self autorelease];
+    [[self parentViewController] dismissModalViewControllerAnimated:NO];
+//    [[self view] removeFromSuperview];
+//    [self autorelease];
 }
 
 

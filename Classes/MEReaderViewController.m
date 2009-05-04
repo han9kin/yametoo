@@ -361,7 +361,7 @@
 {
     MEUserInfoViewController *sUserInfoViewController = [[MEUserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil];
     [sUserInfoViewController setUser:aUser];
-    [[[self view] window] addSubview:[sUserInfoViewController view]];
+    [[self view] addSubview:[sUserInfoViewController view]];
 }
 
 
@@ -388,7 +388,9 @@
 
     sReplyViewController = [[MEReplyViewController alloc] initWithNibName:@"MEReplyViewController" bundle:nil];
     [sReplyViewController setPost:sPost];
-    [[[self view] window] addSubview:[sReplyViewController view]];
+//    [[self view] addSubview:[sReplyViewController view]];
+    [self presentModalViewController:sReplyViewController animated:NO];
+    [sReplyViewController release];
 }
 
 

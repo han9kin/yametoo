@@ -39,7 +39,7 @@
 					<object class="IBUITableView" id="459228123">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{0, 137}, {320, 303}}</string>
+						<string key="NSFrame">{{0, 137}, {320, 323}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -349,7 +349,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>MEReplyViewController</string>
 					<string>UIResponder</string>
-					<string>{{842, 466}, {320, 480}}</string>
+					<string>{{845, 522}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
