@@ -70,6 +70,7 @@
     [mPostBodyView   setPost:mPost];
     [mPostBodyView   layoutIfNeeded];
     [mPostScrollView setContentSize:[mPostBodyView frame].size];
+    [mTableView      setRowHeight:1000.0];
 }
 
 
