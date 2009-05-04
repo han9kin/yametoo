@@ -18,6 +18,7 @@
 #import "MEImageView.h"
 #import "METableViewCellFactory.h"
 #import "MEPostBodyView.h"
+#import "MEAddCommentViewController.h"
 
 
 @interface MEReplyViewController (Privates)
@@ -56,15 +57,18 @@
 
 - (void)viewDidLoad
 {
+    NSString         *sNickname = [[mPost author] nickname];
+    UINavigationItem *sTopItem  = [mNaviBar topItem];
+    NSString         *sTitleStr = [NSString stringWithFormat:NSLocalizedString(@"%@님의 글", nil), sNickname];
+    
     [super viewDidLoad];
 
     mComments = [[NSMutableArray alloc] init];
-
-    [mIconView setImageWithURL:[mPost iconURL]];
-
-    [mPostBodyView setPost:mPost];
-    [mPostBodyView layoutIfNeeded];
-
+    
+    [sTopItem        setTitle:sTitleStr];
+    [mIconView       setImageWithURL:[mPost iconURL]];
+    [mPostBodyView   setPost:mPost];
+    [mPostBodyView   layoutIfNeeded];
     [mPostScrollView setContentSize:[mPostBodyView frame].size];
 
     [self getComments];
@@ -91,6 +95,17 @@
 
 #pragma mark -
 #pragma mark Actions
+
+
+- (IBAction)addCommentButtonTapped:(id)aSender
+{
+    NSLog(@"addCommentButtonTapped");
+    UIViewController *sViewController;
+    
+    sViewController = [[MEAddCommentViewController alloc] initWithNibName:@"AddCommentViewController" bundle:nil];
+    [self presentModalViewController:sViewController animated:YES];
+    [sViewController release];
+}
 
 
 - (IBAction)closeButtonTapped:(id)aSender

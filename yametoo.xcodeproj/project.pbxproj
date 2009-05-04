@@ -45,6 +45,8 @@
 		2ED4E8290FA8507B000BFE2F /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2ED4E8280FA8507B000BFE2F /* Entitlements.plist */; };
 		2ED4E8330FA942D6000BFE2F /* MEReplyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED4E8320FA942D6000BFE2F /* MEReplyViewController.xib */; };
 		2ED4E84F0FA9611D000BFE2F /* MEReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */; };
+		2ED83E380FAECFC600786952 /* AddCommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED83E370FAECFC600786952 /* AddCommentViewController.xib */; };
+		2ED83E3B0FAECFDC00786952 /* MEAddCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED83E3A0FAECFDC00786952 /* MEAddCommentViewController.m */; };
 		2EEDB9560F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EEDB9550F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m */; };
 		CF528C980FA06BC2007C7A03 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF528C970FA06BC1007C7A03 /* Localizable.strings */; };
 		CF528CB80FA149B6007C7A03 /* CharacterEntity.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF528CB70FA149B6007C7A03 /* CharacterEntity.strings */; };
@@ -149,6 +151,9 @@
 		2ED4E8320FA942D6000BFE2F /* MEReplyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEReplyViewController.xib; sourceTree = "<group>"; };
 		2ED4E84D0FA9611D000BFE2F /* MEReplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReplyViewController.h; sourceTree = "<group>"; };
 		2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReplyViewController.m; sourceTree = "<group>"; };
+		2ED83E370FAECFC600786952 /* AddCommentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddCommentViewController.xib; sourceTree = "<group>"; };
+		2ED83E390FAECFDC00786952 /* MEAddCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEAddCommentViewController.h; sourceTree = "<group>"; };
+		2ED83E3A0FAECFDC00786952 /* MEAddCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEAddCommentViewController.m; sourceTree = "<group>"; };
 		2EEDB9540F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableURLRequest+MEAdditions.h"; sourceTree = "<group>"; };
 		2EEDB9550F95AD6F00F52D66 /* NSMutableURLRequest+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableURLRequest+MEAdditions.m"; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* yametoo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yametoo_Prefix.pch; sourceTree = "<group>"; };
@@ -282,6 +287,7 @@
 				2E7521010FA6CDBE00B0D4FA /* UserInfoViewController.xib */,
 				2E75224A0FA7098C00B0D4FA /* ActionPopupViewController.xib */,
 				2ED4E8320FA942D6000BFE2F /* MEReplyViewController.xib */,
+				2ED83E370FAECFC600786952 /* AddCommentViewController.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				CF528C970FA06BC1007C7A03 /* Localizable.strings */,
 				CF528CB70FA149B6007C7A03 /* CharacterEntity.strings */,
@@ -550,6 +556,8 @@
 				CFE72DAE0FA7ED7100C54792 /* MEPasscodeViewController.m */,
 				2E7522510FA70A0000B0D4FA /* MEActionPopupViewController.h */,
 				2E7522520FA70A0000B0D4FA /* MEActionPopupViewController.m */,
+				2ED83E390FAECFDC00786952 /* MEAddCommentViewController.h */,
+				2ED83E3A0FAECFDC00786952 /* MEAddCommentViewController.m */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -613,6 +621,7 @@
 				2ED4E8290FA8507B000BFE2F /* Entitlements.plist in Resources */,
 				2ED4E8330FA942D6000BFE2F /* MEReplyViewController.xib in Resources */,
 				CFE72EA90FA8678E00C54792 /* Credits.html in Resources */,
+				2ED83E380FAECFC600786952 /* AddCommentViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -673,6 +682,7 @@
 				CFE72E9E0FA863B900C54792 /* MEAboutViewController.m in Sources */,
 				2ED4E84F0FA9611D000BFE2F /* MEReplyViewController.m in Sources */,
 				CFE72F070FA9672400C54792 /* MEPostBodyView.m in Sources */,
+				2ED83E3B0FAECFDC00786952 /* MEAddCommentViewController.m in Sources */,
 				CFE72FE80FAE8D0200C54792 /* MEReaderViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -717,7 +727,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F2D137CE-7E3F-47B3-A688-F0DC4FEE5DD2";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C758EF16-334D-4ABE-8CD3-41B1C64C2A32";
 				SDKROOT = iphoneos2.2;
 			};
 			name = "Distribution - AdHoc";
@@ -738,14 +748,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sanghyuk Suh";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chang-Gi Kim";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "54346E26-8E7F-4EFA-95D6-2B861523A975";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8B825491-6034-4C67-96AE-DC2E4D4DB8F8";
 				SDKROOT = iphoneos2.2;
 			};
 			name = Debug;
@@ -754,13 +764,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sanghyuk Suh";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chang-Gi Kim";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "54346E26-8E7F-4EFA-95D6-2B861523A975";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8B825491-6034-4C67-96AE-DC2E4D4DB8F8";
 				SDKROOT = iphoneos2.2;
 			};
 			name = Release;

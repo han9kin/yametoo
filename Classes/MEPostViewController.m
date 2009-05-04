@@ -82,6 +82,17 @@
 }
 
 
+- (void)setInterfaceEnabled:(BOOL)aFlag
+{
+    [mCancelButton           setEnabled:aFlag];
+    [mPostButton             setEnabled:aFlag];
+    [mTakePictureButton      setEnabled:aFlag];
+    [mFromPhotoLibraryButton setEnabled:aFlag];
+    [mBodyTextView           setEditable:aFlag];
+    [mTagTextView            setEditable:aFlag];
+}
+
+
 #pragma mark -
 #pragma mark Actions
 
@@ -116,8 +127,19 @@
 {
     NSString *sBody = [mBodyTextView text];
     NSString *sTags = [mTagTextView  text];
-
-    [[MEClientStore currentClient] createPostWithBody:sBody tags:sTags icon:0 attachedImage:mAttachedImage delegate:self];
+    
+    if ([sBody length] > 0)
+    {
+        [self setInterfaceEnabled:NO];
+        [mBodyTextView resignFirstResponder];
+        [mTagTextView  resignFirstResponder];
+        
+        [[MEClientStore currentClient] createPostWithBody:sBody tags:sTags icon:0 attachedImage:mAttachedImage delegate:self];
+    }
+    else
+    {
+    
+    }
 }
 
 
@@ -197,18 +219,14 @@
 {
     if (!aError)
     {
-        [mAttachedImage release];
-        mAttachedImage = nil;
-
-        [mBodyTextView      setText:@""];
-        [mTagTextView       setText:@""];
-        [mAttachedImageView setImage:nil];
-        
         [self dismissModalViewControllerAnimated:YES];
     }
     else
     {
         NSLog(@"error handling");
+        [self setInterfaceEnabled:YES];
+        [mBodyTextView resignFirstResponder];
+        [mTagTextView  resignFirstResponder];
     }
 }
 

@@ -17,10 +17,11 @@
 
 @interface MEReplyViewController : UIViewController
 {
-    IBOutlet MEImageView    *mIconView;
-    IBOutlet MEPostBodyView *mPostBodyView;
-    IBOutlet UIScrollView   *mPostScrollView;
-    IBOutlet UITableView    *mTableView;
+    IBOutlet UINavigationBar *mNaviBar;
+    IBOutlet MEImageView     *mIconView;
+    IBOutlet MEPostBodyView  *mPostBodyView;
+    IBOutlet UIScrollView    *mPostScrollView;
+    IBOutlet UITableView     *mTableView;
     
     MEPost         *mPost;
     NSMutableArray *mComments;
@@ -28,6 +29,7 @@
 
 @property (nonatomic, retain) MEPost *post;
 
+- (IBAction)addCommentButtonTapped:(id)aSender;
 - (IBAction)closeButtonTapped:(id)aSender;
 
 @end

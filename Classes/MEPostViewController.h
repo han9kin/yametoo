@@ -12,9 +12,13 @@
 
 @interface MEPostViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
-    IBOutlet UITextView  *mBodyTextView;
-    IBOutlet UITextView  *mTagTextView;
-    IBOutlet UIImageView *mAttachedImageView;
+    IBOutlet UIBarButtonItem *mCancelButton;
+    IBOutlet UIBarButtonItem *mPostButton;
+    IBOutlet UIButton        *mTakePictureButton;
+    IBOutlet UIButton        *mFromPhotoLibraryButton;
+    IBOutlet UITextView      *mBodyTextView;
+    IBOutlet UITextView      *mTagTextView;
+    IBOutlet UIImageView     *mAttachedImageView;
 
     CALayer *mCharCountLayer;
     UIImage *mAttachedImage;
