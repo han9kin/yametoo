@@ -491,7 +491,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
 
 - (void)clientOperation:(MEClientOperation *)aOperation didReceiveCreateCommentResult:(NSData *)aData error:(NSError *)aError
 {
-    id sDelegate = [[aOperation context] objectForKey:@"delegate"];
+    id sDelegate = [aOperation context];
 
     if (aError)
     {
