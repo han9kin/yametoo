@@ -223,7 +223,7 @@
     }
     else
     {
-        NSLog(@"error handling");
+        NSLog(@"error handling - %@", aError);
         [self setInterfaceEnabled:YES];
         [mBodyTextView resignFirstResponder];
         [mTagTextView  resignFirstResponder];

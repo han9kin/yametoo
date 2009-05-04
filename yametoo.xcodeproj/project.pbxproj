@@ -15,6 +15,7 @@
 		2899E5220DE3E06400AC0155 /* PostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* PostViewController.xib */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* MEPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* MEPostViewController.m */; };
+		2E27668A0FAEF3A700F59ACD /* MERoundBackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2766890FAEF3A700F59ACD /* MERoundBackView.m */; };
 		2E2B6BDA0FA5A48200F4B830 /* MEMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2B6BD90FA5A48200F4B830 /* MEMediaView.m */; };
 		2E2B6C610FA5B04B00F4B830 /* MEDrawingFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2B6C600FA5B04B00F4B830 /* MEDrawingFunctions.m */; };
 		2E2EB1300F96F35F005C54E5 /* EXFGPS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2EB1210F96F35F005C54E5 /* EXFGPS.m */; };
@@ -95,6 +96,8 @@
 		28D7ACF60DDB3853001CB0EB /* MEPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPostViewController.h; sourceTree = "<group>"; };
 		28D7ACF70DDB3853001CB0EB /* MEPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPostViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2E27666D0FAEF16000F59ACD /* MERoundBackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MERoundBackView.h; sourceTree = "<group>"; };
+		2E2766890FAEF3A700F59ACD /* MERoundBackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MERoundBackView.m; sourceTree = "<group>"; };
 		2E2B6BD80FA5A48200F4B830 /* MEMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEMediaView.h; sourceTree = "<group>"; };
 		2E2B6BD90FA5A48200F4B830 /* MEMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEMediaView.m; sourceTree = "<group>"; };
 		2E2B6C5F0FA5B04B00F4B830 /* MEDrawingFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEDrawingFunctions.h; sourceTree = "<group>"; };
@@ -348,6 +351,8 @@
 				2E2B6BD90FA5A48200F4B830 /* MEMediaView.m */,
 				CFE72F050FA9672400C54792 /* MEPostBodyView.h */,
 				CFE72F060FA9672400C54792 /* MEPostBodyView.m */,
+				2E27666D0FAEF16000F59ACD /* MERoundBackView.h */,
+				2E2766890FAEF3A700F59ACD /* MERoundBackView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -684,6 +689,7 @@
 				CFE72F070FA9672400C54792 /* MEPostBodyView.m in Sources */,
 				2ED83E3B0FAECFDC00786952 /* MEAddCommentViewController.m in Sources */,
 				CFE72FE80FAE8D0200C54792 /* MEReaderViewController.m in Sources */,
+				2E27668A0FAEF3A700F59ACD /* MERoundBackView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
