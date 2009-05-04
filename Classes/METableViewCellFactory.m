@@ -42,6 +42,22 @@ SYNTHESIZE_SINGLETON_CLASS(METableViewCellFactory, sharedFactory);
 #pragma mark - Class Methods
 
 
++ (UITableViewCell *)defaultCellForTableView:(UITableView *)aTableView
+{
+    UITableViewCell *sResult;
+
+    sResult = [aTableView dequeueReusableCellWithIdentifier:@"Default"];
+
+    if (!sResult)
+    {
+        sResult = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Default"] autorelease];
+    }
+
+    return sResult;
+
+}
+
+
 + (UITableViewCell *)loginUserCellForTableView:(UITableView *)aTableView;
 {
     UITableViewCell *sResult;

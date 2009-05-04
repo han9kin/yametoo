@@ -9,6 +9,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MEReaderView.h"
+#import "MEClient.h"
 
 
 typedef enum MEReaderViewControllerType
@@ -27,8 +28,9 @@ typedef enum MEReaderViewControllerType
     MEMediaView                *mMediaView;
 
     MEUser                     *mUser;
-    NSMutableArray             *mPostArray;
-
+    NSMutableArray             *mPosts;
+    NSInteger                   mOffset;
+    MEClientGetPostsScope       mScope;
     MEReaderViewControllerType  mType;
 }
 

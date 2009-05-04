@@ -34,7 +34,6 @@
 - (void)setDelegate:(id)aDelegate;
 - (void)setNickname:(NSString *)aNickname;
 - (void)setFaceImageURL:(NSURL *)aFaceImageURL;
-- (void)setHiddenPostButton:(BOOL)aFlag;
 
 - (IBAction)nicknameButtonTapped:(id)aSender;
 - (IBAction)newPostButtonTapped:(id)aSender;

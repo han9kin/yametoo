@@ -35,6 +35,7 @@
 @optional
 
 - (void)readerViewDidTapNewPostButton:(MEReaderView *)aReaderView;
+- (void)readerViewDidTapLoadMoreButton:(MEReaderView *)aReaderView;
 - (void)readerView:(MEReaderView *)aReaderView didTapUserInfoButtonForUser:(MEUser *)aUser;
 - (void)readerView:(MEReaderView *)aReaderView didTapPostIconButtonForPost:(MEPost *)aPost;
 - (void)readerView:(MEReaderView *)aReaderView didSelectPostAtIndexPath:(NSIndexPath *)aIndexPath;
@@ -49,7 +50,10 @@
     id<MEReaderViewDelegate>    mDelegate;
 
     UITableView                *mTableView;
-    NSMutableDictionary        *mCellHeightDict;
+
+    NSMutableDictionary        *mCellHeightCache;
+    NSInteger                   mSectionCount;
+
     BOOL                        mShowsPostAuthor;
 }
 
@@ -57,7 +61,6 @@
 @property(nonatomic, assign) id<MEReaderViewDelegate>   delegate;
 
 
-- (void)setHiddenPostButton:(BOOL)aFlag;
 - (void)setShowsPostAuthor:(BOOL)aFlag;
 
 - (NSIndexPath *)indexPathForSelectedPost;

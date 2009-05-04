@@ -39,6 +39,8 @@
 
 }
 
++ (UITableViewCell *)defaultCellForTableView:(UITableView *)aTableView;
+
 + (UITableViewCell *)loginUserCellForTableView:(UITableView *)aTableView;
 + (UITableViewCell *)addNewUserCellForTableView:(UITableView *)aTableView;
 

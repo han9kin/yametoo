@@ -109,6 +109,29 @@
 
 
 #pragma mark -
+#pragma mark Identifying and Comparing Objects
+
+
+- (BOOL)isEqual:(id)aObject
+{
+    if ([aObject isKindOfClass:[MEPost class]])
+    {
+        return [mPostID isEqualToString:[(MEPost *)aObject postID]];
+    }
+    else
+    {
+        return NO;
+    }
+}
+
+
+- (NSUInteger)hash
+{
+    return [mPostID hash];
+}
+
+
+#pragma mark -
 #pragma mark dynamic property accessors
 
 

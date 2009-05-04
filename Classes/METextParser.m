@@ -117,6 +117,7 @@
     switch ([aError code])
     {
         case NSXMLParserEntityReferenceMissingSemiError:
+        case NSXMLParserNAMERequiredError:
             break;
 
         default:

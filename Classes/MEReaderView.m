@@ -23,6 +23,21 @@
 #define kTimeStrHeight  13.0
 
 
+@interface MEPostTableView : UITableView
+{
+}
+@end
+
+@implementation MEPostTableView
+
+- (BOOL)touchesShouldCancelInContentView:(UIView *)aView
+{
+    return YES;
+}
+
+@end
+
+
 @implementation MEReaderView
 
 
@@ -39,7 +54,7 @@
 
 - (void)initializeVariables
 {
-    mCellHeightDict = [[NSMutableDictionary alloc] init];
+    mCellHeightCache = [[NSMutableDictionary alloc] init];
 }
 
 
@@ -47,11 +62,11 @@
 {
     CGRect sBounds = [self bounds];
 
-    mTableView = [[UITableView alloc] initWithFrame:sBounds style:UITableViewStylePlain];
+    mTableView = [[MEPostTableView alloc] initWithFrame:sBounds style:UITableViewStylePlain];
+    [mTableView setRowHeight:1000];
     [mTableView setDataSource:self];
     [mTableView setDelegate:self];
-    [mTableView setDelaysContentTouches:YES];
-//    [mTableView setCanCancelContentTouches:YES];
+    [mTableView setCanCancelContentTouches:YES];
 
     [self addSubview:mTableView];
     [mTableView release];
@@ -92,22 +107,13 @@
 
 - (void)dealloc
 {
-    [mCellHeightDict release];
+    [mCellHeightCache release];
     [super dealloc];
 }
 
 
 #pragma mark -
 #pragma mark Instance Methods
-
-
-- (void)setHiddenPostButton:(BOOL)aFlag
-{
-    MEReaderHeadView *sHeaderView;
-
-    sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
-    [sHeaderView setHiddenPostButton:aFlag];
-}
 
 
 - (void)setShowsPostAuthor:(BOOL)aFlag
@@ -166,7 +172,8 @@
 
     if (mDataSource)
     {
-        [mCellHeightDict removeAllObjects];
+        mSectionCount = [mDataSource numberOfSectionsInReaderView:self];
+        [mCellHeightCache removeAllObjects];
         [mTableView reloadData];
     }
 }
@@ -206,58 +213,84 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
 {
-    return [mDataSource numberOfSectionsInReaderView:self];
+    return mSectionCount + 1;
 }
 
 
 - (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)aSection
 {
-    return [mDataSource readerView:self titleForSection:aSection];
+    if (aSection < mSectionCount)
+    {
+        return [mDataSource readerView:self titleForSection:aSection];
+    }
+    else
+    {
+        return nil;
+    }
 }
 
 
 - (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)aSection
 {
-    return [mDataSource readerView:self numberOfPostsInSection:aSection];
+    if (aSection < mSectionCount)
+    {
+        return [mDataSource readerView:self numberOfPostsInSection:aSection];
+    }
+    else
+    {
+        return mSectionCount ? 1 : 0;
+    }
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    UITableViewCell *sResult;
-    UILabel         *sLabel;
-    MEImageView     *sImageView;
-    MEPostBodyView  *sBodyView;
-    MEPost          *sPost;
+    UITableViewCell *sCell;
 
-    sPost = [mDataSource readerView:self postAtIndexPath:aIndexPath];
-
-    if (mShowsPostAuthor)
+    if ([aIndexPath section] < mSectionCount)
     {
-        sResult = [METableViewCellFactory postCellWithAuthorForTableView:aTableView];
+        UILabel         *sLabel;
+        MEImageView     *sImageView;
+        MEPostBodyView  *sBodyView;
+        MEPost          *sPost;
 
-        sImageView = (MEImageView *)[[sResult contentView] viewWithTag:kPostCellFaceImageViewTag];
-        [sImageView addTarget:self action:@selector(faceImageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [[sImageView userInfo] setValue:[sPost author] forKey:@"author"];
-        [sImageView setImageWithURL:[[sPost author] faceImageURL]];
+        sPost = [mDataSource readerView:self postAtIndexPath:aIndexPath];
 
-        sLabel = (UILabel *)[[sResult contentView] viewWithTag:kPostCellAuthorNameLabelTag];
-        [sLabel setText:[[sPost author] nickname]];
+        if (mShowsPostAuthor)
+        {
+            sCell = [METableViewCellFactory postCellWithAuthorForTableView:aTableView];
+
+            sImageView = (MEImageView *)[[sCell contentView] viewWithTag:kPostCellFaceImageViewTag];
+            [sImageView addTarget:self action:@selector(faceImageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
+            [[sImageView userInfo] setValue:[sPost author] forKey:@"author"];
+            [sImageView setImageWithURL:[[sPost author] faceImageURL]];
+
+            sLabel = (UILabel *)[[sCell contentView] viewWithTag:kPostCellAuthorNameLabelTag];
+            [sLabel setText:[[sPost author] nickname]];
+        }
+        else
+        {
+            sCell = [METableViewCellFactory postCellForTableView:aTableView];
+        }
+
+        sImageView = (MEImageView *)[[sCell contentView] viewWithTag:kPostCellIconImageViewTag];
+        [sImageView addTarget:self action:@selector(iconImageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [[sImageView userInfo] setValue:sPost forKey:@"post"];
+        [sImageView setImageWithURL:[sPost iconURL]];
+
+        sBodyView = (MEPostBodyView *)[[sCell contentView] viewWithTag:kPostCellBodyViewTag];
+        [sBodyView setPost:sPost];
     }
     else
     {
-        sResult = [METableViewCellFactory postCellForTableView:aTableView];
+        sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
+
+        [sCell setFont:[UIFont systemFontOfSize:15.0]];
+        [sCell setTextAlignment:UITextAlignmentCenter];
+        [sCell setText:NSLocalizedString(@"Load more...", @"")];
     }
 
-    sImageView = (MEImageView *)[[sResult contentView] viewWithTag:kPostCellIconImageViewTag];
-    [sImageView addTarget:self action:@selector(iconImageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [[sImageView userInfo] setValue:sPost forKey:@"post"];
-    [sImageView setImageWithURL:[sPost iconURL]];
-
-    sBodyView = (MEPostBodyView *)[[sResult contentView] viewWithTag:kPostCellBodyViewTag];
-    [sBodyView setPost:sPost];
-
-    return sResult;
+    return sCell;
 }
 
 
@@ -267,40 +300,63 @@
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    CGFloat   sResult = 0;
-    MEPost   *sPost   = [mDataSource readerView:self postAtIndexPath:aIndexPath];
-    NSNumber *sHeight = [mCellHeightDict objectForKey:[sPost postID]];
+    CGFloat   sHeight;
 
-    if (sHeight)
+    if ([aIndexPath section] < mSectionCount)
     {
-        sResult = [sHeight floatValue];
-    }
-    else
-    {
-        sResult = [MEPostBodyView heightWithPost:sPost] + kPostCellBodyPadding * 2;
+        MEPost   *sPost;
+        NSNumber *sCachedHeight;
 
-        if (mShowsPostAuthor)
+        sPost         = [mDataSource readerView:self postAtIndexPath:aIndexPath];
+        sCachedHeight = [mCellHeightCache objectForKey:[sPost postID]];
+
+        if (sCachedHeight)
         {
-            sResult += 20;
-            sResult  = (sResult < 115) ? 115 : sResult;
+            sHeight = [sCachedHeight floatValue];
         }
         else
         {
-            sResult  = (sResult < 70) ? 70 : sResult;
-        }
+            sHeight = [MEPostBodyView heightWithPost:sPost] + kPostCellBodyPadding * 2;
 
-        [mCellHeightDict setObject:[NSNumber numberWithFloat:sResult] forKey:[sPost postID]];
+            if (mShowsPostAuthor)
+            {
+                sHeight += 20;
+                sHeight  = (sHeight < 115) ? 115 : sHeight;
+            }
+            else
+            {
+                sHeight  = (sHeight < 70) ? 70 : sHeight;
+            }
+
+            [mCellHeightCache setObject:[NSNumber numberWithFloat:sHeight] forKey:[sPost postID]];
+        }
+    }
+    else
+    {
+        sHeight = 70;
     }
 
-    return sResult;
+    return sHeight;
 }
 
 
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    if ([mDelegate respondsToSelector:@selector(readerView:didSelectPostAtIndexPath:)])
+    if ([aIndexPath section] < mSectionCount)
     {
-        [mDelegate readerView:self didSelectPostAtIndexPath:aIndexPath];
+        if ([mDelegate respondsToSelector:@selector(readerView:didSelectPostAtIndexPath:)])
+        {
+            [mDelegate readerView:self didSelectPostAtIndexPath:aIndexPath];
+        }
+    }
+    else
+    {
+        if ([mDelegate respondsToSelector:@selector(readerViewDidTapLoadMoreButton:)])
+        {
+            [mDelegate readerViewDidTapLoadMoreButton:self];
+        }
+
+        [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];
     }
 }
 

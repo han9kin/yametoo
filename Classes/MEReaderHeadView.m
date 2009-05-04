@@ -108,12 +108,6 @@
 }
 
 
-- (void)setHiddenPostButton:(BOOL)aFlag
-{
-    [mNewPostButton setHidden:aFlag];
-}
-
-
 #pragma mark -
 #pragma mark Actions
 

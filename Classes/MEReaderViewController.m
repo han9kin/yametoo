@@ -14,8 +14,18 @@
 #import "MEReplyViewController.h"
 #import "MEMediaView.h"
 #import "MEClientStore.h"
-#import "MEClient.h"
 #import "MEPost.h"
+
+
+static NSComparisonResult compareSectionByPubDate(NSArray *sPosts1, NSArray *sPosts2, void *aContext)
+{
+    return [[[sPosts2 lastObject] pubDate] compare:[[sPosts1 lastObject] pubDate]];
+}
+
+static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, void *aContext)
+{
+    return [[sPost2 pubDate] compare:[sPost1 pubDate]];
+}
 
 
 @interface MEReaderViewController (Private)
@@ -26,15 +36,16 @@
 
 - (MEPost *)postForIndexPath:(NSIndexPath *)aIndexPath
 {
-    MEPost  *sResult = nil;
-    NSArray *sPostArrayOfDay;
+    MEPost  *sResult     = nil;
+    NSArray *sPostsOfDay;
 
-    if ([mPostArray count] > [aIndexPath section])
+    if ([mPosts count] > [aIndexPath section])
     {
-        sPostArrayOfDay = [mPostArray objectAtIndex:[aIndexPath section]];
-        if ([sPostArrayOfDay count] > [aIndexPath row])
+        sPostsOfDay = [mPosts objectAtIndex:[aIndexPath section]];
+
+        if ([sPostsOfDay count] > [aIndexPath row])
         {
-            sResult = [sPostArrayOfDay objectAtIndex:[aIndexPath row]];
+            sResult = [sPostsOfDay objectAtIndex:[aIndexPath row]];
         }
     }
 
@@ -42,67 +53,50 @@
 }
 
 
-- (MEPost *)postForPostID:(NSString *)aPostID
+- (NSDate *)dateOfSection:(NSInteger)aSection
 {
-    MEPost *sResult = nil;
-    MEPost *sPost;
-    NSArray *sArray;
-
-    for (sArray in mPostArray)
+    if ([mPosts count] > aSection)
     {
-        for (sPost in sArray)
-        {
-            if ([[sPost postID] isEqualToString:aPostID])
-            {
-                sResult = sPost;
-                break;
-            }
-        }
+        return [[[mPosts objectAtIndex:aSection] lastObject] pubDate];
     }
-
-    return sResult;
-}
-
-
-- (MEPost *)titlePostForSection:(NSInteger)aSection
-{
-    MEPost  *sResult = nil;
-    NSArray *sPostArrayOfDay;
-
-    if ([mPostArray count] > aSection)
+    else
     {
-        sPostArrayOfDay = [mPostArray objectAtIndex:aSection];
-        if ([sPostArrayOfDay count] > 0)
-        {
-            sResult = [sPostArrayOfDay objectAtIndex:0];
-        }
+        return nil;
     }
-
-    return sResult;
 }
 
 
 - (void)addPosts:(NSArray *)aPostArray
 {
-    MEPost          *sPost;
     NSDateFormatter *sFormatter = [[NSDateFormatter alloc] init];
+    NSMutableArray  *sPostsOfDay;
+    MEPost          *sPost;
 
     [sFormatter setDateStyle:kCFDateFormatterShortStyle];
 
     for (sPost in aPostArray)
     {
         NSString       *sPostDateStr = [sFormatter stringFromDate:[sPost pubDate]];
-        NSMutableArray *sPostsOfDay;
         BOOL            sIsAdded = NO;
 
-        for (sPostsOfDay in mPostArray)
+        for (sPostsOfDay in mPosts)
         {
             MEPost   *sTitlePost = [sPostsOfDay lastObject];
             NSString *sDateStr   = [sFormatter stringFromDate:[sTitlePost pubDate]];
 
             if ([sDateStr isEqualToString:sPostDateStr])
             {
-                [sPostsOfDay addObject:sPost];
+                NSUInteger sIndex = [sPostsOfDay indexOfObject:sPost];
+
+                if (sIndex == NSNotFound)
+                {
+                    [sPostsOfDay addObject:sPost];
+                }
+                else
+                {
+                    [sPostsOfDay replaceObjectAtIndex:sIndex withObject:sPost];
+                }
+
                 sIsAdded = YES;
                 break;
             }
@@ -112,9 +106,16 @@
         {
             sPostsOfDay = [NSMutableArray array];
             [sPostsOfDay addObject:sPost];
-            [mPostArray addObject:sPostsOfDay];
+            [mPosts addObject:sPostsOfDay];
         }
     }
+
+    for (sPostsOfDay in mPosts)
+    {
+        [sPostsOfDay sortUsingFunction:comparePostByPubDate context:NULL];
+    }
+
+    [mPosts sortUsingFunction:compareSectionByPubDate context:NULL];
 
     [sFormatter release];
     [mReaderView reloadData];
@@ -125,8 +126,6 @@
 
 @implementation MEReaderViewController
 
-@synthesize type = mType;
-
 
 - (id)initWithCoder:(NSCoder *)aCoder
 {
@@ -134,7 +133,9 @@
 
     if (self)
     {
-        mPostArray = [[NSMutableArray alloc] init];
+        mPosts = [[NSMutableArray alloc] init];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChange:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
     }
 
     return self;
@@ -146,7 +147,9 @@
 
     if (self)
     {
-        mPostArray = [[NSMutableArray alloc] init];
+        mPosts = [[NSMutableArray alloc] init];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChange:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
     }
 
     return self;
@@ -154,9 +157,12 @@
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     [mMediaView release];
     [mUser release];
-    [mPostArray release];
+    [mPosts release];
+
     [super dealloc];
 }
 
@@ -170,7 +176,7 @@
 {
     [super viewDidLoad];
 
-    UIView *sView;
+    UIView  *sView;
 
     sView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)];
     [sView setBackgroundColor:[UIColor colorWithRed:1.0 green:0.7 blue:0.7 alpha:1.0]];
@@ -201,7 +207,6 @@
 
     [mMediaView release];
 
-    mTitleLabel = nil;
     mReaderView = nil;
     mMediaView  = nil;
 }
@@ -211,37 +216,23 @@
 {
     [super viewDidAppear:aAnimated];
 
-    NSString              *sTitle;
-    MEClient              *sClient;
-    NSString              *sUserID;
-    MEClientGetPostsScope  sScope;
+    MEClient *sClient;
+    NSString *sUserID;
 
     sClient = [MEClientStore currentClient];
     sUserID = [sClient userID];
 
     if (mType == kMEReaderViewControllerTypeMyMetoo)
     {
-        sTitle = [NSString stringWithFormat:NSLocalizedString(@"%@'s me2day", @""), sUserID];
-        sScope = kMEClientGetPostsScopeAll;
+        [mTitleLabel setText:[NSString stringWithFormat:NSLocalizedString(@"%@'s me2day", @""), sUserID]];
+        [sClient getPersonWithUserID:sUserID delegate:self];
     }
     else if (mType == kMEReaderViewControllerTypeMyFriends)
     {
-        sTitle = [NSString stringWithFormat:NSLocalizedString(@"%@'s friends", @""), sUserID];
-        sScope = kMEClientGetPostsScopeFriendAll;
-    }
-    else
-    {
-        NSAssert(0, @"invalid type");
+        [mTitleLabel setText:[NSString stringWithFormat:NSLocalizedString(@"%@'s friends", @""), sUserID]];
     }
 
-    [mTitleLabel setText:sTitle];
-
-    if (mType == kMEReaderViewControllerTypeMyMetoo)
-    {
-        [sClient getPersonWithUserID:sUserID delegate:self];
-    }
-
-    [sClient getPostsWithUserID:sUserID scope:sScope offset:0 count:30 delegate:self];
+    [sClient getPostsWithUserID:sUserID scope:mScope offset:0 count:30 delegate:self];
 }
 
 
@@ -249,6 +240,31 @@
 {
     NSLog(@"didReceiveMemoryWarning");
     [super didReceiveMemoryWarning];
+}
+
+
+- (MEReaderViewControllerType)type
+{
+    return mType;
+}
+
+
+- (void)setType:(MEReaderViewControllerType)aType
+{
+    mType = aType;
+
+    if (mType == kMEReaderViewControllerTypeMyMetoo)
+    {
+        mScope = kMEClientGetPostsScopeAll;
+    }
+    else if (mType == kMEReaderViewControllerTypeMyFriends)
+    {
+        mScope = kMEClientGetPostsScopeFriendAll;
+    }
+    else
+    {
+        NSAssert(0, @"invalid type");
+    }
 }
 
 
@@ -273,7 +289,6 @@
 
 - (void)client:(MEClient *)aClient didGetPosts:(NSArray *)aPosts error:(NSError *)aError
 {
-    [mPostArray removeAllObjects];
     [self addPosts:aPosts];
 }
 
@@ -290,25 +305,13 @@
 
 - (NSInteger)numberOfSectionsInReaderView:(MEReaderView *)aReaderView
 {
-    NSInteger sResult;
-
-    sResult = [mPostArray count];
-
-    if (sResult == 0)
-    {
-        sResult = 1;
-    }
-
-    return sResult;
+    return [mPosts count];
 }
 
 
 - (NSString *)readerView:(MEReaderView *)aReaderView titleForSection:(NSInteger)aSection
 {
     static NSDateFormatter *sFormatter = nil;
-
-    NSString *sResult = nil;
-    MEPost   *sTitlePost;
 
     if (!sFormatter)
     {
@@ -317,23 +320,20 @@
         [sFormatter setDateFormat:@"d LLL y"];
     }
 
-    sTitlePost = [self titlePostForSection:aSection];
-    sResult    = [[sFormatter stringFromDate:[sTitlePost pubDate]] uppercaseString];
-
-    return sResult;
+    return [[sFormatter stringFromDate:[self dateOfSection:aSection]] uppercaseString];
 }
 
 
 - (NSInteger)readerView:(MEReaderView *)aReaderView numberOfPostsInSection:(NSInteger)aSection
 {
-    NSInteger sResult = 0;
-
-    if ([mPostArray count] > 0)
+    if (aSection < [mPosts count])
     {
-        sResult = [[mPostArray objectAtIndex:aSection] count];
+        return [[mPosts objectAtIndex:aSection] count];
     }
-
-    return sResult;
+    else
+    {
+        return 0;
+    }
 }
 
 
@@ -354,6 +354,17 @@
     sViewController = [[MEPostViewController alloc] initWithNibName:@"PostViewController" bundle:nil];
     [self presentModalViewController:sViewController animated:YES];
     [sViewController release];
+}
+
+
+- (void)readerViewDidTapLoadMoreButton:(MEReaderView *)aReaderView
+{
+    MEClient *sClient = [MEClientStore currentClient];
+    NSString *sUserID = [sClient userID];
+
+    mOffset += 30;
+
+    [sClient getPostsWithUserID:sUserID scope:mScope offset:mOffset count:30 delegate:self];
 }
 
 
@@ -391,6 +402,19 @@
 //    [[self view] addSubview:[sReplyViewController view]];
     [self presentModalViewController:sReplyViewController animated:NO];
     [sReplyViewController release];
+}
+
+
+#pragma mark -
+#pragma mark MEClientStore Notifications
+
+
+- (void)currentUserDidChange:(NSNotification *)aNotification
+{
+    [mUser release];
+    mUser = nil;
+
+    [mPosts removeAllObjects];
 }
 
 
