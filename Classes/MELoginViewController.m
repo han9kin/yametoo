@@ -237,7 +237,7 @@
     }
     else
     {
-        NSLog(@"MELoginViewController didGetPerson error: %@", aError);
+        NSLog(@"MELoginViewController getPerson error: %@", aError);
     }
 }
 

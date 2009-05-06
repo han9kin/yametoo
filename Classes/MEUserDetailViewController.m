@@ -7,6 +7,7 @@
  *
  */
 
+#import "UIAlertView+MEAdditions.h"
 #import "UIViewController+MEAdditions.h"
 #import "MEUserDetailViewController.h"
 #import "MEPasscodeViewController.h"
@@ -128,16 +129,6 @@
 }
 
 
-- (void)showAlert:(NSString *)aError
-{
-    UIAlertView *sAlertView;
-
-    sAlertView = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(aError, @"") delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", @""), nil];
-    [sAlertView show];
-    [sAlertView release];
-}
-
-
 #pragma mark actions
 
 - (void)cancelButtonTapped
@@ -151,7 +142,7 @@
     {
         if ([MEClientStore clientForUserID:[mUserIDField text]])
         {
-            [self showAlert:@"User already registered."];
+            [UIAlertView showAlert:@"User already registered."];
         }
         else
         {
@@ -163,7 +154,7 @@
     }
     else
     {
-        [self showAlert:@"Please enter required fields."];
+        [UIAlertView showAlert:@"Please enter required fields."];
     }
 }
 
@@ -221,7 +212,7 @@
 {
     if (aError)
     {
-        [self showAlert:[aError localizedDescription]];
+        [UIAlertView showError:aError];
     }
     else
     {

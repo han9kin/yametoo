@@ -7,6 +7,7 @@
  *
  */
 
+#import "UIAlertView+MEAdditions.h"
 #import "MEAddCommentViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
@@ -22,12 +23,11 @@
 #pragma mark -
 
 
-- (void)viewDidLoad
+- (void)dealloc
 {
-    [super viewDidLoad];
-    
-    [mTextView setText:@""];
-    [mTextView becomeFirstResponder];
+    [mPost release];
+
+    [super dealloc];
 }
 
 
@@ -37,11 +37,12 @@
 }
 
 
-- (void)dealloc
+- (void)viewDidLoad
 {
-    [mPost release];
-    
-    [super dealloc];
+    [super viewDidLoad];
+
+    [mTextView setText:@""];
+    [mTextView becomeFirstResponder];
 }
 
 
@@ -58,7 +59,7 @@
 - (IBAction)postButtonTapped:(id)aSender
 {
     NSString *sComment = [mTextView text];
-    
+
     if ([sComment length] > 0)
     {
         [[MEClientStore currentClient] createCommentWithPostID:[mPost postID] body:sComment delegate:self];
@@ -72,14 +73,13 @@
 
 - (void)client:(MEClient *)aClient didCreateCommentWithError:(NSError *)aError
 {
-    NSLog(@"client:didCreateCommentWithError:");
-    if (!aError)
+    if (aError)
     {
-        [[self parentViewController] dismissModalViewControllerAnimated:YES];
+        [UIAlertView showError:aError];
     }
     else
     {
-        NSLog(@"error handling");
+        [[self parentViewController] dismissModalViewControllerAnimated:YES];
     }
 }
 

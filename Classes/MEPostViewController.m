@@ -7,6 +7,7 @@
  *
  */
 
+#import "UIAlertView+MEAdditions.h"
 #import "MEPostViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
@@ -16,31 +17,12 @@
 @implementation MEPostViewController
 
 
-- (void)viewDidLoad
+- (void)dealloc
 {
-    NSString *sModel;
-    
-    [super viewDidLoad];
+    [mCharCountLayer release];
+    [mAttachedImage  release];
 
-    [mBodyTextView setText:@""];
-    [mBodyTextView setReturnKeyType:UIReturnKeyNext];
-    [mTagTextView  setText:@""];
-    [mTagTextView  setReturnKeyType:UIReturnKeyDone];
-    
-    mCharCountLayer = [[CALayer layer] retain];
-    [mCharCountLayer setHidden:YES];
-    [mCharCountLayer setFrame:CGRectMake(200, 195, 0, 0)];
-    
-    [[[self view] layer] addSublayer:mCharCountLayer];
-   
-    
-    NSLog(@"model = %@", [[UIDevice currentDevice] model]);
-    
-    sModel = [[UIDevice currentDevice] model];
-    if (![sModel isEqualToString:@"iPhone"])
-    {
-        [mTakePictureButton setEnabled:NO];
-    }
+    [super dealloc];
 }
 
 
@@ -50,12 +32,31 @@
 }
 
 
-- (void)dealloc
+- (void)viewDidLoad
 {
-    [mCharCountLayer release];
-    [mAttachedImage  release];
-    
-    [super dealloc];
+    NSString *sModel;
+
+    [super viewDidLoad];
+
+    [mBodyTextView setText:@""];
+    [mBodyTextView setReturnKeyType:UIReturnKeyNext];
+    [mTagTextView  setText:@""];
+    [mTagTextView  setReturnKeyType:UIReturnKeyDone];
+
+    mCharCountLayer = [[CALayer layer] retain];
+    [mCharCountLayer setHidden:YES];
+    [mCharCountLayer setFrame:CGRectMake(200, 195, 0, 0)];
+
+    [[[self view] layer] addSublayer:mCharCountLayer];
+
+
+    NSLog(@"model = %@", [[UIDevice currentDevice] model]);
+
+    sModel = [[UIDevice currentDevice] model];
+    if (![sModel isEqualToString:@"iPhone"])
+    {
+        [mTakePictureButton setEnabled:NO];
+    }
 }
 
 
@@ -71,22 +72,22 @@
     NSString *sStr   = [NSString stringWithFormat:NSLocalizedString(@"%d character(s) remains", nil), (150 - [sBody length])];
     CGSize    sSize  = [sStr sizeWithFont:sFont];
     CGRect    sFrame;
-    
+
     sSize.width  += 10;
     sSize.height += 6;
 
     UIGraphicsBeginImageContext(sSize);
     [[UIColor orangeColor] set];
     MERoundRectFill(CGRectMake(0, 0, sSize.width, sSize.height), 3);
-    
+
     [[UIColor blackColor] set];
     [sStr drawAtPoint:CGPointMake(5, 5) withFont:sFont];
-    
+
     sImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+
     sFrame = CGRectMake(320 - sSize.width - 20, 195, sSize.width, sSize.height);
-    
+
     [mCharCountLayer setOpacity:0.8];
     [mCharCountLayer setContents:(id)[sImage CGImage]];
     [mCharCountLayer setFrame:sFrame];
@@ -126,7 +127,7 @@
     UIApplication           *sApp                   = [UIApplication sharedApplication];
     UIWindow                *sKeyWindow             = [sApp keyWindow];
     UIImagePickerController *sImagePickerController = [[UIImagePickerController alloc] init];
-    
+
     [sImagePickerController setDelegate:self];
     [sImagePickerController setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
     [sKeyWindow addSubview:[sImagePickerController view]];
@@ -138,25 +139,25 @@
 {
     NSString *sBody = [mBodyTextView text];
     NSString *sTags = [mTagTextView  text];
-    
+
     if ([sBody length] > 0)
     {
         [self setInterfaceEnabled:NO];
         [mBodyTextView resignFirstResponder];
         [mTagTextView  resignFirstResponder];
-        
+
         [[MEClientStore currentClient] createPostWithBody:sBody tags:sTags icon:0 attachedImage:mAttachedImage delegate:self];
     }
     else
     {
-    
+
     }
 }
 
 
 - (IBAction)cancelButtonTapped:(id)aSender
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [[self parentViewController] dismissModalViewControllerAnimated:YES];
 }
 
 
@@ -200,7 +201,7 @@
 {
     if ([aText length] == 1 && [aText characterAtIndex:0] == 10)
     {
-        if (aTextView == mBodyTextView)        
+        if (aTextView == mBodyTextView)
         {
             [mTagTextView becomeFirstResponder];
         }
@@ -217,7 +218,7 @@
             return NO;
         }
     }
-    
+
     return YES;
 }
 
@@ -228,16 +229,16 @@
 
 - (void)client:(MEClient *)aClient didCreatePostWithError:(NSError *)aError
 {
-    if (!aError)
+    if (aError)
     {
-        [self dismissModalViewControllerAnimated:YES];
+        [UIAlertView showError:aError];
+        [self setInterfaceEnabled:YES];
+        [mBodyTextView resignFirstResponder];
+        [mTagTextView resignFirstResponder];
     }
     else
     {
-        NSLog(@"error handling - %@", aError);
-        [self setInterfaceEnabled:YES];
-        [mBodyTextView resignFirstResponder];
-        [mTagTextView  resignFirstResponder];
+        [[self parentViewController] dismissModalViewControllerAnimated:YES];
     }
 }
 
@@ -254,7 +255,7 @@
     [[aPicker view] setHidden:YES];
     [[aPicker view] removeFromSuperview];
     [aPicker autorelease];
-    
+
     [mAttachedImage autorelease];
     mAttachedImage = [aImage retain];
 

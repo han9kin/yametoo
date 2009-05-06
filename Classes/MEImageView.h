@@ -18,6 +18,7 @@
     NSMutableDictionary *mUserInfo;
 }
 
+@property(nonatomic, assign)   id                   delegate;
 @property(nonatomic, readonly) NSMutableDictionary *userInfo;
 
 - (void)setDelegate:(id)aDelegate;

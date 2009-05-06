@@ -19,6 +19,7 @@
 #pragma mark properties
 
 
+@synthesize delegate = mDelegate;
 @synthesize userInfo = mUserInfo;
 
 
@@ -60,12 +61,6 @@
 #pragma mark Instance Methods
 
 
-- (void)setDelegate:(id)aDelegate
-{
-    mDelegate = aDelegate;
-}
-
-
 - (void)setImageWithURL:(NSURL *)aURL
 {
     if (mURL != aURL)
@@ -94,14 +89,21 @@
 {
     if ([mURL isEqual:aKey])
     {
-        if (mImage != aImage)
+        if (aError)
         {
-            [mImage release];
-            mImage = [aImage retain];
-            
-            [mDelegate imageView:self imageDidLoad:mImage];
+            NSLog(@"MEImageView image load error: %@ for url: %@", aError, aKey);
+        }
+        else
+        {
+            if (mImage != aImage)
+            {
+                [mImage release];
+                mImage = [aImage retain];
 
-            [self setNeedsDisplay];
+                [mDelegate imageView:self imageDidLoad:mImage];
+
+                [self setNeedsDisplay];
+            }
         }
     }
 }

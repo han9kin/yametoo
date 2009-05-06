@@ -7,6 +7,7 @@
  *
  */
 
+#import "UIAlertView+MEAdditions.h"
 #import "MEReplyViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
@@ -55,16 +56,34 @@
 #pragma mark -
 
 
+- (void)dealloc
+{
+    NSLog(@"MEReplyViewController dealloc");
+
+    [mPost     release];
+    [mComments release];
+
+    [super dealloc];
+}
+
+
+- (void)didReceiveMemoryWarning
+{
+    NSLog(@"didReceiveMemoryWarning");
+    [super didReceiveMemoryWarning];
+}
+
+
 - (void)viewDidLoad
 {
     NSString         *sNickname = [[mPost author] nickname];
     UINavigationItem *sTopItem  = [mNaviBar topItem];
     NSString         *sTitleStr = [NSString stringWithFormat:NSLocalizedString(@"%@님의 글", nil), sNickname];
-    
+
     [super viewDidLoad];
 
     mComments = [[NSMutableArray alloc] init];
-    
+
     [sTopItem        setTitle:sTitleStr];
     [mIconView       setImageWithURL:[mPost iconURL]];
     [mPostBodyView   setPost:mPost];
@@ -81,24 +100,6 @@
 }
 
 
-- (void)didReceiveMemoryWarning
-{
-    NSLog(@"didReceiveMemoryWarning");
-    [super didReceiveMemoryWarning];
-}
-
-
-- (void)dealloc
-{
-    NSLog(@"MEReplyViewController dealloc");
-
-    [mPost     release];
-    [mComments release];
-
-    [super dealloc];
-}
-
-
 #pragma mark -
 #pragma mark Actions
 
@@ -106,7 +107,7 @@
 - (IBAction)addCommentButtonTapped:(id)aSender
 {
     MEAddCommentViewController *sViewController;
-    
+
     sViewController = [[MEAddCommentViewController alloc] initWithNibName:@"AddCommentViewController" bundle:nil];
     [sViewController setPost:mPost];
     [self presentModalViewController:sViewController animated:YES];
@@ -128,15 +129,15 @@
 
 - (void)client:(MEClient *)aClient didGetComments:(NSArray *)aComments error:(NSError *)aError
 {
-    if (!aError)
+    if (aError)
+    {
+        [UIAlertView showError:aError];
+    }
+    else
     {
         [mComments removeAllObjects];
         [mComments addObjectsFromArray:aComments];
         [mTableView reloadData];
-    }
-    else
-    {
-
     }
 }
 

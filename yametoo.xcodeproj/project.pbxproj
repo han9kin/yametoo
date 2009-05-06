@@ -82,6 +82,7 @@
 		CFE72EA90FA8678E00C54792 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = CFE72EA80FA8678E00C54792 /* Credits.html */; };
 		CFE72F070FA9672400C54792 /* MEPostBodyView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72F060FA9672400C54792 /* MEPostBodyView.m */; };
 		CFE72FE80FAE8D0200C54792 /* MEReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72FE70FAE8D0200C54792 /* MEReaderViewController.m */; };
+		CFE7318F0FB175A200C54792 /* UIAlertView+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE7318E0FB175A200C54792 /* UIAlertView+MEAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -221,6 +222,8 @@
 		CFE72F060FA9672400C54792 /* MEPostBodyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPostBodyView.m; sourceTree = "<group>"; };
 		CFE72FE60FAE8D0200C54792 /* MEReaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReaderViewController.h; sourceTree = "<group>"; };
 		CFE72FE70FAE8D0200C54792 /* MEReaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReaderViewController.m; sourceTree = "<group>"; };
+		CFE7318D0FB175A200C54792 /* UIAlertView+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+MEAdditions.h"; sourceTree = "<group>"; };
+		CFE7318E0FB175A200C54792 /* UIAlertView+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+MEAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -461,6 +464,8 @@
 		CF5EE8250F981D47004712FF /* UIKit Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				CFE7318D0FB175A200C54792 /* UIAlertView+MEAdditions.h */,
+				CFE7318E0FB175A200C54792 /* UIAlertView+MEAdditions.m */,
 				CF5EE7A60F972266004712FF /* UIViewController+MEAdditions.h */,
 			);
 			name = "UIKit Extensions";
@@ -690,6 +695,7 @@
 				2ED83E3B0FAECFDC00786952 /* MEAddCommentViewController.m in Sources */,
 				CFE72FE80FAE8D0200C54792 /* MEReaderViewController.m in Sources */,
 				2E27668A0FAEF3A700F59ACD /* MERoundBackView.m in Sources */,
+				CFE7318F0FB175A200C54792 /* UIAlertView+MEAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -754,14 +760,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chang-Gi Kim";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sanghyuk Suh";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8B825491-6034-4C67-96AE-DC2E4D4DB8F8";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "54346E26-8E7F-4EFA-95D6-2B861523A975";
 				SDKROOT = iphoneos2.2;
 			};
 			name = Debug;

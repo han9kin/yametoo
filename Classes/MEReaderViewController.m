@@ -7,6 +7,7 @@
  *
  */
 
+#import "UIAlertView+MEAdditions.h"
 #import "UIViewController+MEAdditions.h"
 #import "MEReaderViewController.h"
 #import "MEUserInfoViewController.h"
@@ -167,6 +168,13 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 }
 
 
+- (void)didReceiveMemoryWarning
+{
+    NSLog(@"didReceiveMemoryWarning");
+    [super didReceiveMemoryWarning];
+}
+
+
 - (void)loadView
 {
     [super loadView];
@@ -236,13 +244,6 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 }
 
 
-- (void)didReceiveMemoryWarning
-{
-    NSLog(@"didReceiveMemoryWarning");
-    [super didReceiveMemoryWarning];
-}
-
-
 - (MEReaderViewControllerType)type
 {
     return mType;
@@ -289,7 +290,14 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 - (void)client:(MEClient *)aClient didGetPosts:(NSArray *)aPosts error:(NSError *)aError
 {
-    [self addPosts:aPosts];
+    if (aError)
+    {
+        [UIAlertView showError:aError];
+    }
+    else
+    {
+        [self addPosts:aPosts];
+    }
 }
 
 
