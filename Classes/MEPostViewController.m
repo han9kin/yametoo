@@ -18,6 +18,8 @@
 
 - (void)viewDidLoad
 {
+    NSString *sModel;
+    
     [super viewDidLoad];
 
     [mBodyTextView setText:@""];
@@ -30,6 +32,15 @@
     [mCharCountLayer setFrame:CGRectMake(200, 195, 0, 0)];
     
     [[[self view] layer] addSublayer:mCharCountLayer];
+   
+    
+    NSLog(@"model = %@", [[UIDevice currentDevice] model]);
+    
+    sModel = [[UIDevice currentDevice] model];
+    if (![sModel isEqualToString:@"iPhone"])
+    {
+        [mTakePictureButton setEnabled:NO];
+    }
 }
 
 
@@ -248,6 +259,15 @@
     mAttachedImage = [aImage retain];
 
     [mAttachedImageView setImage:mAttachedImage];
+}
+
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)aPicker
+{
+    [aPicker dismissModalViewControllerAnimated:YES];
+    [[aPicker view] setHidden:YES];
+    [[aPicker view] removeFromSuperview];
+    [aPicker autorelease];
 }
 
 
