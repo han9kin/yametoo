@@ -181,6 +181,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
             MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
             [sOperation setRequest:[NSMutableURLRequest requestWithURL:aURL]];
+            [sOperation setQueuePriority:NSOperationQueuePriorityLow];
             [sOperation setContext:sContext];
             [sOperation setDelegate:self];
             [sOperation setSelector:@selector(clientOperation:didReceiveImageResult:error:)];
@@ -198,6 +199,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
     [sOperation setRequest:[self loginRequestWithUserID:aUserID userKey:aUserKey]];
+    [sOperation setQueuePriority:NSOperationQueuePriorityHigh];
     [sOperation setContext:[NSDictionary dictionaryWithObjectsAndKeys:aDelegate, @"delegate", aUserID, @"userID", nil]];
     [sOperation setDelegate:self];
     [sOperation setSelector:@selector(clientOperation:didReceiveLoginResult:error:)];
@@ -213,6 +215,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
     [sOperation setRequest:[self createCommentRequestWithPostID:aPostID body:aBody]];
+    [sOperation setQueuePriority:NSOperationQueuePriorityHigh];
     [sOperation setContext:aDelegate];
     [sOperation setDelegate:self];
     [sOperation setSelector:@selector(clientOperation:didReceiveCreateCommentResult:error:)];
@@ -228,6 +231,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
     [sOperation setRequest:[self createPostRequestWithBody:aBody tags:[aTags stringByAppendingString:@" yametoo"] icon:aIcon attachedImage:aImage]];
+    [sOperation setQueuePriority:NSOperationQueuePriorityHigh];
     [sOperation setContext:aDelegate];
     [sOperation setDelegate:self];
     [sOperation setSelector:@selector(clientOperation:didReceiveCreatePostResult:error:)];
@@ -243,6 +247,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
     [sOperation setRequest:[self getCommentsRequestWithPostID:aPostID]];
+    [sOperation setQueuePriority:NSOperationQueuePriorityHigh];
     [sOperation setContext:aDelegate];
     [sOperation setDelegate:self];
     [sOperation setSelector:@selector(clientOperation:didReceiveGetCommentsResult:error:)];
@@ -258,6 +263,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
     [sOperation setRequest:[self getFriendsRequestWithUserID:aUserID]];
+    [sOperation setQueuePriority:NSOperationQueuePriorityHigh];
     [sOperation setContext:aDelegate];
     [sOperation setDelegate:self];
     [sOperation setSelector:@selector(clientOperation:didReceiveGetFriendsResult:error:)];
@@ -273,6 +279,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
     [sOperation setRequest:[self getMetoosRequestWithPostID:aPostID]];
+    [sOperation setQueuePriority:NSOperationQueuePriorityHigh];
     [sOperation setContext:aDelegate];
     [sOperation setDelegate:self];
     [sOperation setSelector:@selector(clientOperation:didReceiveGetMetoosResult:error:)];
@@ -301,6 +308,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
         MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
         [sOperation setRequest:sRequest];
+        [sOperation setQueuePriority:NSOperationQueuePriorityHigh];
         [sOperation setContext:sContext];
         [sOperation setDelegate:self];
         [sOperation setSelector:@selector(clientOperation:didReceiveGetPersonResult:error:)];
@@ -317,6 +325,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
     [sOperation setRequest:[self getPostsRequestWithUserID:aUserID scope:aScope offset:aOffset count:aCount]];
+    [sOperation setQueuePriority:NSOperationQueuePriorityHigh];
     [sOperation setContext:aDelegate];
     [sOperation setDelegate:self];
     [sOperation setSelector:@selector(clientOperation:didReceiveGetPostsResult:error:)];
@@ -332,6 +341,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
     [sOperation setRequest:[self metooRequestWithPostID:aPostID]];
+    [sOperation setQueuePriority:NSOperationQueuePriorityHigh];
     [sOperation setContext:aDelegate];
     [sOperation setDelegate:self];
     [sOperation setSelector:@selector(clientOperation:didReceiveMetooResult:error:)];
