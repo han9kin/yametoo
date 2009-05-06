@@ -268,7 +268,7 @@
 
         [sCell setFont:[UIFont systemFontOfSize:15.0]];
         [sCell setTextAlignment:UITextAlignmentCenter];
-        [sCell setText:NSLocalizedString(@"Load more...", @"")];
+        [sCell setText:NSLocalizedString(@"Fetch more...", @"")];
     }
 
     return sCell;
@@ -332,9 +332,9 @@
     }
     else
     {
-        if ([mDelegate respondsToSelector:@selector(readerViewDidTapLoadMoreButton:)])
+        if ([mDelegate respondsToSelector:@selector(readerViewDidTapFetchMoreButton:)])
         {
-            [mDelegate readerViewDidTapLoadMoreButton:self];
+            [mDelegate readerViewDidTapFetchMoreButton:self];
         }
 
         [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];

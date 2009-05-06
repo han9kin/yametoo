@@ -1,5 +1,5 @@
 /*
- *  MEUserViewController.m
+ *  MEUserSettingsViewController.m
  *  yametoo
  *
  *  Created by han9kin on 09. 04. 16.
@@ -8,7 +8,7 @@
  */
 
 #import "UIViewController+MEAdditions.h"
-#import "MEUserViewController.h"
+#import "MEUserSettingsViewController.h"
 #import "MEUserDetailViewController.h"
 #import "MEPasscodeViewController.h"
 #import "METableViewCellFactory.h"
@@ -16,7 +16,7 @@
 #import "MEClient.h"
 
 
-@implementation MEUserViewController
+@implementation MEUserSettingsViewController
 
 - (id)init
 {

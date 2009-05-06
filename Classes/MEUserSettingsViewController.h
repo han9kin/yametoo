@@ -1,5 +1,5 @@
 /*
- *  MEUserViewController.h
+ *  MEUserSettingsViewController.h
  *  yametoo
  *
  *  Created by han9kin on 09. 04. 16.
@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface MEUserViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface MEUserSettingsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
     UITableView *mTableView;
 }

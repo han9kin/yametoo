@@ -7,8 +7,9 @@
  *
  */
 
-#import "METableViewCellFactory.h"
 #import "ObjCUtil.h"
+#import "UIColor+MEAdditions.h"
+#import "METableViewCellFactory.h"
 #import "MEImageView.h"
 #import "MEPostBodyView.h"
 #import "MEAttributedLabel.h"
@@ -88,7 +89,7 @@ enum
         [sLabel setBackgroundColor:[UIColor clearColor]];
         [sLabel setFont:[UIFont systemFontOfSize:17.0]];
         [sLabel setTextAlignment:UITextAlignmentRight];
-        [sLabel setTextColor:[UIColor colorWithRed:0.20 green:0.31 blue:0.52 alpha:1.0]];
+        [sLabel setTextColor:[UIColor selectedTextColor]];
         [sLabel setHighlightedTextColor:[UIColor whiteColor]];
         [[sCell contentView] addSubview:sLabel];
         [sLabel release];
@@ -432,7 +433,7 @@ enum
     {
         [sCheckmark setBackgroundImage:[UIImage imageNamed:@"checkmark_normal.png"] forState:UIControlStateNormal];
         [sCheckmark setBackgroundImage:[UIImage imageNamed:@"checkmark_highlighted.png"] forState:UIControlStateHighlighted];
-        [sLabel setTextColor:[UIColor colorWithRed:0.20 green:0.31 blue:0.52 alpha:1.0]];
+        [sLabel setTextColor:[UIColor selectedTextColor]];
     }
     else
     {

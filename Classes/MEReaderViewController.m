@@ -14,6 +14,7 @@
 #import "MEPostViewController.h"
 #import "MEReplyViewController.h"
 #import "MEMediaView.h"
+#import "MESettings.h"
 #import "MEClientStore.h"
 #import "MEPost.h"
 
@@ -240,7 +241,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
         [mTitleLabel setText:[NSString stringWithFormat:NSLocalizedString(@"%@'s friends", @""), sUserID]];
     }
 
-    [sClient getPostsWithUserID:sUserID scope:mScope offset:0 count:30 delegate:self];
+    [sClient getPostsWithUserID:sUserID scope:mScope offset:0 count:[MESettings initialFetchCount] delegate:self];
 }
 
 
@@ -365,14 +366,14 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 }
 
 
-- (void)readerViewDidTapLoadMoreButton:(MEReaderView *)aReaderView
+- (void)readerViewDidTapFetchMoreButton:(MEReaderView *)aReaderView
 {
     MEClient *sClient = [MEClientStore currentClient];
     NSString *sUserID = [sClient userID];
 
-    mOffset += 30;
+    mOffset += [MESettings moreFetchCount];
 
-    [sClient getPostsWithUserID:sUserID scope:mScope offset:mOffset count:30 delegate:self];
+    [sClient getPostsWithUserID:sUserID scope:mScope offset:mOffset count:[MESettings moreFetchCount] delegate:self];
 }
 
 

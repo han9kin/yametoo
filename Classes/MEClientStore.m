@@ -110,7 +110,18 @@ SYNTHESIZE_SINGLETON_CLASS(MEClientStore, sharedStore);
 
     if (self)
     {
-        mClientsByUserID = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] dataForKey:kClientsKey]];
+        NSData *sData;
+
+        sData = [[NSUserDefaults standardUserDefaults] dataForKey:kClientsKey];
+
+        if (sData)
+        {
+            mClientsByUserID = [NSKeyedUnarchiver unarchiveObjectWithData:sData];
+        }
+        else
+        {
+            mClientsByUserID = nil;
+        }
 
         if (mClientsByUserID)
         {

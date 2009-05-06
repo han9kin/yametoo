@@ -9,7 +9,8 @@
 
 #import "UIViewController+MEAdditions.h"
 #import "MESettingsViewController.h"
-#import "MEUserViewController.h"
+#import "MEUserSettingsViewController.h"
+#import "MEFetchSettingsViewController.h"
 #import "MEAboutViewController.h"
 #import "METableViewCellFactory.h"
 #import "MEClientStore.h"
@@ -92,7 +93,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
 {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)aSection
@@ -113,6 +114,12 @@
             break;
 
         case 1:
+            sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
+            [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+            [sCell setText:NSLocalizedString(@"Fetch Post Data", @"")];
+            break;
+
+        case 2:
             sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
             [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
             [sCell setText:NSLocalizedString(@"About", @"")];
@@ -137,10 +144,14 @@
     switch ([aIndexPath section])
     {
         case 0:
-            sViewController = [[MEUserViewController alloc] init];
+            sViewController = [[MEUserSettingsViewController alloc] init];
             break;
 
         case 1:
+            sViewController = [[MEFetchSettingsViewController alloc] init];
+            break;
+
+        case 2:
             sViewController = [[MEAboutViewController alloc] init];
             break;
     }

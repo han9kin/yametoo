@@ -35,7 +35,7 @@
 @optional
 
 - (void)readerViewDidTapNewPostButton:(MEReaderView *)aReaderView;
-- (void)readerViewDidTapLoadMoreButton:(MEReaderView *)aReaderView;
+- (void)readerViewDidTapFetchMoreButton:(MEReaderView *)aReaderView;
 - (void)readerView:(MEReaderView *)aReaderView didTapUserInfoButtonForUser:(MEUser *)aUser;
 - (void)readerView:(MEReaderView *)aReaderView didTapPostIconButtonForPost:(MEPost *)aPost;
 - (void)readerView:(MEReaderView *)aReaderView didSelectPostAtIndexPath:(NSIndexPath *)aIndexPath;
