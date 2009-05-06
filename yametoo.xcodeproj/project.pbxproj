@@ -739,7 +739,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C758EF16-334D-4ABE-8CD3-41B1C64C2A32";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CC560D64-520D-4444-8C36-BC6F3278A3F1";
 				SDKROOT = iphoneos2.2;
 			};
 			name = "Distribution - AdHoc";
@@ -760,14 +760,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sanghyuk Suh";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chang-Gi Kim";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "54346E26-8E7F-4EFA-95D6-2B861523A975";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "378EF78A-BADA-4DB7-B905-BFBB943C0C09";
 				SDKROOT = iphoneos2.2;
 			};
 			name = Debug;
@@ -782,7 +782,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8B825491-6034-4C67-96AE-DC2E4D4DB8F8";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "378EF78A-BADA-4DB7-B905-BFBB943C0C09";
 				SDKROOT = iphoneos2.2;
 			};
 			name = Release;

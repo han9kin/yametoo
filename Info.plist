@@ -11,7 +11,7 @@
 	<key>CFBundleIconFile</key>
 	<string>yametoo_icon.png</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.nhncorp.${PRODUCT_NAME:identifier}</string>
+	<string>com.cocomelo.${PRODUCT_NAME:identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
