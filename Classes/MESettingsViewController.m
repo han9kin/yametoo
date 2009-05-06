@@ -11,12 +11,41 @@
 #import "MESettingsViewController.h"
 #import "MEUserViewController.h"
 #import "MEAboutViewController.h"
+#import "METableViewCellFactory.h"
+#import "MEClientStore.h"
+#import "MEClient.h"
 
 
 @implementation MESettingsViewController
 
+- (id)initWithCoder:(NSCoder *)aCoder
+{
+    self = [super initWithCoder:aCoder];
+
+    if (self)
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChange:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
+    }
+
+    return self;
+}
+
+- (id)initWithNibName:(NSString *)aNibName bundle:(NSBundle *)aBundle
+{
+    self = [super initWithNibName:aNibName bundle:aBundle];
+
+    if (self)
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChange:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
+    }
+
+    return self;
+}
+
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     [super dealloc];
 }
 
@@ -50,9 +79,9 @@
     mTableView = nil;
 }
 
-- (void)viewWillAppear:(BOOL)aAnimated
+- (void)viewDidAppear:(BOOL)aAnimated
 {
-    [super viewWillAppear:aAnimated];
+    [super viewDidAppear:aAnimated];
 
     [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:aAnimated];
 }
@@ -75,25 +104,24 @@
 {
     UITableViewCell *sCell;
 
-    sCell = [aTableView dequeueReusableCellWithIdentifier:@"Default"];
-
-    if (!sCell)
-    {
-        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Default"] autorelease];
-    }
-
     switch ([aIndexPath section])
     {
         case 0:
-            [sCell setText:NSLocalizedString(@"User", @"")];
+            sCell = [METableViewCellFactory detailCellForTableView:aTableView];
+            [sCell setTitleText:NSLocalizedString(@"User", @"")];
+            [sCell setDetailText:[[MEClientStore currentClient] userID]];
             break;
 
         case 1:
+            sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
+            [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
             [sCell setText:NSLocalizedString(@"About", @"")];
             break;
-    }
 
-    [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+        default:
+            sCell = nil;
+            break;
+    }
 
     return sCell;
 }
@@ -119,6 +147,15 @@
 
     [[self navigationController] pushViewController:sViewController animated:YES];
     [sViewController release];
+}
+
+
+#pragma mark MEClientStore Notification
+
+
+- (void)currentUserDidChange:(NSNotification *)aNotification
+{
+    [mTableView reloadData];
 }
 
 

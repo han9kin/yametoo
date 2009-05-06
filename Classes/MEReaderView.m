@@ -249,37 +249,18 @@
 
     if ([aIndexPath section] < mSectionCount)
     {
-        UILabel         *sLabel;
-        MEImageView     *sImageView;
-        MEPostBodyView  *sBodyView;
-        MEPost          *sPost;
-
-        sPost = [mDataSource readerView:self postAtIndexPath:aIndexPath];
+        MEPost *sPost = [mDataSource readerView:self postAtIndexPath:aIndexPath];
 
         if (mShowsPostAuthor)
         {
             sCell = [METableViewCellFactory postCellWithAuthorForTableView:aTableView];
-
-            sImageView = (MEImageView *)[[sCell contentView] viewWithTag:kPostCellFaceImageViewTag];
-            [sImageView addTarget:self action:@selector(faceImageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
-            [[sImageView userInfo] setValue:[sPost author] forKey:@"author"];
-            [sImageView setImageWithURL:[[sPost author] faceImageURL]];
-
-            sLabel = (UILabel *)[[sCell contentView] viewWithTag:kPostCellAuthorNameLabelTag];
-            [sLabel setText:[[sPost author] nickname]];
         }
         else
         {
             sCell = [METableViewCellFactory postCellForTableView:aTableView];
         }
 
-        sImageView = (MEImageView *)[[sCell contentView] viewWithTag:kPostCellIconImageViewTag];
-        [sImageView addTarget:self action:@selector(iconImageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [[sImageView userInfo] setValue:sPost forKey:@"post"];
-        [sImageView setImageWithURL:[sPost iconURL]];
-
-        sBodyView = (MEPostBodyView *)[[sCell contentView] viewWithTag:kPostCellBodyViewTag];
-        [sBodyView setPost:sPost];
+        [sCell setPost:sPost withTarget:self];
     }
     else
     {

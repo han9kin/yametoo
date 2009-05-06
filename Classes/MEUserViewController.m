@@ -11,97 +11,9 @@
 #import "MEUserViewController.h"
 #import "MEUserDetailViewController.h"
 #import "MEPasscodeViewController.h"
+#import "METableViewCellFactory.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
-
-
-@interface MEUserTableViewCell : UITableViewCell
-{
-}
-
-@end
-
-@implementation MEUserTableViewCell
-
-+ (MEUserTableViewCell *)cellInTableView:(UITableView *)aTableView
-{
-    id sCell = [aTableView dequeueReusableCellWithIdentifier:@"User"];
-
-    if (!sCell)
-    {
-        sCell = [[[self alloc] initWithFrame:CGRectZero reuseIdentifier:@"User"] autorelease];
-
-        [sCell setAccessoryType:UITableViewCellAccessoryDetailDisclosureButton];
-
-        UIButton *sButton;
-        UILabel  *sLabel;
-
-        sButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [sButton setTag:1];
-        [sButton setFrame:CGRectMake(10, 15, 14, 14)];
-        [[sCell contentView] addSubview:sButton];
-
-        sLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 11, 210, 21)];
-        [sLabel setTag:2];
-        [sLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
-        [sLabel setHighlightedTextColor:[UIColor whiteColor]];
-        [[sCell contentView] addSubview:sLabel];
-        [sLabel release];
-
-        sButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [sButton setTag:3];
-        [sButton setFrame:CGRectMake(245, 14, 11, 15)];
-        [[sCell contentView] addSubview:sButton];
-    }
-
-    return sCell;
-}
-
-- (UIButton *)selectedImageButton
-{
-    return (UIButton *)[[self contentView] viewWithTag:1];
-}
-
-- (UILabel *)nameLabel
-{
-    return (UILabel *)[[self contentView] viewWithTag:2];
-}
-
-- (UIButton *)lockedImageButton
-{
-    return (UIButton *)[[self contentView] viewWithTag:3];
-}
-
-- (void)setClient:(MEClient *)aClient
-{
-    [[self nameLabel] setText:[aClient userID]];
-
-    if (aClient == [MEClientStore currentClient])
-    {
-        [[self selectedImageButton] setBackgroundImage:[UIImage imageNamed:@"checkmark_normal.png"] forState:UIControlStateNormal];
-        [[self selectedImageButton] setBackgroundImage:[UIImage imageNamed:@"checkmark_highlighted.png"] forState:UIControlStateHighlighted];
-        [[self nameLabel] setTextColor:[UIColor colorWithRed:(50 / 255.0) green:(79 / 255.0) blue:(133 / 255.0) alpha:1.0]];
-    }
-    else
-    {
-        [[self selectedImageButton] setBackgroundImage:nil forState:UIControlStateNormal];
-        [[self selectedImageButton] setBackgroundImage:nil forState:UIControlStateHighlighted];
-        [[self nameLabel] setTextColor:[UIColor blackColor]];
-    }
-
-    if ([aClient hasPasscode])
-    {
-        [[self lockedImageButton] setBackgroundImage:[UIImage imageNamed:@"locked_normal.png"] forState:UIControlStateNormal];
-        [[self lockedImageButton] setBackgroundImage:[UIImage imageNamed:@"locked_highlighted.png"] forState:UIControlStateHighlighted];
-    }
-    else
-    {
-        [[self lockedImageButton] setBackgroundImage:nil forState:UIControlStateNormal];
-        [[self lockedImageButton] setBackgroundImage:nil forState:UIControlStateHighlighted];
-    }
-}
-
-@end
 
 
 @implementation MEUserViewController
@@ -213,11 +125,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    NSArray *sClients = [MEClientStore clients];
+    UITableViewCell *sCell;
+    NSArray         *sClients;
+
+    sClients = [MEClientStore clients];
 
     if ([aIndexPath row] < [sClients count])
     {
-        MEUserTableViewCell *sCell = [MEUserTableViewCell cellInTableView:aTableView];
+        sCell = [METableViewCellFactory clientCellForTableView:aTableView];
 
         [sCell setClient:[sClients objectAtIndex:[aIndexPath row]]];
 
@@ -225,16 +140,9 @@
     }
     else
     {
-        UITableViewCell *sCell = [aTableView dequeueReusableCellWithIdentifier:@"Button"];
+        sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
 
-        if (!sCell)
-        {
-            sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Button"] autorelease];
-
-            [sCell setIndentationLevel:1];
-            [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-        }
-
+        [sCell setIndentationLevel:1];
         [sCell setText:NSLocalizedString(@"Other...", @"")];
 
         return sCell;

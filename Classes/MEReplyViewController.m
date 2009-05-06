@@ -157,57 +157,14 @@
 }
 
 
-#define kCommentTextWidth   240
-#define kFaceImageSize      44
-
-
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    UITableViewCell    *sResult    = nil;
-    MEAttributedLabel  *sBodyLabel;
-    UIView             *sFrame;
-    MEImageView        *sImageView;
-    MEComment          *sComment   = [mComments objectAtIndex:[aIndexPath row]];
-    MEAttributedString *sBody      = [sComment body];
-    MEUser             *sUser      = [sComment author];
-    NSURL              *sFaceImage = [sUser faceImageURL];
-    MEUser             *sPostOwner = [mPost author];
-    BOOL                sIsSameUser;
-    CGRect              sTextRect;
-    CGRect              sImageRect;
-    CGRect              sFrameRect;
+    UITableViewCell *sResult  = nil;
+    MEComment       *sComment = [mComments objectAtIndex:[aIndexPath row]];
 
-    sIsSameUser = (sUser == sPostOwner) ? YES : NO;
+    sResult = [METableViewCellFactory commentCellForTableView:aTableView];
 
-    sResult    = [METableViewCellFactory commentCellForTableView:aTableView];
-    sBodyLabel = (MEAttributedLabel *)[[sResult contentView] viewWithTag:kCommentCellBodyLabelTag];
-    sImageView = (MEImageView *)[[sResult contentView] viewWithTag:kCommentCellFaceImageViewTag];
-    sFrame     = (UIView *)[[sResult contentView] viewWithTag:kCommentCellFrameViewTag];
-
-    if (sIsSameUser)
-    {
-        sTextRect  = CGRectMake(10, 10, kCommentTextWidth, 0);
-        sImageRect = CGRectMake(266, 10, kFaceImageSize, kFaceImageSize);
-    }
-    else
-    {
-        sTextRect = CGRectMake(70, 10, kCommentTextWidth, 0);
-        sImageRect = CGRectMake(10, 10, kFaceImageSize, kFaceImageSize);
-    }
-
-    [sBodyLabel setFrame:sTextRect];
-    [sBodyLabel setAttributedText:sBody];
-    [sBodyLabel sizeToFit];
-
-    [sImageView setFrame:sImageRect];
-    [sImageView setImageWithURL:sFaceImage];
-
-    sFrameRect = sImageRect;
-    sFrameRect.origin.x    -= 1;
-    sFrameRect.origin.y    -= 1;
-    sFrameRect.size.width  += 2;
-    sFrameRect.size.height += 2;
-    [sFrame setFrame:sFrameRect];
+    [sResult setComment:sComment isOwners:(([sComment author] == [mPost author]) ? YES : NO)];
 
     return sResult;
 }
@@ -225,8 +182,8 @@
     CGSize              sSize;
 
     sResult  = 10;
-    sSize    = [sCommentStr sizeForWidth:240];
-    sResult += (sSize.height > kFaceImageSize) ? sSize.height : kFaceImageSize;
+    sSize    = [sCommentStr sizeForWidth:kCommentBodyWidth];
+    sResult += (sSize.height > kIconImageSize) ? sSize.height : kIconImageSize;
     sResult += 10;
 
     return sResult;

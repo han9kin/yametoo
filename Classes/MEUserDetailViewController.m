@@ -10,117 +10,9 @@
 #import "UIViewController+MEAdditions.h"
 #import "MEUserDetailViewController.h"
 #import "MEPasscodeViewController.h"
+#import "METableViewCellFactory.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
-
-
-@interface UITableViewCell (ContentViewAccessing)
-@end
-
-@implementation UITableViewCell (ContentViewAccessing)
-
-- (UILabel *)titleLabel
-{
-    return (UILabel *)[[self contentView] viewWithTag:1];
-}
-
-- (UITextField *)textField
-{
-    return (UITextField *)[[self contentView] viewWithTag:2];
-}
-
-- (UISwitch *)switch
-{
-    return (UISwitch *)[self accessoryView];
-}
-
-@end
-
-
-@interface MEUserDetailViewController (Private)
-@end
-
-@implementation MEUserDetailViewController (Private)
-
-- (UITableViewCell *)textFieldCellForTableView:(UITableView *)aTableView
-{
-    UILabel         *sLabel;
-    UITextField     *sTextField;
-    UITableViewCell *sCell = [aTableView dequeueReusableCellWithIdentifier:@"InputField"];
-
-    if (!sCell)
-    {
-        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"InputField"] autorelease];
-
-        [sCell setSelectionStyle:UITableViewCellSelectionStyleNone];
-
-        sLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 11, 100, 21)];
-        [sLabel setTag:1];
-        [sLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
-        [[sCell contentView] addSubview:sLabel];
-        [sLabel release];
-
-        sTextField = [[UITextField alloc] initWithFrame:CGRectMake(120, 6, 180, 31)];
-        [sTextField setTag:2];
-        [sTextField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-        [sTextField setBorderStyle:UITextBorderStyleNone];
-        [sTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
-        [sTextField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-        [sTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
-        [sTextField setEnablesReturnKeyAutomatically:YES];
-        [sTextField setDelegate:self];
-        [[sCell contentView] addSubview:sTextField];
-        [sTextField release];
-    }
-
-    return sCell;
-}
-
-- (UITableViewCell *)switchCellForTableView:(UITableView *)aTableView
-{
-    UISwitch        *sSwitch;
-    UITableViewCell *sCell = [aTableView dequeueReusableCellWithIdentifier:@"Switch"];
-
-    if (!sCell)
-    {
-        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Switch"] autorelease];
-
-        [sCell setSelectionStyle:UITableViewCellSelectionStyleNone];
-
-        sSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-        [sCell setAccessoryView:sSwitch];
-        [sSwitch release];
-    }
-
-    return sCell;
-}
-
-- (UITableViewCell *)buttonCellForTableView:(UITableView *)aTableView disabled:(BOOL)aDisabled
-{
-    UITableViewCell *sCell = [aTableView dequeueReusableCellWithIdentifier:@"Button"];
-
-    if (!sCell)
-    {
-        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Button"] autorelease];
-
-        [sCell setTextAlignment:UITextAlignmentCenter];
-    }
-
-    if (aDisabled)
-    {
-        [sCell setTextColor:[UIColor lightGrayColor]];
-        [sCell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    }
-    else
-    {
-        [sCell setTextColor:[UIColor blackColor]];
-        [sCell setSelectionStyle:UITableViewCellSelectionStyleBlue];
-    }
-
-    return sCell;
-}
-
-@end
 
 
 @implementation MEUserDetailViewController
@@ -422,24 +314,27 @@
         switch ([aIndexPath section])
         {
             case 0:
-                sCell = [self buttonCellForTableView:aTableView disabled:[mUserID isEqualToString:[[MEClientStore currentClient] userID]]];
+                sCell = [METableViewCellFactory buttonCellForTableView:aTableView];
+                [sCell setDisabled:[mUserID isEqualToString:[[MEClientStore currentClient] userID]]];
                 [sCell setText:NSLocalizedString(@"Delete this User", @"")];
                 break;
 
             case 1:
-                sCell = [self textFieldCellForTableView:aTableView];
-                [[sCell titleLabel] setText:NSLocalizedString(@"User Key", @"")];
+                sCell = [METableViewCellFactory textFieldCellForTableView:aTableView];
+                [sCell setTitleText:NSLocalizedString(@"User Key", @"")];
 
                 mUserKeyField = [sCell textField];
                 [mUserKeyField setKeyboardType:UIKeyboardTypeNumberPad];
                 [mUserKeyField setReturnKeyType:UIReturnKeyJoin];
                 [mUserKeyField setPlaceholder:NSLocalizedString(@"me2API User Key", @"")];
+                [mUserKeyField setDelegate:self];
                 [mUserKeyField becomeFirstResponder];
                 break;
 
             case 2:
-                sCell = [self switchCellForTableView:aTableView];
+                sCell = [METableViewCellFactory switchCellForTableView:aTableView];
                 [sCell setText:NSLocalizedString(@"Passcode Lock", @"")];
+
                 mPasscodeSwitch = [sCell switch];
                 [mPasscodeSwitch setOn:[[MEClientStore clientForUserID:mUserID] hasPasscode]];
                 break;
@@ -450,32 +345,35 @@
         switch ([aIndexPath section])
         {
             case 0:
-                sCell = [self textFieldCellForTableView:aTableView];
+                sCell = [METableViewCellFactory textFieldCellForTableView:aTableView];
 
                 if ([aIndexPath row] == 0)
                 {
-                    [[sCell titleLabel] setText:NSLocalizedString(@"User ID", @"")];
+                    [sCell setTitleText:NSLocalizedString(@"User ID", @"")];
 
                     mUserIDField = [sCell textField];
                     [mUserIDField setKeyboardType:UIKeyboardTypeASCIICapable];
                     [mUserIDField setReturnKeyType:UIReturnKeyNext];
                     [mUserIDField setPlaceholder:NSLocalizedString(@"me2DAY ID", @"")];
+                    [mUserIDField setDelegate:self];
                     [mUserIDField becomeFirstResponder];
                 }
                 else if ([aIndexPath row] == 1)
                 {
-                    [[sCell titleLabel] setText:NSLocalizedString(@"User Key", @"")];
+                    [sCell setTitleText:NSLocalizedString(@"User Key", @"")];
 
                     mUserKeyField = [sCell textField];
                     [mUserKeyField setKeyboardType:UIKeyboardTypeNumberPad];
                     [mUserKeyField setReturnKeyType:UIReturnKeyJoin];
                     [mUserKeyField setPlaceholder:NSLocalizedString(@"me2API User Key", @"")];
+                    [mUserKeyField setDelegate:self];
                 }
                 break;
 
             case 1:
-                sCell = [self switchCellForTableView:aTableView];
+                sCell = [METableViewCellFactory switchCellForTableView:aTableView];
                 [sCell setText:NSLocalizedString(@"Passcode Lock", @"")];
+
                 mPasscodeSwitch = [sCell switch];
                 [mPasscodeSwitch setOn:YES];
                 break;

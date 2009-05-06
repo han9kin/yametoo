@@ -27,8 +27,6 @@
 
     if (self)
     {
-        mFaceImageViews = [[NSMutableDictionary alloc] init];
-
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userListDidChangeNotification:) name:MEClientStoreUserListDidChangeNotification object:nil];
     }
 
@@ -42,12 +40,24 @@
 
     if (self)
     {
-        mFaceImageViews = [[NSMutableDictionary alloc] init];
-
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userListDidChangeNotification:) name:MEClientStoreUserListDidChangeNotification object:nil];
     }
 
     return self;
+}
+
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
+    [super dealloc];
+}
+
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
 }
 
 
@@ -59,18 +69,11 @@
 }
 
 
-- (void)didReceiveMemoryWarning
+- (void)viewDidAppear:(BOOL)aAnimated
 {
-    [super didReceiveMemoryWarning];
-}
+    [super viewDidAppear:aAnimated];
 
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [mFaceImageViews release];
-
-    [super dealloc];
+    [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:YES];
 }
 
 
@@ -80,7 +83,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
 {
-    return 3;
+    return 2;
 }
 
 
@@ -90,13 +93,9 @@
 
     if (aSection == 0)
     {
-        sResult = NSLocalizedString(@"Select the user to login", @"");
+        sResult = NSLocalizedString(@"Choose an user...", @"");
     }
     else if (aSection == 1)
-    {
-        sResult = NSLocalizedString(@"Add new user", @"");
-    }
-    else if (aSection == 2)
     {
         sResult = NSLocalizedString(@"About", @"");
     }
@@ -111,7 +110,7 @@
 
     if (aSection == 0)
     {
-        sResult = [[MEClientStore clients] count];
+        sResult = [[MEClientStore clients] count] + 1;
     }
     else
     {
@@ -128,42 +127,37 @@
 
     if ([aIndexPath section] == 0)
     {
-        MEImageView *sFaceImageView;
-        UILabel     *sUserIDLabel;
-        MEClient    *sClient;
-        MEUser      *sUser;
+        NSArray *sClients = [MEClientStore clients];
 
-        sResult        = [METableViewCellFactory loginUserCellForTableView:aTableView];
-        sFaceImageView = (MEImageView *)[[sResult contentView] viewWithTag:kLoginUserCellFaceImageViewTag];
-        sUserIDLabel   = (UILabel *)[[sResult contentView] viewWithTag:kLoginUserCellUserIDLabelTag];
-
-        sClient = [[MEClientStore clients] objectAtIndex:[aIndexPath row]];
-        sUser   = [MEUser userWithUserID:[sClient userID]];
-
-        [sUserIDLabel setText:[sClient userID]];
-
-        if (sUser)
+        if ([aIndexPath row] < [sClients count])
         {
-            [sFaceImageView setImageWithURL:[sUser faceImageURL]];
+            MEClient *sClient = [sClients objectAtIndex:[aIndexPath row]];
+            MEUser   *sUser   = [MEUser userWithUserID:[sClient userID]];
+
+            sResult = [METableViewCellFactory userCellForTableView:aTableView];
+
+            if (sUser)
+            {
+                [sResult setUser:sUser];
+            }
+            else
+            {
+                [sClient getPersonWithUserID:[sClient userID] delegate:self];
+            }
         }
         else
         {
-            [mFaceImageViews setObject:sFaceImageView forKey:[sClient userID]];
-            [sClient getPersonWithUserID:[sClient userID] delegate:self];
-        }
-    }
-    else if ([aIndexPath section] == 1)
-    {
-        sResult = [METableViewCellFactory addNewUserCellForTableView:aTableView];
+            sResult = [METableViewCellFactory defaultCellForTableView:aTableView];
 
-        [sResult setFont:[UIFont boldSystemFontOfSize:17.0]];
-        [sResult setText:NSLocalizedString(@"Other...", @"")];
+            [sResult setIndentationLevel:1];
+            [sResult setIndentationWidth:30];
+            [sResult setText:NSLocalizedString(@"Other...", @"")];
+        }
     }
     else
     {
-        sResult = [METableViewCellFactory addNewUserCellForTableView:aTableView];
+        sResult = [METableViewCellFactory defaultCellForTableView:aTableView];
 
-        [sResult setFont:[UIFont boldSystemFontOfSize:17.0]];
         [sResult setText:NSLocalizedString(@"About", @"")];
     }
 
@@ -195,16 +189,14 @@
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
     UIViewController *sViewController;
-    NSArray          *sClients;
-    MEClient         *sClient;
-
-    sClients = [MEClientStore clients];
 
     if ([aIndexPath section] == 0)
     {
+        NSArray *sClients = [MEClientStore clients];
+
         if ([aIndexPath row] < [sClients count])
         {
-            sClient = [sClients objectAtIndex:[aIndexPath row]];
+            MEClient *sClient = [sClients objectAtIndex:[aIndexPath row]];
 
             if ([sClient hasPasscode])
             {
@@ -217,12 +209,12 @@
                 [MEClientStore setCurrentUserID:[sClient userID]];
             }
         }
-    }
-    else if ([aIndexPath section] == 1)
-    {
-        sViewController = [[MEUserDetailViewController alloc] initWithUserID:nil parentViewController:self];
-        [self presentModalViewController:sViewController animated:YES];
-        [sViewController release];
+        else
+        {
+            sViewController = [[MEUserDetailViewController alloc] initWithUserID:nil parentViewController:self];
+            [self presentModalViewController:sViewController animated:YES];
+            [sViewController release];
+        }
     }
     else
     {
@@ -230,8 +222,6 @@
         [self presentModalViewController:sViewController animated:YES];
         [sViewController release];
     }
-
-    [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];
 }
 
 
@@ -243,10 +233,11 @@
 {
     if (aUser)
     {
-        MEImageView *sFaceImageView;
-
-        sFaceImageView = [mFaceImageViews objectForKey:[aUser userID]];
-        [sFaceImageView setImageWithURL:[aUser faceImageURL]];
+        [mTableView reloadData];
+    }
+    else
+    {
+        NSLog(@"MELoginViewController didGetPerson error: %@", aError);
     }
 }
 
