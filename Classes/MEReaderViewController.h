@@ -27,12 +27,16 @@ typedef enum MEReaderViewControllerType
     MEReaderView               *mReaderView;
     MEMediaView                *mMediaView;
 
-    NSTimer                    *mTimer;
     MEUser                     *mUser;
     NSMutableArray             *mPosts;
-    NSInteger                   mOffset;
-    MEClientGetPostsScope       mScope;
+    NSDate                     *mLastestDate;
+    NSTimer                    *mTimer;
+
     MEReaderViewControllerType  mType;
+    MEClientGetPostsScope       mScope;
+
+    NSInteger                   mMoreOffset;
+    NSInteger                   mUpdateOffset;
 }
 
 @property(nonatomic, assign) MEReaderViewControllerType type;

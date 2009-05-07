@@ -19,6 +19,9 @@
 #import "MEPost.h"
 
 
+#define kUpdateFetchCount 10
+
+
 static NSComparisonResult compareSectionByPubDate(NSArray *sPosts1, NSArray *sPosts2, void *aContext)
 {
     return [[[sPosts2 lastObject] pubDate] compare:[[sPosts1 lastObject] pubDate]];
@@ -68,18 +71,30 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 }
 
 
-- (void)addPosts:(NSArray *)aPostArray
+- (void)addPosts:(NSArray *)aPosts
 {
-    NSDateFormatter *sFormatter = [[NSDateFormatter alloc] init];
-    NSMutableArray  *sPostsOfDay;
-    MEPost          *sPost;
+    static NSDateFormatter *sFormatter = nil;
 
-    [sFormatter setDateStyle:kCFDateFormatterShortStyle];
+    NSMutableArray *sPostsOfDay;
+    MEPost         *sPost;
+    BOOL            sHaveNewPost = NO;
+    BOOL            sUpdated     = NO;
 
-    for (sPost in aPostArray)
+    if (!sFormatter)
     {
-        NSString       *sPostDateStr = [sFormatter stringFromDate:[sPost pubDate]];
-        BOOL            sIsAdded = NO;
+        sFormatter = [[NSDateFormatter alloc] init];
+        [sFormatter setDateStyle:kCFDateFormatterShortStyle];
+    }
+
+    if (![mPosts count])
+    {
+        sUpdated = YES;
+    }
+
+    for (sPost in aPosts)
+    {
+        NSString *sPostDateStr = [sFormatter stringFromDate:[sPost pubDate]];
+        BOOL      sAdded       = NO;
 
         for (sPostsOfDay in mPosts)
         {
@@ -93,18 +108,26 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
                 if (sIndex == NSNotFound)
                 {
                     [sPostsOfDay addObject:sPost];
+
+                    if ([mLastestDate laterDate:[sPost pubDate]] != mLastestDate)
+                    {
+                        [mLastestDate release];
+                        mLastestDate = [[sPost pubDate] retain];
+                        sHaveNewPost = YES;
+                    }
                 }
                 else
                 {
                     [sPostsOfDay replaceObjectAtIndex:sIndex withObject:sPost];
+                    sUpdated = YES;
                 }
 
-                sIsAdded = YES;
+                sAdded = YES;
                 break;
             }
         }
 
-        if (!sIsAdded)
+        if (!sAdded)
         {
             sPostsOfDay = [NSMutableArray array];
             [sPostsOfDay addObject:sPost];
@@ -112,14 +135,25 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
         }
     }
 
+    mMoreOffset = 0;
+
     for (sPostsOfDay in mPosts)
     {
+        mMoreOffset += [sPostsOfDay count];
         [sPostsOfDay sortUsingFunction:comparePostByPubDate context:NULL];
     }
 
     [mPosts sortUsingFunction:compareSectionByPubDate context:NULL];
 
-    [sFormatter release];
+    if (sHaveNewPost && !sUpdated)
+    {
+        MEClient *sClient = [MEClientStore currentClient];
+        NSString *sUserID = [sClient userID];
+
+        mUpdateOffset += kUpdateFetchCount;
+        [sClient getPostsWithUserID:sUserID scope:mScope offset:mUpdateOffset count:kUpdateFetchCount delegate:self];
+    }
+
     [mReaderView reloadData];
 }
 
@@ -243,14 +277,9 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
     [sClient getPostsWithUserID:sUserID scope:mScope offset:0 count:[MESettings initialFetchCount] delegate:self];
 
-    if (mOffset == 0)
-    {
-        mOffset = [MESettings initialFetchCount];
-    }
-
     if ([MESettings fetchInterval] > 0)
     {
-        mTimer = [NSTimer scheduledTimerWithTimeInterval:([MESettings fetchInterval] * 60) target:self selector:@selector(fetchTimerFired:) userInfo:nil repeats:YES];
+        mTimer = [NSTimer scheduledTimerWithTimeInterval:([MESettings fetchInterval] * 60) target:self selector:@selector(updateTimerFired:) userInfo:nil repeats:YES];
     }
 }
 
@@ -288,15 +317,13 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 }
 
 
-- (void)fetchTimerFired:(NSTimer *)aTimer
+- (void)updateTimerFired:(NSTimer *)aTimer
 {
-    MEClient *sClient;
-    NSString *sUserID;
+    MEClient *sClient = [MEClientStore currentClient];
+    NSString *sUserID = [sClient userID];
 
-    sClient = [MEClientStore currentClient];
-    sUserID = [sClient userID];
-
-    [sClient getPostsWithUserID:sUserID scope:mScope offset:0 count:[MESettings initialFetchCount] delegate:self];
+    mUpdateOffset = 0;
+    [sClient getPostsWithUserID:sUserID scope:mScope offset:mUpdateOffset count:kUpdateFetchCount delegate:self];
 }
 
 
@@ -401,9 +428,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     MEClient *sClient = [MEClientStore currentClient];
     NSString *sUserID = [sClient userID];
 
-    [sClient getPostsWithUserID:sUserID scope:mScope offset:mOffset count:[MESettings moreFetchCount] delegate:self];
-
-    mOffset += [MESettings moreFetchCount];
+    [sClient getPostsWithUserID:sUserID scope:mScope offset:mMoreOffset count:[MESettings moreFetchCount] delegate:self];
 }
 
 
