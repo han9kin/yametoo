@@ -44,6 +44,8 @@
 
     mTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     [mTimeLabel setFont:[MEPostBodyView tagFont]];
+    [mTimeLabel setTextAlignment:UITextAlignmentLeft];
+    [mTimeLabel setBackgroundColor:[UIColor clearColor]];
     [mTimeLabel setTextColor:[UIColor grayColor]];
     [mTimeLabel setHighlightedTextColor:[UIColor colorWithWhite:0.8 alpha:1.0]];
     [self addSubview:mTimeLabel];
@@ -51,8 +53,9 @@
 
     mCommentsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     [mCommentsLabel setFont:[MEPostBodyView tagFont]];
-    [mCommentsLabel setTextColor:[UIColor grayColor]];
     [mCommentsLabel setTextAlignment:UITextAlignmentRight];
+    [mCommentsLabel setBackgroundColor:[UIColor clearColor]];
+    [mCommentsLabel setTextColor:[UIColor grayColor]];
     [mCommentsLabel setHighlightedTextColor:[UIColor colorWithWhite:0.8 alpha:1.0]];
     [self addSubview:mCommentsLabel];
     [mCommentsLabel release];
@@ -69,6 +72,21 @@
 
 
 @implementation MEPostBodyView
+
+
++ (CGFloat)heightWithPost:(MEPost *)aPost
+{
+    CGFloat sHeight = 0;
+
+    sHeight += [[aPost body] sizeForWidth:kDefaultBodyWidth].height;
+    sHeight += kLabelSpacing;
+    sHeight += [[aPost tagsString] sizeWithFont:[MEPostBodyView tagFont] constrainedToSize:CGSizeMake(kDefaultBodyWidth, 1000) lineBreakMode:UILineBreakModeCharacterWrap].height;
+    sHeight += kLabelSpacing;
+    sHeight += kBottomLabelHeight;
+
+    return sHeight;
+}
+
 
 - (id)initWithCoder:(NSCoder *)aCoder
 {
@@ -100,17 +118,11 @@
 }
 
 
-+ (CGFloat)heightWithPost:(MEPost *)aPost
+- (void)setBackgroundColor:(UIColor *)aColor
 {
-    CGFloat sHeight = 0;
-
-    sHeight += [[aPost body] sizeForWidth:kDefaultBodyWidth].height;
-    sHeight += kLabelSpacing;
-    sHeight += [[aPost tagsString] sizeWithFont:[MEPostBodyView tagFont] constrainedToSize:CGSizeMake(kDefaultBodyWidth, 1000) lineBreakMode:UILineBreakModeCharacterWrap].height;
-    sHeight += kLabelSpacing;
-    sHeight += kBottomLabelHeight;
-
-    return sHeight;
+    [mBodyLabel setBackgroundColor:aColor];
+    [mTagsLabel setBackgroundColor:aColor];
+    [super setBackgroundColor:aColor];
 }
 
 
@@ -140,8 +152,8 @@
 
     sOffset += [mTagsLabel frame].size.height + kLabelSpacing;
 
-    [mTimeLabel setFrame:CGRectMake(0, sOffset, 120, kBottomLabelHeight)];
-    [mCommentsLabel setFrame:CGRectMake(130, sOffset, 120, kBottomLabelHeight)];
+    [mTimeLabel setFrame:CGRectMake(0, sOffset, mBodyWidth, kBottomLabelHeight)];
+    [mCommentsLabel setFrame:CGRectMake(0, sOffset, mBodyWidth, kBottomLabelHeight)];
 
     sRect             = [self frame];
     sRect.size.height = sOffset + 13;
