@@ -27,35 +27,54 @@
 #pragma mark alloc / init
 
 
+- (void)initializeVariables
+{
+    [self setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.8]];
+    
+    mImageRect = CGRectMake(20, 80, 280, 280);
+    
+    mIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [mIndicator setCenter:CGPointMake(160, 240)];
+    [mIndicator setHidden:YES];
+    
+    mFrameView = [[UIView alloc] initWithFrame:CGRectZero];
+    [mFrameView setBackgroundColor:[UIColor grayColor]];
+    
+    mImageView = [[MEImageView alloc] initWithFrame:CGRectZero];
+    [mImageView setDelegate:self];
+    
+    mCloseButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [mCloseButton setFrame:CGRectMake(230, 380, 70, 30)];
+    [mCloseButton setTitle:NSLocalizedString(@"Close", nil) forState:UIControlStateNormal];
+    [mCloseButton addTarget:self action:@selector(closeButtonTapped:) forControlEvents:UIControlEventTouchDown];
+    
+    [self addSubview:mIndicator];
+    [self addSubview:mFrameView];
+    [self addSubview:mImageView];
+    [self addSubview:mCloseButton];
+}
+
+
+- (id)initWithCoder:(NSCoder *)aCoder
+{
+    self = [super initWithCoder:aCoder];
+    
+    if (self)
+    {
+        [self initializeVariables];
+    }
+    
+    return self;
+}
+
+
 - (id)initWithFrame:(CGRect)aFrame
 {
     self = [super initWithFrame:aFrame];
 
     if (self)
     {
-        [self setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.8]];
-        
-        mImageRect = CGRectMake(20, 80, 280, 280);
-        
-        mIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        [mIndicator setCenter:CGPointMake(160, 240)];
-        [mIndicator setHidden:YES];
-        
-        mFrameView = [[UIView alloc] initWithFrame:CGRectZero];
-        [mFrameView setBackgroundColor:[UIColor grayColor]];
-        
-        mImageView = [[MEImageView alloc] initWithFrame:CGRectZero];
-        [mImageView setDelegate:self];
-        
-        mCloseButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [mCloseButton setFrame:CGRectMake(230, 380, 70, 30)];
-        [mCloseButton setTitle:@"Close" forState:UIControlStateNormal];
-        [mCloseButton addTarget:self action:@selector(closeButtonTapped:) forControlEvents:UIControlEventTouchDown];
-
-        [self addSubview:mIndicator];
-        [self addSubview:mFrameView];
-        [self addSubview:mImageView];
-        [self addSubview:mCloseButton];
+        [self initializeVariables];        
     }
 
     return self;

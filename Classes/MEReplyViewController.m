@@ -20,6 +20,7 @@
 #import "METableViewCellFactory.h"
 #import "MEPostBodyView.h"
 #import "MEAddCommentViewController.h"
+#import "MERoundBackView.h"
 
 
 @interface MEReplyViewController (Privates)
@@ -90,6 +91,21 @@
     [mPostBodyView   layoutIfNeeded];
     [mPostScrollView setContentSize:[mPostBodyView frame].size];
     [mTableView      setRowHeight:1000.0];
+
+/*    MERoundBackView *sRoundBackView = [[MERoundBackView alloc] initWithFrame:CGRectZero];
+
+    UITableViewCell *sCell = [METableViewCellFactory postCellForTableView:nil];
+    [sCell setBackgroundColor:[UIColor clearColor]];
+    [sCell setPost:mPost withTarget:nil];
+    [sCell setFrame:CGRectMake(0, 0, 320, sHeight)];
+    [sRoundBackView addSubview:sCell];
+    [sRoundBackView setFrame:CGRectMake(0, 0, 320, sHeight)];
+    [mTableView setTableHeaderView:sRoundBackView];
+    [sRoundBackView release];*/
+
+    CGFloat sHeight = [MEPostBodyView heightWithPost:mPost] + kPostCellBodyPadding * 2;
+    [mContainerView setFrame:CGRectMake(0, 0, 320, sHeight)];
+    [mTableView setTableHeaderView:mContainerView];
 }
 
 
@@ -118,8 +134,6 @@
 - (IBAction)closeButtonTapped:(id)aSender
 {
     [[self parentViewController] dismissModalViewControllerAnimated:NO];
-//    [[self view] removeFromSuperview];
-//    [self autorelease];
 }
 
 

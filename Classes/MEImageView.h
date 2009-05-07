@@ -21,7 +21,6 @@
 @property(nonatomic, assign)   id                   delegate;
 @property(nonatomic, readonly) NSMutableDictionary *userInfo;
 
-- (void)setDelegate:(id)aDelegate;
 - (void)setImageWithURL:(NSURL *)aURL;
 
 @end

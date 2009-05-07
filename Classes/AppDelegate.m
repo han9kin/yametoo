@@ -36,8 +36,6 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)aApplication
 {
-    [MEImageCache removeCachedImagesInDisk];
-
     NSNotificationCenter *sCenter = [NSNotificationCenter defaultCenter];
     [sCenter addObserver:self
                 selector:@selector(currentUserDidChangeNotification:)

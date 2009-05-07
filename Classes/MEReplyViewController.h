@@ -18,6 +18,7 @@
 @interface MEReplyViewController : UIViewController
 {
     IBOutlet UINavigationBar *mNaviBar;
+    IBOutlet UIView          *mContainerView;
     IBOutlet MEImageView     *mIconView;
     IBOutlet MEPostBodyView  *mPostBodyView;
     IBOutlet UIScrollView    *mPostScrollView;
