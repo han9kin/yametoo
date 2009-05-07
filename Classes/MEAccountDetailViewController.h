@@ -1,5 +1,5 @@
 /*
- *  MEUserDetailViewController.h
+ *  MEAccountDetailViewController.h
  *  yametoo
  *
  *  Created by han9kin on 09. 04. 17.
@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface MEUserDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIActionSheetDelegate>
+@interface MEAccountDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIActionSheetDelegate>
 {
     UITableView      *mTableView;
     UITextField      *mUserIDField;

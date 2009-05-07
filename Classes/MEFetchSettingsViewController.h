@@ -13,6 +13,9 @@
 @interface MEFetchSettingsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
     UITableView *mTableView;
+    NSInteger    mType;
 }
+
+- (id)initWithType:(NSInteger)aType;
 
 @end

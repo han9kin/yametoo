@@ -1,5 +1,5 @@
 /*
- *  MEUserDetailViewController.m
+ *  MEAccountDetailViewController.m
  *  yametoo
  *
  *  Created by han9kin on 09. 04. 17.
@@ -9,14 +9,14 @@
 
 #import "UIAlertView+MEAdditions.h"
 #import "UIViewController+MEAdditions.h"
-#import "MEUserDetailViewController.h"
+#import "MEAccountDetailViewController.h"
 #import "MEPasscodeViewController.h"
 #import "METableViewCellFactory.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 
 
-@implementation MEUserDetailViewController
+@implementation MEAccountDetailViewController
 
 - (id)initWithUserID:(NSString *)aUserID parentViewController:(UIViewController *)aParentViewController
 {

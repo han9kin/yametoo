@@ -15,6 +15,13 @@
 
 }
 
++ (NSString *)shortDescriptionForFetchInterval:(NSInteger)aValue;
++ (NSString *)longDescriptionForFetchInterval:(NSInteger)aValue;
++ (NSString *)descriptionForFetchCount:(NSInteger)aValue;
+
++ (NSInteger)fetchInterval;
++ (void)setFetchInterval:(NSInteger)aInterval;
+
 + (NSInteger)initialFetchCount;
 + (void)setInitialFetchCount:(NSInteger)aCount;
 

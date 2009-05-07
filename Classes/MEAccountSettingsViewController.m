@@ -1,5 +1,5 @@
 /*
- *  MEUserSettingsViewController.m
+ *  MEAccountSettingsViewController.m
  *  yametoo
  *
  *  Created by han9kin on 09. 04. 16.
@@ -8,15 +8,15 @@
  */
 
 #import "UIViewController+MEAdditions.h"
-#import "MEUserSettingsViewController.h"
-#import "MEUserDetailViewController.h"
+#import "MEAccountSettingsViewController.h"
+#import "MEAccountDetailViewController.h"
 #import "MEPasscodeViewController.h"
 #import "METableViewCellFactory.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 
 
-@implementation MEUserSettingsViewController
+@implementation MEAccountSettingsViewController
 
 - (id)init
 {
@@ -24,7 +24,7 @@
 
     if (self)
     {
-        [self setTitle:NSLocalizedString(@"User", @"")];
+        [self setTitle:NSLocalizedString(@"Account", @"")];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userListDidChange:) name:MEClientStoreUserListDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChange:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
@@ -91,7 +91,7 @@
     {
         UIViewController *sViewController;
 
-        sViewController = [[MEUserDetailViewController alloc] initWithUserID:[aClient userID] parentViewController:nil];
+        sViewController = [[MEAccountDetailViewController alloc] initWithUserID:[aClient userID] parentViewController:nil];
         [[self navigationController] pushViewController:sViewController animated:YES];
         [sViewController release];
     }
@@ -114,7 +114,7 @@
 
 - (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)aSection
 {
-    return NSLocalizedString(@"Choose an User...", @"");
+    return NSLocalizedString(@"Choose an Account...", @"");
 }
 
 
@@ -143,7 +143,7 @@
         sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
 
         [sCell setIndentationLevel:1];
-        [sCell setText:NSLocalizedString(@"Other...", @"")];
+        [sCell setText:NSLocalizedString(@"Add...", @"")];
 
         return sCell;
     }
@@ -170,7 +170,7 @@
         }
         else
         {
-            sViewController = [[MEUserDetailViewController alloc] initWithUserID:[[sClients objectAtIndex:[aIndexPath row]] userID] parentViewController:nil];
+            sViewController = [[MEAccountDetailViewController alloc] initWithUserID:[[sClients objectAtIndex:[aIndexPath row]] userID] parentViewController:nil];
             [[self navigationController] pushViewController:sViewController animated:YES];
             [sViewController release];
         }
@@ -211,7 +211,7 @@
     {
         UIViewController *sViewController;
 
-        sViewController = [[MEUserDetailViewController alloc] initWithUserID:nil parentViewController:self];
+        sViewController = [[MEAccountDetailViewController alloc] initWithUserID:nil parentViewController:self];
         [self presentModalViewController:sViewController animated:YES];
         [sViewController release];
 

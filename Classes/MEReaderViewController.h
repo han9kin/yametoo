@@ -27,6 +27,7 @@ typedef enum MEReaderViewControllerType
     MEReaderView               *mReaderView;
     MEMediaView                *mMediaView;
 
+    NSTimer                    *mTimer;
     MEUser                     *mUser;
     NSMutableArray             *mPosts;
     NSInteger                   mOffset;

@@ -13,7 +13,7 @@
 #import "MEImageView.h"
 #import "METableViewCellFactory.h"
 #import "MEPasscodeViewController.h"
-#import "MEUserDetailViewController.h"
+#import "MEAccountDetailViewController.h"
 #import "MEAboutViewController.h"
 #import "MEUser.h"
 
@@ -93,7 +93,7 @@
 
     if (aSection == 0)
     {
-        sResult = NSLocalizedString(@"Choose an user...", @"");
+        sResult = NSLocalizedString(@"Choose an Account...", @"");
     }
     else if (aSection == 1)
     {
@@ -211,7 +211,7 @@
         }
         else
         {
-            sViewController = [[MEUserDetailViewController alloc] initWithUserID:nil parentViewController:self];
+            sViewController = [[MEAccountDetailViewController alloc] initWithUserID:nil parentViewController:self];
             [self presentModalViewController:sViewController animated:YES];
             [sViewController release];
         }

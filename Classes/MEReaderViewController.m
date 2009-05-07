@@ -242,6 +242,24 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     }
 
     [sClient getPostsWithUserID:sUserID scope:mScope offset:0 count:[MESettings initialFetchCount] delegate:self];
+
+    if (mOffset == 0)
+    {
+        mOffset = [MESettings initialFetchCount];
+    }
+
+    if ([MESettings fetchInterval] > 0)
+    {
+        mTimer = [NSTimer scheduledTimerWithTimeInterval:([MESettings fetchInterval] * 60) target:self selector:@selector(fetchTimerFired:) userInfo:nil repeats:YES];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)aAnimated
+{
+    [super viewWillDisappear:aAnimated];
+
+    [mTimer invalidate];
+    mTimer = nil;
 }
 
 
@@ -267,6 +285,18 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     {
         NSAssert(0, @"invalid type");
     }
+}
+
+
+- (void)fetchTimerFired:(NSTimer *)aTimer
+{
+    MEClient *sClient;
+    NSString *sUserID;
+
+    sClient = [MEClientStore currentClient];
+    sUserID = [sClient userID];
+
+    [sClient getPostsWithUserID:sUserID scope:mScope offset:0 count:[MESettings initialFetchCount] delegate:self];
 }
 
 
@@ -371,9 +401,9 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     MEClient *sClient = [MEClientStore currentClient];
     NSString *sUserID = [sClient userID];
 
-    mOffset += [MESettings moreFetchCount];
-
     [sClient getPostsWithUserID:sUserID scope:mScope offset:mOffset count:[MESettings moreFetchCount] delegate:self];
+
+    mOffset += [MESettings moreFetchCount];
 }
 
 

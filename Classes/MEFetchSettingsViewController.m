@@ -14,16 +14,29 @@
 #import "MESettings.h"
 
 
+static NSInteger kValue[2][6] = {
+    {  1,  5, 10, 30,  60, 0 },
+    { 10, 20, 30, 50, 100, 0 }
+};
+
+
 @implementation MEFetchSettingsViewController
 
 
-- (id)init
+- (id)initWithType:(NSInteger)aType
 {
+    static NSString *sTitle[] = {
+        @"Fetch New Posts",
+        @"Number of Posts to Fetch",
+    };
+
     self = [super initWithNibName:nil bundle:nil];
 
     if (self)
     {
-        [self setTitle:NSLocalizedString(@"Fetch Post Data", @"")];
+        mType = aType;
+
+        [self setTitle:NSLocalizedString(sTitle[mType], @"")];
     }
 
     return self;
@@ -71,57 +84,66 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
 {
-    return 2;
+    static NSInteger sSections[2] = { 1, 2 };
+
+    return sSections[mType];
 }
 
 - (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)aSection
 {
-    static NSString *sTitle[] = {
-        @"First fetch",
-        @"Fetch more",
+    static NSString *sTitle[2][2] = {
+        {
+            nil,
+            nil,
+        },
+        {
+            @"First fetch",
+            @"Fetch more",
+        }
     };
 
-    return sTitle[aSection];
+    return sTitle[mType][aSection];
 }
 
 
 - (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)aSection
 {
-    return 5;
+    static NSInteger sRows[2] = { 6, 5 };
+    return sRows[mType];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    static NSString *sTitle[] = {
-        @"10 posts",
-        @"20 posts",
-        @"30 posts",
-        @"50 posts",
-        @"100 posts",
-    };
-    static NSInteger sValue[] = {
-        10,
-        20,
-        30,
-        50,
-        100,
-    };
-
     UITableViewCell *sCell;
+    NSString        *sText;
     NSInteger        sCurrentValue;
+    NSInteger        sRowValue;
+
+    sRowValue = kValue[mType][[aIndexPath row]];
+
+    if (mType == 0)
+    {
+        sText         = [MESettings longDescriptionForFetchInterval:sRowValue];
+        sCurrentValue = [MESettings fetchInterval];
+    }
+    else
+    {
+        sText = [MESettings descriptionForFetchCount:sRowValue];
+
+        if ([aIndexPath section] == 0)
+        {
+            sCurrentValue = [MESettings initialFetchCount];
+        }
+        else
+        {
+            sCurrentValue = [MESettings moreFetchCount];
+        }
+    }
 
     sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
+    [sCell setText:sText];
 
-    if ([aIndexPath section] == 0)
-    {
-        sCurrentValue = [MESettings initialFetchCount];
-    }
-    else if ([aIndexPath section] == 1)
-    {
-        sCurrentValue = [MESettings moreFetchCount];
-    }
-
-    if (sValue[[aIndexPath row]] == sCurrentValue)
+    if (sRowValue == sCurrentValue)
     {
         [sCell setAccessoryType:UITableViewCellAccessoryCheckmark];
         [sCell setTextColor:[UIColor selectedTextColor]];
@@ -132,8 +154,6 @@
         [sCell setTextColor:[UIColor blackColor]];
     }
 
-    [sCell setText:NSLocalizedString(sTitle[[aIndexPath row]], @"")];
-
     return sCell;
 }
 
@@ -143,37 +163,36 @@
 
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    static NSInteger sValue[] = {
-        10,
-        20,
-        30,
-        50,
-        100,
-    };
 
     NSIndexPath *sIndexPath = nil;
     NSInteger    sNewValue;
     NSInteger    sOldValue;
     NSInteger    i;
 
-    sNewValue = sValue[[aIndexPath row]];
+    sNewValue = kValue[mType][[aIndexPath row]];
 
-    switch ([aIndexPath section])
+    if (mType == 0)
     {
-        case 0:
+        sOldValue = [MESettings fetchInterval];
+        [MESettings setFetchInterval:sNewValue];
+    }
+    else
+    {
+        if ([aIndexPath section] == 0)
+        {
             sOldValue = [MESettings initialFetchCount];
             [MESettings setInitialFetchCount:sNewValue];
-            break;
-
-        case 1:
+        }
+        else
+        {
             sOldValue = [MESettings moreFetchCount];
             [MESettings setMoreFetchCount:sNewValue];
-            break;
+        }
     }
 
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < 6; i++)
     {
-        if (sValue[i] == sOldValue)
+        if (kValue[mType][i] == sOldValue)
         {
             sIndexPath = [NSIndexPath indexPathForRow:i inSection:[aIndexPath section]];
             break;

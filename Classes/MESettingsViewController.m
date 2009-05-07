@@ -9,51 +9,23 @@
 
 #import "UIViewController+MEAdditions.h"
 #import "MESettingsViewController.h"
-#import "MEUserSettingsViewController.h"
+#import "MEAccountSettingsViewController.h"
 #import "MEFetchSettingsViewController.h"
 #import "MEAboutViewController.h"
 #import "METableViewCellFactory.h"
+#import "MESettings.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 
 
 @implementation MESettingsViewController
 
-- (id)initWithCoder:(NSCoder *)aCoder
-{
-    self = [super initWithCoder:aCoder];
-
-    if (self)
-    {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChange:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
-    }
-
-    return self;
-}
-
-- (id)initWithNibName:(NSString *)aNibName bundle:(NSBundle *)aBundle
-{
-    self = [super initWithNibName:aNibName bundle:aBundle];
-
-    if (self)
-    {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChange:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
-    }
-
-    return self;
-}
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-
-    [super dealloc];
-}
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
 }
+
 
 - (void)loadView
 {
@@ -80,6 +52,14 @@
     mTableView = nil;
 }
 
+
+- (void)viewWillAppear:(BOOL)aAnimated
+{
+    [super viewWillAppear:aAnimated];
+
+    [mTableView reloadData];
+}
+
 - (void)viewDidAppear:(BOOL)aAnimated
 {
     [super viewDidAppear:aAnimated];
@@ -98,7 +78,9 @@
 
 - (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)aSection
 {
-    return 1;
+    NSInteger sRows[] = { 1, 2, 1 };
+
+    return sRows[aSection];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
@@ -109,20 +91,30 @@
     {
         case 0:
             sCell = [METableViewCellFactory detailCellForTableView:aTableView];
-            [sCell setTitleText:NSLocalizedString(@"User", @"")];
+            [sCell setTitleText:NSLocalizedString(@"Account", @"")];
             [sCell setDetailText:[[MEClientStore currentClient] userID]];
             break;
 
         case 1:
-            sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
+            if ([aIndexPath row] == 0)
+            {
+                sCell = [METableViewCellFactory detailCellForTableView:aTableView];
+                [sCell setTitleText:NSLocalizedString(@"Fetch New Posts", @"")];
+                [sCell setDetailText:[MESettings shortDescriptionForFetchInterval:[MESettings fetchInterval]]];
+            }
+            else
+            {
+                sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
+                [sCell setText:NSLocalizedString(@"Number of Posts to Fetch", @"")];
+            }
+
             [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-            [sCell setText:NSLocalizedString(@"Fetch Post Data", @"")];
             break;
 
         case 2:
             sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
-            [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
             [sCell setText:NSLocalizedString(@"About", @"")];
+            [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
             break;
 
         default:
@@ -144,11 +136,11 @@
     switch ([aIndexPath section])
     {
         case 0:
-            sViewController = [[MEUserSettingsViewController alloc] init];
+            sViewController = [[MEAccountSettingsViewController alloc] init];
             break;
 
         case 1:
-            sViewController = [[MEFetchSettingsViewController alloc] init];
+            sViewController = [[MEFetchSettingsViewController alloc] initWithType:[aIndexPath row]];
             break;
 
         case 2:
@@ -156,17 +148,10 @@
             break;
     }
 
+    [sViewController setHidesBottomBarWhenPushed:YES];
+
     [[self navigationController] pushViewController:sViewController animated:YES];
     [sViewController release];
-}
-
-
-#pragma mark MEClientStore Notification
-
-
-- (void)currentUserDidChange:(NSNotification *)aNotification
-{
-    [mTableView reloadData];
 }
 
 

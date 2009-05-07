@@ -56,9 +56,9 @@
 		CF528D540FA18609007C7A03 /* MEAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF528D530FA18609007C7A03 /* MEAttributedLabel.m */; };
 		CF5EE6B40F95DE8D004712FF /* NSNull+NilObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE6B30F95DE8D004712FF /* NSNull+NilObject.m */; };
 		CF5EE75D0F97162F004712FF /* MESettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE75C0F97162F004712FF /* MESettingsViewController.m */; };
-		CF5EE7610F97164A004712FF /* MEUserSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE7600F97164A004712FF /* MEUserSettingsViewController.m */; };
+		CF5EE7610F97164A004712FF /* MEAccountSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE7600F97164A004712FF /* MEAccountSettingsViewController.m */; };
 		CF5EE8160F981C4E004712FF /* MEClientStore.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE8150F981C4E004712FF /* MEClientStore.m */; };
-		CF5EE8650F98525E004712FF /* MEUserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE8640F98525E004712FF /* MEUserDetailViewController.m */; };
+		CF5EE8650F98525E004712FF /* MEAccountDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE8640F98525E004712FF /* MEAccountDetailViewController.m */; };
 		CF5EE9430F9BFEBD004712FF /* checkmark_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE93F0F9BFEBD004712FF /* checkmark_highlighted.png */; };
 		CF5EE9440F9BFEBD004712FF /* checkmark_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE9400F9BFEBD004712FF /* checkmark_normal.png */; };
 		CF5EE9450F9BFEBD004712FF /* locked_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE9410F9BFEBD004712FF /* locked_highlighted.png */; };
@@ -176,14 +176,14 @@
 		CF5EE6B30F95DE8D004712FF /* NSNull+NilObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNull+NilObject.m"; sourceTree = "<group>"; };
 		CF5EE75B0F97162F004712FF /* MESettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MESettingsViewController.h; sourceTree = "<group>"; };
 		CF5EE75C0F97162F004712FF /* MESettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESettingsViewController.m; sourceTree = "<group>"; };
-		CF5EE75F0F97164A004712FF /* MEUserSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEUserSettingsViewController.h; sourceTree = "<group>"; };
-		CF5EE7600F97164A004712FF /* MEUserSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEUserSettingsViewController.m; sourceTree = "<group>"; };
+		CF5EE75F0F97164A004712FF /* MEAccountSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEAccountSettingsViewController.h; sourceTree = "<group>"; };
+		CF5EE7600F97164A004712FF /* MEAccountSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEAccountSettingsViewController.m; sourceTree = "<group>"; };
 		CF5EE7A60F972266004712FF /* UIViewController+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MEAdditions.h"; sourceTree = "<group>"; };
 		CF5EE8140F981C4E004712FF /* MEClientStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEClientStore.h; sourceTree = "<group>"; };
 		CF5EE8150F981C4E004712FF /* MEClientStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEClientStore.m; sourceTree = "<group>"; };
 		CF5EE8270F981DA7004712FF /* ObjCUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjCUtil.h; sourceTree = "<group>"; };
-		CF5EE8630F98525E004712FF /* MEUserDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEUserDetailViewController.h; sourceTree = "<group>"; };
-		CF5EE8640F98525E004712FF /* MEUserDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEUserDetailViewController.m; sourceTree = "<group>"; };
+		CF5EE8630F98525E004712FF /* MEAccountDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEAccountDetailViewController.h; sourceTree = "<group>"; };
+		CF5EE8640F98525E004712FF /* MEAccountDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEAccountDetailViewController.m; sourceTree = "<group>"; };
 		CF5EE93F0F9BFEBD004712FF /* checkmark_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark_highlighted.png; sourceTree = "<group>"; };
 		CF5EE9400F9BFEBD004712FF /* checkmark_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark_normal.png; sourceTree = "<group>"; };
 		CF5EE9410F9BFEBD004712FF /* locked_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = locked_highlighted.png; sourceTree = "<group>"; };
@@ -567,8 +567,6 @@
 				2E7520FF0FA6CDA300B0D4FA /* MEUserInfoViewController.m */,
 				28D7ACF60DDB3853001CB0EB /* MEPostViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* MEPostViewController.m */,
-				CF5EE8630F98525E004712FF /* MEUserDetailViewController.h */,
-				CF5EE8640F98525E004712FF /* MEUserDetailViewController.m */,
 				CFE72DAD0FA7ED7100C54792 /* MEPasscodeViewController.h */,
 				CFE72DAE0FA7ED7100C54792 /* MEPasscodeViewController.m */,
 				2E7522510FA70A0000B0D4FA /* MEActionPopupViewController.h */,
@@ -593,12 +591,14 @@
 			children = (
 				CF5EE75B0F97162F004712FF /* MESettingsViewController.h */,
 				CF5EE75C0F97162F004712FF /* MESettingsViewController.m */,
-				CF5EE75F0F97164A004712FF /* MEUserSettingsViewController.h */,
-				CF5EE7600F97164A004712FF /* MEUserSettingsViewController.m */,
+				CF5EE75F0F97164A004712FF /* MEAccountSettingsViewController.h */,
+				CF5EE7600F97164A004712FF /* MEAccountSettingsViewController.m */,
 				CFE732240FB192D900C54792 /* MEFetchSettingsViewController.h */,
 				CFE732250FB192D900C54792 /* MEFetchSettingsViewController.m */,
 				CFE72E9C0FA863B900C54792 /* MEAboutViewController.h */,
 				CFE72E9D0FA863B900C54792 /* MEAboutViewController.m */,
+				CF5EE8630F98525E004712FF /* MEAccountDetailViewController.h */,
+				CF5EE8640F98525E004712FF /* MEAccountDetailViewController.m */,
 			);
 			name = "Settings View Controller";
 			sourceTree = "<group>";
@@ -694,9 +694,9 @@
 				2E2EB1350F96F35F005C54E5 /* EXFTagDefinitionHolder.m in Sources */,
 				2E2EB1360F96F35F005C54E5 /* EXFUtils.m in Sources */,
 				CF5EE75D0F97162F004712FF /* MESettingsViewController.m in Sources */,
-				CF5EE7610F97164A004712FF /* MEUserSettingsViewController.m in Sources */,
+				CF5EE7610F97164A004712FF /* MEAccountSettingsViewController.m in Sources */,
 				CF5EE8160F981C4E004712FF /* MEClientStore.m in Sources */,
-				CF5EE8650F98525E004712FF /* MEUserDetailViewController.m in Sources */,
+				CF5EE8650F98525E004712FF /* MEAccountDetailViewController.m in Sources */,
 				2E6101AF0F983AF60097AD3D /* METableViewCellFactory.m in Sources */,
 				2E6102280F985AA40097AD3D /* MEReaderHeadView.m in Sources */,
 				2E6102CC0F986B930097AD3D /* MEReaderView.m in Sources */,
