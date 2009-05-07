@@ -269,7 +269,7 @@ enum
         [[sCell contentView] addSubview:sImageView];
         [sImageView release];
 
-        sBodyView = [[MEPostBodyView alloc] initWithFrame:CGRectMake(60, kPostCellBodyPadding, 250, 0)];
+        sBodyView = [[MEPostBodyView alloc] initWithFrame:CGRectMake(60, kPostCellBodyPadding, 0, 0)];
         [sBodyView setTag:kPostBodyTag];
         [[sCell contentView] addSubview:sBodyView];
         [sBodyView release];
@@ -321,7 +321,7 @@ enum
         [[sCell contentView] addSubview:sLabel];
         [sLabel release];
 
-        sBodyView = [[MEPostBodyView alloc] initWithFrame:CGRectMake(60, kPostCellBodyPadding + 20, 250, 0)];
+        sBodyView = [[MEPostBodyView alloc] initWithFrame:CGRectMake(60, kPostCellBodyPadding + 20, 0, 0)];
         [sBodyView setTag:kPostBodyTag];
         [[sCell contentView] addSubview:sBodyView];
         [sBodyView release];

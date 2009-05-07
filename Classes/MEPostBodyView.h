@@ -19,6 +19,8 @@
     UILabel           *mTagsLabel;
     UILabel           *mTimeLabel;
     UILabel           *mCommentsLabel;
+
+    CGFloat            mBodyWidth;
 }
 
 + (CGFloat)heightWithPost:(MEPost *)aPost;

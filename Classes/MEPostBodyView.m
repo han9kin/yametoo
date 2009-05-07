@@ -13,7 +13,7 @@
 #import "MEAttributedString.h"
 
 
-#define kBodyWidth         250
+#define kDefaultBodyWidth  250
 #define kLabelSpacing      5
 #define kBottomLabelHeight 13
 
@@ -56,6 +56,13 @@
     [mCommentsLabel setHighlightedTextColor:[UIColor colorWithWhite:0.8 alpha:1.0]];
     [self addSubview:mCommentsLabel];
     [mCommentsLabel release];
+
+    mBodyWidth = [self frame].size.width;
+
+    if (mBodyWidth == 0)
+    {
+        mBodyWidth = kDefaultBodyWidth;
+    }
 }
 
 @end
@@ -97,9 +104,9 @@
 {
     CGFloat sHeight = 0;
 
-    sHeight += [[aPost body] sizeForWidth:kBodyWidth].height;
+    sHeight += [[aPost body] sizeForWidth:kDefaultBodyWidth].height;
     sHeight += kLabelSpacing;
-    sHeight += [[aPost tagsString] sizeWithFont:[MEPostBodyView tagFont] constrainedToSize:CGSizeMake(kBodyWidth, 1000) lineBreakMode:UILineBreakModeCharacterWrap].height;
+    sHeight += [[aPost tagsString] sizeWithFont:[MEPostBodyView tagFont] constrainedToSize:CGSizeMake(kDefaultBodyWidth, 1000) lineBreakMode:UILineBreakModeCharacterWrap].height;
     sHeight += kLabelSpacing;
     sHeight += kBottomLabelHeight;
 
@@ -123,12 +130,12 @@
     CGRect  sRect;
     CGFloat sOffset = 0;
 
-    [mBodyLabel setFrame:CGRectMake(0, sOffset, kBodyWidth, 0)];
+    [mBodyLabel setFrame:CGRectMake(0, sOffset, mBodyWidth, 0)];
     [mBodyLabel sizeToFit];
 
     sOffset += [mBodyLabel frame].size.height + kLabelSpacing;
 
-    [mTagsLabel setFrame:CGRectMake(0, sOffset, kBodyWidth, 0)];
+    [mTagsLabel setFrame:CGRectMake(0, sOffset, mBodyWidth, 0)];
     [mTagsLabel sizeToFit];
 
     sOffset += [mTagsLabel frame].size.height + kLabelSpacing;
