@@ -40,17 +40,14 @@
 
     [mBodyTextView setText:@""];
     [mBodyTextView setReturnKeyType:UIReturnKeyNext];
-    [mTagTextView  setText:@""];
-    [mTagTextView  setReturnKeyType:UIReturnKeyDone];
+    [mTagTextField setPlaceholder:@"태그를 쓰세요 (공백으로 구분)"];
+    [mTagTextField setReturnKeyType:UIReturnKeyDone];
 
     mCharCountLayer = [[CALayer layer] retain];
     [mCharCountLayer setHidden:YES];
     [mCharCountLayer setFrame:CGRectMake(200, 195, 0, 0)];
 
     [[[self view] layer] addSublayer:mCharCountLayer];
-
-
-    NSLog(@"model = %@", [[UIDevice currentDevice] model]);
 
     sModel = [[UIDevice currentDevice] model];
     if (![sModel isEqualToString:@"iPhone"])
@@ -86,9 +83,9 @@
     sImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
-    sFrame = CGRectMake(320 - sSize.width - 20, 195, sSize.width, sSize.height);
+    sFrame = CGRectMake(320 - sSize.width - 23, 191, sSize.width, sSize.height);
 
-    [mCharCountLayer setOpacity:0.8];
+    [mCharCountLayer setOpacity:0.7];
     [mCharCountLayer setContents:(id)[sImage CGImage]];
     [mCharCountLayer setFrame:sFrame];
 }
@@ -101,7 +98,7 @@
     [mTakePictureButton      setEnabled:aFlag];
     [mFromPhotoLibraryButton setEnabled:aFlag];
     [mBodyTextView           setEditable:aFlag];
-    [mTagTextView            setEditable:aFlag];
+    [mTagTextField           setEnabled:aFlag];
 }
 
 
@@ -138,13 +135,13 @@
 - (IBAction)postButtonTapped:(id)aSender
 {
     NSString *sBody = [mBodyTextView text];
-    NSString *sTags = [mTagTextView  text];
-
+    NSString *sTags = [mTagTextField text];
+    
     if ([sBody length] > 0)
     {
         [self setInterfaceEnabled:NO];
         [mBodyTextView resignFirstResponder];
-        [mTagTextView  resignFirstResponder];
+        [mTagTextField resignFirstResponder];
 
         [[MEClientStore currentClient] createPostWithBody:sBody tags:sTags icon:0 attachedImage:mAttachedImage delegate:self];
     }
@@ -203,11 +200,11 @@
     {
         if (aTextView == mBodyTextView)
         {
-            [mTagTextView becomeFirstResponder];
+            [mTagTextField becomeFirstResponder];
         }
         else
         {
-            [mTagTextView resignFirstResponder];
+            [mTagTextField resignFirstResponder];
         }
     }
     else if (aTextView == mBodyTextView)
@@ -224,6 +221,17 @@
 
 
 #pragma mark -
+#pragma mark UITextField Delegate
+
+
+- (BOOL)textFieldShouldReturn:(UITextField *)aTextField
+{
+    [mTagTextField resignFirstResponder];
+    return NO;
+}
+
+
+#pragma mark -
 #pragma mark MEClientDelegate
 
 
@@ -234,7 +242,7 @@
         [UIAlertView showError:aError];
         [self setInterfaceEnabled:YES];
         [mBodyTextView resignFirstResponder];
-        [mTagTextView resignFirstResponder];
+        [mTagTextField resignFirstResponder];
     }
     else
     {

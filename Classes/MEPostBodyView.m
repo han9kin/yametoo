@@ -133,15 +133,8 @@
 
 - (CGSize)sizeThatFits:(CGSize)aSize
 {
-    CGFloat sHeight = 0;
-
-    sHeight += [[mBodyLabel attributedText] sizeForWidth:aSize.width].height;
-    sHeight += kLabelSpacing;
-    sHeight += [[mTagsLabel text] sizeWithFont:[MEPostBodyView tagFont] constrainedToSize:CGSizeMake(aSize.width, 1000) lineBreakMode:UILineBreakModeCharacterWrap].height;
-    sHeight += kLabelSpacing;
-    sHeight += kBottomLabelHeight;
-
-    return CGSizeMake(aSize.width, sHeight);
+    [self layoutSubviews];
+    return [self frame].size;
 }
 
 - (void)layoutSubviews

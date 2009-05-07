@@ -17,7 +17,7 @@
     IBOutlet UIButton        *mTakePictureButton;
     IBOutlet UIButton        *mFromPhotoLibraryButton;
     IBOutlet UITextView      *mBodyTextView;
-    IBOutlet UITextView      *mTagTextView;
+    IBOutlet UITextField     *mTagTextField;
     IBOutlet UIImageView     *mAttachedImageView;
 
     CALayer *mCharCountLayer;

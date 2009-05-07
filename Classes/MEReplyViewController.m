@@ -88,22 +88,12 @@
     [sTopItem        setTitle:sTitleStr];
     [mIconView       setImageWithURL:[mPost iconURL]];
     [mPostBodyView   setPost:mPost];
-    [mPostBodyView   layoutIfNeeded];
+    [mPostBodyView   sizeToFit];
+    
     [mPostScrollView setContentSize:[mPostBodyView frame].size];
     [mTableView      setRowHeight:1000.0];
 
-/*    MERoundBackView *sRoundBackView = [[MERoundBackView alloc] initWithFrame:CGRectZero];
-
-    UITableViewCell *sCell = [METableViewCellFactory postCellForTableView:nil];
-    [sCell setBackgroundColor:[UIColor clearColor]];
-    [sCell setPost:mPost withTarget:nil];
-    [sCell setFrame:CGRectMake(0, 0, 320, sHeight)];
-    [sRoundBackView addSubview:sCell];
-    [sRoundBackView setFrame:CGRectMake(0, 0, 320, sHeight)];
-    [mTableView setTableHeaderView:sRoundBackView];
-    [sRoundBackView release];*/
-
-    CGFloat sHeight = [MEPostBodyView heightWithPost:mPost] + kPostCellBodyPadding * 2;
+    CGFloat sHeight = [mPostBodyView frame].size.height + kPostCellBodyPadding * 2;
     [mContainerView setFrame:CGRectMake(0, 0, 320, sHeight)];
     [mTableView setTableHeaderView:mContainerView];
 }
