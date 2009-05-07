@@ -76,11 +76,16 @@
 
 + (CGFloat)heightWithPost:(MEPost *)aPost
 {
+    return [self heightWithPost:aPost forWidth:kDefaultBodyWidth];
+}
+
++ (CGFloat)heightWithPost:(MEPost *)aPost forWidth:(CGFloat)aWidth
+{
     CGFloat sHeight = 0;
 
-    sHeight += [[aPost body] sizeForWidth:kDefaultBodyWidth].height;
+    sHeight += [[aPost body] sizeForWidth:aWidth].height;
     sHeight += kLabelSpacing;
-    sHeight += [[aPost tagsString] sizeWithFont:[MEPostBodyView tagFont] constrainedToSize:CGSizeMake(kDefaultBodyWidth, 1000) lineBreakMode:UILineBreakModeCharacterWrap].height;
+    sHeight += [[aPost tagsString] sizeWithFont:[MEPostBodyView tagFont] constrainedToSize:CGSizeMake(aWidth, 1000) lineBreakMode:UILineBreakModeCharacterWrap].height;
     sHeight += kLabelSpacing;
     sHeight += kBottomLabelHeight;
 
@@ -122,20 +127,22 @@
 {
     [mBodyLabel setBackgroundColor:aColor];
     [mTagsLabel setBackgroundColor:aColor];
+
     [super setBackgroundColor:aColor];
 }
 
-
-- (void)setPost:(MEPost *)aPost
+- (CGSize)sizeThatFits:(CGSize)aSize
 {
-    [mBodyLabel setAttributedText:[aPost body]];
-    [mTagsLabel setText:[aPost tagsString]];
-    [mTimeLabel setText:[aPost pubTimeString]];
-    [mCommentsLabel setText:[NSString stringWithFormat:NSLocalizedString(@"Comments (%d)", @""), [aPost commentsCount]]];
+    CGFloat sHeight = 0;
 
-    [self setNeedsLayout];
+    sHeight += [[mBodyLabel attributedText] sizeForWidth:aSize.width].height;
+    sHeight += kLabelSpacing;
+    sHeight += [[mTagsLabel text] sizeWithFont:[MEPostBodyView tagFont] constrainedToSize:CGSizeMake(aSize.width, 1000) lineBreakMode:UILineBreakModeCharacterWrap].height;
+    sHeight += kLabelSpacing;
+    sHeight += kBottomLabelHeight;
+
+    return CGSizeMake(aSize.width, sHeight);
 }
-
 
 - (void)layoutSubviews
 {
@@ -159,6 +166,17 @@
     sRect.size.height = sOffset + 13;
 
     [self setFrame:sRect];
+}
+
+
+- (void)setPost:(MEPost *)aPost
+{
+    [mBodyLabel setAttributedText:[aPost body]];
+    [mTagsLabel setText:[aPost tagsString]];
+    [mTimeLabel setText:[aPost pubTimeString]];
+    [mCommentsLabel setText:[NSString stringWithFormat:NSLocalizedString(@"Comments (%d)", @""), [aPost commentsCount]]];
+
+    [self setNeedsLayout];
 }
 
 

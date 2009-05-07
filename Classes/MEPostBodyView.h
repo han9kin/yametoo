@@ -24,6 +24,7 @@
 }
 
 + (CGFloat)heightWithPost:(MEPost *)aPost;
++ (CGFloat)heightWithPost:(MEPost *)aPost forWidth:(CGFloat)aWidth;
 
 - (void)setPost:(MEPost *)aPost;
 
