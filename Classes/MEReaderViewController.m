@@ -15,7 +15,6 @@
 #import "MEReplyViewController.h"
 #import "MEMediaView.h"
 #import "MESettings.h"
-#import "MEClientStore.h"
 #import "MEPost.h"
 
 
@@ -109,7 +108,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
                 {
                     [sPostsOfDay addObject:sPost];
 
-                    if ([mLastestDate laterDate:[sPost pubDate]] != mLastestDate)
+                    if ([[sPost pubDate] laterDate:mLastestDate] != mLastestDate)
                     {
                         [mLastestDate release];
                         mLastestDate = [[sPost pubDate] retain];
@@ -147,11 +146,8 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
     if (sHaveNewPost && !sUpdated)
     {
-        MEClient *sClient = [MEClientStore currentClient];
-        NSString *sUserID = [sClient userID];
-
         mUpdateOffset += kUpdateFetchCount;
-        [sClient getPostsWithUserID:sUserID scope:mScope offset:mUpdateOffset count:kUpdateFetchCount delegate:self];
+        [self fetchFromOffset:mUpdateOffset count:kUpdateFetchCount];
     }
 
     [mReaderView reloadData];
@@ -170,8 +166,6 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     if (self)
     {
         mPosts = [[NSMutableArray alloc] init];
-
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChange:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
     }
 
     return self;
@@ -184,8 +178,6 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     if (self)
     {
         mPosts = [[NSMutableArray alloc] init];
-
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChange:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
     }
 
     return self;
@@ -193,12 +185,11 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+    [mTimer invalidate];
     [mMediaView release];
-    [mUser release];
+    [mTitle release];
     [mPosts release];
-
+    [mLastestDate release];
     [super dealloc];
 }
 
@@ -234,7 +225,6 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     [mTitleLabel release];
 
     mReaderView = [[MEReaderView alloc] initWithFrame:CGRectMake(0, 25, 320, 386)];
-    [mReaderView setShowsPostAuthor:((mType == kMEReaderViewControllerTypeMyFriends) ? YES : NO)];
     [mReaderView setDataSource:self];
     [mReaderView setDelegate:self];
     [[self view] addSubview:mReaderView];
@@ -242,6 +232,8 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
     mMediaView = [[MEMediaView alloc] initWithFrame:CGRectZero];
     [mMediaView setFrame:CGRectMake(0, 0, 320, 480)];
+
+    [self configureReaderView:mReaderView];
 }
 
 - (void)viewDidUnload
@@ -259,23 +251,17 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 {
     [super viewDidAppear:aAnimated];
 
-    MEClient *sClient;
-    NSString *sUserID;
+    [mTitleLabel setText:mTitle];
 
-    sClient = [MEClientStore currentClient];
-    sUserID = [sClient userID];
-
-    if (mType == kMEReaderViewControllerTypeMyMetoo)
+    if ([mPosts count])
     {
-        [mTitleLabel setText:[NSString stringWithFormat:NSLocalizedString(@"%@'s me2day", @""), sUserID]];
-        [sClient getPersonWithUserID:sUserID delegate:self];
+        mUpdateOffset = 0;
+        [self fetchFromOffset:0 count:kUpdateFetchCount];
     }
-    else if (mType == kMEReaderViewControllerTypeMyFriends)
+    else
     {
-        [mTitleLabel setText:[NSString stringWithFormat:NSLocalizedString(@"%@'s friends", @""), sUserID]];
+        [self fetchFromOffset:0 count:[MESettings initialFetchCount]];
     }
-
-    [sClient getPostsWithUserID:sUserID scope:mScope offset:0 count:[MESettings initialFetchCount] delegate:self];
 
     if ([MESettings fetchInterval] > 0)
     {
@@ -292,58 +278,45 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 }
 
 
-- (MEReaderViewControllerType)type
+- (void)setTitle:(NSString *)aTitle
 {
-    return mType;
+    if (mTitle != aTitle)
+    {
+        [mTitle release];
+        mTitle = [aTitle copy];
+    }
 }
 
 
-- (void)setType:(MEReaderViewControllerType)aType
+- (void)refreshData
 {
-    mType = aType;
+    [mPosts removeAllObjects];
+}
 
-    if (mType == kMEReaderViewControllerTypeMyMetoo)
-    {
-        mScope = kMEClientGetPostsScopeAll;
-    }
-    else if (mType == kMEReaderViewControllerTypeMyFriends)
-    {
-        mScope = kMEClientGetPostsScopeFriendAll;
-    }
-    else
-    {
-        NSAssert(0, @"invalid type");
-    }
+- (void)reloadData
+{
+    [mReaderView reloadData];
+}
+
+
+- (void)configureReaderView:(MEReaderView *)aReaderView
+{
+}
+
+- (void)fetchFromOffset:(NSInteger)aOffset count:(NSInteger)aCount
+{
 }
 
 
 - (void)updateTimerFired:(NSTimer *)aTimer
 {
-    MEClient *sClient = [MEClientStore currentClient];
-    NSString *sUserID = [sClient userID];
-
     mUpdateOffset = 0;
-    [sClient getPostsWithUserID:sUserID scope:mScope offset:mUpdateOffset count:kUpdateFetchCount delegate:self];
+    [self fetchFromOffset:0 count:kUpdateFetchCount];
 }
 
 
 #pragma mark -
 #pragma mark MEClientDelegate
-
-
-- (void)client:(MEClient *)aClient didGetPerson:(MEUser *)aUser error:(NSError *)aError
-{
-    MEClient *sClient = [MEClientStore currentClient];
-    NSString *sUserID = [sClient userID];
-
-    if ([sUserID isEqualToString:[aUser userID]] && (mUser != aUser))
-    {
-        [mUser release];
-        mUser = [aUser retain];
-
-        [mReaderView reloadData];
-    }
-}
 
 
 - (void)client:(MEClient *)aClient didGetPosts:(NSArray *)aPosts error:(NSError *)aError
@@ -361,12 +334,6 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 #pragma mark -
 #pragma mark MEReaderViewDataSource
-
-
-- (MEUser *)authorOfPostsInReaderView:(MEReaderView *)aReaderView
-{
-    return mUser;
-}
 
 
 - (NSInteger)numberOfSectionsInReaderView:(MEReaderView *)aReaderView
@@ -425,10 +392,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 - (void)readerViewDidTapFetchMoreButton:(MEReaderView *)aReaderView
 {
-    MEClient *sClient = [MEClientStore currentClient];
-    NSString *sUserID = [sClient userID];
-
-    [sClient getPostsWithUserID:sUserID scope:mScope offset:mMoreOffset count:[MESettings moreFetchCount] delegate:self];
+    [self fetchFromOffset:mMoreOffset count:[MESettings moreFetchCount]];
 }
 
 
@@ -463,22 +427,8 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
     sReplyViewController = [[MEReplyViewController alloc] initWithNibName:@"MEReplyViewController" bundle:nil];
     [sReplyViewController setPost:sPost];
-//    [[self view] addSubview:[sReplyViewController view]];
     [self presentModalViewController:sReplyViewController animated:NO];
     [sReplyViewController release];
-}
-
-
-#pragma mark -
-#pragma mark MEClientStore Notifications
-
-
-- (void)currentUserDidChange:(NSNotification *)aNotification
-{
-    [mUser release];
-    mUser = nil;
-
-    [mPosts removeAllObjects];
 }
 
 

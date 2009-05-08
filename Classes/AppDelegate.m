@@ -42,9 +42,6 @@
                     name:MEClientStoreCurrentUserDidChangeNotification
                   object:nil];
 
-    [(MEReaderViewController *)[[mViewController viewControllers] objectAtIndex:0] setType:kMEReaderViewControllerTypeMyMetoo];
-    [(MEReaderViewController *)[[mViewController viewControllers] objectAtIndex:1] setType:kMEReaderViewControllerTypeMyFriends];
-
     mLoginViewController = [[MELoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
     [[mLoginViewController view] setFrame:CGRectMake(0, 20, 320, 460)];
     [mWindow addSubview:[mLoginViewController view]];
