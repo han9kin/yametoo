@@ -52,6 +52,7 @@
 - (UISwitch *)switch;
 
 - (void)setUser:(MEUser *)aUser;
+- (void)setUserID:(NSString *)aUserID;
 - (void)setClient:(MEClient *)aClient;
 - (void)setPost:(MEPost *)aPost withTarget:(id)aTarget;
 - (void)setComment:(MEComment *)aComment isOwners:(BOOL)aOwners;

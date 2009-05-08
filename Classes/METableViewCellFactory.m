@@ -421,6 +421,13 @@ enum
 }
 
 
+- (void)setUserID:(NSString *)aUserID
+{
+    [(MEImageView *)[[self contentView] viewWithTag:kImageTag] setImageWithURL:nil];
+    [(UILabel *)[[self contentView] viewWithTag:kTitleTag] setText:aUserID];
+}
+
+
 - (void)setClient:(MEClient *)aClient
 {
     UILabel  *sLabel     = (UILabel *)[[self contentView] viewWithTag:kTitleTag];

@@ -88,41 +88,33 @@
 
 - (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)aSection
 {
-    NSString *sResult = nil;
-
     if (aSection == 0)
     {
-        sResult = NSLocalizedString(@"Choose an Account...", @"");
+        return NSLocalizedString(@"Choose an Account...", @"");
     }
-    else if (aSection == 1)
+    else
     {
-        sResult = NSLocalizedString(@"About", @"");
+        return NSLocalizedString(@"About", @"");
     }
-
-    return sResult;
 }
 
 
 - (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)aSection
 {
-    NSInteger sResult;
-
     if (aSection == 0)
     {
-        sResult = [[MEClientStore clients] count] + 1;
+        return [[MEClientStore clients] count] + 1;
     }
     else
     {
-        sResult = 1;
+        return 1;
     }
-
-    return sResult;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    UITableViewCell *sResult = nil;
+    UITableViewCell *sCell = nil;
 
     if ([aIndexPath section] == 0)
     {
@@ -133,34 +125,35 @@
             MEClient *sClient = [sClients objectAtIndex:[aIndexPath row]];
             MEUser   *sUser   = [MEUser userWithUserID:[sClient userID]];
 
-            sResult = [METableViewCellFactory userCellForTableView:aTableView];
+            sCell = [METableViewCellFactory userCellForTableView:aTableView];
 
             if (sUser)
             {
-                [sResult setUser:sUser];
+                [sCell setUser:sUser];
             }
             else
             {
+                [sCell setUserID:[sClient userID]];
                 [sClient getPersonWithUserID:[sClient userID] delegate:self];
             }
         }
         else
         {
-            sResult = [METableViewCellFactory defaultCellForTableView:aTableView];
+            sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
 
-            [sResult setIndentationLevel:1];
-            [sResult setIndentationWidth:30];
-            [sResult setText:NSLocalizedString(@"Other...", @"")];
+            [sCell setIndentationLevel:1];
+            [sCell setIndentationWidth:30];
+            [sCell setText:NSLocalizedString(@"Other...", @"")];
         }
     }
     else
     {
-        sResult = [METableViewCellFactory defaultCellForTableView:aTableView];
+        sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
 
-        [sResult setText:NSLocalizedString(@"About", @"")];
+        [sCell setText:NSLocalizedString(@"About", @"")];
     }
 
-    return sResult;
+    return sCell;
 }
 
 
@@ -170,18 +163,14 @@
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    CGFloat sResult = 0;
-
     if ([aIndexPath section] == 0)
     {
-        sResult = 70;
+        return 70;
     }
     else
     {
-        sResult = 44;
+        return 44;
     }
-
-    return sResult;
 }
 
 
