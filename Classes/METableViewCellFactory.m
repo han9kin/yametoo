@@ -466,12 +466,12 @@ enum
 
     sImageView = (MEImageView *)[[self contentView] viewWithTag:kPostFaceImageTag];
     [sImageView addTarget:aTarget action:@selector(faceImageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [[sImageView userInfo] setValue:[aPost author] forKey:@"author"];
+    [sImageView setUserInfo:[aPost author]];
     [sImageView setImageWithURL:[[aPost author] faceImageURL]];
 
     sImageView = (MEImageView *)[[self contentView] viewWithTag:kPostIconTag];
     [sImageView addTarget:aTarget action:@selector(iconImageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [[sImageView userInfo] setValue:aPost forKey:@"post"];
+    [sImageView setUserInfo:aPost];
     [sImageView setImageWithURL:[aPost iconURL]];
 
     sBodyView = (MEPostBodyView *)[[self contentView] viewWithTag:kPostBodyTag];

@@ -19,8 +19,7 @@
     UIActivityIndicatorView *mIndicator;
     UIView                  *mFrameView;
     MEImageView             *mImageView;
-    UIButton                *mCloseButton;
-    
+
     CGRect                   mImageRect;
 }
 

@@ -8,13 +8,12 @@
  */
 
 #import "MELoginViewController.h"
-#import "MEClientStore.h"
-#import "MEClient.h"
-#import "MEImageView.h"
-#import "METableViewCellFactory.h"
 #import "MEPasscodeViewController.h"
 #import "MEAccountDetailViewController.h"
 #import "MEAboutViewController.h"
+#import "METableViewCellFactory.h"
+#import "MEClientStore.h"
+#import "MEClient.h"
 #import "MEUser.h"
 
 

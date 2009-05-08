@@ -26,19 +26,6 @@
 #pragma mark -
 
 
-- (id)initWithFrame:(CGRect)aFrame
-{
-    self = [super initWithFrame:aFrame];
-
-    if (self)
-    {
-        mUserInfo = [[NSMutableDictionary alloc] init];
-    }
-
-    return self;
-}
-
-
 - (void)drawRect:(CGRect)aRect
 {
     [[UIColor whiteColor] set];

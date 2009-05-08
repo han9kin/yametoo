@@ -188,7 +188,7 @@
     if ([mDelegate respondsToSelector:@selector(readerView:didTapUserInfoButtonForUser:)])
     {
         MEImageView *sImageView = (MEImageView *)aSender;
-        MEUser      *sAuthor    = [[sImageView userInfo] objectForKey:@"author"];
+        MEUser      *sAuthor    = [sImageView userInfo];
 
         [mDelegate readerView:self didTapUserInfoButtonForUser:sAuthor];
     }
@@ -200,7 +200,7 @@
     if ([mDelegate respondsToSelector:@selector(readerView:didTapPostIconButtonForPost:)])
     {
         MEImageView *sImageView = (MEImageView *)aSender;
-        MEPost      *sPost      = [[sImageView userInfo] objectForKey:@"post"];
+        MEPost      *sPost      = [sImageView userInfo];
 
         [mDelegate readerView:self didTapPostIconButtonForPost:sPost];
     }
