@@ -37,16 +37,12 @@
 
     mIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     [mIndicator setCenter:CGPointMake(160, 240)];
-    [mIndicator setHidden:YES];
+    [mIndicator setHidesWhenStopped:YES];
     [self addSubview:mIndicator];
     [mIndicator release];
 
-    mFrameView = [[UIView alloc] initWithFrame:CGRectZero];
-    [mFrameView setBackgroundColor:[UIColor grayColor]];
-    [self addSubview:mFrameView];
-    [mFrameView release];
-
     mImageView = [[MEImageView alloc] initWithFrame:CGRectZero];
+    [mImageView setBorderColor:[UIColor grayColor]];
     [mImageView setDelegate:self];
     [self addSubview:mImageView];
     [mImageView release];
@@ -114,9 +110,7 @@
     [mPhotoURL autorelease];
     mPhotoURL = [aPhotoURL retain];
 
-    [mIndicator setHidden:NO];
     [mIndicator startAnimating];
-
     [mImageView setImageWithURL:mPhotoURL];
 }
 
@@ -127,7 +121,6 @@
 
 - (IBAction)closeButtonTapped:(id)aSender
 {
-    [mFrameView setFrame:CGRectZero];
     [mImageView setFrame:CGRectZero];
     [mImageView setImageWithURL:nil];
 
@@ -139,42 +132,37 @@
 #pragma mark MEImageViewDelegate
 
 
-- (void)imageView:(MEImageView *)aImageView imageDidLoad:(UIImage *)aImage
+- (void)imageView:(MEImageView *)aImageView didLoadImage:(UIImage *)aImage
 {
     CGSize sSize = [aImage size];
-    CGRect sImageRect;
-    CGRect sFrameRect;
-
-    [mIndicator stopAnimating];
-    [mIndicator setHidden:YES];
+    CGRect sRect;
 
     if (sSize.width > sSize.height)
     {
-        sImageRect.size.width  = mImageRect.size.width;
-        sImageRect.size.height = sImageRect.size.width * sSize.height / sSize.width;
-        sImageRect.origin.x    = mImageRect.origin.x;
-        sImageRect.origin.y    = mImageRect.origin.y + (mImageRect.size.height - sImageRect.size.height) / 2;
+        sRect.size.width  = mImageRect.size.width;
+        sRect.size.height = sRect.size.width * sSize.height / sSize.width;
+        sRect.origin.x    = mImageRect.origin.x;
+        sRect.origin.y    = mImageRect.origin.y + (mImageRect.size.height - sRect.size.height) / 2;
     }
     else if (sSize.width < sSize.height)
     {
-        sImageRect.size.height = mImageRect.size.height;
-        sImageRect.size.width  = sImageRect.size.height * sSize.width / sSize.height;
-        sImageRect.origin.x    = mImageRect.origin.x + (mImageRect.size.width - sImageRect.size.width) / 2;
-        sImageRect.origin.y    = mImageRect.origin.y;
+        sRect.size.height = mImageRect.size.height;
+        sRect.size.width  = sRect.size.height * sSize.width / sSize.height;
+        sRect.origin.x    = mImageRect.origin.x + (mImageRect.size.width - sRect.size.width) / 2;
+        sRect.origin.y    = mImageRect.origin.y;
     }
     else
     {
-        sImageRect = mImageRect;
+        sRect = mImageRect;
     }
 
-    sFrameRect = sImageRect;
-    sFrameRect.origin.x    -= 1;
-    sFrameRect.origin.y    -= 1;
-    sFrameRect.size.width  += 2;
-    sFrameRect.size.height += 2;
+    sRect.origin.x    -= 1;
+    sRect.origin.y    -= 1;
+    sRect.size.width  += 2;
+    sRect.size.height += 2;
 
-    [mFrameView setFrame:sFrameRect];
-    [mImageView setFrame:sImageRect];
+    [mIndicator stopAnimating];
+    [mImageView setFrame:sRect];
 }
 
 

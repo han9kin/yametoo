@@ -1,8 +1,8 @@
 /*
- *  MEImageView.h
+ *  MEImageButton.h
  *  yametoo
  *
- *  Created by cgkim on 09. 04. 21.
+ *  Created by han9kin on 09. 05. 08.
  *  Copyright 2009 NHN Corp. All rights reserved.
  *
  */
@@ -10,26 +10,19 @@
 #import <UIKit/UIKit.h>
 
 
-@interface MEImageView : UIView
+@interface MEImageButton : UIControl
 {
     NSURL   *mURL;
     UIImage *mImage;
     UIColor *mBorderColor;
 
-    id       mDelegate;
+    id       mUserInfo;
 }
 
 @property(nonatomic, retain) UIColor *borderColor;
-@property(nonatomic, assign) id       delegate;
+@property(nonatomic, retain) id       userInfo;
 
 
 - (void)setImageWithURL:(NSURL *)aURL;
-
-@end
-
-
-@protocol MEImageViewDelegate
-
-- (void)imageView:(MEImageView *)aImageView didLoadImage:(UIImage *)aImage;
 
 @end

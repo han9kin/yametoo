@@ -23,7 +23,7 @@
     IBOutlet MEPostBodyView  *mPostBodyView;
     IBOutlet UIScrollView    *mPostScrollView;
     IBOutlet UITableView     *mTableView;
-    
+
     MEPost         *mPost;
     NSMutableArray *mComments;
 }

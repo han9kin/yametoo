@@ -10,7 +10,9 @@
 #import "ObjCUtil.h"
 #import "UIColor+MEAdditions.h"
 #import "METableViewCellFactory.h"
+#import "MEHighlightableImageView.h"
 #import "MEImageView.h"
+#import "MEImageButton.h"
 #import "MEPostBodyView.h"
 #import "MEAttributedLabel.h"
 #import "MEClientStore.h"
@@ -33,7 +35,6 @@ enum
     kPostAuthorLabelTag,
     kPostBodyTag,
 
-    kCommentFaceImageFrameTag,
     kCommentFaceImageTag,
     kCommentBodyTag,
 };
@@ -177,9 +178,8 @@ enum
 + (UITableViewCell *)userCellForTableView:(UITableView *)aTableView
 {
     UITableViewCell *sCell;
-    MEImageView     *sFaceImageView;
-    UIView          *sFrameView;
-    UILabel         *sUserIDLabel;
+    UILabel         *sLabel;
+    MEImageView     *sImageView;
 
     sCell = [aTableView dequeueReusableCellWithIdentifier:@"User"];
 
@@ -187,23 +187,19 @@ enum
     {
         sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"User"] autorelease];
 
-        sFrameView = [[UIImageView alloc] initWithFrame:CGRectMake(9, 9, 52, 52)];
-        [sFrameView setBackgroundColor:[UIColor lightGrayColor]];
-        [[sCell contentView] addSubview:sFrameView];
-        [sFrameView release];
+        sImageView = [[MEImageView alloc] initWithFrame:CGRectMake(9, 9, 52, 52)];
+        [sImageView setBorderColor:[UIColor lightGrayColor]];
+        [sImageView setTag:kImageTag];
+        [[sCell contentView] addSubview:sImageView];
+        [sImageView release];
 
-        sFaceImageView = [[MEImageView alloc] initWithFrame:CGRectMake(10, 10, 50, 50)];
-        [sFaceImageView setTag:kImageTag];
-        [[sCell contentView] addSubview:sFaceImageView];
-        [sFaceImageView release];
-
-        sUserIDLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 20, 180, 30)];
-        [sUserIDLabel setTag:kTitleTag];
-        [sUserIDLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
-        [sUserIDLabel setTextColor:[UIColor blackColor]];
-        [sUserIDLabel setHighlightedTextColor:[UIColor whiteColor]];
-        [[sCell contentView] addSubview:sUserIDLabel];
-        [sUserIDLabel release];
+        sLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, 180, 69)];
+        [sLabel setTag:kTitleTag];
+        [sLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
+        [sLabel setTextColor:[UIColor blackColor]];
+        [sLabel setHighlightedTextColor:[UIColor whiteColor]];
+        [[sCell contentView] addSubview:sLabel];
+        [sLabel release];
     }
 
     return sCell;
@@ -212,9 +208,9 @@ enum
 
 + (UITableViewCell *)clientCellForTableView:(UITableView *)aTableView
 {
-    UITableViewCell *sCell;
-    UIButton        *sButton;
-    UILabel         *sLabel;
+    UITableViewCell          *sCell;
+    UILabel                  *sLabel;
+    MEHighlightableImageView *sImageView;
 
     sCell = [aTableView dequeueReusableCellWithIdentifier:@"Client"];
 
@@ -224,13 +220,13 @@ enum
 
         [sCell setAccessoryType:UITableViewCellAccessoryDetailDisclosureButton];
 
-        sButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [sButton setTag:kCheckmarkTag];
-        [sButton setFrame:CGRectMake(10, 15, 14, 14)];
-        [sButton setHidden:YES];
-        [sButton setBackgroundImage:[UIImage imageNamed:@"checkmark_normal.png"] forState:UIControlStateNormal];
-        [sButton setBackgroundImage:[UIImage imageNamed:@"checkmark_highlighted.png"] forState:UIControlStateHighlighted];
-        [[sCell contentView] addSubview:sButton];
+        sImageView = [[MEHighlightableImageView alloc] initWithFrame:CGRectMake(10, 15, 14, 14)];
+        [sImageView setTag:kCheckmarkTag];
+        [sImageView setHidden:YES];
+        [sImageView setNormalImage:[UIImage imageNamed:@"checkmark_normal.png"]];
+        [sImageView setHighlightedImage:[UIImage imageNamed:@"checkmark_highlighted.png"]];
+        [[sCell contentView] addSubview:sImageView];
+        [sImageView release];
 
         sLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 11, 210, 21)];
         [sLabel setTag:kTitleTag];
@@ -239,13 +235,13 @@ enum
         [[sCell contentView] addSubview:sLabel];
         [sLabel release];
 
-        sButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [sButton setTag:kLockIconTag];
-        [sButton setFrame:CGRectMake(245, 14, 11, 15)];
-        [sButton setHidden:YES];
-        [sButton setBackgroundImage:[UIImage imageNamed:@"locked_normal.png"] forState:UIControlStateNormal];
-        [sButton setBackgroundImage:[UIImage imageNamed:@"locked_highlighted.png"] forState:UIControlStateHighlighted];
-        [[sCell contentView] addSubview:sButton];
+        sImageView = [[MEHighlightableImageView alloc] initWithFrame:CGRectMake(245, 14, 11, 15)];
+        [sImageView setTag:kLockIconTag];
+        [sImageView setHidden:YES];
+        [sImageView setNormalImage:[UIImage imageNamed:@"locked_normal.png"]];
+        [sImageView setHighlightedImage:[UIImage imageNamed:@"locked_highlighted.png"]];
+        [[sCell contentView] addSubview:sImageView];
+        [sImageView release];
     }
 
     return sCell;
@@ -255,8 +251,7 @@ enum
 + (UITableViewCell *)postCellForTableView:(UITableView *)aTableView
 {
     UITableViewCell *sCell;
-    UIView          *sFrameView;
-    MEImageView     *sImageView;
+    MEImageButton   *sImageButton;
     MEPostBodyView  *sBodyView;
 
     sCell = [aTableView dequeueReusableCellWithIdentifier:@"Post"];
@@ -265,15 +260,11 @@ enum
     {
         sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Post"] autorelease];
 
-        sFrameView = [[UIImageView alloc] initWithFrame:CGRectMake(7, kPostCellBodyPadding - 1, 46, 46)];
-        [sFrameView setBackgroundColor:[UIColor lightGrayColor]];
-        [[sCell contentView] addSubview:sFrameView];
-        [sFrameView release];
-
-        sImageView = [[MEImageView alloc] initWithFrame:CGRectMake(8, kPostCellBodyPadding, kIconImageSize, kIconImageSize)];
-        [sImageView setTag:kPostIconTag];
-        [[sCell contentView] addSubview:sImageView];
-        [sImageView release];
+        sImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(7, kPostCellBodyPadding - 1, kIconImageSize + 2, kIconImageSize + 2)];
+        [sImageButton setBorderColor:[UIColor lightGrayColor]];
+        [sImageButton setTag:kPostIconTag];
+        [[sCell contentView] addSubview:sImageButton];
+        [sImageButton release];
 
         sBodyView = [[MEPostBodyView alloc] initWithFrame:CGRectMake(60, kPostCellBodyPadding, 0, 0)];
         [sBodyView setTag:kPostBodyTag];
@@ -288,9 +279,8 @@ enum
 + (UITableViewCell *)postCellWithAuthorForTableView:(UITableView *)aTableView
 {
     UITableViewCell *sCell;
-    UIView          *sFrameView;
     UILabel         *sLabel;
-    MEImageView     *sImageView;
+    MEImageButton   *sImageButton;
     MEPostBodyView  *sBodyView;
 
     sCell = [aTableView dequeueReusableCellWithIdentifier:@"Post"];
@@ -299,25 +289,17 @@ enum
     {
         sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Post"] autorelease];
 
-        sFrameView = [[UIImageView alloc] initWithFrame:CGRectMake(7, kPostCellBodyPadding - 1, 46, 46)];
-        [sFrameView setBackgroundColor:[UIColor lightGrayColor]];
-        [[sCell contentView] addSubview:sFrameView];
-        [sFrameView release];
+        sImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(7, kPostCellBodyPadding - 1, kIconImageSize + 2, kIconImageSize + 2)];
+        [sImageButton setTag:kPostFaceImageTag];
+        [sImageButton setBorderColor:[UIColor lightGrayColor]];
+        [[sCell contentView] addSubview:sImageButton];
+        [sImageButton release];
 
-        sImageView = [[MEImageView alloc] initWithFrame:CGRectMake(8, kPostCellBodyPadding, kIconImageSize, kIconImageSize)];
-        [sImageView setTag:kPostFaceImageTag];
-        [[sCell contentView] addSubview:sImageView];
-        [sImageView release];
-
-        sFrameView = [[UIImageView alloc] initWithFrame:CGRectMake(7, kPostCellBodyPadding + 49, 46, 46)];
-        [sFrameView setBackgroundColor:[UIColor lightGrayColor]];
-        [[sCell contentView] addSubview:sFrameView];
-        [sFrameView release];
-
-        sImageView = [[MEImageView alloc] initWithFrame:CGRectMake(8, kPostCellBodyPadding + 50, kIconImageSize, kIconImageSize)];
-        [sImageView setTag:kPostIconTag];
-        [[sCell contentView] addSubview:sImageView];
-        [sImageView release];
+        sImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(7, kPostCellBodyPadding + 49, kIconImageSize + 2, kIconImageSize + 2)];
+        [sImageButton setTag:kPostIconTag];
+        [sImageButton setBorderColor:[UIColor lightGrayColor]];
+        [[sCell contentView] addSubview:sImageButton];
+        [sImageButton release];
 
         sLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, kPostCellBodyPadding, 250, 15)];
         [sLabel setTag:kPostAuthorLabelTag];
@@ -340,7 +322,6 @@ enum
 + (UITableViewCell *)commentCellForTableView:(UITableView *)aTableView
 {
     UITableViewCell   *sCell;
-    UIView            *sFrameView;
     MEImageView       *sImageView;
     MEAttributedLabel *sBodyLabel;
 
@@ -350,20 +331,17 @@ enum
     {
         sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Comment"] autorelease];
 
+        [sCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+
         sBodyLabel = [[MEAttributedLabel alloc] initWithFrame:CGRectZero];
         [sBodyLabel setTag:kCommentBodyTag];
         [[sCell contentView] addSubview:sBodyLabel];
         [sBodyLabel release];
 
-        sFrameView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        [sFrameView setTag:kCommentFaceImageFrameTag];
-        [sFrameView setBackgroundColor:[UIColor lightGrayColor]];
-        [[sCell contentView] addSubview:sFrameView];
-        [sFrameView release];
-
-        sImageView = [[MEImageView alloc] initWithFrame:CGRectMake(1, 1, kIconImageSize, kIconImageSize)];
+        sImageView = [[MEImageView alloc] initWithFrame:CGRectMake(0, 0, kIconImageSize + 2, kIconImageSize + 2)];
+        [sImageView setBorderColor:[UIColor lightGrayColor]];
         [sImageView setTag:kCommentFaceImageTag];
-        [sFrameView addSubview:sImageView];
+        [[sCell contentView] addSubview:sImageView];
         [sImageView release];
     }
 
@@ -436,9 +414,9 @@ enum
 
 - (void)setClient:(MEClient *)aClient
 {
-    UILabel  *sLabel     = (UILabel *)[[self contentView] viewWithTag:kTitleTag];
-    UIButton *sCheckmark = (UIButton *)[[self contentView] viewWithTag:kCheckmarkTag];
-    UIButton *sLockIcon  = (UIButton *)[[self contentView] viewWithTag:kLockIconTag];
+    UILabel *sLabel     = (UILabel *)[[self contentView] viewWithTag:kTitleTag];
+    UIView  *sCheckmark = [[self contentView] viewWithTag:kCheckmarkTag];
+    UIView  *sLockIcon  = [[self contentView] viewWithTag:kLockIconTag];
 
     [sLabel setText:[aClient userID]];
 
@@ -467,21 +445,21 @@ enum
 - (void)setPost:(MEPost *)aPost withTarget:(id)aTarget
 {
     UILabel        *sLabel;
-    MEImageView    *sImageView;
+    MEImageButton  *sImageButton;
     MEPostBodyView *sBodyView;
 
     sLabel = (UILabel *)[[self contentView] viewWithTag:kPostAuthorLabelTag];
     [sLabel setText:[[aPost author] nickname]];
 
-    sImageView = (MEImageView *)[[self contentView] viewWithTag:kPostFaceImageTag];
-    [sImageView addTarget:aTarget action:@selector(faceImageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [sImageView setUserInfo:[aPost author]];
-    [sImageView setImageWithURL:[[aPost author] faceImageURL]];
+    sImageButton = (MEImageButton *)[[self contentView] viewWithTag:kPostFaceImageTag];
+    [sImageButton addTarget:aTarget action:@selector(faceImageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [sImageButton setUserInfo:[aPost author]];
+    [sImageButton setImageWithURL:[[aPost author] faceImageURL]];
 
-    sImageView = (MEImageView *)[[self contentView] viewWithTag:kPostIconTag];
-    [sImageView addTarget:aTarget action:@selector(iconImageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [sImageView setUserInfo:aPost];
-    [sImageView setImageWithURL:[aPost iconURL]];
+    sImageButton = (MEImageButton *)[[self contentView] viewWithTag:kPostIconTag];
+    [sImageButton addTarget:aTarget action:@selector(iconImageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [sImageButton setUserInfo:aPost];
+    [sImageButton setImageWithURL:[aPost iconURL]];
 
     sBodyView = (MEPostBodyView *)[[self contentView] viewWithTag:kPostBodyTag];
     [sBodyView setPost:aPost];
@@ -490,25 +468,24 @@ enum
 
 - (void)setComment:(MEComment *)aComment isOwners:(BOOL)aOwners
 {
-    MEAttributedLabel *sBodyLabel  = (MEAttributedLabel *)[[self contentView] viewWithTag:kCommentBodyTag];
     MEImageView       *sImageView  = (MEImageView *)[[self contentView] viewWithTag:kCommentFaceImageTag];
-    UIView            *sImageFrame = (UIView *)[[self contentView] viewWithTag:kCommentFaceImageFrameTag];
+    MEAttributedLabel *sBodyLabel  = (MEAttributedLabel *)[[self contentView] viewWithTag:kCommentBodyTag];
 
     if (aOwners)
     {
+        [sImageView setFrame:CGRectMake(265, 9, kIconImageSize + 2, kIconImageSize + 2)];
         [sBodyLabel setFrame:CGRectMake(10, 10, kCommentBodyWidth, 0)];
-        [sImageFrame setFrame:CGRectMake(265, 9, kIconImageSize + 2, kIconImageSize + 2)];
     }
     else
     {
+        [sImageView setFrame:CGRectMake(9, 9, kIconImageSize + 2, kIconImageSize + 2)];
         [sBodyLabel setFrame:CGRectMake(70, 10, kCommentBodyWidth, 0)];
-        [sImageFrame setFrame:CGRectMake(9, 9, kIconImageSize + 2, kIconImageSize + 2)];
     }
+
+    [sImageView setImageWithURL:[[aComment author] faceImageURL]];
 
     [sBodyLabel setAttributedText:[aComment body]];
     [sBodyLabel sizeToFit];
-
-    [sImageView setImageWithURL:[[aComment author] faceImageURL]];
 }
 
 

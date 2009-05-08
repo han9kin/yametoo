@@ -8,8 +8,8 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="39"/>
 			<integer value="1"/>
+			<integer value="39"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -106,7 +106,7 @@
 							<object class="IBUIView" id="90512824">
 								<reference key="NSNextResponder" ref="515326804"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{14, 10}, {44, 44}}</string>
+								<string key="NSFrame">{{13, 9}, {46, 46}}</string>
 								<reference key="NSSuperview" ref="515326804"/>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">3</int>
@@ -355,14 +355,14 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>MEReplyViewController</string>
 					<string>UIResponder</string>
-					<string>{{955, 439}, {320, 480}}</string>
+					<string>{{815, 439}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>{{954, 314}, {320, 80}}</string>
+					<string>{{954, 281}, {320, 80}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>MERoundBackView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -399,7 +399,7 @@
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
 					<string key="className">MEImageView</string>
-					<string key="superclassName">UIControl</string>
+					<string key="superclassName">UIView</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">mDelegate</string>
 						<string key="NS.object.0">id</string>
@@ -479,6 +479,13 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">ExternalSources/JSON/NSObject+SBJSON.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">UITableView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">Additions/UITableView+MEAdditions.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

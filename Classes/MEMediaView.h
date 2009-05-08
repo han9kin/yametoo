@@ -12,12 +12,10 @@
 
 @class MEImageView;
 
-
 @interface MEMediaView : UIView
 {
     NSURL                   *mPhotoURL;
     UIActivityIndicatorView *mIndicator;
-    UIView                  *mFrameView;
     MEImageView             *mImageView;
 
     CGRect                   mImageRect;

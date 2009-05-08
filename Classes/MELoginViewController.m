@@ -214,16 +214,6 @@
 
 
 #pragma mark -
-#pragma mark MEScrollViewDelegate
-
-
-- (BOOL)scrollView:(UIScrollView *)aScrollView shouldBeginTouches:(NSSet *)aTouches withEvent:(UIEvent *)aEvent inContentView:(UIView *)aView
-{
-    return NO;
-}
-
-
-#pragma mark -
 #pragma mark MEClientDelegate
 
 

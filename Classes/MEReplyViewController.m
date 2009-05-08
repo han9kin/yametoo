@@ -86,10 +86,11 @@
     mComments = [[NSMutableArray alloc] init];
 
     [sTopItem        setTitle:sTitleStr];
+    [mIconView       setBorderColor:[UIColor lightGrayColor]];
     [mIconView       setImageWithURL:[mPost iconURL]];
     [mPostBodyView   setPost:mPost];
     [mPostBodyView   sizeToFit];
-    
+
     [mPostScrollView setContentSize:[mPostBodyView frame].size];
     [mTableView      setRowHeight:1000.0];
 

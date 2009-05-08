@@ -1,18 +1,18 @@
 /*
- *  MEImageView.m
+ *  MEImageButton.m
  *  yametoo
  *
- *  Created by cgkim on 09. 04. 21.
+ *  Created by han9kin on 09. 05. 08.
  *  Copyright 2009 NHN Corp. All rights reserved.
  *
  */
 
-#import "MEImageView.h"
+#import "MEImageButton.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 
 
-@implementation MEImageView
+@implementation MEImageButton
 
 
 #pragma mark -
@@ -20,7 +20,7 @@
 
 
 @synthesize borderColor = mBorderColor;
-@synthesize delegate    = mDelegate;
+@synthesize userInfo    = mUserInfo;
 
 
 #pragma mark -
@@ -63,6 +63,7 @@
     [mURL release];
     [mImage release];
     [mBorderColor release];
+    [mUserInfo release];
 
     [super dealloc];
 }
@@ -102,7 +103,7 @@
     {
         if (aError)
         {
-            NSLog(@"MEImageView image load error: %@ for url: %@", aError, aKey);
+            NSLog(@"MEImageButton image load error: %@ for url: %@", aError, aKey);
         }
         else
         {
@@ -110,8 +111,6 @@
             {
                 [mImage release];
                 mImage = [aImage retain];
-
-                [mDelegate imageView:self didLoadImage:mImage];
 
                 [self setNeedsDisplay];
             }

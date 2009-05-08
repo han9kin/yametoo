@@ -10,7 +10,7 @@
 #import "MEReaderView.h"
 #import "METableViewCellFactory.h"
 #import "MEReaderHeadView.h"
-#import "MEImageView.h"
+#import "MEImageButton.h"
 #import "MEPostBodyView.h"
 #import "MEMediaView.h"
 #import "MEPost.h"
@@ -172,8 +172,7 @@
 {
     if ([mDelegate respondsToSelector:@selector(readerView:didTapUserInfoButtonForUser:)])
     {
-        MEImageView *sImageView = (MEImageView *)aSender;
-        MEUser      *sAuthor    = [sImageView userInfo];
+        MEUser *sAuthor = [(MEImageButton *)aSender userInfo];
 
         [mDelegate readerView:self didTapUserInfoButtonForUser:sAuthor];
     }
@@ -184,8 +183,7 @@
 {
     if ([mDelegate respondsToSelector:@selector(readerView:didTapPostIconButtonForPost:)])
     {
-        MEImageView *sImageView = (MEImageView *)aSender;
-        MEPost      *sPost      = [sImageView userInfo];
+        MEPost *sPost = [(MEImageButton *)aSender userInfo];
 
         [mDelegate readerView:self didTapPostIconButtonForPost:sPost];
     }
