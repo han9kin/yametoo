@@ -19,6 +19,14 @@
 
 - (void)dealloc
 {
+    [mCancelButton           release];
+    [mPostButton             release];
+    [mTakePictureButton      release];
+    [mFromPhotoLibraryButton release];
+    [mBodyTextView           release];
+    [mTagTextField           release];
+    [mAttachedImageView      release];
+    
     [mCharCountLayer release];
     [mAttachedImage  release];
 

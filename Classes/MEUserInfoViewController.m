@@ -48,6 +48,17 @@
 
 - (void)dealloc
 {
+    [mPhoneTextLabel     release];
+    [mEmailTextLabel     release];
+    [mMessengerTextLabel release];
+    [mHomepageTextLabel  release];
+    [mPhoneContLabel     release];
+    [mEmailContLabel     release];
+    [mMessengerContLabel release];
+    [mHomepageContLabel  release];
+
+    [mUser release];
+    
     [super dealloc];
 }
 

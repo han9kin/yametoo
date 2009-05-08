@@ -25,7 +25,9 @@
 
 - (void)dealloc
 {
-    [mPost release];
+    [mTextView release];
+    
+    [mPost     release];
 
     [super dealloc];
 }

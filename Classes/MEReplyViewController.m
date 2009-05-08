@@ -21,6 +21,7 @@
 #import "MEPostBodyView.h"
 #import "MEAddCommentViewController.h"
 #import "MERoundBackView.h"
+#import "MEImageCache.h"
 
 
 @interface MEReplyViewController (Privates)
@@ -59,8 +60,13 @@
 
 - (void)dealloc
 {
-    NSLog(@"MEReplyViewController dealloc");
-
+    [mNaviBar release];
+    [mContainerView release];
+    [mIconView release];
+    [mPostBodyView release];
+    [mPostScrollView release];
+    [mTableView release];
+    
     [mPost     release];
     [mComments release];
 
@@ -70,7 +76,6 @@
 
 - (void)didReceiveMemoryWarning
 {
-    NSLog(@"didReceiveMemoryWarning");
     [super didReceiveMemoryWarning];
 }
 
