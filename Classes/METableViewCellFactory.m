@@ -227,6 +227,9 @@ enum
         sButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [sButton setTag:kCheckmarkTag];
         [sButton setFrame:CGRectMake(10, 15, 14, 14)];
+        [sButton setHidden:YES];
+        [sButton setBackgroundImage:[UIImage imageNamed:@"checkmark_normal.png"] forState:UIControlStateNormal];
+        [sButton setBackgroundImage:[UIImage imageNamed:@"checkmark_highlighted.png"] forState:UIControlStateHighlighted];
         [[sCell contentView] addSubview:sButton];
 
         sLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 11, 210, 21)];
@@ -239,6 +242,9 @@ enum
         sButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [sButton setTag:kLockIconTag];
         [sButton setFrame:CGRectMake(245, 14, 11, 15)];
+        [sButton setHidden:YES];
+        [sButton setBackgroundImage:[UIImage imageNamed:@"locked_normal.png"] forState:UIControlStateNormal];
+        [sButton setBackgroundImage:[UIImage imageNamed:@"locked_highlighted.png"] forState:UIControlStateHighlighted];
         [[sCell contentView] addSubview:sButton];
     }
 
@@ -438,26 +444,22 @@ enum
 
     if (aClient == [MEClientStore currentClient])
     {
-        [sCheckmark setBackgroundImage:[UIImage imageNamed:@"checkmark_normal.png"] forState:UIControlStateNormal];
-        [sCheckmark setBackgroundImage:[UIImage imageNamed:@"checkmark_highlighted.png"] forState:UIControlStateHighlighted];
+        [sCheckmark setHidden:NO];
         [sLabel setTextColor:[UIColor selectedTextColor]];
     }
     else
     {
-        [sCheckmark setBackgroundImage:nil forState:UIControlStateNormal];
-        [sCheckmark setBackgroundImage:nil forState:UIControlStateHighlighted];
+        [sCheckmark setHidden:YES];
         [sLabel setTextColor:[UIColor blackColor]];
     }
 
     if ([aClient hasPasscode])
     {
-        [sLockIcon setBackgroundImage:[UIImage imageNamed:@"locked_normal.png"] forState:UIControlStateNormal];
-        [sLockIcon setBackgroundImage:[UIImage imageNamed:@"locked_highlighted.png"] forState:UIControlStateHighlighted];
+        [sLockIcon setHidden:NO];
     }
     else
     {
-        [sLockIcon setBackgroundImage:nil forState:UIControlStateNormal];
-        [sLockIcon setBackgroundImage:nil forState:UIControlStateHighlighted];
+        [sLockIcon setHidden:YES];
     }
 }
 

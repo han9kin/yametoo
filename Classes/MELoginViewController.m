@@ -77,7 +77,7 @@
 
 
 #pragma mark -
-#pragma mark TableView DataSource
+#pragma mark UITableViewDataSource
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
@@ -158,7 +158,7 @@
 
 
 #pragma mark -
-#pragma mark TableView Delegate
+#pragma mark UITableViewDelegate
 
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)aIndexPath
@@ -210,6 +210,16 @@
         [self presentModalViewController:sViewController animated:YES];
         [sViewController release];
     }
+}
+
+
+#pragma mark -
+#pragma mark MEScrollViewDelegate
+
+
+- (BOOL)scrollView:(UIScrollView *)aScrollView shouldBeginTouches:(NSSet *)aTouches withEvent:(UIEvent *)aEvent inContentView:(UIView *)aView
+{
+    return NO;
 }
 
 

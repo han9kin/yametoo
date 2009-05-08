@@ -67,6 +67,7 @@
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+						<bool key="IBUIDelaysContentTouches">NO</bool>
 						<bool key="IBUIBouncesZoom">NO</bool>
 						<int key="IBUIStyle">1</int>
 						<int key="IBUISeparatorStyle">1</int>
@@ -227,7 +228,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>MELoginViewController</string>
 					<string>UIResponder</string>
-					<string>{{965, 497}, {320, 480}}</string>
+					<string>{{815, 497}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

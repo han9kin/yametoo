@@ -23,21 +23,6 @@
 #define kTimeStrHeight  13.0
 
 
-@interface MEPostTableView : UITableView
-{
-}
-@end
-
-@implementation MEPostTableView
-
-- (BOOL)touchesShouldCancelInContentView:(UIView *)aView
-{
-    return YES;
-}
-
-@end
-
-
 @implementation MEReaderView
 
 
@@ -62,7 +47,7 @@
 {
     CGRect sBounds = [self bounds];
 
-    mTableView = [[MEPostTableView alloc] initWithFrame:sBounds style:UITableViewStylePlain];
+    mTableView = [[UITableView alloc] initWithFrame:sBounds style:UITableViewStylePlain];
     [mTableView setRowHeight:1000];
     [mTableView setDataSource:self];
     [mTableView setDelegate:self];
