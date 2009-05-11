@@ -9,13 +9,16 @@
 
 #import <UIKit/UIKit.h>
 
-
+@class MERoundBackView;
 @class MEImageView;
+
 
 @interface MEMediaView : UIView
 {
     NSURL                   *mPhotoURL;
     UIActivityIndicatorView *mIndicator;
+    
+    MERoundBackView         *mBackView;
     MEImageView             *mImageView;
 
     CGRect                   mImageRect;

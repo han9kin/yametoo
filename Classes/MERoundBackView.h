@@ -12,7 +12,9 @@
 
 @interface MERoundBackView : UIView
 {
-
+    UIColor *mFillColor;
 }
+
+@property (nonatomic, retain) UIColor *fillColor;
 
 @end
