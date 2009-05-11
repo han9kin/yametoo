@@ -20,6 +20,7 @@
 - (id)initWithParentView:(UIView *)aView;
 
 - (void)setLimitCount:(NSInteger)aLimitCount;
+- (NSInteger)limitCount;
 - (void)setTextOwner:(id)aTextOwner;
 - (void)setHidden:(BOOL)aFlag;
 - (void)setFrame:(CGRect)aFrame;

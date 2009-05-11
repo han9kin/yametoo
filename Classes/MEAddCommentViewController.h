@@ -11,13 +11,15 @@
 
 
 @class MEPost;
+@class MECharCounter;
 
 
 @interface MEAddCommentViewController : UIViewController
 {
     IBOutlet UITextView *mTextView;
     
-    MEPost *mPost;
+    MECharCounter  *mCharCounter;    
+    MEPost         *mPost;
 }
 
 @property (nonatomic, retain) MEPost *post;

@@ -12,6 +12,7 @@
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEPost.h"
+#import "MECharCounter.h"
 
 
 @implementation MEAddCommentViewController
@@ -27,7 +28,8 @@
 {
     [mTextView release];
     
-    [mPost     release];
+    [mCharCounter release];    
+    [mPost        release];
 
     [super dealloc];
 }
@@ -43,8 +45,16 @@
 {
     [super viewDidLoad];
 
+    mCharCounter = [[MECharCounter alloc] initWithParentView:[self view]];
+    
     [mTextView setText:@""];
     [mTextView becomeFirstResponder];
+    
+    [mCharCounter setTextOwner:mTextView];
+    [mCharCounter setLimitCount:300];
+    [mCharCounter setFrame:CGRectMake(200, 207, 0, 0)];
+    [mCharCounter setHidden:NO];
+    [mCharCounter update];
 }
 
 
@@ -66,6 +76,54 @@
     {
         [[MEClientStore currentClient] createCommentWithPostID:[mPost postID] body:sComment delegate:self];
     }
+}
+
+
+#pragma mark -
+#pragma mark UITextView Delegate
+
+
+- (void)textViewDidBeginEditing:(UITextView *)aTextView;
+{
+    if (aTextView == mTextView)
+    {
+    }
+}
+
+
+- (void)textViewDidEndEditing:(UITextView *)aTextView
+{
+    if (aTextView == mTextView)
+    {
+        [mCharCounter setHidden:YES];
+    }
+}
+
+
+- (void)textViewDidChange:(UITextView *)aTextView
+{
+    if (aTextView == mTextView)
+    {
+        [mCharCounter update];
+    }
+    
+    NSRange sRange = [aTextView selectedRange];
+    [aTextView scrollRangeToVisible:sRange];
+}
+
+
+- (BOOL)textView:(UITextView *)aTextView shouldChangeTextInRange:(NSRange)aRange replacementText:(NSString *)aText
+{
+    if (aTextView == mTextView)
+    {
+        NSString *sBody = [mTextView text];
+        if ([sBody length] >= [mCharCounter limitCount])
+        {
+            return NO;
+        }
+    }
+    
+    return YES;
 }
 
 

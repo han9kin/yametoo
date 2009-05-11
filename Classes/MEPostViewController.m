@@ -15,11 +15,18 @@
 #import "MECharCounter.h"
 
 
+#define BEGIN_ANIMATION_OFF()       [CATransaction begin]; \
+                                    [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+#define END_ANIMATION_OFF()         [CATransaction commit];
+
+
 @implementation MEPostViewController
 
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     [mCancelButton           release];
     [mPostButton             release];
     [mTakePictureButton      release];
@@ -47,10 +54,16 @@
 
     [super viewDidLoad];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(textFieldTextDidChangeNotification:)
+                                                 name:UITextFieldTextDidChangeNotification
+                                               object:nil];
+    
     [mBodyTextView setText:@""];
     [mBodyTextView setReturnKeyType:UIReturnKeyNext];
     [mTagTextField setPlaceholder:@"태그를 쓰세요 (공백으로 구분)"];
     [mTagTextField setReturnKeyType:UIReturnKeyDone];
+    [mTagTextField setClearsOnBeginEditing:NO];
 
     mCharCounter = [[MECharCounter alloc] initWithParentView:[self view]];
 
@@ -134,6 +147,16 @@
 
 
 #pragma mark -
+#pragma mark Notifications
+
+
+- (void)textFieldTextDidChangeNotification:(NSNotification *)aNotification
+{
+    [mCharCounter update];
+}
+
+
+#pragma mark -
 #pragma mark TextViewDelegate
 
 
@@ -143,7 +166,9 @@
     {
         [mCharCounter setTextOwner:mBodyTextView];
         [mCharCounter setLimitCount:150];
-        [mCharCounter setFrame:CGRectMake(200, 195, 0, 0)];        
+        BEGIN_ANIMATION_OFF();
+        [mCharCounter setFrame:CGRectMake(200, 192, 0, 0)];
+        END_ANIMATION_OFF();
         [mCharCounter setHidden:NO];
         [mCharCounter update];
     }
@@ -187,7 +212,7 @@
     else if (aTextView == mBodyTextView)
     {
         NSString *sBody = [mBodyTextView text];
-        if ([sBody length] >= 150)
+        if ([sBody length] >= [mCharCounter limitCount])
         {
             return NO;
         }
@@ -201,10 +226,43 @@
 #pragma mark UITextField Delegate
 
 
+- (void)textFieldDidBeginEditing:(UITextField *)aTextField
+{
+    [mCharCounter setLimitCount:300];
+    BEGIN_ANIMATION_OFF();
+    [mCharCounter setFrame:CGRectMake(200, 165, 0, 0)];
+    END_ANIMATION_OFF();
+    [mCharCounter setHidden:NO];
+    [mCharCounter setTextOwner:aTextField];
+    [mCharCounter update];
+}
+
+
+- (BOOL)textField:(UITextField *)aTextField shouldChangeCharactersInRange:(NSRange)aRange replacementString:(NSString *)aString
+{
+    NSString *sText = [aTextField text];
+    sText = [sText stringByReplacingCharactersInRange:aRange withString:aString];
+
+    if ([sText length] > [mCharCounter limitCount])
+    {
+        return NO;
+    }
+
+    return YES;
+}
+
+
 - (BOOL)textFieldShouldReturn:(UITextField *)aTextField
 {
     [mTagTextField resignFirstResponder];
+    
     return NO;
+}
+
+
+- (void)textFieldDidEndEditing:(UITextField *)aTextField
+{
+    [mCharCounter setHidden:YES];
 }
 
 

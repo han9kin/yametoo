@@ -47,6 +47,12 @@
 }
 
 
+- (NSInteger)limitCount
+{
+    return mLimitCount;
+}
+
+
 - (void)setTextOwner:(id)aTextOwner
 {
     [mTextOwner autorelease];
@@ -74,7 +80,7 @@
     NSString *sStr   = [NSString stringWithFormat:NSLocalizedString(@"%d character(s) remains", nil), (mLimitCount - [sBody length])];
     CGSize    sSize  = [sStr sizeWithFont:sFont];
     CGRect    sFrame;
-    
+
     sSize.width  += 10;
     sSize.height += 6;
     
@@ -88,7 +94,8 @@
     sImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    sFrame = CGRectMake(320 - sSize.width - 23, 191, sSize.width, sSize.height);
+    sFrame = [mLayer frame];
+    sFrame = CGRectMake(320 - sSize.width - 23, sFrame.origin.y, sSize.width, sSize.height);
     
     [mLayer setOpacity:0.7];
     [mLayer setContents:(id)[sImage CGImage]];
