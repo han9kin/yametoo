@@ -76,7 +76,7 @@
         [sNavigationBar release];
 
         sNavigationItem = [[UINavigationItem alloc] initWithTitle:[self title]];
-        [sNavigationItem setPrompt:NSLocalizedString(@"Enter user information", @"")];
+        [sNavigationItem setPrompt:NSLocalizedString(@"Enter account information", @"")];
         [sNavigationBar pushNavigationItem:sNavigationItem animated:NO];
         [sNavigationItem release];
 

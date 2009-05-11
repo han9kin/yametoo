@@ -16,4 +16,6 @@
 
 - (NSString *)stringByReplacingCharacterEntities;
 
+- (NSString *)stringByAddingPercentEscapes;
+
 @end

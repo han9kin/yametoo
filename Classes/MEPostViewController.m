@@ -26,7 +26,7 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
+
     [mCancelButton           release];
     [mPostButton             release];
     [mTakePictureButton      release];
@@ -34,7 +34,7 @@
     [mBodyTextView           release];
     [mTagTextField           release];
     [mAttachedImageView      release];
-    
+
     [mCharCounter    release];
     [mAttachedImage  release];
 
@@ -58,10 +58,10 @@
                                              selector:@selector(textFieldTextDidChangeNotification:)
                                                  name:UITextFieldTextDidChangeNotification
                                                object:nil];
-    
+
     [mBodyTextView setText:@""];
     [mBodyTextView setReturnKeyType:UIReturnKeyNext];
-    [mTagTextField setPlaceholder:@"태그를 쓰세요 (공백으로 구분)"];
+    [mTagTextField setPlaceholder:NSLocalizedString(@"Enter tags (separated by space)", @"")];
     [mTagTextField setReturnKeyType:UIReturnKeyDone];
     [mTagTextField setClearsOnBeginEditing:NO];
 
@@ -124,7 +124,7 @@
 {
     NSString *sBody = [mBodyTextView text];
     NSString *sTags = [mTagTextField text];
-    
+
     if ([sBody length] > 0)
     {
         [self setInterfaceEnabled:NO];
@@ -135,7 +135,7 @@
     }
     else
     {
-
+        [UIAlertView showAlert:NSLocalizedString(@"Please enter contents.", @"")];
     }
 }
 
@@ -255,7 +255,7 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)aTextField
 {
     [mTagTextField resignFirstResponder];
-    
+
     return NO;
 }
 

@@ -110,4 +110,9 @@
     }
 }
 
+- (NSString *)stringByAddingPercentEscapes
+{
+    return [(id)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)self, NULL, CFSTR("!$&'()*+,-./:;=?@_~[]#"), kCFStringEncodingUTF8) autorelease];
+}
+
 @end
