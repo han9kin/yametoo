@@ -75,7 +75,7 @@
         [[self view] addSubview:sNavigationBar];
         [sNavigationBar release];
 
-        sNavigationItem = [[UINavigationItem alloc] initWithTitle:NSLocalizedString(@"Other User", @"")];
+        sNavigationItem = [[UINavigationItem alloc] initWithTitle:[self title]];
         [sNavigationItem setPrompt:NSLocalizedString(@"Enter user information", @"")];
         [sNavigationBar pushNavigationItem:sNavigationItem animated:NO];
         [sNavigationItem release];
@@ -142,7 +142,7 @@
     {
         if ([MEClientStore clientForUserID:[mUserIDField text]])
         {
-            [UIAlertView showAlert:@"User already registered."];
+            [UIAlertView showAlert:@"Account already registered."];
         }
         else
         {
@@ -196,9 +196,9 @@
         UIActionSheet *sActionSheet;
         NSString      *sTitle;
 
-        sTitle = [NSString stringWithFormat:NSLocalizedString(@"Delete user \"%@\".", @""), mUserID];
+        sTitle = [NSString stringWithFormat:NSLocalizedString(@"Delete account \"%@\".", @""), mUserID];
 
-        sActionSheet = [[UIActionSheet alloc] initWithTitle:sTitle delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:NSLocalizedString(@"Delete User", @"") otherButtonTitles:nil];
+        sActionSheet = [[UIActionSheet alloc] initWithTitle:sTitle delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:NSLocalizedString(@"Delete Account", @"") otherButtonTitles:nil];
         [sActionSheet showInView:[self view]];
         [sActionSheet release];
     }
@@ -307,7 +307,7 @@
             case 0:
                 sCell = [METableViewCellFactory buttonCellForTableView:aTableView];
                 [sCell setDisabled:[mUserID isEqualToString:[[MEClientStore currentClient] userID]]];
-                [sCell setText:NSLocalizedString(@"Delete this User", @"")];
+                [sCell setText:NSLocalizedString(@"Delete this Account", @"")];
                 break;
 
             case 1:

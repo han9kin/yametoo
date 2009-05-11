@@ -102,7 +102,7 @@ static NSInteger kValue[2][6] = {
         }
     };
 
-    return sTitle[mType][aSection];
+    return NSLocalizedString(sTitle[mType][aSection], @"");
 }
 
 

@@ -200,6 +200,7 @@
         else
         {
             sViewController = [[MEAccountDetailViewController alloc] initWithUserID:nil parentViewController:self];
+            [sViewController setTitle:NSLocalizedString(@"Other Account", @"")];
             [self presentModalViewController:sViewController animated:YES];
             [sViewController release];
         }

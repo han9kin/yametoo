@@ -212,6 +212,7 @@
         UIViewController *sViewController;
 
         sViewController = [[MEAccountDetailViewController alloc] initWithUserID:nil parentViewController:self];
+        [sViewController setTitle:NSLocalizedString(@"Add Account", @"")];
         [self presentModalViewController:sViewController animated:YES];
         [sViewController release];
 
