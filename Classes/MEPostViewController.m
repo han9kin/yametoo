@@ -12,6 +12,7 @@
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEDrawingFunctions.h"
+#import "MECharCounter.h"
 
 
 @implementation MEPostViewController
@@ -27,7 +28,7 @@
     [mTagTextField           release];
     [mAttachedImageView      release];
     
-    [mCharCountLayer release];
+    [mCharCounter    release];
     [mAttachedImage  release];
 
     [super dealloc];
@@ -51,11 +52,7 @@
     [mTagTextField setPlaceholder:@"태그를 쓰세요 (공백으로 구분)"];
     [mTagTextField setReturnKeyType:UIReturnKeyDone];
 
-    mCharCountLayer = [[CALayer layer] retain];
-    [mCharCountLayer setHidden:YES];
-    [mCharCountLayer setFrame:CGRectMake(200, 195, 0, 0)];
-
-    [[[self view] layer] addSublayer:mCharCountLayer];
+    mCharCounter = [[MECharCounter alloc] initWithParentView:[self view]];
 
     sModel = [[UIDevice currentDevice] model];
     if (![sModel isEqualToString:@"iPhone"])
@@ -67,36 +64,6 @@
 
 #pragma mark -
 #pragma mark Private
-
-
-- (void)updateCharCounter
-{
-    UIImage  *sImage = nil;
-    NSString *sBody  = [mBodyTextView text];
-    UIFont   *sFont  = [UIFont systemFontOfSize:17];
-    NSString *sStr   = [NSString stringWithFormat:NSLocalizedString(@"%d character(s) remains", nil), (150 - [sBody length])];
-    CGSize    sSize  = [sStr sizeWithFont:sFont];
-    CGRect    sFrame;
-
-    sSize.width  += 10;
-    sSize.height += 6;
-
-    UIGraphicsBeginImageContext(sSize);
-    [[UIColor orangeColor] set];
-    MERoundRectFill(CGRectMake(0, 0, sSize.width, sSize.height), 3);
-
-    [[UIColor blackColor] set];
-    [sStr drawAtPoint:CGPointMake(5, 5) withFont:sFont];
-
-    sImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-
-    sFrame = CGRectMake(320 - sSize.width - 23, 191, sSize.width, sSize.height);
-
-    [mCharCountLayer setOpacity:0.7];
-    [mCharCountLayer setContents:(id)[sImage CGImage]];
-    [mCharCountLayer setFrame:sFrame];
-}
 
 
 - (void)setInterfaceEnabled:(BOOL)aFlag
@@ -174,8 +141,11 @@
 {
     if (aTextView == mBodyTextView)
     {
-        [self updateCharCounter];
-        [mCharCountLayer setHidden:NO];
+        [mCharCounter setTextOwner:mBodyTextView];
+        [mCharCounter setLimitCount:150];
+        [mCharCounter setFrame:CGRectMake(200, 195, 0, 0)];        
+        [mCharCounter setHidden:NO];
+        [mCharCounter update];
     }
 }
 
@@ -184,8 +154,7 @@
 {
     if (aTextView == mBodyTextView)
     {
-        [mCharCountLayer setContents:nil];
-        [mCharCountLayer setHidden:YES];
+        [mCharCounter setHidden:YES];
     }
 }
 
@@ -194,7 +163,7 @@
 {
     if (aTextView == mBodyTextView)
     {
-        [self updateCharCounter];
+        [mCharCounter update];
     }
 
     NSRange sRange = [aTextView selectedRange];

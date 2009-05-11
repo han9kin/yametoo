@@ -10,6 +10,9 @@
 #import <UIKit/UIKit.h>
 
 
+@class MECharCounter;
+
+
 @interface MEPostViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
     IBOutlet UIBarButtonItem *mCancelButton;
@@ -20,8 +23,8 @@
     IBOutlet UITextField     *mTagTextField;
     IBOutlet UIImageView     *mAttachedImageView;
 
-    CALayer *mCharCountLayer;
-    UIImage *mAttachedImage;
+    MECharCounter *mCharCounter;
+    UIImage       *mAttachedImage;
 }
 
 - (IBAction)takePictureButtonTapped:(id)aSender;
