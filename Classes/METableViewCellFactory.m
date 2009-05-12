@@ -519,7 +519,7 @@ enum
     {
         [sImageView setFrame:CGRectMake(265, 9, kIconImageSize + 2, kIconImageSize + 2)];
         [sBodyLabel setFrame:CGRectMake(10, 10, kCommentBodyWidth, 0)];
-        [sAuthorLabel setFrame:CGRectMake(264, 41, kIconImageSize + 2, 14)];
+        [sAuthorLabel setFrame:CGRectMake(265, 41, kIconImageSize + 2, 14)];
     }
     else
     {
