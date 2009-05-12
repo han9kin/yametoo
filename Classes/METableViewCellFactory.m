@@ -37,6 +37,8 @@ enum
 
     kCommentFaceImageTag,
     kCommentBodyTag,
+    kCommentAuthorTag,
+    kCommentPubDateTag,
 };
 
 
@@ -324,6 +326,8 @@ enum
     UITableViewCell   *sCell;
     MEImageView       *sImageView;
     MEAttributedLabel *sBodyLabel;
+    UILabel           *sAuthorLabel;
+    UILabel           *sPubDateLabel;
 
     sCell = [aTableView dequeueReusableCellWithIdentifier:@"Comment"];
 
@@ -343,6 +347,22 @@ enum
         [sImageView setTag:kCommentFaceImageTag];
         [[sCell contentView] addSubview:sImageView];
         [sImageView release];
+        
+        sAuthorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        [sAuthorLabel setTag:kCommentAuthorTag];
+        [sAuthorLabel setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:0.7]];
+        [sAuthorLabel setFont:[UIFont systemFontOfSize:9]];
+        [sAuthorLabel setTextColor:[UIColor whiteColor]];
+        [sAuthorLabel setTextAlignment:UITextAlignmentCenter];
+        [[sCell contentView] addSubview:sAuthorLabel];
+        [sAuthorLabel release];
+        
+        sPubDateLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        [sPubDateLabel setTag:kCommentPubDateTag];
+        [sPubDateLabel setFont:[UIFont systemFontOfSize:10]];
+        [sPubDateLabel setTextColor:[UIColor colorWithWhite:0.7 alpha:1.0]];        
+        [[sCell contentView] addSubview:sPubDateLabel];
+        [sPubDateLabel release];
     }
 
     return sCell;
@@ -468,24 +488,49 @@ enum
 
 - (void)setComment:(MEComment *)aComment isOwners:(BOOL)aOwners
 {
-    MEImageView       *sImageView  = (MEImageView *)[[self contentView] viewWithTag:kCommentFaceImageTag];
-    MEAttributedLabel *sBodyLabel  = (MEAttributedLabel *)[[self contentView] viewWithTag:kCommentBodyTag];
-
+    MEImageView       *sImageView    = (MEImageView *)[[self contentView] viewWithTag:kCommentFaceImageTag];
+    MEAttributedLabel *sBodyLabel    = (MEAttributedLabel *)[[self contentView] viewWithTag:kCommentBodyTag];
+    UILabel           *sAuthorLabel  = (UILabel *)[[self contentView] viewWithTag:kCommentAuthorTag];
+    UILabel           *sPubDateLabel = (UILabel *)[[self contentView] viewWithTag:kCommentPubDateTag];
+    CGRect             sBodyFrame;
+    CGFloat            sCellHeight;
+    
     if (aOwners)
     {
         [sImageView setFrame:CGRectMake(265, 9, kIconImageSize + 2, kIconImageSize + 2)];
         [sBodyLabel setFrame:CGRectMake(10, 10, kCommentBodyWidth, 0)];
+        [sAuthorLabel setFrame:CGRectMake(265, 41, kIconImageSize + 2, 14)];
     }
     else
     {
         [sImageView setFrame:CGRectMake(9, 9, kIconImageSize + 2, kIconImageSize + 2)];
         [sBodyLabel setFrame:CGRectMake(70, 10, kCommentBodyWidth, 0)];
+        [sAuthorLabel setFrame:CGRectMake(10, 41, kIconImageSize + 2, 14)];        
     }
 
     [sImageView setImageWithURL:[[aComment author] faceImageURL]];
 
     [sBodyLabel setAttributedText:[aComment body]];
     [sBodyLabel sizeToFit];
+    
+    [sAuthorLabel  setText:[[aComment author] nickname]];
+    [sPubDateLabel setText:[[aComment pubDate] description]];
+    
+    sBodyFrame  = [sBodyLabel frame];
+    sBodyFrame.size.height += 14;
+    
+    sCellHeight = 10;
+    sCellHeight += (sBodyFrame.size.height > kIconImageSize) ? sBodyFrame.size.height : kIconImageSize;
+    sCellHeight += 10;
+    
+    if (aOwners)
+    {
+        [sPubDateLabel setFrame:CGRectMake(10, sCellHeight - 20, 130, 14)];
+    }
+    else
+    {
+        [sPubDateLabel setFrame:CGRectMake(sBodyFrame.origin.x + 110, sCellHeight - 20, 130, 14)];    
+    }
 }
 
 

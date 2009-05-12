@@ -192,10 +192,11 @@
     MEAttributedString *sCommentStr = [sComment body];
     CGSize              sSize;
 
-    sResult  = 10;
-    sSize    = [sCommentStr sizeForWidth:kCommentBodyWidth];
-    sResult += (sSize.height > kIconImageSize) ? sSize.height : kIconImageSize;
-    sResult += 10;
+    sResult       = 10;
+    sSize         = [sCommentStr sizeForWidth:kCommentBodyWidth];
+    sSize.height += 14;
+    sResult      += (sSize.height > kIconImageSize) ? sSize.height : kIconImageSize;
+    sResult      += 10;
 
     return sResult;
 }

@@ -21,19 +21,20 @@ typedef enum MEReaderViewControllerType
 
 @class MEMediaView;
 
+
 @interface MEReaderViewController : UIViewController <MEReaderViewDataSource, MEReaderViewDelegate>
 {
-    UILabel                    *mTitleLabel;
-    MEReaderView               *mReaderView;
-    MEMediaView                *mMediaView;
+    UILabel        *mTitleLabel;
+    MEReaderView   *mReaderView;
+    MEMediaView    *mMediaView;
 
-    NSString                   *mTitle;
-    NSMutableArray             *mPosts;
-    NSDate                     *mLastestDate;
-    NSTimer                    *mTimer;
+    NSString       *mTitle;
+    NSMutableArray *mPosts;
+    NSDate         *mLastestDate;
+    NSTimer        *mTimer;
 
-    NSInteger                   mMoreOffset;
-    NSInteger                   mUpdateOffset;
+    NSInteger       mMoreOffset;
+    NSInteger       mUpdateOffset;
 }
 
 

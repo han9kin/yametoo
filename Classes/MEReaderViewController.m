@@ -212,7 +212,8 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     UIView  *sView;
 
     sView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)];
-    [sView setBackgroundColor:[UIColor colorWithRed:1.0 green:0.7 blue:0.7 alpha:1.0]];
+//    [sView setBackgroundColor:[UIColor colorWithRed:1.0 green:0.7 blue:0.7 alpha:1.0]];
+    [sView setBackgroundColor:[UIColor lightGrayColor]];
     [[self view] addSubview:sView];
     [sView release];
 

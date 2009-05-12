@@ -56,7 +56,7 @@
     sButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [sButton setFrame:CGRectMake(220, 312, 70, 30)];
     [sButton setTitle:NSLocalizedString(@"Close", nil) forState:UIControlStateNormal];
-    [sButton addTarget:self action:@selector(closeButtonTapped:) forControlEvents:UIControlEventTouchDown];
+    [sButton addTarget:self action:@selector(closeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [mBackView addSubview:sButton];
 }
 
