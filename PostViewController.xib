@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="56"/>
+			<integer value="34"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -93,10 +93,10 @@
 							<int key="NSfFlags">16</int>
 						</object>
 						<int key="IBUIButtonType">1</int>
-						<string key="IBUIHighlightedTitle">Take Picture</string>
-						<string key="IBUIDisabledTitle">Take Picture</string>
-						<string key="IBUISelectedTitle">Take Picture</string>
-						<string key="IBUINormalTitle">Take Picture</string>
+						<string type="base64-UTF8" key="IBUIHighlightedTitle">7IKs7KeEIOywjeq4sA</string>
+						<string type="base64-UTF8" key="IBUIDisabledTitle">7IKs7KeEIOywjeq4sA</string>
+						<string type="base64-UTF8" key="IBUISelectedTitle">7IKs7KeEIOywjeq4sA</string>
+						<string type="base64-UTF8" key="IBUINormalTitle">7IKs7KeEIOywjeq4sA</string>
 						<reference key="IBUIHighlightedTitleColor" ref="122071437"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
@@ -201,13 +201,13 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUINavigationItem" id="325303498">
 								<reference key="IBUINavigationBar" ref="999838706"/>
-								<string key="IBUITitle">New Post</string>
+								<string type="base64-UTF8" key="IBUITitle">7IOI6riA7J6R7ISxA</string>
 								<object class="IBUIBarButtonItem" key="IBUILeftBarButtonItem" id="582356325">
-									<string key="IBUITitle">Cancel</string>
+									<string type="base64-UTF8" key="IBUITitle">7Leo7IaMA</string>
 									<int key="IBUIStyle">1</int>
 								</object>
 								<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="919668658">
-									<string key="IBUITitle">Post</string>
+									<string type="base64-UTF8" key="IBUITitle">7Jis66as6riwA</string>
 									<int key="IBUIStyle">2</int>
 								</object>
 							</object>
@@ -216,7 +216,7 @@
 					<object class="IBUIButton" id="192419766">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{130, 317}, {170, 37}}</string>
+						<string key="NSFrame">{{130, 317}, {171, 37}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -224,10 +224,10 @@
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<reference key="IBUIFont" ref="424156742"/>
 						<int key="IBUIButtonType">1</int>
-						<string key="IBUIHighlightedTitle">From Photo Library</string>
-						<string key="IBUIDisabledTitle">From Photo Library</string>
-						<string key="IBUISelectedTitle">From Photo Library</string>
-						<string key="IBUINormalTitle">From Photo Library</string>
+						<string type="base64-UTF8" key="IBUIHighlightedTitle">7JWo67KU7JeQ7IScIOqwgOyguOyYpOq4sA</string>
+						<string type="base64-UTF8" key="IBUIDisabledTitle">7JWo67KU7JeQ7IScIOqwgOyguOyYpOq4sA</string>
+						<string type="base64-UTF8" key="IBUISelectedTitle">7JWo67KU7JeQ7IScIOqwgOyguOyYpOq4sA</string>
+						<string type="base64-UTF8" key="IBUINormalTitle">7JWo67KU7JeQ7IScIOqwgOyguOyYpOq4sA</string>
 						<reference key="IBUIHighlightedTitleColor" ref="122071437"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
@@ -581,12 +581,10 @@
 							<string>cancelButtonTapped:</string>
 							<string>fromPhotoLibraryButtonTapped:</string>
 							<string>postButtonTapped:</string>
-							<string>tagDidUpdated:</string>
 							<string>takePictureButtonTapped:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

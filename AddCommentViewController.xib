@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="12"/>
+			<integer value="6"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -80,13 +80,13 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUINavigationItem" id="192045813">
 								<reference key="IBUINavigationBar" ref="1011656167"/>
-								<string key="IBUITitle">Add Comment</string>
+								<string type="base64-UTF8" key="IBUITitle">64yT6riA7J6R7ISxA</string>
 								<object class="IBUIBarButtonItem" key="IBUILeftBarButtonItem" id="308208253">
-									<string key="IBUITitle">Close</string>
+									<string type="base64-UTF8" key="IBUITitle">7Leo7IaMA</string>
 									<int key="IBUIStyle">1</int>
 								</object>
 								<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="643644924">
-									<string key="IBUITitle">Post</string>
+									<string type="base64-UTF8" key="IBUITitle">7Jis66as6riwA</string>
 									<int key="IBUIStyle">2</int>
 								</object>
 							</object>
