@@ -62,16 +62,12 @@
     }
     else
     {
-        UINavigationBar  *sParentNavigationBar;
         UINavigationBar  *sNavigationBar;
         UINavigationItem *sNavigationItem;
         UIBarButtonItem  *sBarButtonItem;
 
-        sParentNavigationBar = [[mParentViewController navigationController] navigationBar];
-
         sNavigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, 320, 74)];
-        [sNavigationBar setBarStyle:[sParentNavigationBar barStyle]];
-        [sNavigationBar setTintColor:[sParentNavigationBar tintColor]];
+        [sNavigationBar setBarStyle:UIBarStyleBlackOpaque];
         [[self view] addSubview:sNavigationBar];
         [sNavigationBar release];
 
@@ -191,17 +187,14 @@
 
 - (void)deleteButtonTapped
 {
-    if (![mUserID isEqualToString:[[MEClientStore currentClient] userID]])
-    {
-        UIActionSheet *sActionSheet;
-        NSString      *sTitle;
+    UIActionSheet *sActionSheet;
+    NSString      *sTitle;
 
-        sTitle = [NSString stringWithFormat:NSLocalizedString(@"Delete account \"%@\".", @""), mUserID];
+    sTitle = [NSString stringWithFormat:NSLocalizedString(@"Delete account \"%@\".", @""), mUserID];
 
-        sActionSheet = [[UIActionSheet alloc] initWithTitle:sTitle delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:NSLocalizedString(@"Delete Account", @"") otherButtonTitles:nil];
-        [sActionSheet showInView:[self view]];
-        [sActionSheet release];
-    }
+    sActionSheet = [[UIActionSheet alloc] initWithTitle:sTitle delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:NSLocalizedString(@"Delete Account", @"") otherButtonTitles:nil];
+    [sActionSheet showInView:[self view]];
+    [sActionSheet release];
 }
 
 
@@ -306,7 +299,6 @@
         {
             case 0:
                 sCell = [METableViewCellFactory buttonCellForTableView:aTableView];
-                [sCell setDisabled:[mUserID isEqualToString:[[MEClientStore currentClient] userID]]];
                 [sCell setText:NSLocalizedString(@"Delete this Account", @"")];
                 break;
 

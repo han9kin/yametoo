@@ -15,12 +15,12 @@
 
 @interface AppDelegate : NSObject <UIApplicationDelegate>
 {
-    UIWindow                       *mWindow;
-    IBOutlet MELoginViewController *mLoginViewController;
-    IBOutlet UITabBarController    *mViewController;
+    UIWindow              *mWindow;
+    UITabBarController    *mTabBarController;
+    MELoginViewController *mLoginViewController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow           *window;
-@property (nonatomic, retain) IBOutlet UITabBarController *viewController;
+@property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 
 @end

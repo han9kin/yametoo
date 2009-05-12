@@ -24,25 +24,7 @@
 NSString *MEClientErrorDomain = @"MEClientErrorDomain";
 
 
-static NSOperationQueue    *gOperationQueue   = nil;
-static NSMutableDictionary *gQueuedOperations = nil;
-
-
 @implementation MEClient
-
-
-+ (void)initialize
-{
-    if (!gOperationQueue)
-    {
-        gOperationQueue = [[NSOperationQueue alloc] init];
-    }
-
-    if (!gQueuedOperations)
-    {
-        gQueuedOperations = [[NSMutableDictionary alloc] init];
-    }
-}
 
 
 #pragma mark -
@@ -56,11 +38,32 @@ static NSMutableDictionary *gQueuedOperations = nil;
 #pragma mark init/dealloc
 
 
+- (id)init
+{
+    self = [super init];
+
+    if (self)
+    {
+        mOperationQueue   = [[NSOperationQueue alloc] init];
+        mQueuedOperations = [[NSMutableDictionary alloc] init];
+
+        [mOperationQueue setMaxConcurrentOperationCount:2];
+    }
+
+    return self;
+}
+
+
 - (void)dealloc
 {
+    [mOperationQueue cancelAllOperations];
+
     [mUserID release];
     [mAuthKey release];
     [mPasscode release];
+    [mOperationQueue release];
+    [mQueuedOperations release];
+
     [super dealloc];
 }
 
@@ -78,6 +81,11 @@ static NSMutableDictionary *gQueuedOperations = nil;
         mUserID   = [[aCoder decodeObjectForKey:@"userID"] retain];
         mAuthKey  = [[aCoder decodeObjectForKey:@"authKey"] retain];
         mPasscode = [[aCoder decodeObjectForKey:@"passcode"] retain];
+
+        mOperationQueue   = [[NSOperationQueue alloc] init];
+        mQueuedOperations = [[NSMutableDictionary alloc] init];
+
+        [mOperationQueue setMaxConcurrentOperationCount:2];
     }
 
     return self;
@@ -154,6 +162,13 @@ static NSMutableDictionary *gQueuedOperations = nil;
 #pragma mark client behaviors
 
 
+- (void)cancelAllOperations
+{
+    [mOperationQueue cancelAllOperations];
+    [mQueuedOperations removeAllObjects];
+}
+
+
 - (void)loadImageWithURL:(NSURL *)aURL key:(id)aKey delegate:(id)aDelegate
 {
     UIImage *sImage = [MEImageCache imageForURL:aURL];
@@ -168,7 +183,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
         NSMutableArray *sWaitingContexts;
 
         sContext         = [NSDictionary dictionaryWithObjectsAndKeys:aURL, @"url", aDelegate, @"delegate", aKey, @"key", nil];
-        sWaitingContexts = [gQueuedOperations objectForKey:aURL];
+        sWaitingContexts = [mQueuedOperations objectForKey:aURL];
 
         if (sWaitingContexts)
         {
@@ -176,7 +191,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
         }
         else
         {
-            [gQueuedOperations setObject:[NSMutableArray array] forKey:aURL];
+            [mQueuedOperations setObject:[NSMutableArray array] forKey:aURL];
 
             MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
@@ -187,7 +202,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
             [sOperation setSelector:@selector(clientOperation:didReceiveImageResult:error:)];
             [sOperation retainContext];
 
-            [gOperationQueue addOperation:sOperation];
+            [mOperationQueue addOperation:sOperation];
             [sOperation release];
         }
     }
@@ -199,13 +214,13 @@ static NSMutableDictionary *gQueuedOperations = nil;
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
     [sOperation setRequest:[self loginRequestWithUserID:aUserID userKey:aUserKey]];
-    [sOperation setQueuePriority:NSOperationQueuePriorityHigh];
+    [sOperation setQueuePriority:NSOperationQueuePriorityVeryHigh];
     [sOperation setContext:[NSDictionary dictionaryWithObjectsAndKeys:aDelegate, @"delegate", aUserID, @"userID", nil]];
     [sOperation setDelegate:self];
     [sOperation setSelector:@selector(clientOperation:didReceiveLoginResult:error:)];
     [sOperation retainContext];
 
-    [gOperationQueue addOperation:sOperation];
+    [mOperationQueue addOperation:sOperation];
     [sOperation release];
 }
 
@@ -215,13 +230,13 @@ static NSMutableDictionary *gQueuedOperations = nil;
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
     [sOperation setRequest:[self createCommentRequestWithPostID:aPostID body:aBody]];
-    [sOperation setQueuePriority:NSOperationQueuePriorityHigh];
+    [sOperation setQueuePriority:NSOperationQueuePriorityVeryHigh];
     [sOperation setContext:aDelegate];
     [sOperation setDelegate:self];
     [sOperation setSelector:@selector(clientOperation:didReceiveCreateCommentResult:error:)];
     [sOperation retainContext];
 
-    [gOperationQueue addOperation:sOperation];
+    [mOperationQueue addOperation:sOperation];
     [sOperation release];
 }
 
@@ -231,13 +246,13 @@ static NSMutableDictionary *gQueuedOperations = nil;
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
     [sOperation setRequest:[self createPostRequestWithBody:aBody tags:[aTags stringByAppendingString:@" yametoo"] icon:aIcon attachedImage:aImage]];
-    [sOperation setQueuePriority:NSOperationQueuePriorityHigh];
+    [sOperation setQueuePriority:NSOperationQueuePriorityVeryHigh];
     [sOperation setContext:aDelegate];
     [sOperation setDelegate:self];
     [sOperation setSelector:@selector(clientOperation:didReceiveCreatePostResult:error:)];
     [sOperation retainContext];
 
-    [gOperationQueue addOperation:sOperation];
+    [mOperationQueue addOperation:sOperation];
     [sOperation release];
 }
 
@@ -253,7 +268,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
     [sOperation setSelector:@selector(clientOperation:didReceiveGetCommentsResult:error:)];
     [sOperation retainContext];
 
-    [gOperationQueue addOperation:sOperation];
+    [mOperationQueue addOperation:sOperation];
     [sOperation release];
 }
 
@@ -269,7 +284,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
     [sOperation setSelector:@selector(clientOperation:didReceiveGetFriendsResult:error:)];
     [sOperation retainContext];
 
-    [gOperationQueue addOperation:sOperation];
+    [mOperationQueue addOperation:sOperation];
     [sOperation release];
 }
 
@@ -285,7 +300,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
     [sOperation setSelector:@selector(clientOperation:didReceiveGetMetoosResult:error:)];
     [sOperation retainContext];
 
-    [gOperationQueue addOperation:sOperation];
+    [mOperationQueue addOperation:sOperation];
     [sOperation release];
 }
 
@@ -295,7 +310,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
     NSMutableURLRequest *sRequest         = [self getPersonRequestWithUserID:aUserID];
     NSURL               *sURL             = [sRequest URL];
     NSDictionary        *sContext         = [NSDictionary dictionaryWithObjectsAndKeys:sURL, @"url", aDelegate, @"delegate", nil];
-    NSMutableArray      *sWaitingContexts = [gQueuedOperations objectForKey:sURL];
+    NSMutableArray      *sWaitingContexts = [mQueuedOperations objectForKey:sURL];
 
     if (sWaitingContexts)
     {
@@ -303,7 +318,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
     }
     else
     {
-        [gQueuedOperations setObject:[NSMutableArray array] forKey:sURL];
+        [mQueuedOperations setObject:[NSMutableArray array] forKey:sURL];
 
         MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
@@ -314,7 +329,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
         [sOperation setSelector:@selector(clientOperation:didReceiveGetPersonResult:error:)];
         [sOperation retainContext];
 
-        [gOperationQueue addOperation:sOperation];
+        [mOperationQueue addOperation:sOperation];
         [sOperation release];
     }
 }
@@ -331,7 +346,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
     [sOperation setSelector:@selector(clientOperation:didReceiveGetPostsResult:error:)];
     [sOperation retainContext];
 
-    [gOperationQueue addOperation:sOperation];
+    [mOperationQueue addOperation:sOperation];
     [sOperation release];
 }
 
@@ -347,7 +362,7 @@ static NSMutableDictionary *gQueuedOperations = nil;
     [sOperation setSelector:@selector(clientOperation:didReceiveMetooResult:error:)];
     [sOperation retainContext];
 
-    [gOperationQueue addOperation:sOperation];
+    [mOperationQueue addOperation:sOperation];
     [sOperation release];
 }
 
@@ -447,14 +462,14 @@ static NSMutableDictionary *gQueuedOperations = nil;
     [sInvocation setArgument:&sError atIndex:5];
     [sInvocation invokeWithTarget:sDelegate];
 
-    for (sContext in [gQueuedOperations objectForKey:sURL])
+    for (sContext in [mQueuedOperations objectForKey:sURL])
     {
         sKey = [sContext objectForKey:@"key"];
         [sInvocation setArgument:&sKey atIndex:4];
         [sInvocation invokeWithTarget:[sContext objectForKey:@"delegate"]];
     }
 
-    [gQueuedOperations removeObjectForKey:sURL];
+    [mQueuedOperations removeObjectForKey:sURL];
 }
 
 
@@ -756,12 +771,12 @@ static NSMutableDictionary *gQueuedOperations = nil;
     [sInvocation setArgument:&sError atIndex:4];
     [sInvocation invokeWithTarget:sDelegate];
 
-    for (sContext in [gQueuedOperations objectForKey:sURL])
+    for (sContext in [mQueuedOperations objectForKey:sURL])
     {
         [sInvocation invokeWithTarget:[sContext objectForKey:@"delegate"]];
     }
 
-    [gQueuedOperations removeObjectForKey:sURL];
+    [mQueuedOperations removeObjectForKey:sURL];
 }
 
 

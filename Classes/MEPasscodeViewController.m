@@ -82,10 +82,11 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
+    [mBackView removeFromSuperview];
+    [mKeyboardLockView removeFromSuperview];
     [mCancelButton removeFromSuperview];
 
     [mPasscodeFields release];
-    [mKeyboardLockView release];
     [mCancelButton release];
     [mPasscode release];
     [mClient release];
@@ -123,7 +124,7 @@
     }
 
     mTitleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-    [mTitleView setBackgroundColor:[UIColor darkGrayColor]];
+    [mTitleView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
     [[self view] addSubview:mTitleView];
     [mTitleView release];
 
@@ -144,28 +145,76 @@
     [mTitleView addSubview:mDescLabel];
     [mDescLabel release];
 
-    sTextField = [[UITextField alloc] initWithFrame:CGRectMake(110, 200, 100, 31)];
-    [sTextField setClearButtonMode:UITextFieldViewModeNever];
-    [sTextField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-    [sTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
-    [sTextField setEnablesReturnKeyAutomatically:YES];
-    [sTextField setKeyboardAppearance:UIKeyboardAppearanceAlert];
-    [sTextField setKeyboardType:UIKeyboardTypeNumberPad];
-    [sTextField setReturnKeyType:UIReturnKeyDefault];
-    [sTextField setSecureTextEntry:YES];
-    [sTextField setHidden:YES];
-    [sTextField setDelegate:self];
-    [[self view] addSubview:sTextField];
-    [sTextField becomeFirstResponder];
-    [sTextField release];
+    mTextField = [[UITextField alloc] initWithFrame:CGRectMake(110, 200, 100, 31)];
+    [mTextField setClearButtonMode:UITextFieldViewModeNever];
+    [mTextField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+    [mTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
+    [mTextField setEnablesReturnKeyAutomatically:YES];
+    [mTextField setKeyboardAppearance:UIKeyboardAppearanceAlert];
+    [mTextField setKeyboardType:UIKeyboardTypeNumberPad];
+    [mTextField setReturnKeyType:UIReturnKeyDefault];
+    [mTextField setSecureTextEntry:YES];
+    [mTextField setHidden:YES];
+    [mTextField setDelegate:self];
+    [[self view] addSubview:mTextField];
+    [mTextField becomeFirstResponder];
+    [mTextField release];
 
     mCancelButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
     [mCancelButton setFrame:CGRectMake(0, 163, 106, 53)];
     [mCancelButton setFont:[UIFont boldSystemFontOfSize:12.0]];
-    [mCancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    [mCancelButton setTitle:NSLocalizedString(@"Cancel", @"") forState:UIControlStateNormal];
     [mCancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [mCancelButton setBackgroundImage:[UIImage imageNamed:@"keypad_highlighted.png"] forState:UIControlStateHighlighted];
     [mCancelButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+}
+
+
+- (void)showInView:(UIView *)aView
+{
+    if (!mBackView)
+    {
+        mBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [aView frame].size.width, [aView frame].size.height)];
+        [mBackView setBackgroundColor:[UIColor clearColor]];
+        [aView addSubview:mBackView];
+        [mBackView release];
+    }
+
+    [[self view] setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
+    [[self view] setFrame:CGRectMake(0, -244, 320, 244)];
+
+    [mTitleView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
+
+    [mBackView addSubview:[self view]];
+
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.3];
+    [mBackView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
+    [[self view] setFrame:CGRectMake(0, 0, 320, 244)];
+    [UIView commitAnimations];
+}
+
+- (void)dismiss
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.3];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDidStopSelector:@selector(dismissAnimationDidStop:finished:context:)];
+    [[self view] setFrame:CGRectMake(0, -244, 320, 244)];
+    [mBackView setBackgroundColor:[UIColor clearColor]];
+    [UIView commitAnimations];
+
+    [mTextField resignFirstResponder];
+}
+
+- (void)dismissAnimationDidStop:(NSString *)aAnimationID finished:(NSNumber *)aFinished context:(void *)aContext
+{
+    [mBackView removeFromSuperview];
+    [[self view] removeFromSuperview];
+
+    mBackView = nil;
+
+    [mDelegate performSelector:mDidEndSelector withObject:self withObject:mClient];
 }
 
 
@@ -206,7 +255,7 @@
 
 - (void)unlockEditing
 {
-    [mTitleView setBackgroundColor:[UIColor darkGrayColor]];
+    [mTitleView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
     [mPasscodeFields makeObjectsPerformSelector:@selector(clear)];
     [mKeyboardLockView removeFromSuperview];
     mKeyboardLockView = nil;
@@ -231,7 +280,7 @@
         {
             if ([mClient checkPasscode:sPasscode])
             {
-                [mDelegate passcodeViewController:self didFinishAuthenticationClient:mClient];
+                mDidEndSelector = @selector(passcodeViewController:didFinishAuthenticationClient:);
             }
             else
             {
@@ -247,7 +296,7 @@
                 if ([mPasscode isEqualToString:sPasscode])
                 {
                     [mClient setPasscode:mPasscode];
-                    [mDelegate passcodeViewController:self didFinishChangingPasscodeClient:mClient];
+                    mDidEndSelector = @selector(passcodeViewController:didFinishChangingPasscodeClient:);
                 }
                 else
                 {
@@ -271,17 +320,38 @@
 
         [aTextField setText:nil];
     }
+
+    if (mDidEndSelector)
+    {
+        if (mBackView)
+        {
+            [self dismiss];
+        }
+        else
+        {
+            [mDelegate performSelector:mDidEndSelector withObject:self withObject:mClient];
+        }
+    }
 }
 
 - (void)cancelButtonTapped
 {
     if (mMode == kMEPasscodeViewModeAuthenticate)
     {
-        [mDelegate passcodeViewController:self didCancelAuthenticationClient:mClient];
+        mDidEndSelector = @selector(passcodeViewController:didCancelAuthenticationClient:);
     }
     else
     {
-        [mDelegate passcodeViewController:self didCancelChangingPasscodeClient:mClient];
+        mDidEndSelector = @selector(passcodeViewController:didCancelChangingPasscodeClient:);
+    }
+
+    if (mBackView)
+    {
+        [self dismiss];
+    }
+    else
+    {
+        [mDelegate performSelector:mDidEndSelector withObject:self withObject:mClient];
     }
 }
 

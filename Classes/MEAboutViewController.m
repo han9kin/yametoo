@@ -73,6 +73,7 @@
         UIBarButtonItem  *sBarButtonItem;
 
         sNavigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+        [sNavigationBar setBarStyle:UIBarStyleBlackOpaque];
         [[self view] addSubview:sNavigationBar];
         [sNavigationBar release];
 

@@ -633,10 +633,10 @@
 				CF5EE7600F97164A004712FF /* MEAccountSettingsViewController.m */,
 				CFE732240FB192D900C54792 /* MEFetchSettingsViewController.h */,
 				CFE732250FB192D900C54792 /* MEFetchSettingsViewController.m */,
-				CFE72E9C0FA863B900C54792 /* MEAboutViewController.h */,
-				CFE72E9D0FA863B900C54792 /* MEAboutViewController.m */,
 				CF5EE8630F98525E004712FF /* MEAccountDetailViewController.h */,
 				CF5EE8640F98525E004712FF /* MEAccountDetailViewController.m */,
+				CFE72E9C0FA863B900C54792 /* MEAboutViewController.h */,
+				CFE72E9D0FA863B900C54792 /* MEAboutViewController.m */,
 			);
 			name = "Settings View Controller";
 			sourceTree = "<group>";
@@ -845,7 +845,7 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E37DCFD4-2F23-4228-AE3D-973A8CEEB46C";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F277D087-B900-4378-8A96-3DC601200EA6";
 				SDKROOT = iphoneos2.2.1;
 			};
 			name = Debug;
@@ -860,7 +860,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E37DCFD4-2F23-4228-AE3D-973A8CEEB46C";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F277D087-B900-4378-8A96-3DC601200EA6";
 				SDKROOT = iphoneos2.2.1;
 			};
 			name = Release;

@@ -20,6 +20,7 @@ extern NSString *MEClientStoreCurrentUserDidChangeNotification;
 {
     NSMutableDictionary *mClientsByUserID;
     MEClient            *mCurrentClient;
+    MEClient            *mAnyClient;
 }
 
 

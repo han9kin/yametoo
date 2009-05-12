@@ -31,7 +31,7 @@ static NSString *kClientsKey = @"clients";
 
 - (MEClient *)anyClient
 {
-    return [[mClientsByUserID allValues] lastObject];
+    return mAnyClient;
 }
 
 - (MEClient *)currentClient
@@ -43,6 +43,8 @@ static NSString *kClientsKey = @"clients";
 {
     if (mCurrentClient != aClient)
     {
+        [mCurrentClient cancelAllOperations];
+
         mCurrentClient = aClient;
 
         [[NSNotificationCenter defaultCenter] postNotificationName:MEClientStoreCurrentUserDidChangeNotification object:nil];
@@ -131,6 +133,8 @@ SYNTHESIZE_SINGLETON_CLASS(MEClientStore, sharedStore);
         {
             mClientsByUserID = [[NSMutableDictionary alloc] init];
         }
+
+        mAnyClient = [[MEClient alloc] init];
     }
 
     return self;
@@ -139,6 +143,7 @@ SYNTHESIZE_SINGLETON_CLASS(MEClientStore, sharedStore);
 - (void)dealloc
 {
     [mClientsByUserID release];
+    [mAnyClient release];
     [super dealloc];
 }
 

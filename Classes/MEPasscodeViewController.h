@@ -33,10 +33,12 @@ typedef enum MEPasscodeViewMode
 
 @interface MEPasscodeViewController : UIViewController <UITextFieldDelegate>
 {
-    NSMutableArray     *mPasscodeFields;
+    UIView             *mBackView;
     UIView             *mTitleView;
     UILabel            *mTitleLabel;
     UILabel            *mDescLabel;
+    UITextField        *mTextField;
+    NSMutableArray     *mPasscodeFields;
     UIView             *mKeyboardLockView;
     UIButton           *mCancelButton;
 
@@ -45,9 +47,12 @@ typedef enum MEPasscodeViewMode
     MEClient           *mClient;
     MEPasscodeViewMode  mMode;
     id                  mDelegate;
+    SEL                 mDidEndSelector;
 }
 
 
 - (id)initWithClient:(MEClient *)aClient mode:(MEPasscodeViewMode)aMode delegate:(id)aDelegate;
+
+- (void)showInView:(UIView *)aView;
 
 @end

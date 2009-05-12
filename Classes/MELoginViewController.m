@@ -189,8 +189,7 @@
             if ([sClient hasPasscode])
             {
                 sViewController = [[MEPasscodeViewController alloc] initWithClient:sClient mode:kMEPasscodeViewModeAuthenticate delegate:self];
-                [self presentModalViewController:sViewController animated:NO];
-                [sViewController release];
+                [(MEPasscodeViewController *)sViewController showInView:[self view]];
             }
             else
             {
@@ -200,7 +199,7 @@
         else
         {
             sViewController = [[MEAccountDetailViewController alloc] initWithUserID:nil parentViewController:self];
-            [sViewController setTitle:NSLocalizedString(@"Other Account", @"")];
+            [sViewController setTitle:NSLocalizedString(@"New Account", @"")];
             [self presentModalViewController:sViewController animated:YES];
             [sViewController release];
         }
@@ -237,14 +236,16 @@
 
 - (void)passcodeViewController:(MEPasscodeViewController *)aViewController didFinishAuthenticationClient:(MEClient *)aClient
 {
-    [self dismissModalViewControllerAnimated:NO];
     [MEClientStore setCurrentUserID:[aClient userID]];
+    [aViewController release];
+    [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:YES];
 }
 
 
 - (void)passcodeViewController:(MEPasscodeViewController *)aViewController didCancelAuthenticationClient:(MEClient *)aClient
 {
-    [self dismissModalViewControllerAnimated:NO];
+    [aViewController release];
+    [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:YES];
 }
 
 

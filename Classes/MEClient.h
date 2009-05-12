@@ -43,9 +43,12 @@ typedef enum MEClientGetPostsScope
 
 @interface MEClient : NSObject
 {
-    NSString *mUserID;
-    NSString *mAuthKey;
-    NSString *mPasscode;
+    NSString            *mUserID;
+    NSString            *mAuthKey;
+    NSString            *mPasscode;
+
+    NSOperationQueue    *mOperationQueue;
+    NSMutableDictionary *mQueuedOperations;
 }
 
 @property(nonatomic, readonly) NSString *userID;
@@ -55,6 +58,8 @@ typedef enum MEClientGetPostsScope
 - (BOOL)checkPasscode:(NSString *)aPasscode;
 - (BOOL)hasPasscode;
 
+
+- (void)cancelAllOperations;
 
 - (void)loadImageWithURL:(NSURL *)aURL key:(id)aKey delegate:(id)aDelegate;
 

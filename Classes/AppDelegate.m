@@ -14,6 +14,70 @@
 #import "MEReaderViewController.h"
 
 
+@interface AppDelegate (Private)
+@end
+
+@implementation AppDelegate (Private)
+
+
+- (void)showMainView
+{
+    if (mLoginViewController)
+    {
+        if ([[mWindow subviews] containsObject:[mLoginViewController view]])
+        {
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:0.5];
+            [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp forView:mWindow cache:YES];
+            [[mLoginViewController view] removeFromSuperview];
+            [mWindow addSubview:[mTabBarController view]];
+            [UIView commitAnimations];
+
+            [mLoginViewController autorelease];
+            mLoginViewController = nil;
+
+            if ([[mTabBarController selectedViewController] isKindOfClass:[UINavigationController class]])
+            {
+                [(UINavigationController *)[mTabBarController selectedViewController] popToRootViewControllerAnimated:NO];
+            }
+
+            [mTabBarController setSelectedIndex:0];
+        }
+        else
+        {
+            [self performSelector:_cmd withObject:nil afterDelay:0.1];
+        }
+    }
+}
+
+
+- (void)showLoginView
+{
+    if (!mLoginViewController)
+    {
+        mLoginViewController = [[MELoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        [[mLoginViewController view] setFrame:CGRectMake(0, 20, 320, 460)];
+
+        if ([[mTabBarController view] superview] == mWindow)
+        {
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:0.5];
+            [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:mWindow cache:YES];
+            [[mTabBarController view] removeFromSuperview];
+            [mWindow addSubview:[mLoginViewController view]];
+            [UIView commitAnimations];
+        }
+        else
+        {
+            [mWindow addSubview:[mLoginViewController view]];
+        }
+    }
+}
+
+
+@end
+
+
 @implementation AppDelegate
 
 
@@ -21,8 +85,8 @@
 #pragma mark Properties
 
 
-@synthesize window         = mWindow;
-@synthesize viewController = mViewController;
+@synthesize window           = mWindow;
+@synthesize tabBarController = mTabBarController;
 
 
 #pragma mark -
@@ -36,15 +100,9 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)aApplication
 {
-    NSNotificationCenter *sCenter = [NSNotificationCenter defaultCenter];
-    [sCenter addObserver:self
-                selector:@selector(currentUserDidChangeNotification:)
-                    name:MEClientStoreCurrentUserDidChangeNotification
-                  object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChangeNotification:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
 
-    mLoginViewController = [[MELoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-    [[mLoginViewController view] setFrame:CGRectMake(0, 20, 320, 460)];
-    [mWindow addSubview:[mLoginViewController view]];
+    [self showLoginView];
     [mWindow makeKeyAndVisible];
 }
 
@@ -52,35 +110,12 @@
 - (void)dealloc
 {
     [mLoginViewController release];
-    [mViewController      release];
-    [mWindow              release];
+    [mTabBarController release];
+    [mWindow release];
 
     [super dealloc];
 }
 
-
-#pragma mark -
-
-
-- (void)showMainView
-{
-    if (mLoginViewController)
-    {
-        if ([[mWindow subviews] containsObject:[mLoginViewController view]])
-        {
-            [[mLoginViewController view] removeFromSuperview];
-            [mLoginViewController autorelease];
-            mLoginViewController = nil;
-
-            [mWindow addSubview:[mViewController view]];
-            [mWindow makeKeyAndVisible];
-        }
-        else
-        {
-            [self performSelector:_cmd withObject:nil afterDelay:0.1];
-        }
-    }
-}
 
 #pragma mark -
 #pragma mark Notifications
@@ -91,6 +126,10 @@
     if ([MEClientStore currentClient])
     {
         [self showMainView];
+    }
+    else
+    {
+        [self showLoginView];
     }
 }
 
