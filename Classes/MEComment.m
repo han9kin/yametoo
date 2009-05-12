@@ -7,31 +7,10 @@
  *
  */
 
+#import "NSDate+MEAdditions.h"
 #import "MEComment.h"
 #import "MECommentBodyTextParser.h"
 #import "MEUser.h"
-
-
-
-@interface MEComment (DateFormatting)
-@end
-
-@implementation MEComment (DateFormatting)
-
-- (NSDate *)dateFromString:(NSString *)aDateString
-{
-    static NSDateFormatter *sDateFormatter = nil;
-
-    if (!sDateFormatter)
-    {
-        sDateFormatter = [[NSDateFormatter alloc] init];
-        [sDateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZ"];
-    }
-
-    return [sDateFormatter dateFromString:aDateString];
-}
-
-@end
 
 
 @implementation MEComment
@@ -50,7 +29,7 @@
     {
         mCommentID = [[aCommentDict objectForKey:@"commentId"] retain];
         mBody      = [[MECommentBodyTextParser attributedStringFromString:[aCommentDict objectForKey:@"body"]] retain];
-        mPubDate   = [[self dateFromString:[aCommentDict objectForKey:@"pubDate"]] retain];
+        mPubDate   = [[NSDate dateFromISO8601:[aCommentDict objectForKey:@"pubDate"]] retain];
         mAuthor    = [[MEUser userWithUserID:[[aCommentDict objectForKey:@"author"] objectForKey:@"id"]] retain];
 
         if (!mAuthor)

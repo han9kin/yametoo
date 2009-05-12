@@ -7,33 +7,13 @@
  *
  */
 
+#import "NSDate+MEAdditions.h"
 #import "NSURL+MEAdditions.h"
 #import "MEPost.h"
 #import "MEUser.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEPostBodyTextParser.h"
-
-
-@interface MEPost (DateFormatting)
-@end
-
-@implementation MEPost (DateFormatting)
-
-- (NSDate *)dateFromString:(NSString *)aDateString
-{
-    static NSDateFormatter *sDateFormatter = nil;
-
-    if (!sDateFormatter)
-    {
-        sDateFormatter = [[NSDateFormatter alloc] init];
-        [sDateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZ"];
-    }
-
-    return [sDateFormatter dateFromString:aDateString];
-}
-
-@end
 
 
 @implementation MEPost
@@ -70,7 +50,7 @@
         mPostID        = [[aPostDict objectForKey:@"post_id"] retain];
         mBody          = [[MEPostBodyTextParser attributedStringFromString:[aPostDict objectForKey:@"body"]] retain];
         mKind          = [[aPostDict objectForKey:@"kind"] retain];
-        mPubDate       = [[self dateFromString:[aPostDict objectForKey:@"pubDate"]] retain];
+        mPubDate       = [[NSDate dateFromISO8601:[aPostDict objectForKey:@"pubDate"]] retain];
         mCommentsCount = [[aPostDict objectForKey:@"commentsCount"] integerValue];
         mMetooCount    = [[aPostDict objectForKey:@"metooCount"] integerValue];
         mAuthor        = [[MEUser userWithUserID:[[aPostDict objectForKey:@"author"] objectForKey:@"id"]] retain];

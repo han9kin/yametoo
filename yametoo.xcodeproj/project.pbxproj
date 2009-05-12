@@ -92,6 +92,7 @@
 		CFE7320E0FB1906300C54792 /* MESettings.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE7320D0FB1906300C54792 /* MESettings.m */; };
 		CFE732260FB192D900C54792 /* MEFetchSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE732250FB192D900C54792 /* MEFetchSettingsViewController.m */; };
 		CFE732500FB19B4100C54792 /* UIColor+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE7324F0FB19B4100C54792 /* UIColor+MEAdditions.m */; };
+		CFFC6C660FB93E4800B935E7 /* NSDate+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFC6C650FB93E4800B935E7 /* NSDate+MEAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -251,6 +252,8 @@
 		CFE732250FB192D900C54792 /* MEFetchSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEFetchSettingsViewController.m; sourceTree = "<group>"; };
 		CFE7324E0FB19B4100C54792 /* UIColor+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+MEAdditions.h"; sourceTree = "<group>"; };
 		CFE7324F0FB19B4100C54792 /* UIColor+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+MEAdditions.m"; sourceTree = "<group>"; };
+		CFFC6C640FB93E4800B935E7 /* NSDate+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+MEAdditions.h"; sourceTree = "<group>"; };
+		CFFC6C650FB93E4800B935E7 /* NSDate+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+MEAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -487,6 +490,8 @@
 			isa = PBXGroup;
 			children = (
 				CF5EE6B30F95DE8D004712FF /* NSNull+NilObject.m */,
+				CFFC6C640FB93E4800B935E7 /* NSDate+MEAdditions.h */,
+				CFFC6C650FB93E4800B935E7 /* NSDate+MEAdditions.m */,
 				2ED164420F959B2A009557F1 /* NSString+MEAdditions.h */,
 				2ED164430F959B2A009557F1 /* NSString+MEAdditions.m */,
 				CF9046410F95C4A4001AE52C /* NSURL+MEAdditions.h */,
@@ -774,6 +779,7 @@
 				CFDD42A80FB41A4100B9931A /* MEImageButton.m in Sources */,
 				CFDD43CC0FB80A0900B9931A /* NSMutableData+MEAdditions.m in Sources */,
 				2E151E460FB7C18600E49861 /* MECharCounter.m in Sources */,
+				CFFC6C660FB93E4800B935E7 /* NSDate+MEAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
