@@ -49,6 +49,7 @@
     
     [mTextView setText:@""];
     [mTextView becomeFirstResponder];
+    [mTextView setReturnKeyType:UIReturnKeySend];
     
     [mCharCounter setTextOwner:mTextView];
     [mCharCounter setLimitCount:300];
@@ -114,7 +115,15 @@
 
 - (BOOL)textView:(UITextView *)aTextView shouldChangeTextInRange:(NSRange)aRange replacementText:(NSString *)aText
 {
-    if (aTextView == mTextView)
+    if ([aText length] == 1 && [aText characterAtIndex:0] == 10)
+    {
+        if (aTextView == mTextView)
+        {
+            [self postButtonTapped:self];
+            return NO;
+        }
+    }
+    else if (aTextView == mTextView)
     {
         NSString *sBody = [mTextView text];
         if ([sBody length] >= [mCharCounter limitCount])

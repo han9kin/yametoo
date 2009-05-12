@@ -146,7 +146,7 @@
                 [mTableView setTableHeaderView:sHeaderView];
             }
 
-            [sHeaderView setNickname:[sUser nickname]];
+            [sHeaderView setUserDescription:[sUser userDescription]];
             [sHeaderView setFaceImageURL:[sUser faceImageURL]];
         }
         else
@@ -327,15 +327,6 @@
 
 #pragma mark -
 #pragma mark MEReaderHead Delegate
-
-
-- (void)nicknameButtonTapped:(MEReaderHeadView *)aHeaderView;
-{
-    if ([mDelegate respondsToSelector:@selector(readerView:didTapUserInfoButtonForUser:)])
-    {
-        [mDelegate readerView:self didTapUserInfoButtonForUser:[mDataSource authorOfPostsInReaderView:self]];
-    }
-}
 
 
 - (void)newPostButtonTapped:(MEReaderHeadView *)aReaderHeadView

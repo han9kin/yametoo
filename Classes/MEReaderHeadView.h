@@ -14,7 +14,7 @@
 #define kFaceImageViewWidth         50
 #define kFaceImageViewHeight        50
 #define kNickButtonWidth            152
-#define kNickButtonHeight           35
+#define kNickButtonHeight           45
 #define kPostButtonWidth            90
 #define kPostButtonHeight           35
 
@@ -25,17 +25,16 @@
 {
     id           mDelegate;
     MEImageView *mFaceImageView;
-    UIButton    *mNicknameButton;
+    UILabel     *mUserDescLabel;
     UIButton    *mNewPostButton;
 }
 
 + (MEReaderHeadView *)readerHeadView;
 
 - (void)setDelegate:(id)aDelegate;
-- (void)setNickname:(NSString *)aNickname;
+- (void)setUserDescription:(NSString *)aUserDescription;
 - (void)setFaceImageURL:(NSURL *)aFaceImageURL;
 
-- (IBAction)nicknameButtonTapped:(id)aSender;
 - (IBAction)newPostButtonTapped:(id)aSender;
 
 @end
@@ -43,7 +42,6 @@
 
 @protocol MEReaderHeadViewDelegate
 
-- (void)nicknameButtonTapped:(MEReaderHeadView *)aHeaderView;
 - (void)newPostButtonTapped:(MEReaderHeadView *)aHeaderView;
 
 @end

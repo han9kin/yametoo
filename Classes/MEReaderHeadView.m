@@ -32,17 +32,15 @@
         }
 
         {
-            mNicknameButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [mNicknameButton setTitle:@"#User Nickname#" forState:UIControlStateNormal];
-            [mNicknameButton addTarget:self action:@selector(nicknameButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-
             sFrame.size.width  = kNickButtonWidth;
             sFrame.size.height = kNickButtonHeight;
             sFrame.origin.x    = 65;
-            sFrame.origin.y    = (int)((aFrame.size.height - sFrame.size.height ) / 2);
-            [mNicknameButton setFrame:sFrame];
-
-            [self addSubview:mNicknameButton];
+            sFrame.origin.y    = (int)((aFrame.size.height - sFrame.size.height) / 2);
+            mUserDescLabel = [[UILabel alloc] initWithFrame:sFrame];
+            [mUserDescLabel setFont:[UIFont systemFontOfSize:14]];
+            [mUserDescLabel setNumberOfLines:2];
+            [self addSubview:mUserDescLabel];
+            [mUserDescLabel release];
         }
 
         {
@@ -96,9 +94,9 @@
 }
 
 
-- (void)setNickname:(NSString *)aNickname
+- (void)setUserDescription:(NSString *)aUserDescription
 {
-    [mNicknameButton setTitle:[NSString stringWithFormat:@"%@'s me2day", aNickname] forState:UIControlStateNormal];
+    [mUserDescLabel setText:aUserDescription];
 }
 
 
@@ -110,15 +108,6 @@
 
 #pragma mark -
 #pragma mark Actions
-
-
-- (IBAction)nicknameButtonTapped:(id)aSender
-{
-    if ([mDelegate respondsToSelector:@selector(nicknameButtonTapped:)])
-    {
-        [mDelegate nicknameButtonTapped:self];
-    }
-}
 
 
 - (IBAction)newPostButtonTapped:(id)aSender

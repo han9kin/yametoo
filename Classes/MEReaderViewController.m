@@ -395,14 +395,6 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 }
 
 
-- (void)readerView:(MEReaderView *)aReaderView didTapUserInfoButtonForUser:(MEUser *)aUser
-{
-    MEUserInfoViewController *sUserInfoViewController = [[MEUserInfoViewController alloc] initWithNibName:@"UserInfoViewController" bundle:nil];
-    [sUserInfoViewController setUser:aUser];
-    [[self view] addSubview:[sUserInfoViewController view]];
-}
-
-
 - (void)readerView:(MEReaderView *)aReaderView didTapPostIconButtonForPost:(MEPost *)aPost
 {
     NSURL *sPhotoURL = [aPost photoURL];

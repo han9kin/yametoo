@@ -601,16 +601,16 @@
 				2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */,
 				2EC19A570F9C1D5D00963971 /* MELoginViewController.h */,
 				2EC19A580F9C1D5D00963971 /* MELoginViewController.m */,
-				2E7520FE0FA6CDA300B0D4FA /* MEUserInfoViewController.h */,
-				2E7520FF0FA6CDA300B0D4FA /* MEUserInfoViewController.m */,
 				28D7ACF60DDB3853001CB0EB /* MEPostViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* MEPostViewController.m */,
 				CFE72DAD0FA7ED7100C54792 /* MEPasscodeViewController.h */,
 				CFE72DAE0FA7ED7100C54792 /* MEPasscodeViewController.m */,
-				2E7522510FA70A0000B0D4FA /* MEActionPopupViewController.h */,
-				2E7522520FA70A0000B0D4FA /* MEActionPopupViewController.m */,
 				2ED83E390FAECFDC00786952 /* MEAddCommentViewController.h */,
 				2ED83E3A0FAECFDC00786952 /* MEAddCommentViewController.m */,
+				2E7520FE0FA6CDA300B0D4FA /* MEUserInfoViewController.h */,
+				2E7520FF0FA6CDA300B0D4FA /* MEUserInfoViewController.m */,
+				2E7522510FA70A0000B0D4FA /* MEActionPopupViewController.h */,
+				2E7522520FA70A0000B0D4FA /* MEActionPopupViewController.m */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
