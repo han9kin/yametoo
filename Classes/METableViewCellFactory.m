@@ -19,6 +19,7 @@
 #import "MEClient.h"
 #import "MEUser.h"
 #import "MEPost.h"
+#import "MECommentBackView.h"
 
 
 enum
@@ -35,6 +36,7 @@ enum
     kPostAuthorLabelTag,
     kPostBodyTag,
 
+    kCommentBackViewTag,
     kCommentFaceImageTag,
     kCommentBodyTag,
     kCommentAuthorTag,
@@ -175,6 +177,9 @@ enum
 
     return sCell;
 }
+
+
+#pragma mark -
 
 
 + (UITableViewCell *)userCellForTableView:(UITableView *)aTableView
@@ -324,6 +329,7 @@ enum
 + (UITableViewCell *)commentCellForTableView:(UITableView *)aTableView
 {
     UITableViewCell   *sCell;
+    MECommentBackView *sBackView;
     MEImageView       *sImageView;
     MEAttributedLabel *sBodyLabel;
     UILabel           *sAuthorLabel;
@@ -336,9 +342,15 @@ enum
         sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Comment"] autorelease];
 
         [sCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        
+        sBackView = [[MECommentBackView alloc] initWithFrame:CGRectZero];
+        [sBackView setTag:kCommentBackViewTag];
+        [[sCell contentView] addSubview:sBackView];
+        [sBackView release];
 
         sBodyLabel = [[MEAttributedLabel alloc] initWithFrame:CGRectZero];
         [sBodyLabel setTag:kCommentBodyTag];
+        [sBodyLabel setBackgroundColor:[UIColor clearColor]];
         [[sCell contentView] addSubview:sBodyLabel];
         [sBodyLabel release];
 
@@ -360,7 +372,8 @@ enum
         sPubDateLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         [sPubDateLabel setTag:kCommentPubDateTag];
         [sPubDateLabel setFont:[UIFont systemFontOfSize:10]];
-        [sPubDateLabel setTextColor:[UIColor colorWithWhite:0.7 alpha:1.0]];
+        [sPubDateLabel setBackgroundColor:[UIColor clearColor]];
+        [sPubDateLabel setTextColor:[UIColor colorWithWhite:0.6 alpha:1.0]];        
         [[sCell contentView] addSubview:sPubDateLabel];
         [sPubDateLabel release];
     }
@@ -417,6 +430,8 @@ enum
     return (UISwitch *)[self accessoryView];
 }
 
+
+#pragma mark -
 
 - (void)setUser:(MEUser *)aUser
 {
@@ -486,8 +501,13 @@ enum
 }
 
 
+#pragma mark -
+#pragma mark Comment Table Cell
+
+
 - (void)setComment:(MEComment *)aComment isOwners:(BOOL)aOwners
 {
+    MECommentBackView *sBackView     = (MECommentBackView *)[[self contentView] viewWithTag:kCommentBackViewTag];
     MEImageView       *sImageView    = (MEImageView *)[[self contentView] viewWithTag:kCommentFaceImageTag];
     MEAttributedLabel *sBodyLabel    = (MEAttributedLabel *)[[self contentView] viewWithTag:kCommentBodyTag];
     UILabel           *sAuthorLabel  = (UILabel *)[[self contentView] viewWithTag:kCommentAuthorTag];
@@ -499,13 +519,13 @@ enum
     {
         [sImageView setFrame:CGRectMake(265, 9, kIconImageSize + 2, kIconImageSize + 2)];
         [sBodyLabel setFrame:CGRectMake(10, 10, kCommentBodyWidth, 0)];
-        [sAuthorLabel setFrame:CGRectMake(265, 41, kIconImageSize + 2, 14)];
+        [sAuthorLabel setFrame:CGRectMake(264, 41, kIconImageSize + 2, 14)];
     }
     else
     {
         [sImageView setFrame:CGRectMake(9, 9, kIconImageSize + 2, kIconImageSize + 2)];
         [sBodyLabel setFrame:CGRectMake(70, 10, kCommentBodyWidth, 0)];
-        [sAuthorLabel setFrame:CGRectMake(10, 41, kIconImageSize + 2, 14)];
+        [sAuthorLabel setFrame:CGRectMake(9, 41, kIconImageSize + 2, 14)];        
     }
 
     [sImageView setImageWithURL:[[aComment author] faceImageURL]];
@@ -533,6 +553,15 @@ enum
         [sPubDateLabel setTextAlignment:UITextAlignmentRight];
         [sPubDateLabel setFrame:CGRectMake(sBodyFrame.origin.x + 40, sCellHeight - 20, 200, 14)];
     }
+    
+    [sBackView setFrame:CGRectMake(0, 0, 320, sCellHeight)];
+}
+
+
+- (void)setCommentBackgroundColor:(UIColor *)aColor
+{
+    MECommentBackView *sBackView = (MECommentBackView *)[[self contentView] viewWithTag:kCommentBackViewTag];
+    [sBackView setBackgroundColor:aColor];
 }
 
 

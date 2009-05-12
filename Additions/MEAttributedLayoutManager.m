@@ -112,6 +112,10 @@
     {
         [aLabel setBackgroundColor:sValue];
     }
+    else
+    {
+        [aLabel setBackgroundColor:[UIColor clearColor]];
+    }
 
     sValue = [mAttributes objectForKey:MEHighlightedColorAttributeName];
     if (sValue)

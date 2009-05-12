@@ -98,6 +98,7 @@
     [mPostBodyView   sizeToFit];
 
     [mPostScrollView setContentSize:[mPostBodyView frame].size];
+    [mTableView      setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [mTableView      setRowHeight:1000.0];
 
     CGFloat sHeight = [mPostBodyView frame].size.height + kPostCellBodyPadding * 2;
@@ -173,10 +174,14 @@
 {
     UITableViewCell *sResult  = nil;
     MEComment       *sComment = [mComments objectAtIndex:[aIndexPath row]];
+    UIColor         *sColor;
+    
+    sColor = (([aIndexPath row] % 2) == 1) ? [UIColor whiteColor] : [UIColor colorWithWhite:0.95 alpha:1.0];
 
     sResult = [METableViewCellFactory commentCellForTableView:aTableView];
 
     [sResult setComment:sComment isOwners:(([sComment author] == [mPost author]) ? YES : NO)];
+    [sResult setCommentBackgroundColor:sColor];
 
     return sResult;
 }

@@ -56,5 +56,6 @@
 - (void)setClient:(MEClient *)aClient;
 - (void)setPost:(MEPost *)aPost withTarget:(id)aTarget;
 - (void)setComment:(MEComment *)aComment isOwners:(BOOL)aOwners;
+- (void)setCommentBackgroundColor:(UIColor *)aColor;
 
 @end

@@ -37,6 +37,7 @@
 		2E7521E30FA6EDB900B0D4FA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E7521E20FA6EDB900B0D4FA /* QuartzCore.framework */; };
 		2E75224B0FA7098C00B0D4FA /* ActionPopupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E75224A0FA7098C00B0D4FA /* ActionPopupViewController.xib */; };
 		2E7522530FA70A0000B0D4FA /* MEActionPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E7522520FA70A0000B0D4FA /* MEActionPopupViewController.m */; };
+		2EB3F9820FB979F500CAF94A /* MECommentBackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3F9810FB979F500CAF94A /* MECommentBackView.m */; };
 		2EC19A590F9C1D5D00963971 /* MELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC19A580F9C1D5D00963971 /* MELoginViewController.m */; };
 		2EC19A5B0F9C1E9800963971 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EC19A5A0F9C1E9800963971 /* LoginViewController.xib */; };
 		2EC19F740F9DCFAC00963971 /* MEImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC19F730F9DCFAC00963971 /* MEImageView.m */; };
@@ -151,6 +152,8 @@
 		2E75224A0FA7098C00B0D4FA /* ActionPopupViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActionPopupViewController.xib; sourceTree = "<group>"; };
 		2E7522510FA70A0000B0D4FA /* MEActionPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEActionPopupViewController.h; sourceTree = "<group>"; };
 		2E7522520FA70A0000B0D4FA /* MEActionPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEActionPopupViewController.m; sourceTree = "<group>"; };
+		2EB3F9800FB979F500CAF94A /* MECommentBackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MECommentBackView.h; sourceTree = "<group>"; };
+		2EB3F9810FB979F500CAF94A /* MECommentBackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MECommentBackView.m; sourceTree = "<group>"; };
 		2EC19A570F9C1D5D00963971 /* MELoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELoginViewController.h; sourceTree = "<group>"; };
 		2EC19A580F9C1D5D00963971 /* MELoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MELoginViewController.m; sourceTree = "<group>"; };
 		2EC19A5A0F9C1E9800963971 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -392,6 +395,8 @@
 				2E2766890FAEF3A700F59ACD /* MERoundBackView.m */,
 				2E151E440FB7C18600E49861 /* MECharCounter.h */,
 				2E151E450FB7C18600E49861 /* MECharCounter.m */,
+				2EB3F9800FB979F500CAF94A /* MECommentBackView.h */,
+				2EB3F9810FB979F500CAF94A /* MECommentBackView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -780,6 +785,7 @@
 				CFDD43CC0FB80A0900B9931A /* NSMutableData+MEAdditions.m in Sources */,
 				2E151E460FB7C18600E49861 /* MECharCounter.m in Sources */,
 				CFFC6C660FB93E4800B935E7 /* NSDate+MEAdditions.m in Sources */,
+				2EB3F9820FB979F500CAF94A /* MECommentBackView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
