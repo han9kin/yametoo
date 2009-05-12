@@ -38,7 +38,6 @@
 @property(nonatomic, readonly) NSURL              *iconURL;
 @property(nonatomic, readonly) NSURL              *photoURL;
 @property(nonatomic, readonly) NSString           *tagsString;
-@property(nonatomic, readonly) NSString           *pubTimeString;
 
 
 - (id)initWithDictionary:(NSDictionary *)aPostDict;

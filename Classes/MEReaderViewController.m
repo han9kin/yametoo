@@ -7,6 +7,7 @@
  *
  */
 
+#import "NSDate+MEAdditions.h"
 #import "UIAlertView+MEAdditions.h"
 #import "UIViewController+MEAdditions.h"
 #import "MEReaderViewController.h"
@@ -267,6 +268,8 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     {
         mTimer = [NSTimer scheduledTimerWithTimeInterval:([MESettings fetchInterval] * 60) target:self selector:@selector(updateTimerFired:) userInfo:nil repeats:YES];
     }
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(todayDidChange:) name:METodayDidChangeNotification object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)aAnimated
@@ -275,6 +278,8 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
     [mTimer invalidate];
     mTimer = nil;
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:METodayDidChangeNotification object:nil];
 }
 
 
@@ -324,6 +329,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     if (aError)
     {
         [UIAlertView showError:aError];
+        [mReaderView reloadData];
     }
     else
     {
@@ -344,16 +350,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 - (NSString *)readerView:(MEReaderView *)aReaderView titleForSection:(NSInteger)aSection
 {
-    static NSDateFormatter *sFormatter = nil;
-
-    if (!sFormatter)
-    {
-        sFormatter = [[NSDateFormatter alloc] init];
-        [sFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease]];
-        [sFormatter setDateFormat:@"d LLL y"];
-    }
-
-    return [[sFormatter stringFromDate:[self dateOfSection:aSection]] uppercaseString];
+    return [[self dateOfSection:aSection] localizedDateString];
 }
 
 
@@ -421,6 +418,16 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     [sReplyViewController setPost:sPost];
     [self presentModalViewController:sReplyViewController animated:NO];
     [sReplyViewController release];
+}
+
+
+#pragma mark -
+#pragma mark Observing Notifications
+
+
+- (void)todayDidChange:(NSNotification *)aNotification
+{
+    [mReaderView reloadData];
 }
 
 

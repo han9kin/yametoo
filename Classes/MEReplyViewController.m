@@ -66,7 +66,7 @@
     [mPostBodyView release];
     [mPostScrollView release];
     [mTableView release];
-    
+
     [mPost     release];
     [mComments release];
 
@@ -84,7 +84,7 @@
 {
     NSString         *sNickname = [[mPost author] nickname];
     UINavigationItem *sTopItem  = [mNaviBar topItem];
-    NSString         *sTitleStr = [NSString stringWithFormat:NSLocalizedString(@"%@님의 글", nil), sNickname];
+    NSString         *sTitleStr = [NSString stringWithFormat:NSLocalizedString(@"%@'s Post", @""), sNickname];
 
     [super viewDidLoad];
 
@@ -93,6 +93,7 @@
     [sTopItem        setTitle:sTitleStr];
     [mIconView       setBorderColor:[UIColor lightGrayColor]];
     [mIconView       setImageWithURL:[mPost iconURL]];
+    [mPostBodyView   setShowsPostDate:YES];
     [mPostBodyView   setPost:mPost];
     [mPostBodyView   sizeToFit];
 

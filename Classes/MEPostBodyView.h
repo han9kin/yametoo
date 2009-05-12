@@ -21,7 +21,11 @@
     UILabel           *mCommentsLabel;
 
     CGFloat            mBodyWidth;
+    BOOL               mShowsPostDate;
 }
+
+@property(nonatomic, assign) BOOL showsPostDate;
+
 
 + (CGFloat)heightWithPost:(MEPost *)aPost;
 + (CGFloat)heightWithPost:(MEPost *)aPost forWidth:(CGFloat)aWidth;

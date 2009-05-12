@@ -7,6 +7,7 @@
  *
  */
 
+#import "NSDate+MEAdditions.h"
 #import "MEPostBodyView.h"
 #import "MEPost.h"
 #import "MEAttributedLabel.h"
@@ -72,6 +73,8 @@
 
 
 @implementation MEPostBodyView
+
+@synthesize showsPostDate = mShowsPostDate;
 
 
 + (CGFloat)heightWithPost:(MEPost *)aPost
@@ -166,8 +169,16 @@
 {
     [mBodyLabel setAttributedText:[aPost body]];
     [mTagsLabel setText:[aPost tagsString]];
-    [mTimeLabel setText:[aPost pubTimeString]];
     [mCommentsLabel setText:[NSString stringWithFormat:NSLocalizedString(@"Comments (%d)", @""), [aPost commentsCount]]];
+
+    if (mShowsPostDate)
+    {
+        [mTimeLabel setText:[[aPost pubDate] localizedDateTimeString]];
+    }
+    else
+    {
+        [mTimeLabel setText:[[aPost pubDate] localizedTimeString]];
+    }
 
     [self setNeedsLayout];
 }

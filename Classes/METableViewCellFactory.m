@@ -7,7 +7,7 @@
  *
  */
 
-#import "ObjCUtil.h"
+#import "NSDate+MEAdditions.h"
 #import "UIColor+MEAdditions.h"
 #import "METableViewCellFactory.h"
 #import "MEHighlightableImageView.h"
@@ -347,7 +347,7 @@ enum
         [sImageView setTag:kCommentFaceImageTag];
         [[sCell contentView] addSubview:sImageView];
         [sImageView release];
-        
+
         sAuthorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         [sAuthorLabel setTag:kCommentAuthorTag];
         [sAuthorLabel setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:0.7]];
@@ -356,11 +356,11 @@ enum
         [sAuthorLabel setTextAlignment:UITextAlignmentCenter];
         [[sCell contentView] addSubview:sAuthorLabel];
         [sAuthorLabel release];
-        
+
         sPubDateLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         [sPubDateLabel setTag:kCommentPubDateTag];
         [sPubDateLabel setFont:[UIFont systemFontOfSize:10]];
-        [sPubDateLabel setTextColor:[UIColor colorWithWhite:0.7 alpha:1.0]];        
+        [sPubDateLabel setTextColor:[UIColor colorWithWhite:0.7 alpha:1.0]];
         [[sCell contentView] addSubview:sPubDateLabel];
         [sPubDateLabel release];
     }
@@ -494,7 +494,7 @@ enum
     UILabel           *sPubDateLabel = (UILabel *)[[self contentView] viewWithTag:kCommentPubDateTag];
     CGRect             sBodyFrame;
     CGFloat            sCellHeight;
-    
+
     if (aOwners)
     {
         [sImageView setFrame:CGRectMake(265, 9, kIconImageSize + 2, kIconImageSize + 2)];
@@ -505,31 +505,33 @@ enum
     {
         [sImageView setFrame:CGRectMake(9, 9, kIconImageSize + 2, kIconImageSize + 2)];
         [sBodyLabel setFrame:CGRectMake(70, 10, kCommentBodyWidth, 0)];
-        [sAuthorLabel setFrame:CGRectMake(10, 41, kIconImageSize + 2, 14)];        
+        [sAuthorLabel setFrame:CGRectMake(10, 41, kIconImageSize + 2, 14)];
     }
 
     [sImageView setImageWithURL:[[aComment author] faceImageURL]];
 
     [sBodyLabel setAttributedText:[aComment body]];
     [sBodyLabel sizeToFit];
-    
+
     [sAuthorLabel  setText:[[aComment author] nickname]];
-    [sPubDateLabel setText:[[aComment pubDate] description]];
-    
+    [sPubDateLabel setText:[[aComment pubDate] localizedDateTimeString]];
+
     sBodyFrame  = [sBodyLabel frame];
     sBodyFrame.size.height += 14;
-    
+
     sCellHeight = 10;
     sCellHeight += (sBodyFrame.size.height > kIconImageSize) ? sBodyFrame.size.height : kIconImageSize;
     sCellHeight += 10;
-    
+
     if (aOwners)
     {
-        [sPubDateLabel setFrame:CGRectMake(10, sCellHeight - 20, 130, 14)];
+        [sPubDateLabel setTextAlignment:UITextAlignmentLeft];
+        [sPubDateLabel setFrame:CGRectMake(10, sCellHeight - 20, 200, 14)];
     }
     else
     {
-        [sPubDateLabel setFrame:CGRectMake(sBodyFrame.origin.x + 110, sCellHeight - 20, 130, 14)];    
+        [sPubDateLabel setTextAlignment:UITextAlignmentRight];
+        [sPubDateLabel setFrame:CGRectMake(sBodyFrame.origin.x + 40, sCellHeight - 20, 200, 14)];
     }
 }
 

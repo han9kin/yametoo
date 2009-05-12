@@ -34,7 +34,6 @@
 @synthesize iconURL       = mIconURL;
 @synthesize photoURL      = mPhotoURL;
 @dynamic    tagsString;
-@dynamic    pubTimeString;
 
 
 #pragma mark -
@@ -118,29 +117,6 @@
 - (NSString *)tagsString
 {
     return [mTags componentsJoinedByString:@" "];
-}
-
-
-- (NSString *)pubTimeString
-{
-    static NSDateFormatter *sDateFormatter = nil;
-
-    if (!sDateFormatter)
-    {
-        sDateFormatter = [[NSDateFormatter alloc] init];
-        [sDateFormatter setLocale:[NSLocale currentLocale]];
-
-        if ([[[NSLocale currentLocale] localeIdentifier] hasPrefix:@"ko"])
-        {
-            [sDateFormatter setDateFormat:NSLocalizedString(@"h':'mm a", @"")];
-        }
-        else
-        {
-            [sDateFormatter setTimeStyle:NSDateFormatterShortStyle];
-        }
-    }
-
-    return [sDateFormatter stringFromDate:mPubDate];
 }
 
 

@@ -10,8 +10,15 @@
 #import <Foundation/Foundation.h>
 
 
+extern NSString *METodayDidChangeNotification;
+
+
 @interface NSDate (MEAdditions)
 
 + (NSDate *)dateFromISO8601:(NSString *)aDateString;
+
+- (NSString *)localizedDateString;
+- (NSString *)localizedTimeString;
+- (NSString *)localizedDateTimeString;
 
 @end
