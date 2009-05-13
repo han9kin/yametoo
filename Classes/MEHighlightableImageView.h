@@ -12,6 +12,7 @@
 
 @interface MEHighlightableImageView : UIView
 {
+    UIImageView *mImageView;
     UIImage     *mNormalImage;
     UIImage     *mHighlightedImage;
 

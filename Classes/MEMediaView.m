@@ -10,7 +10,6 @@
 #import "MEMediaView.h"
 #import "MEDrawingFunctions.h"
 #import "MEImageView.h"
-#import "EXF.h"
 #import "MERoundBackView.h"
 
 
@@ -35,7 +34,7 @@
     [self setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.8]];
 
     mImageRect = CGRectMake(15, 20, 280, 280);
-    
+
     mBackView = [[MERoundBackView alloc] initWithFrame:CGRectMake(5, 65, 310, 360)];
     [mBackView setBackgroundColor:[UIColor clearColor]];
     [self addSubview:mBackView];
@@ -110,23 +109,23 @@
 - (void)imageViewShowAnimation
 {
     CALayer *sLayer = [mBackView layer];
-    
+
     CAKeyframeAnimation *sAni = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
     [sAni setDelegate:self];
     [sAni setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
     [sAni setDuration:0.8];
     [sAni setValue:@"showAnimation" forKey:@"name"];
-    
+
     NSMutableArray *sArray = [NSMutableArray array];
     [sArray addObject:[NSNumber numberWithFloat:0.0]];
     [sArray addObject:[NSNumber numberWithFloat:1.15]];
-    [sArray addObject:[NSNumber numberWithFloat:1.07]];        
+    [sArray addObject:[NSNumber numberWithFloat:1.07]];
     [sArray addObject:[NSNumber numberWithFloat:1.0]];
     [sArray addObject:[NSNumber numberWithFloat:1.07]];
     [sArray addObject:[NSNumber numberWithFloat:1.03]];
     [sArray addObject:[NSNumber numberWithFloat:1.0]];
     sAni.values = sArray;
-    
+
     [sLayer addAnimation:sAni forKey:@"showAni"];
 }
 
@@ -142,12 +141,12 @@
 
     NSMutableArray *sArray = [NSMutableArray array];
     [sArray addObject:[NSNumber numberWithFloat:1.05]];
-    [sArray addObject:[NSNumber numberWithFloat:1.06]];        
+    [sArray addObject:[NSNumber numberWithFloat:1.06]];
     [sArray addObject:[NSNumber numberWithFloat:1.07]];
-    [sArray addObject:[NSNumber numberWithFloat:0.53]];    
+    [sArray addObject:[NSNumber numberWithFloat:0.53]];
     [sArray addObject:[NSNumber numberWithFloat:0.01]];
     [sAni setValues:sArray];
-    
+
     [sLayer addAnimation:sAni forKey:@"hideAni"];
 }
 
@@ -159,7 +158,7 @@
 
     [mIndicator startAnimating];
     [mImageView setImageWithURL:mPhotoURL];
-    
+
     [self imageViewShowAnimation];
 }
 
@@ -167,13 +166,13 @@
 - (void)animationDidStop:(CAAnimation *)aAnimation finished:(BOOL)aFlag
 {
     NSString *sName = [aAnimation valueForKey:@"name"];
-    
+
     if ([sName isEqualToString:@"showAnimation"])
     {
     }
     else if ([sName isEqualToString:@"hideAnimation"])
     {
-        [self  removeFromSuperview];        
+        [self  removeFromSuperview];
         [mImageView setFrame:CGRectZero];
         [mImageView setImageWithURL:nil];
     }

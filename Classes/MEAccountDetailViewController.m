@@ -105,19 +105,19 @@
     mPasscodeSwitch = nil;
 }
 
-- (void)viewWillAppear:(BOOL)aAnimated
-{
-    [super viewWillAppear:aAnimated];
+// - (void)viewWillAppear:(BOOL)aAnimated
+// {
+//     [super viewWillAppear:aAnimated];
 
-    if (mUserIDField)
-    {
-        [mUserIDField becomeFirstResponder];
-    }
-    else
-    {
-        [mUserKeyField becomeFirstResponder];
-    }
-}
+//     if (mUserIDField)
+//     {
+//         [mUserIDField becomeFirstResponder];
+//     }
+//     else
+//     {
+//         [mUserKeyField becomeFirstResponder];
+//     }
+// }
 
 - (BOOL)hidesBottomBarWhenPushed
 {
@@ -256,6 +256,15 @@
 - (void)passcodeViewController:(MEPasscodeViewController *)aViewController didCancelChangingPasscodeClient:(MEClient *)aClient
 {
     [self dismissModalViewControllerAnimated:NO];
+
+    if (mUserIDField)
+    {
+        [mUserIDField becomeFirstResponder];
+    }
+    else
+    {
+        [mUserKeyField becomeFirstResponder];
+    }
 }
 
 

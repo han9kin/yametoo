@@ -94,7 +94,7 @@
 
     [sClient getPersonWithUserID:sUserID delegate:self];
     [self setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s me2day", @""), sUserID]];
-    [self refreshData];
+    [self invalidateData];
 }
 
 

@@ -12,11 +12,11 @@
 
 @interface MEImageButton : UIControl
 {
-    NSURL   *mURL;
-    UIImage *mImage;
-    UIColor *mBorderColor;
+    NSURL       *mURL;
+    UIColor     *mBorderColor;
+    UIImageView *mImageView;
 
-    id       mUserInfo;
+    id           mUserInfo;
 }
 
 @property(nonatomic, retain) UIColor *borderColor;

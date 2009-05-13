@@ -7,6 +7,7 @@
  *
  */
 
+#import "NSNull+NilObject.h"
 #import "MEReaderView.h"
 #import "METableViewCellFactory.h"
 #import "MEReaderHeadView.h"
@@ -37,14 +38,11 @@
 #pragma mark -
 
 
-- (void)initializeVariables
+- (void)initSelf
 {
-    mCellHeightCache = [[NSMutableDictionary alloc] init];
-}
+    mSectionTitleCache = [[NSMutableArray alloc] init];
+    mCellHeightCache   = [[NSMutableDictionary alloc] init];
 
-
-- (void)initializeViews
-{
     CGRect sBounds = [self bounds];
 
     mTableView = [[UITableView alloc] initWithFrame:sBounds style:UITableViewStylePlain];
@@ -68,8 +66,7 @@
 
     if (self)
     {
-        [self initializeVariables];
-        [self initializeViews];
+        [self initSelf];
     }
 
     return self;
@@ -82,8 +79,7 @@
 
     if (self)
     {
-        [self initializeVariables];
-        [self initializeViews];
+        [self initSelf];
     }
 
     return self;
@@ -92,6 +88,7 @@
 
 - (void)dealloc
 {
+    [mSectionTitleCache release];
     [mCellHeightCache release];
     [super dealloc];
 }
@@ -125,7 +122,7 @@
 }
 
 
-- (void)reloadData
+- (void)invalidateData
 {
     if ([mDataSource respondsToSelector:@selector(authorOfPostsInReaderView:)])
     {
@@ -155,12 +152,33 @@
         }
     }
 
-    if (mDataSource)
+    [mCellHeightCache removeAllObjects];
+}
+
+
+- (void)reloadData
+{
+    NSInteger i;
+
+    mSectionCount = [mDataSource numberOfSectionsInReaderView:self];
+
+    [mSectionTitleCache removeAllObjects];
+
+    for (i = 0; i < mSectionCount; i++)
     {
-        mSectionCount = [mDataSource numberOfSectionsInReaderView:self];
-        [mCellHeightCache removeAllObjects];
-        [mTableView reloadData];
+        NSString *sTitle = [mDataSource readerView:self titleForSection:i];
+
+        if (sTitle)
+        {
+            [mSectionTitleCache addObject:sTitle];
+        }
+        else
+        {
+            [mSectionTitleCache addObject:[NSNull null]];
+        }
     }
+
+    [mTableView reloadData];
 }
 
 
@@ -202,14 +220,23 @@
 
 - (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)aSection
 {
+    NSString *sTitle;
+
     if (aSection < mSectionCount)
     {
-        return [mDataSource readerView:self titleForSection:aSection];
+        sTitle = [mSectionTitleCache objectAtIndex:aSection];
+
+        if (![sTitle isNotNull])
+        {
+            sTitle = nil;
+        }
     }
     else
     {
-        return nil;
+        sTitle = nil;
     }
+
+    return sTitle;
 }
 
 
@@ -264,15 +291,12 @@
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    CGFloat   sHeight;
+    CGFloat sHeight;
 
     if ([aIndexPath section] < mSectionCount)
     {
-        MEPost   *sPost;
-        NSNumber *sCachedHeight;
-
-        sPost         = [mDataSource readerView:self postAtIndexPath:aIndexPath];
-        sCachedHeight = [mCellHeightCache objectForKey:[sPost postID]];
+        MEPost   *sPost         = [mDataSource readerView:self postAtIndexPath:aIndexPath];
+        NSNumber *sCachedHeight = [mCellHeightCache objectForKey:[sPost postID]];
 
         if (sCachedHeight)
         {

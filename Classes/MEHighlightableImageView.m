@@ -17,13 +17,34 @@
 @dynamic highlighted;
 
 
+- (void)initSelf
+{
+    mImageView = [[UIImageView alloc] initWithImage:nil];
+    [mImageView setFrame:[self bounds]];
+    [self addSubview:mImageView];
+    [mImageView release];
+}
+
+
+- (id)initWithCoder:(NSCoder *)aCoder
+{
+    self = [super initWithCoder:aCoder];
+
+    if (self)
+    {
+        [self initSelf];
+    }
+
+    return self;
+}
+
 - (id)initWithFrame:(CGRect)aRect
 {
     self = [super initWithFrame:aRect];
 
     if (self)
     {
-        [self setBackgroundColor:[UIColor clearColor]];
+        [self initSelf];
     }
 
     return self;
@@ -34,19 +55,6 @@
     [mNormalImage release];
     [mHighlightedImage release];
     [super dealloc];
-}
-
-
-- (void)drawRect:(CGRect)aRect
-{
-    if (mHighlighted && mHighlightedImage)
-    {
-        [mHighlightedImage drawInRect:[self bounds]];
-    }
-    else
-    {
-        [mNormalImage drawInRect:[self bounds]];
-    }
 }
 
 
@@ -64,7 +72,7 @@
 
         if (!mHighlighted)
         {
-            [self setNeedsDisplay];
+            [mImageView setImage:aImage];
         }
     }
 }
@@ -84,7 +92,7 @@
 
         if (mHighlighted)
         {
-            [self setNeedsDisplay];
+            [mImageView setImage:aImage];
         }
     }
 }
@@ -99,7 +107,14 @@
 {
     mHighlighted = aHighlighted;
 
-    [self setNeedsDisplay];
+    if (mHighlighted && mHighlightedImage)
+    {
+        [mImageView setImage:mHighlightedImage];
+    }
+    else
+    {
+        [mImageView setImage:mNormalImage];
+    }
 }
 
 

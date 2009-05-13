@@ -8,7 +8,6 @@
  */
 
 #import "MEImageCache.h"
-#import "ObjCUtil.h"
 
 
 static NSMutableDictionary *gCachedImages = nil;
@@ -21,8 +20,16 @@ static NSMutableDictionary *gCachedImages = nil;
     if (!gCachedImages)
     {
         gCachedImages = [[NSMutableDictionary alloc] init];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMemoryWarning:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
     }
 }
+
++ (void)didReceiveMemoryWarning:(NSNotification *)aNotification
+{
+    [gCachedImages removeAllObjects];
+}
+
 
 + (void)createDirectoryForCachePath:(NSString *)aPath
 {

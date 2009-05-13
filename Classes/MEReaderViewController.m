@@ -41,20 +41,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 - (MEPost *)postForIndexPath:(NSIndexPath *)aIndexPath
 {
-    MEPost  *sResult     = nil;
-    NSArray *sPostsOfDay;
-
-    if ([mPosts count] > [aIndexPath section])
-    {
-        sPostsOfDay = [mPosts objectAtIndex:[aIndexPath section]];
-
-        if ([sPostsOfDay count] > [aIndexPath row])
-        {
-            sResult = [sPostsOfDay objectAtIndex:[aIndexPath row]];
-        }
-    }
-
-    return sResult;
+    return [[mPosts objectAtIndex:[aIndexPath section]] objectAtIndex:[aIndexPath row]];
 }
 
 
@@ -293,9 +280,10 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 }
 
 
-- (void)refreshData
+- (void)invalidateData
 {
     [mPosts removeAllObjects];
+    [mReaderView invalidateData];
 }
 
 - (void)reloadData

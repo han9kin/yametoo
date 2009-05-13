@@ -12,6 +12,9 @@
 #import "MEAttributedString.h"
 
 
+static NSMutableArray *gCachedLabels = nil;
+
+
 @interface MEAttributedLayoutInfo : NSObject
 {
     NSDictionary *mAttributes;
@@ -24,6 +27,7 @@
 @property(nonatomic, assign) CGRect        labelFrame;
 
 @end
+
 
 @implementation MEAttributedLayoutInfo
 
@@ -100,11 +104,19 @@
     {
         [aLabel setFont:sValue];
     }
+    else
+    {
+        [aLabel setFont:[UIFont systemFontOfSize:17.0]];
+    }
 
     sValue = [mAttributes objectForKey:MEForegroundColorAttributeName];
     if (sValue)
     {
         [aLabel setTextColor:sValue];
+    }
+    else
+    {
+        [aLabel setTextColor:[UIColor blackColor]];
     }
 
     sValue = [mAttributes objectForKey:MEBackgroundColorAttributeName];
@@ -122,17 +134,29 @@
     {
         [aLabel setHighlightedTextColor:sValue];
     }
+    else
+    {
+        [aLabel setHighlightedTextColor:nil];
+    }
 
     sValue = [mAttributes objectForKey:MEShadowColorAttributeName];
     if (sValue)
     {
         [aLabel setShadowColor:sValue];
     }
+    else
+    {
+        [aLabel setShadowColor:nil];
+    }
 
     sValue = [mAttributes objectForKey:MEShadowOffsetAttributeName];
     if (sValue)
     {
         [aLabel setShadowOffset:[sValue CGSizeValue]];
+    }
+    else
+    {
+        [aLabel setShadowOffset:CGSizeMake(0, -1)];
     }
 
     [aLabel setText:[aText substringWithRange:mTextRange]];
@@ -151,6 +175,22 @@
 
 @synthesize layoutSize  = mLayoutSize;
 @synthesize layoutWidth = mLayoutWidth;
+
+
++ (void)initialize
+{
+    if (!gCachedLabels)
+    {
+        gCachedLabels = [[NSMutableArray alloc] init];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMemoryWarning:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
+    }
+}
+
++ (void)didReceiveMemoryWarning:(NSNotification *)aNotification
+{
+    [gCachedLabels removeAllObjects];
+}
 
 
 - (id)init
@@ -180,17 +220,17 @@
 
 - (void)layoutAttributedString:(MEAttributedString *)aString forWidth:(CGFloat)aWidth
 {
-    NSAutoreleasePool *sPool;
-    NSCharacterSet    *sWhites;
-    NSString          *sText;
-    NSUInteger         sLen;
-    NSUInteger         sLoc;
-    CGRect             sRect;
-    CGFloat            sWidth;
-    CGFloat            sHeight;
-
     if ((aWidth > 0) && (aWidth != mLayoutWidth))
     {
+        NSAutoreleasePool *sPool;
+        NSCharacterSet    *sWhites;
+        NSString          *sText;
+        NSUInteger         sLen;
+        NSUInteger         sLoc;
+        CGRect             sRect;
+        CGFloat            sWidth;
+        CGFloat            sHeight;
+
         [mLayoutInfos removeAllObjects];
         mLayoutSize  = CGSizeZero;
         mLayoutWidth = aWidth;
@@ -306,7 +346,18 @@
             }
             else
             {
-                sLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+                sLabel = [gCachedLabels lastObject];
+
+                if (sLabel)
+                {
+                    [sLabel retain];
+                    [gCachedLabels removeLastObject];
+                }
+                else
+                {
+                    sLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+                }
+
                 [sLayoutInfo setAttributesToLabel:sLabel withText:sText];
                 [aLabel addSubview:sLabel];
                 [sLabel release];
@@ -318,6 +369,7 @@
     {
         for (sLabel in [sLabels subarrayWithRange:NSMakeRange(sIndex, sCount - sIndex)])
         {
+            [gCachedLabels addObject:sLabel];
             [sLabel removeFromSuperview];
         }
     }

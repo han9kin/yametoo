@@ -12,11 +12,11 @@
 
 @interface MEImageView : UIView
 {
-    NSURL   *mURL;
-    UIImage *mImage;
-    UIColor *mBorderColor;
+    NSURL       *mURL;
+    UIColor     *mBorderColor;
+    UIImageView *mImageView;
 
-    id       mDelegate;
+    id           mDelegate;
 }
 
 @property(nonatomic, retain) UIColor *borderColor;

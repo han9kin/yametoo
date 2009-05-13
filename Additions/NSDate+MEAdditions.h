@@ -17,6 +17,8 @@ extern NSString *METodayDidChangeNotification;
 
 + (NSDate *)dateFromISO8601:(NSString *)aDateString;
 
++ (NSDate *)todayMidnight;
+
 - (NSString *)localizedDateString;
 - (NSString *)localizedTimeString;
 - (NSString *)localizedDateTimeString;

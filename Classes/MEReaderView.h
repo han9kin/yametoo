@@ -51,6 +51,7 @@
 
     UITableView                *mTableView;
 
+    NSMutableArray             *mSectionTitleCache;
     NSMutableDictionary        *mCellHeightCache;
     NSInteger                   mSectionCount;
 
@@ -67,6 +68,7 @@
 - (void)selectPostAtIndexPath:(NSIndexPath *)aIndexPath animated:(BOOL)aAnimated scrollPosition:(UITableViewScrollPosition)aScrollPosition;
 - (void)deselectPostAtIndexPath:(NSIndexPath *)aIndexPath animated:(BOOL)aAnimated;
 
+- (void)invalidateData;
 - (void)reloadData;
 
 

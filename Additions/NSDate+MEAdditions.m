@@ -16,44 +16,8 @@
 NSString *METodayDidChangeNotification = @"METodayDidChangeNotification";
 
 
-static NSDate *gToday = nil;
-
-
-@interface NSDate (MEAdditionsPrivate)
-@end
-
-@implementation NSDate (MEAdditionsPrivate)
-
-
-+ (void)todayUpdateTimerFired:(NSTimer *)aTimer
-{
-    NSCalendar       *sCalendar;
-    NSDate           *sNow;
-    NSDateComponents *sDateComps;
-    NSTimer          *sTimer;
-
-    sCalendar  = [NSCalendar currentCalendar];
-    sNow       = [NSDate date];
-    sDateComps = [sCalendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:sNow];
-
-    [gToday release];
-    gToday = [[sCalendar dateFromComponents:sDateComps] retain];
-
-    if (aTimer)
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:METodayDidChangeNotification object:nil];
-    }
-    else
-    {
-        sTimer = [[NSTimer alloc] initWithFireDate:[gToday addTimeInterval:kIntervalDay] interval:kIntervalDay target:self selector:@selector(todayUpdateTimerFired:) userInfo:NULL repeats:YES];
-
-        [[NSRunLoop mainRunLoop] addTimer:sTimer forMode:NSDefaultRunLoopMode];
-        [sTimer release];
-    }
-}
-
-
-@end
+static BOOL    gObservingNotification = NO;
+static NSDate *gTodayMidnight         = nil;
 
 
 @implementation NSDate (MEAdditions)
@@ -88,6 +52,34 @@ static NSDate *gToday = nil;
 }
 
 
++ (NSDate *)todayMidnight
+{
+    if (!gTodayMidnight)
+    {
+        NSCalendar       *sCalendar  = [NSCalendar currentCalendar];
+        NSDateComponents *sDateComps = [sCalendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
+
+        gTodayMidnight = [[sCalendar dateFromComponents:sDateComps] retain];
+
+        if (!gObservingNotification)
+        {
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(significantTimeChange:) name:UIApplicationSignificantTimeChangeNotification object:nil];
+            gObservingNotification = YES;
+        }
+    }
+
+    return gTodayMidnight;
+}
+
++ (void)significantTimeChange:(NSNotification *)aNotification
+{
+    [gTodayMidnight release];
+    gTodayMidnight = nil;
+
+    [[NSNotificationCenter defaultCenter] performSelector:@selector(postNotification:) withObject:[NSNotification notificationWithName:METodayDidChangeNotification object:nil] afterDelay:0];
+}
+
+
 - (NSString *)localizedDateString
 {
     static NSDateFormatter *sFormatter = nil;
@@ -98,12 +90,7 @@ static NSDate *gToday = nil;
         [sFormatter setDateStyle:NSDateFormatterMediumStyle];
     }
 
-    if (!gToday)
-    {
-        [NSDate todayUpdateTimerFired:nil];
-    }
-
-    NSTimeInterval sInterval = [gToday timeIntervalSinceDate:self];
+    NSTimeInterval sInterval = [[NSDate todayMidnight] timeIntervalSinceDate:self];
 
     if (sInterval <= 0)
     {

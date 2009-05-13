@@ -8,7 +8,6 @@
  */
 
 #import "AppDelegate.h"
-#import "MEImageCache.h"
 #import "MEClientStore.h"
 #import "MELoginViewController.h"
 #import "MEReaderViewController.h"
@@ -27,8 +26,8 @@
         if ([[mWindow subviews] containsObject:[mLoginViewController view]])
         {
             [UIView beginAnimations:nil context:NULL];
-            [UIView setAnimationDuration:0.5];
-            [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp forView:mWindow cache:YES];
+            [UIView setAnimationDuration:1.0];
+            [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp forView:mWindow cache:NO];
             [[mLoginViewController view] removeFromSuperview];
             [mWindow addSubview:[mTabBarController view]];
             [UIView commitAnimations];
@@ -61,8 +60,8 @@
         if ([[mTabBarController view] superview] == mWindow)
         {
             [UIView beginAnimations:nil context:NULL];
-            [UIView setAnimationDuration:0.5];
-            [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:mWindow cache:YES];
+            [UIView setAnimationDuration:1.0];
+            [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:mWindow cache:NO];
             [[mTabBarController view] removeFromSuperview];
             [mWindow addSubview:[mLoginViewController view]];
             [UIView commitAnimations];
@@ -94,7 +93,7 @@
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)aApplication
 {
-    [MEImageCache removeCachedImagesInMemory];
+    NSLog(@"applicationDidReceiveMemoryWarning");
 }
 
 
@@ -125,11 +124,11 @@
 {
     if ([MEClientStore currentClient])
     {
-        [self showMainView];
+        [self performSelector:@selector(showMainView) withObject:nil afterDelay:0.0];
     }
     else
     {
-        [self showLoginView];
+        [self performSelector:@selector(showLoginView) withObject:nil afterDelay:0.0];
     }
 }
 

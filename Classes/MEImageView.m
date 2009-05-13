@@ -19,12 +19,35 @@
 #pragma mark properties
 
 
-@synthesize borderColor = mBorderColor;
+@dynamic    borderColor;
 @synthesize delegate    = mDelegate;
 
 
 #pragma mark -
 
+
+- (void)initSelf
+{
+    [self setClearsContextBeforeDrawing:NO];
+
+    mImageView = [[UIImageView alloc] initWithImage:nil];
+    [mImageView setFrame:[self bounds]];
+    [self addSubview:mImageView];
+    [mImageView release];
+}
+
+
+- (id)initWithCoder:(NSCoder *)aCoder
+{
+    self = [super initWithCoder:aCoder];
+
+    if (self)
+    {
+        [self initSelf];
+    }
+
+    return self;
+}
 
 - (id)initWithFrame:(CGRect)aRect
 {
@@ -32,10 +55,17 @@
 
     if (self)
     {
-        [self setBackgroundColor:[UIColor clearColor]];
+        [self initSelf];
     }
 
     return self;
+}
+
+- (void)dealloc
+{
+    [mURL release];
+    [mBorderColor release];
+    [super dealloc];
 }
 
 
@@ -43,28 +73,47 @@
 {
     CGRect sRect = [self bounds];
 
+    [[UIColor whiteColor] set];
+    UIRectFill(sRect);
+
     if (mBorderColor)
     {
         [mBorderColor set];
         UIRectFrame(sRect);
-
-        sRect.origin.x    += 1;
-        sRect.origin.y    += 1;
-        sRect.size.width  -= 2;
-        sRect.size.height -= 2;
     }
-
-    [mImage drawInRect:sRect];
 }
 
 
-- (void)dealloc
+- (UIColor *)borderColor
 {
-    [mURL release];
-    [mImage release];
-    [mBorderColor release];
+    return mBorderColor;
+}
 
-    [super dealloc];
+- (void)setBorderColor:(UIColor *)aColor
+{
+    if (mBorderColor != aColor)
+    {
+        CGRect sRect = [self bounds];
+
+        [mBorderColor release];
+        mBorderColor = [aColor retain];
+
+        if (aColor)
+        {
+            sRect.origin.x    += 1;
+            sRect.origin.y    += 1;
+            sRect.size.width  -= 2;
+            sRect.size.height -= 2;
+
+            [mImageView setFrame:sRect];
+        }
+        else
+        {
+            [mImageView setFrame:sRect];
+        }
+
+        [self setNeedsDisplay];
+    }
 }
 
 
@@ -76,8 +125,7 @@
 {
     if (mURL != aURL)
     {
-        [mImage release];
-        mImage = nil;
+        [mImageView setImage:nil];
 
         [mURL release];
         mURL = [aURL retain];
@@ -86,8 +134,6 @@
         {
             [[MEClientStore anyClient] loadImageWithURL:mURL key:mURL delegate:self];
         }
-
-        [self setNeedsDisplay];
     }
 }
 
@@ -106,15 +152,9 @@
         }
         else
         {
-            if (mImage != aImage)
-            {
-                [mImage release];
-                mImage = [aImage retain];
+            [mImageView setImage:aImage];
 
-                [mDelegate imageView:self didLoadImage:mImage];
-
-                [self setNeedsDisplay];
-            }
+            [mDelegate imageView:self didLoadImage:aImage];
         }
     }
 }

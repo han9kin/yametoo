@@ -59,7 +59,7 @@
 - (void)currentUserDidChange:(NSNotification *)aNotification
 {
     [self setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s friends", @""), [[MEClientStore currentClient] userID]]];
-    [self refreshData];
+    [self invalidateData];
 }
 
 

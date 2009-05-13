@@ -19,13 +19,6 @@
 		2E27668A0FAEF3A700F59ACD /* MERoundBackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2766890FAEF3A700F59ACD /* MERoundBackView.m */; };
 		2E2B6BDA0FA5A48200F4B830 /* MEMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2B6BD90FA5A48200F4B830 /* MEMediaView.m */; };
 		2E2B6C610FA5B04B00F4B830 /* MEDrawingFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2B6C600FA5B04B00F4B830 /* MEDrawingFunctions.m */; };
-		2E2EB1300F96F35F005C54E5 /* EXFGPS.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2EB1210F96F35F005C54E5 /* EXFGPS.m */; };
-		2E2EB1310F96F35F005C54E5 /* EXFHandlers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2EB1230F96F35F005C54E5 /* EXFHandlers.m */; };
-		2E2EB1320F96F35F005C54E5 /* EXFJFIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2EB1250F96F35F005C54E5 /* EXFJFIF.m */; };
-		2E2EB1330F96F35F005C54E5 /* EXFJpeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2EB1270F96F35F005C54E5 /* EXFJpeg.m */; };
-		2E2EB1340F96F35F005C54E5 /* EXFMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2EB12A0F96F35F005C54E5 /* EXFMetaData.m */; };
-		2E2EB1350F96F35F005C54E5 /* EXFTagDefinitionHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2EB12D0F96F35F005C54E5 /* EXFTagDefinitionHolder.m */; };
-		2E2EB1360F96F35F005C54E5 /* EXFUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2EB12F0F96F35F005C54E5 /* EXFUtils.m */; };
 		2E6101AF0F983AF60097AD3D /* METableViewCellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6101AE0F983AF60097AD3D /* METableViewCellFactory.m */; };
 		2E6102280F985AA40097AD3D /* MEReaderHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6102270F985AA40097AD3D /* MEReaderHeadView.m */; };
 		2E6102CC0F986B930097AD3D /* MEReaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6102CB0F986B930097AD3D /* MEReaderView.m */; };
@@ -116,24 +109,6 @@
 		2E2B6BD90FA5A48200F4B830 /* MEMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEMediaView.m; sourceTree = "<group>"; };
 		2E2B6C5F0FA5B04B00F4B830 /* MEDrawingFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEDrawingFunctions.h; sourceTree = "<group>"; };
 		2E2B6C600FA5B04B00F4B830 /* MEDrawingFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEDrawingFunctions.m; sourceTree = "<group>"; };
-		2E2EB11E0F96F35F005C54E5 /* EXF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXF.h; sourceTree = "<group>"; };
-		2E2EB11F0F96F35F005C54E5 /* EXFConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFConstants.h; sourceTree = "<group>"; };
-		2E2EB1200F96F35F005C54E5 /* EXFGPS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFGPS.h; sourceTree = "<group>"; };
-		2E2EB1210F96F35F005C54E5 /* EXFGPS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXFGPS.m; sourceTree = "<group>"; };
-		2E2EB1220F96F35F005C54E5 /* EXFHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFHandlers.h; sourceTree = "<group>"; };
-		2E2EB1230F96F35F005C54E5 /* EXFHandlers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXFHandlers.m; sourceTree = "<group>"; };
-		2E2EB1240F96F35F005C54E5 /* EXFJFIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFJFIF.h; sourceTree = "<group>"; };
-		2E2EB1250F96F35F005C54E5 /* EXFJFIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXFJFIF.m; sourceTree = "<group>"; };
-		2E2EB1260F96F35F005C54E5 /* EXFJpeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFJpeg.h; sourceTree = "<group>"; };
-		2E2EB1270F96F35F005C54E5 /* EXFJpeg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXFJpeg.m; sourceTree = "<group>"; };
-		2E2EB1280F96F35F005C54E5 /* EXFLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFLogging.h; sourceTree = "<group>"; };
-		2E2EB1290F96F35F005C54E5 /* EXFMetaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFMetaData.h; sourceTree = "<group>"; };
-		2E2EB12A0F96F35F005C54E5 /* EXFMetaData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXFMetaData.m; sourceTree = "<group>"; };
-		2E2EB12B0F96F35F005C54E5 /* EXFMutableMetaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFMutableMetaData.h; sourceTree = "<group>"; };
-		2E2EB12C0F96F35F005C54E5 /* EXFTagDefinitionHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFTagDefinitionHolder.h; sourceTree = "<group>"; };
-		2E2EB12D0F96F35F005C54E5 /* EXFTagDefinitionHolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXFTagDefinitionHolder.m; sourceTree = "<group>"; };
-		2E2EB12E0F96F35F005C54E5 /* EXFUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXFUtils.h; sourceTree = "<group>"; };
-		2E2EB12F0F96F35F005C54E5 /* EXFUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXFUtils.m; sourceTree = "<group>"; };
 		2E6101AD0F983AF60097AD3D /* METableViewCellFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = METableViewCellFactory.h; sourceTree = "<group>"; };
 		2E6101AE0F983AF60097AD3D /* METableViewCellFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = METableViewCellFactory.m; sourceTree = "<group>"; };
 		2E6102260F985AA40097AD3D /* MEReaderHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReaderHeadView.h; sourceTree = "<group>"; };
@@ -257,6 +232,7 @@
 		CFE7324F0FB19B4100C54792 /* UIColor+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+MEAdditions.m"; sourceTree = "<group>"; };
 		CFFC6C640FB93E4800B935E7 /* NSDate+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+MEAdditions.h"; sourceTree = "<group>"; };
 		CFFC6C650FB93E4800B935E7 /* NSDate+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+MEAdditions.m"; sourceTree = "<group>"; };
+		CFFC6D810FBA876A00B935E7 /* NSNull+NilObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNull+NilObject.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -347,31 +323,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		2E2EB04C0F96E9A9005C54E5 /* EXIF */ = {
-			isa = PBXGroup;
-			children = (
-				2E2EB11E0F96F35F005C54E5 /* EXF.h */,
-				2E2EB11F0F96F35F005C54E5 /* EXFConstants.h */,
-				2E2EB1200F96F35F005C54E5 /* EXFGPS.h */,
-				2E2EB1210F96F35F005C54E5 /* EXFGPS.m */,
-				2E2EB1220F96F35F005C54E5 /* EXFHandlers.h */,
-				2E2EB1230F96F35F005C54E5 /* EXFHandlers.m */,
-				2E2EB1240F96F35F005C54E5 /* EXFJFIF.h */,
-				2E2EB1250F96F35F005C54E5 /* EXFJFIF.m */,
-				2E2EB1260F96F35F005C54E5 /* EXFJpeg.h */,
-				2E2EB1270F96F35F005C54E5 /* EXFJpeg.m */,
-				2E2EB1280F96F35F005C54E5 /* EXFLogging.h */,
-				2E2EB1290F96F35F005C54E5 /* EXFMetaData.h */,
-				2E2EB12A0F96F35F005C54E5 /* EXFMetaData.m */,
-				2E2EB12B0F96F35F005C54E5 /* EXFMutableMetaData.h */,
-				2E2EB12C0F96F35F005C54E5 /* EXFTagDefinitionHolder.h */,
-				2E2EB12D0F96F35F005C54E5 /* EXFTagDefinitionHolder.m */,
-				2E2EB12E0F96F35F005C54E5 /* EXFUtils.h */,
-				2E2EB12F0F96F35F005C54E5 /* EXFUtils.m */,
-			);
-			path = EXIF;
-			sourceTree = "<group>";
-		};
 		2E6101930F982B810097AD3D /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -458,9 +409,10 @@
 			isa = PBXGroup;
 			children = (
 				CFE72F740FA9983300C54792 /* Application Controller */,
+				CFFC6DD80FBAB8A800B935E7 /* Login View Controller */,
 				CFE732230FB192A200C54792 /* Settings View Controller */,
 				CFDD41F40FB3C13300B9931A /* Reader View Controller */,
-				CFE72F750FA9983B00C54792 /* View Controller */,
+				CFE72F750FA9983B00C54792 /* Other View Controllers */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -494,6 +446,7 @@
 		CF5EE8240F981D32004712FF /* Foundation Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				CFFC6D810FBA876A00B935E7 /* NSNull+NilObject.h */,
 				CF5EE6B30F95DE8D004712FF /* NSNull+NilObject.m */,
 				CFFC6C640FB93E4800B935E7 /* NSDate+MEAdditions.h */,
 				CFFC6C650FB93E4800B935E7 /* NSDate+MEAdditions.m */,
@@ -560,7 +513,6 @@
 		CF90458C0F959D29001AE52C /* External Sources */ = {
 			isa = PBXGroup;
 			children = (
-				2E2EB04C0F96E9A9005C54E5 /* EXIF */,
 				CF90458D0F959D34001AE52C /* JSON-2.1.1 */,
 			);
 			name = "External Sources";
@@ -604,17 +556,13 @@
 			name = "Application Controller";
 			sourceTree = "<group>";
 		};
-		CFE72F750FA9983B00C54792 /* View Controller */ = {
+		CFE72F750FA9983B00C54792 /* Other View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				2ED4E84D0FA9611D000BFE2F /* MEReplyViewController.h */,
-				2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */,
-				2EC19A570F9C1D5D00963971 /* MELoginViewController.h */,
-				2EC19A580F9C1D5D00963971 /* MELoginViewController.m */,
 				28D7ACF60DDB3853001CB0EB /* MEPostViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* MEPostViewController.m */,
-				CFE72DAD0FA7ED7100C54792 /* MEPasscodeViewController.h */,
-				CFE72DAE0FA7ED7100C54792 /* MEPasscodeViewController.m */,
+				2ED4E84D0FA9611D000BFE2F /* MEReplyViewController.h */,
+				2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */,
 				2ED83E390FAECFDC00786952 /* MEAddCommentViewController.h */,
 				2ED83E3A0FAECFDC00786952 /* MEAddCommentViewController.m */,
 				2E7520FE0FA6CDA300B0D4FA /* MEUserInfoViewController.h */,
@@ -622,7 +570,7 @@
 				2E7522510FA70A0000B0D4FA /* MEActionPopupViewController.h */,
 				2E7522520FA70A0000B0D4FA /* MEActionPopupViewController.m */,
 			);
-			name = "View Controller";
+			name = "Other View Controllers";
 			sourceTree = "<group>";
 		};
 		CFE7320B0FB1905800C54792 /* Settings */ = {
@@ -649,6 +597,17 @@
 				CFE72E9D0FA863B900C54792 /* MEAboutViewController.m */,
 			);
 			name = "Settings View Controller";
+			sourceTree = "<group>";
+		};
+		CFFC6DD80FBAB8A800B935E7 /* Login View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2EC19A570F9C1D5D00963971 /* MELoginViewController.h */,
+				2EC19A580F9C1D5D00963971 /* MELoginViewController.m */,
+				CFE72DAD0FA7ED7100C54792 /* MEPasscodeViewController.h */,
+				CFE72DAE0FA7ED7100C54792 /* MEPasscodeViewController.m */,
+			);
+			name = "Login View Controller";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -733,13 +692,6 @@
 				CF9045C90F95A85D001AE52C /* MEClientOperation.m in Sources */,
 				CF9046430F95C4A4001AE52C /* NSURL+MEAdditions.m in Sources */,
 				CF5EE6B40F95DE8D004712FF /* NSNull+NilObject.m in Sources */,
-				2E2EB1300F96F35F005C54E5 /* EXFGPS.m in Sources */,
-				2E2EB1310F96F35F005C54E5 /* EXFHandlers.m in Sources */,
-				2E2EB1320F96F35F005C54E5 /* EXFJFIF.m in Sources */,
-				2E2EB1330F96F35F005C54E5 /* EXFJpeg.m in Sources */,
-				2E2EB1340F96F35F005C54E5 /* EXFMetaData.m in Sources */,
-				2E2EB1350F96F35F005C54E5 /* EXFTagDefinitionHolder.m in Sources */,
-				2E2EB1360F96F35F005C54E5 /* EXFUtils.m in Sources */,
 				CF5EE75D0F97162F004712FF /* MESettingsViewController.m in Sources */,
 				CF5EE7610F97164A004712FF /* MEAccountSettingsViewController.m in Sources */,
 				CF5EE8160F981C4E004712FF /* MEClientStore.m in Sources */,

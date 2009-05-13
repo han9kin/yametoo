@@ -196,15 +196,22 @@
 
 - (void)dismiss
 {
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.3];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDidStopSelector:@selector(dismissAnimationDidStop:finished:context:)];
-    [[self view] setFrame:CGRectMake(0, -244, 320, 244)];
-    [mBackView setBackgroundColor:[UIColor clearColor]];
-    [UIView commitAnimations];
+    if (mBackView)
+    {
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.3];
+        [UIView setAnimationDelegate:self];
+        [UIView setAnimationDidStopSelector:@selector(dismissAnimationDidStop:finished:context:)];
+        [[self view] setFrame:CGRectMake(0, -244, 320, 244)];
+        [mBackView setBackgroundColor:[UIColor clearColor]];
+        [UIView commitAnimations];
 
-    [mTextField resignFirstResponder];
+        [mTextField resignFirstResponder];
+    }
+    else
+    {
+        [mDelegate performSelector:mDidEndSelector withObject:self withObject:mClient];
+    }
 }
 
 - (void)dismissAnimationDidStop:(NSString *)aAnimationID finished:(NSNumber *)aFinished context:(void *)aContext
@@ -323,14 +330,7 @@
 
     if (mDidEndSelector)
     {
-        if (mBackView)
-        {
-            [self dismiss];
-        }
-        else
-        {
-            [mDelegate performSelector:mDidEndSelector withObject:self withObject:mClient];
-        }
+        [self performSelector:@selector(dismiss) withObject:nil afterDelay:0];
     }
 }
 
@@ -345,14 +345,7 @@
         mDidEndSelector = @selector(passcodeViewController:didCancelChangingPasscodeClient:);
     }
 
-    if (mBackView)
-    {
-        [self dismiss];
-    }
-    else
-    {
-        [mDelegate performSelector:mDidEndSelector withObject:self withObject:mClient];
-    }
+    [self performSelector:@selector(dismiss) withObject:nil afterDelay:0];
 }
 
 

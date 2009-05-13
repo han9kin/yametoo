@@ -10,7 +10,23 @@
 #import <Foundation/Foundation.h>
 
 
+@implementation NSObject (NilObject)
+
+- (BOOL)isNotNull
+{
+    return YES;
+}
+
+@end
+
+
 @implementation NSNull (NilObject)
+
+- (BOOL)isNotNull
+{
+    return NO;
+}
+
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
 {

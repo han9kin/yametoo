@@ -38,7 +38,7 @@ typedef enum MEReaderViewControllerType
 }
 
 
-- (void)refreshData;
+- (void)invalidateData;
 - (void)reloadData;
 
 
