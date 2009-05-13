@@ -21,6 +21,7 @@
 {
     mImageView = [[UIImageView alloc] initWithImage:nil];
     [mImageView setFrame:[self bounds]];
+    [mImageView setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
     [self addSubview:mImageView];
     [mImageView release];
 }

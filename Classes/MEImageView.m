@@ -69,6 +69,27 @@
 }
 
 
+- (void)setFrame:(CGRect)aRect
+{
+    [super setFrame:aRect];
+
+    CGRect sRect = [self bounds];
+
+    if (mBorderColor)
+    {
+        sRect.origin.x    += 1;
+        sRect.origin.y    += 1;
+        sRect.size.width  -= 2;
+        sRect.size.height -= 2;
+
+        [mImageView setFrame:sRect];
+    }
+    else
+    {
+        [mImageView setFrame:sRect];
+    }
+}
+
 - (void)drawRect:(CGRect)aRect
 {
     CGRect sRect = [self bounds];
