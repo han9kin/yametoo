@@ -23,7 +23,7 @@ static NSString *kNonce                    = @"1A3D485B";
 static NSString *kAppKey                   = @"e9a4f3c223bba69df0b1347d755b8c38";
 
 static NSString *kLoginURLFormat           = @"http://me2day.net/api/noop.json?uid=%@&ukey=%@&akey=%@";
-static NSString *kCreateCommentURLFormat   = @"http://me2day.net/api/create_comment.json?uid=%@&ukey=%@&akey=%@";
+static NSString *kCreateCommentURLFormat   = @"http://me2day.net/api/create_comment.json?uid=%@&ukey=%@&akey=%@&post_id=%@";
 static NSString *kCreatePostURLFormat      = @"http://me2day.net/api/create_post/%@.json?uid=%@&ukey=%@&akey=%@";
 static NSString *kDeleteCommentURLFormat   = @"http://me2day.net/api/delete_comment.json?uid=%@&ukey=%@&akey=%@&comment_id=%@";
 static NSString *kGetCommentsURLFormat     = @"http://me2day.net/api/get_comments.json?post_id=%@";
@@ -73,8 +73,8 @@ static NSString *kGetPostsScopeValue[] = {
     NSString            *sURLStr;
     NSData              *sPostData;
 
-    sURLStr   = [NSString stringWithFormat:kCreateCommentURLFormat, mUserID, mAuthKey, kAppKey];
-    sPostData = [[NSString stringWithFormat:@"post_id=%@&body=%@", [aPostID stringByAddingPercentEscapes], [aBody stringByAddingPercentEscapes]] dataUsingEncoding:NSUTF8StringEncoding];
+    sURLStr   = [NSString stringWithFormat:kCreateCommentURLFormat, mUserID, mAuthKey, kAppKey, aPostID];
+    sPostData = [[NSString stringWithFormat:@"body=%@", [aBody stringByAddingPercentEscapes]] dataUsingEncoding:NSUTF8StringEncoding];
     sRequest  = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
 
     [sRequest setValue:@"application/x-www-form-urlencoded; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
