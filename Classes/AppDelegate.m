@@ -27,7 +27,7 @@
         {
             [UIView beginAnimations:nil context:NULL];
             [UIView setAnimationDuration:1.0];
-            [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp forView:mWindow cache:NO];
+            [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp forView:mWindow cache:YES];
             [[mLoginViewController view] removeFromSuperview];
             [mWindow addSubview:[mTabBarController view]];
             [UIView commitAnimations];
@@ -61,7 +61,7 @@
         {
             [UIView beginAnimations:nil context:NULL];
             [UIView setAnimationDuration:1.0];
-            [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:mWindow cache:NO];
+            [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:mWindow cache:YES];
             [[mTabBarController view] removeFromSuperview];
             [mWindow addSubview:[mLoginViewController view]];
             [UIView commitAnimations];
