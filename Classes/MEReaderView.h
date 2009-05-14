@@ -62,6 +62,7 @@
 @property(nonatomic, assign) id<MEReaderViewDelegate>   delegate;
 
 
+- (void)setTitleUserID:(NSString *)aUserID;
 - (void)setShowsPostAuthor:(BOOL)aFlag;
 
 - (NSIndexPath *)indexPathForSelectedPost;

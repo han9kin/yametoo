@@ -9,6 +9,18 @@
 
 #import "MEReaderHeadView.h"
 #import "MEImageView.h"
+#import "MEClientStore.h"
+#import "MEClient.h"
+#import "MEUser.h"
+
+
+#define kReaderHeadViewHeight 70
+#define kFaceImageViewWidth   50
+#define kFaceImageViewHeight  50
+#define kNickButtonWidth      152
+#define kNickButtonHeight     45
+#define kPostButtonWidth      90
+#define kPostButtonHeight     35
 
 
 @implementation MEReaderHeadView
@@ -46,7 +58,7 @@
         {
             mNewPostButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
             [mNewPostButton setTitle:NSLocalizedString(@"New Post", nil) forState:UIControlStateNormal];
-            [mNewPostButton addTarget:self action:@selector(newPostButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+            [mNewPostButton addTarget:self action:@selector(newPostButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 
             sFrame.size.width  = kPostButtonWidth;
             sFrame.size.height = kPostButtonHeight;
@@ -59,12 +71,6 @@
     }
 
     return self;
-}
-
-
-- (void)drawRect:(CGRect)aRect
-{
-
 }
 
 
@@ -94,15 +100,12 @@
 }
 
 
-- (void)setUserDescription:(NSString *)aUserDescription
+- (void)setUserID:(NSString *)aUserID
 {
-    [mUserDescLabel setText:aUserDescription];
-}
+    [mFaceImageView setImageWithURL:nil];
+    [mUserDescLabel setText:nil];
 
-
-- (void)setFaceImageURL:(NSURL *)aFaceImageURL
-{
-    [mFaceImageView setImageWithURL:aFaceImageURL];
+    [[MEClientStore currentClient] getPersonWithUserID:aUserID delegate:self];
 }
 
 
@@ -110,11 +113,25 @@
 #pragma mark Actions
 
 
-- (IBAction)newPostButtonTapped:(id)aSender
+- (void)newPostButtonTapped
 {
     if ([mDelegate respondsToSelector:@selector(newPostButtonTapped:)])
     {
         [mDelegate newPostButtonTapped:self];
+    }
+}
+
+
+#pragma mark -
+#pragma mark MEClientDelegate
+
+
+- (void)client:(MEClient *)aClient didGetPerson:(MEUser *)aUser error:(NSError *)aError
+{
+    if (aUser)
+    {
+        [mFaceImageView setImageWithURL:[aUser faceImageURL]];
+        [mUserDescLabel setText:[aUser userDescription]];
     }
 }
 

@@ -98,6 +98,32 @@
 #pragma mark Instance Methods
 
 
+- (void)setTitleUserID:(NSString *)aUserID
+{
+    if (aUserID)
+    {
+        MEReaderHeadView *sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
+
+        if (!sHeaderView)
+        {
+            sHeaderView = [MEReaderHeadView readerHeadView];
+
+            [sHeaderView setDelegate:self];
+            [mTableView setTableHeaderView:sHeaderView];
+        }
+
+        [sHeaderView setUserID:aUserID];
+    }
+    else
+    {
+        if ([mTableView tableHeaderView])
+        {
+            [mTableView setTableHeaderView:nil];
+        }
+    }
+}
+
+
 - (void)setShowsPostAuthor:(BOOL)aFlag
 {
     mShowsPostAuthor = aFlag;
@@ -124,34 +150,6 @@
 
 - (void)invalidateData
 {
-    if ([mDataSource respondsToSelector:@selector(authorOfPostsInReaderView:)])
-    {
-        MEReaderHeadView *sHeaderView;
-        MEUser           *sUser;
-
-        sUser = [mDataSource authorOfPostsInReaderView:self];
-
-        if (sUser)
-        {
-            sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
-
-            if (!sHeaderView)
-            {
-                sHeaderView = [MEReaderHeadView readerHeadView];
-
-                [sHeaderView setDelegate:self];
-                [mTableView setTableHeaderView:sHeaderView];
-            }
-
-            [sHeaderView setUserDescription:[sUser userDescription]];
-            [sHeaderView setFaceImageURL:[sUser faceImageURL]];
-        }
-        else
-        {
-            [mTableView setTableHeaderView:nil];
-        }
-    }
-
     [mCellHeightCache removeAllObjects];
 }
 

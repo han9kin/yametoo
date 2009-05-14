@@ -10,32 +10,21 @@
 #import <UIKit/UIKit.h>
 
 
-#define kReaderHeadViewHeight       70
-#define kFaceImageViewWidth         50
-#define kFaceImageViewHeight        50
-#define kNickButtonWidth            152
-#define kNickButtonHeight           45
-#define kPostButtonWidth            90
-#define kPostButtonHeight           35
-
-
 @class MEImageView;
 
 @interface MEReaderHeadView : UIView
 {
-    id           mDelegate;
     MEImageView *mFaceImageView;
     UILabel     *mUserDescLabel;
     UIButton    *mNewPostButton;
+
+    id           mDelegate;
 }
 
 + (MEReaderHeadView *)readerHeadView;
 
 - (void)setDelegate:(id)aDelegate;
-- (void)setUserDescription:(NSString *)aUserDescription;
-- (void)setFaceImageURL:(NSURL *)aFaceImageURL;
-
-- (IBAction)newPostButtonTapped:(id)aSender;
+- (void)setUserID:(NSString *)aUserID;
 
 @end
 

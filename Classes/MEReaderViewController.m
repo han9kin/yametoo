@@ -176,6 +176,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     [mTimer invalidate];
     [mMediaView release];
     [mTitle release];
+    [mTitleUserID release];
     [mPosts release];
     [mLastestDate release];
     [super dealloc];
@@ -213,6 +214,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     [mTitleLabel release];
 
     mReaderView = [[MEReaderView alloc] initWithFrame:CGRectMake(0, 25, 320, 386)];
+    [mReaderView setTitleUserID:mTitleUserID];
     [mReaderView setDataSource:self];
     [mReaderView setDelegate:self];
     [[self view] addSubview:mReaderView];
@@ -280,10 +282,22 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 }
 
 
+- (void)setTitleUserID:(NSString *)aUserID
+{
+    if (![mTitleUserID isEqualToString:aUserID])
+    {
+        [mTitleUserID release];
+        mTitleUserID = [aUserID copy];
+
+        [mReaderView setTitleUserID:mTitleUserID];
+    }
+}
+
 - (void)invalidateData
 {
     [mPosts removeAllObjects];
     [mReaderView invalidateData];
+    [mReaderView reloadData];
 }
 
 - (void)reloadData

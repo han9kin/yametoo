@@ -53,47 +53,16 @@
 
 
 #pragma mark -
-#pragma mark MEClientDelegate
-
-
-- (void)client:(MEClient *)aClient didGetPerson:(MEUser *)aUser error:(NSError *)aError
-{
-    NSString *sUserID = [[MEClientStore currentClient] userID];
-
-    if ([sUserID isEqualToString:[aUser userID]] && (mUser != aUser))
-    {
-        [mUser release];
-        mUser = [aUser retain];
-
-        [self reloadData];
-    }
-}
-
-
-#pragma mark -
-#pragma mark MEReaderViewDataSource
-
-
-- (MEUser *)authorOfPostsInReaderView:(MEReaderView *)aReaderView
-{
-    return mUser;
-}
-
-
-#pragma mark -
 #pragma mark MEClientStore Notifications
 
 
 - (void)currentUserDidChange:(NSNotification *)aNotification
 {
-    MEClient *sClient = [MEClientStore currentClient];
-    NSString *sUserID = [sClient userID];
+    NSString *sUserID = [[MEClientStore currentClient] userID];
 
-    [mUser release];
-    mUser = nil;
-
-    [sClient getPersonWithUserID:sUserID delegate:self];
     [self setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s me2day", @""), sUserID]];
+    [self setTitleUserID:sUserID];
+
     [self invalidateData];
 }
 

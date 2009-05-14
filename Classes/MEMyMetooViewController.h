@@ -13,7 +13,7 @@
 
 @interface MEMyMetooViewController : MEReaderViewController
 {
-    MEUser *mUser;
+
 }
 
 @end

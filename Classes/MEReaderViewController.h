@@ -29,6 +29,7 @@ typedef enum MEReaderViewControllerType
     MEMediaView    *mMediaView;
 
     NSString       *mTitle;
+    NSString       *mTitleUserID;
     NSMutableArray *mPosts;
     NSDate         *mLastestDate;
     NSTimer        *mTimer;
@@ -37,6 +38,8 @@ typedef enum MEReaderViewControllerType
     NSInteger       mUpdateOffset;
 }
 
+
+- (void)setTitleUserID:(NSString *)aUserID;
 
 - (void)invalidateData;
 - (void)reloadData;
