@@ -22,6 +22,8 @@
 + (NSInteger)fetchInterval;
 + (void)setFetchInterval:(NSInteger)aInterval;
 
++ (BOOL)couldImplicitFetch;
+
 + (NSInteger)initialFetchCount;
 + (void)setInitialFetchCount:(NSInteger)aCount;
 

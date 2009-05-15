@@ -8,6 +8,7 @@
  */
 
 #import "MESettings.h"
+#import "MEReachability.h"
 
 
 static NSString *kFetchIntervalKey     = @"fetchInterval";
@@ -100,6 +101,11 @@ static struct
 + (void)setFetchInterval:(NSInteger)aInterval
 {
     [[NSUserDefaults standardUserDefaults] setInteger:aInterval forKey:kFetchIntervalKey];
+}
+
++ (BOOL)couldImplicitFetch
+{
+    return [MEReachability isInternetAvailable];
 }
 
 + (NSInteger)initialFetchCount

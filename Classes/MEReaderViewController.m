@@ -132,7 +132,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
     [mPosts sortUsingFunction:compareSectionByPubDate context:NULL];
 
-    if (sHaveNewPost && !sUpdated)
+    if (sHaveNewPost && !sUpdated && [MESettings couldImplicitFetch])
     {
         mUpdateOffset += kUpdateFetchCount;
         [self fetchFromOffset:mUpdateOffset count:kUpdateFetchCount];
@@ -245,8 +245,11 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
     if ([mPosts count])
     {
-        mUpdateOffset = 0;
-        [self fetchFromOffset:0 count:kUpdateFetchCount];
+        if ([MESettings couldImplicitFetch])
+        {
+            mUpdateOffset = 0;
+            [self fetchFromOffset:0 count:kUpdateFetchCount];
+        }
     }
     else
     {
@@ -317,8 +320,11 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 - (void)updateTimerFired:(NSTimer *)aTimer
 {
-    mUpdateOffset = 0;
-    [self fetchFromOffset:0 count:kUpdateFetchCount];
+    if ([MESettings couldImplicitFetch])
+    {
+        mUpdateOffset = 0;
+        [self fetchFromOffset:0 count:kUpdateFetchCount];
+    }
 }
 
 
