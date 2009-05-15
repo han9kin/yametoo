@@ -64,7 +64,8 @@
 {
     [super viewDidLoad];
 
-    [mTableView setBackgroundColor:[UIColor clearColor]];
+//    [mTableView setBackgroundColor:[UIColor clearColor]];
+    [mTableView setBackgroundColor:[UIColor colorWithWhite:0.85 alpha:1.0]];
 }
 
 

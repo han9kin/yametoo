@@ -110,6 +110,7 @@
     return mBorderColor;
 }
 
+
 - (void)setBorderColor:(UIColor *)aColor
 {
     if (mBorderColor != aColor)
