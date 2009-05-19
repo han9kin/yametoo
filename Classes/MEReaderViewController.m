@@ -10,11 +10,13 @@
 #import "NSDate+MEAdditions.h"
 #import "UIAlertView+MEAdditions.h"
 #import "UIViewController+MEAdditions.h"
+#import "MEReaderView.h"
 #import "MEReaderViewController.h"
 #import "MEUserInfoViewController.h"
 #import "MEPostViewController.h"
 #import "MEReplyViewController.h"
 #import "MEMediaView.h"
+#import "MEClient.h"
 #import "MESettings.h"
 #import "MEPost.h"
 

@@ -10,7 +10,6 @@
 #import "AppDelegate.h"
 #import "MEClientStore.h"
 #import "MELoginViewController.h"
-#import "MEReaderViewController.h"
 
 
 @interface AppDelegate (Private)

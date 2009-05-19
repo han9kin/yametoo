@@ -8,8 +8,6 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "MEReaderView.h"
-#import "MEClient.h"
 
 
 typedef enum MEReaderViewControllerType
@@ -19,7 +17,10 @@ typedef enum MEReaderViewControllerType
 } MEReaderViewControllerType;
 
 
-@class MEMediaView;
+@class    MEMediaView;
+@class    MEReaderView;
+@protocol MEReaderViewDataSource;
+@protocol MEReaderViewDelegate;
 
 
 @interface MEReaderViewController : UIViewController <MEReaderViewDataSource, MEReaderViewDelegate>

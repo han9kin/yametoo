@@ -7,8 +7,10 @@
  *
  */
 
+#import "MEReaderView.h"
 #import "MEFriendsViewController.h"
 #import "MEClientStore.h"
+#import "MEClient.h"
 
 
 @implementation MEFriendsViewController
