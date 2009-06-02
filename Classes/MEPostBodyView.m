@@ -169,7 +169,15 @@
 {
     [mBodyLabel setAttributedText:[aPost body]];
     [mTagsLabel setText:[aPost tagsString]];
-    [mCommentsLabel setText:[NSString stringWithFormat:NSLocalizedString(@"Comments (%d)", @""), [aPost commentsCount]]];
+
+    if ([aPost isCommentClosed])
+    {
+        [mCommentsLabel setText:nil];
+    }
+    else
+    {
+        [mCommentsLabel setText:[NSString stringWithFormat:NSLocalizedString(@"Comments (%d)", @""), [aPost commentsCount]]];
+    }
 
     if (mShowsPostDate)
     {

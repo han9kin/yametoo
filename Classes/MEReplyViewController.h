@@ -23,6 +23,7 @@
     IBOutlet MEPostBodyView  *mPostBodyView;
     IBOutlet UIScrollView    *mPostScrollView;
     IBOutlet UITableView     *mTableView;
+    IBOutlet UIBarButtonItem *mReplyButtonItem;
 
     MEPost         *mPost;
     NSMutableArray *mComments;

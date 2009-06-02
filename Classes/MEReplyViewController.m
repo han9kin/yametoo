@@ -66,8 +66,9 @@
     [mPostBodyView release];
     [mPostScrollView release];
     [mTableView release];
+    [mReplyButtonItem release];
 
-    [mPost     release];
+    [mPost release];
     [mComments release];
 
     [super dealloc];
@@ -104,6 +105,8 @@
     CGFloat sHeight = [mPostBodyView frame].size.height + kPostCellBodyPadding * 2;
     [mContainerView setFrame:CGRectMake(0, 0, 320, sHeight)];
     [mTableView setTableHeaderView:mContainerView];
+
+    [mReplyButtonItem setEnabled:![mPost isCommentClosed]];
 }
 
 

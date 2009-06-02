@@ -34,6 +34,7 @@
 @synthesize iconURL       = mIconURL;
 @synthesize photoURL      = mPhotoURL;
 @dynamic    tagsString;
+@synthesize commentClosed = mCommentClosed;
 
 
 #pragma mark -
@@ -56,6 +57,7 @@
         mTags          = [[[aPostDict objectForKey:@"tags"] valueForKey:@"name"] retain];
         mIconURL       = [[NSURL alloc] initWithStringOrNil:[aPostDict objectForKey:@"iconUrl"]];
         mPhotoURL      = [[NSURL alloc] initWithStringOrNil:[[aPostDict objectForKey:@"media"] objectForKey:@"photoUrl"]];
+        mCommentClosed = [[aPostDict objectForKey:@"commentClosed"] boolValue];
 
         if (!mIconURL)
         {
