@@ -105,20 +105,6 @@
     mPasscodeSwitch = nil;
 }
 
-// - (void)viewWillAppear:(BOOL)aAnimated
-// {
-//     [super viewWillAppear:aAnimated];
-
-//     if (mUserIDField)
-//     {
-//         [mUserIDField becomeFirstResponder];
-//     }
-//     else
-//     {
-//         [mUserKeyField becomeFirstResponder];
-//     }
-// }
-
 - (BOOL)hidesBottomBarWhenPushed
 {
     return YES;
@@ -316,7 +302,7 @@
                 [sCell setTitleText:NSLocalizedString(@"User Key", @"")];
 
                 mUserKeyField = [sCell textField];
-                [mUserKeyField setKeyboardType:UIKeyboardTypeNumberPad];
+                [mUserKeyField setKeyboardType:UIKeyboardTypeNamePhonePad];
                 [mUserKeyField setReturnKeyType:UIReturnKeyJoin];
                 [mUserKeyField setPlaceholder:NSLocalizedString(@"me2API User Key", @"")];
                 [mUserKeyField setDelegate:self];
@@ -355,7 +341,7 @@
                     [sCell setTitleText:NSLocalizedString(@"User Key", @"")];
 
                     mUserKeyField = [sCell textField];
-                    [mUserKeyField setKeyboardType:UIKeyboardTypeNumberPad];
+                    [mUserKeyField setKeyboardType:UIKeyboardTypeNamePhonePad];
                     [mUserKeyField setReturnKeyType:UIReturnKeyJoin];
                     [mUserKeyField setPlaceholder:NSLocalizedString(@"me2API User Key", @"")];
                     [mUserKeyField setDelegate:self];
