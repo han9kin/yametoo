@@ -46,9 +46,10 @@ static NSDictionary *gLinkAttributes    = nil;
 
     sAttributes = [NSMutableDictionary dictionaryWithDictionary:[mAttributesStack lastObject]];
 
-    if ([aElementName isEqualToString:@"a"])
+    if ([aElementName isEqualToString:@"a"] && [aAttributes objectForKey:@"href"])
     {
         [sAttributes addEntriesFromDictionary:gLinkAttributes];
+        [sAttributes setObject:[aAttributes objectForKey:@"href"] forKey:MELinkAttributeName];
     }
     else
     {

@@ -39,6 +39,7 @@
 @property(nonatomic, readonly)                         NSURL              *iconURL;
 @property(nonatomic, readonly)                         NSURL              *photoURL;
 @property(nonatomic, readonly)                         NSString           *tagsString;
+@property(nonatomic, readonly)                         NSArray            *links;
 @property(nonatomic, readonly, getter=isCommentClosed) BOOL                commentClosed;
 
 

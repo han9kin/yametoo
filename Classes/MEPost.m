@@ -9,11 +9,13 @@
 
 #import "NSDate+MEAdditions.h"
 #import "NSURL+MEAdditions.h"
+#import "MELink.h"
 #import "MEPost.h"
 #import "MEUser.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEPostBodyTextParser.h"
+#import "MEAttributedString.h"
 
 
 @implementation MEPost
@@ -34,6 +36,7 @@
 @synthesize iconURL       = mIconURL;
 @synthesize photoURL      = mPhotoURL;
 @dynamic    tagsString;
+@dynamic    links;
 @synthesize commentClosed = mCommentClosed;
 
 
@@ -119,6 +122,54 @@
 - (NSString *)tagsString
 {
     return [mTags componentsJoinedByString:@" "];
+}
+
+
+- (NSArray *)links
+{
+    NSMutableArray *sLinks;
+    MELink         *sLink;
+    NSString       *sCurrURL;
+    NSString       *sLastURL;
+    NSRange         sCurrRange;
+    NSRange         sLastRange;
+    NSUInteger      sIndex;
+    NSUInteger      sLength;
+
+    sLinks   = nil;
+    sLastURL = nil;
+    sLength  = [mBody length];
+
+    for (sIndex = 0; sIndex < sLength; sIndex = NSMaxRange(sCurrRange))
+    {
+        sCurrURL = [mBody attribute:MELinkAttributeName atIndex:sIndex effectiveRange:&sCurrRange];
+
+        if (sCurrURL)
+        {
+            if ([sCurrURL isEqual:sLastURL] && (NSMaxRange(sLastRange) == sCurrRange.location))
+            {
+                [[sLinks lastObject] appendTitle:[[mBody string] substringWithRange:sCurrRange]];
+            }
+            else
+            {
+                if (!sLinks)
+                {
+                    sLinks   = [NSMutableArray array];
+                }
+
+                sLink = [[MELink alloc] init];
+                [sLink setTitle:[[mBody string] substringWithRange:sCurrRange]];
+                [sLink setURLString:sCurrURL];
+                [sLinks addObject:sLink];
+                [sLink release];
+            }
+
+            sLastURL   = sCurrURL;
+            sLastRange = sCurrRange;
+        }
+    }
+
+    return sLinks;
 }
 
 

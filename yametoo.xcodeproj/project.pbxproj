@@ -49,6 +49,7 @@
 		2ED4E84F0FA9611D000BFE2F /* MEReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */; };
 		2ED83E380FAECFC600786952 /* AddCommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED83E370FAECFC600786952 /* AddCommentViewController.xib */; };
 		2ED83E3B0FAECFDC00786952 /* MEAddCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED83E3A0FAECFDC00786952 /* MEAddCommentViewController.m */; };
+		CF45B2A10FD78E170069C6BA /* MELink.m in Sources */ = {isa = PBXBuildFile; fileRef = CF45B2A00FD78E170069C6BA /* MELink.m */; };
 		CF528C980FA06BC2007C7A03 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF528C970FA06BC1007C7A03 /* Localizable.strings */; };
 		CF528CB80FA149B6007C7A03 /* CharacterEntity.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF528CB70FA149B6007C7A03 /* CharacterEntity.strings */; };
 		CF528CE70FA15683007C7A03 /* METextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF528CE60FA15683007C7A03 /* METextParser.m */; };
@@ -164,6 +165,8 @@
 		2ED83E3A0FAECFDC00786952 /* MEAddCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEAddCommentViewController.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* yametoo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yametoo_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF45B29F0FD78E170069C6BA /* MELink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELink.h; sourceTree = "<group>"; };
+		CF45B2A00FD78E170069C6BA /* MELink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MELink.m; sourceTree = "<group>"; };
 		CF528C970FA06BC1007C7A03 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		CF528CB70FA149B6007C7A03 /* CharacterEntity.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = CharacterEntity.strings; sourceTree = "<group>"; };
 		CF528CE50FA15683007C7A03 /* METextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = METextParser.h; sourceTree = "<group>"; };
@@ -382,6 +385,8 @@
 				CFE72BDC0FA5859300C54792 /* MEPostIcon.m */,
 				CFE72CB60FA6A36B00C54792 /* MEComment.h */,
 				CFE72CB70FA6A36B00C54792 /* MEComment.m */,
+				CF45B29F0FD78E170069C6BA /* MELink.h */,
+				CF45B2A00FD78E170069C6BA /* MELink.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -772,6 +777,7 @@
 				CFFC6C660FB93E4800B935E7 /* NSDate+MEAdditions.m in Sources */,
 				2EB3F9820FB979F500CAF94A /* MECommentBackView.m in Sources */,
 				CFBED9800FBD37490005FD9D /* MEReachability.m in Sources */,
+				CF45B2A10FD78E170069C6BA /* MELink.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
