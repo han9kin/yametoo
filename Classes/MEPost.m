@@ -157,9 +157,7 @@
                     sLinks   = [NSMutableArray array];
                 }
 
-                sLink = [[MELink alloc] init];
-                [sLink setTitle:[[mBody string] substringWithRange:sCurrRange]];
-                [sLink setURLString:sCurrURL];
+                sLink = [[MELink alloc] initWithURL:sCurrURL title:[[mBody string] substringWithRange:sCurrRange]];
                 [sLinks addObject:sLink];
                 [sLink release];
             }

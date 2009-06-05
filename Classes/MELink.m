@@ -8,38 +8,45 @@
  */
 
 #import "MELink.h"
+#import "MEUser.h"
+#import "MEClientStore.h"
+#import "MEClient.h"
 
 
 @implementation MELink
 
-@synthesize title     = mTitle;
-@synthesize URLString = mURLString;
-@dynamic    url;
+@synthesize url   = mURL;
+@synthesize title = mTitle;
+@synthesize type  = mType;
 
+
+- (id)initWithURL:(id)aURL title:(NSString *)aTitle
+{
+    self = [super init];
+
+    if (self)
+    {
+        if ([aURL isKindOfClass:[NSString class]])
+        {
+            mURL = [[NSURL alloc] initWithString:aURL];
+        }
+        else
+        {
+            mURL = [aURL retain];
+        }
+
+        mTitle = [aTitle copy];
+    }
+
+    return self;
+}
 
 - (void)dealloc
 {
+    [mURL release];
     [mTitle release];
-    [mURLString release];
     [mDescription release];
     [super dealloc];
-}
-
-
-- (NSString *)urlDescription
-{
-    if (!mDescription)
-    {
-        mDescription = [mURLString retain];
-    }
-
-    return mDescription;
-}
-
-
-- (NSURL *)url
-{
-    return [NSURL URLWithString:mURLString];
 }
 
 
@@ -50,9 +57,73 @@
 }
 
 
-- (NSString *)description
+- (NSString *)urlDescription
 {
-    return [NSString stringWithFormat:@"%@ => %@", mTitle, mURLString];
+    if (!mDescription)
+    {
+        mDescription = [[mURL absoluteString] retain];
+
+        if ([[mURL host] isEqualToString:@"me2day.net"])
+        {
+            NSArray *pathComps = [[[mURL path] stringByAppendingString:@"/"] pathComponents];
+
+            if ([pathComps count] > 1)
+            {
+                [[MEClientStore currentClient] getPersonWithUserID:[pathComps objectAtIndex:1] delegate:self];
+            }
+            else
+            {
+                [self willChangeValueForKey:@"type"];
+                mType = kMELinkTypeOther;
+                [self didChangeValueForKey:@"type"];
+            }
+        }
+        else
+        {
+            [self willChangeValueForKey:@"type"];
+            mType = kMELinkTypeOther;
+            [self didChangeValueForKey:@"type"];
+        }
+    }
+
+    return mDescription;
+}
+
+
+#pragma mark MEClientDelegate
+
+
+- (void)client:(MEClient *)aClient didGetPerson:(MEUser *)aUser error:(NSError *)aError
+{
+    [self willChangeValueForKey:@"type"];
+
+    if (aUser)
+    {
+        [self willChangeValueForKey:@"urlDescription"];
+
+        [mDescription release];
+
+        if ([mURL fragment])
+        {
+            mDescription = [[NSString alloc] initWithFormat:NSLocalizedString(@"%@'s Post", @""), [aUser nickname]];
+            mType        = kMELinkTypePost;
+        }
+        else
+        {
+            mDescription = [[NSString alloc] initWithFormat:NSLocalizedString(@"%@'s me2DAY", @""), [aUser nickname]];
+            mType        = kMELinkTypeMe2DAY;
+        }
+
+        [self didChangeValueForKey:@"urlDescription"];
+    }
+    else
+    {
+        mType = kMELinkTypeOther;
+    }
+
+    [self didChangeValueForKey:@"type"];
+
+    NSLog(@"%@", mDescription);
 }
 
 

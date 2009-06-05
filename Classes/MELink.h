@@ -10,18 +10,30 @@
 #import <Foundation/Foundation.h>
 
 
+typedef enum MELinkType
+{
+    kMELinkTypeUnknown = 0,
+    kMELinkTypeMe2DAY,
+    kMELinkTypePost,
+    kMELinkTypeOther
+} MELinkType;
+
+
 @interface MELink : NSObject
 {
-    NSString *mTitle;
-    NSString *mURLString;
-    NSString *mDescription;
+    NSURL      *mURL;
+    NSString   *mTitle;
+    NSString   *mDescription;
+    MELinkType  mType;
 }
 
-@property(nonatomic, copy)     NSString *title;
-@property(nonatomic, copy)     NSString *URLString;
-@property(nonatomic, readonly) NSString *urlDescription;
-@property(nonatomic, readonly) NSURL    *url;
+@property(nonatomic, readonly) NSURL      *url;
+@property(nonatomic, readonly) NSString   *title;
+@property(nonatomic, readonly) NSString   *urlDescription;
+@property(nonatomic, readonly) MELinkType  type;
 
+
+- (id)initWithURL:(id)aURL title:(NSString *)aTitle;
 
 - (void)appendTitle:(NSString *)aTitle;
 

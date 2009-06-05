@@ -72,7 +72,7 @@
         sName = [[MEClientStore currentClient] userID];
     }
 
-    [self setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s me2day", @""), sName]];
+    [self setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s me2DAY", @""), sName]];
 }
 
 
@@ -85,7 +85,7 @@
     MEClient *sClient = [MEClientStore currentClient];
     NSString *sUserID = [sClient userID];
 
-    [self setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s me2day", @""), sUserID]];
+    [self setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s me2DAY", @""), sUserID]];
     [sClient getPersonWithUserID:sUserID delegate:self];
 
     [self setTitleUserID:sUserID];

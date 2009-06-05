@@ -72,7 +72,7 @@
         sName = [[MEClientStore currentClient] userID];
     }
 
-    [self setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s friends", @""), sName]];
+    [self setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s Friends", @""), sName]];
 }
 
 
@@ -85,7 +85,7 @@
     MEClient *sClient = [MEClientStore currentClient];
     NSString *sUserID = [sClient userID];
 
-    [self setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s friends", @""), sUserID]];
+    [self setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s Friends", @""), sUserID]];
     [sClient getPersonWithUserID:sUserID delegate:self];
 
     [self invalidateData];
