@@ -9,7 +9,6 @@
 
 #import "UIAlertView+MEAdditions.h"
 #import "MEPostViewController.h"
-#import "MEPhotoEditorController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEDrawingFunctions.h"
