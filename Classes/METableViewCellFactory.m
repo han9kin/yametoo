@@ -291,11 +291,11 @@ enum
     MEImageButton   *sImageButton;
     MEPostBodyView  *sBodyView;
 
-    sCell = [aTableView dequeueReusableCellWithIdentifier:@"Post"];
+    sCell = [aTableView dequeueReusableCellWithIdentifier:@"PostWithAuthor"];
 
     if (!sCell)
     {
-        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Post"] autorelease];
+        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"PostWithAuthor"] autorelease];
 
         sImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(7, kPostCellBodyPadding - 1, kIconImageSize + 2, kIconImageSize + 2)];
         [sImageButton setTag:kPostFaceImageTag];
@@ -335,8 +335,7 @@ enum
     MECommentBackView *sBackView;
     MEImageView       *sImageView;
     MEAttributedLabel *sBodyLabel;
-    UILabel           *sAuthorLabel;
-    UILabel           *sPubDateLabel;
+    UILabel           *sLabel;
 
     sCell = [aTableView dequeueReusableCellWithIdentifier:@"Comment"];
 
@@ -362,21 +361,21 @@ enum
         [[sCell contentView] addSubview:sImageView];
         [sImageView release];
 
-        sAuthorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        [sAuthorLabel setTag:kCommentAuthorTag];
-        [sAuthorLabel setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:0.7]];
-        [sAuthorLabel setFont:[UIFont systemFontOfSize:9]];
-        [sAuthorLabel setTextColor:[UIColor whiteColor]];
-        [sAuthorLabel setTextAlignment:UITextAlignmentCenter];
-        [[sCell contentView] addSubview:sAuthorLabel];
-        [sAuthorLabel release];
+        sLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        [sLabel setTag:kCommentAuthorTag];
+        [sLabel setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:0.7]];
+        [sLabel setFont:[UIFont systemFontOfSize:9]];
+        [sLabel setTextColor:[UIColor whiteColor]];
+        [sLabel setTextAlignment:UITextAlignmentCenter];
+        [[sCell contentView] addSubview:sLabel];
+        [sLabel release];
 
-        sPubDateLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        [sPubDateLabel setTag:kCommentPubDateTag];
-        [sPubDateLabel setFont:[UIFont systemFontOfSize:10]];
-        [sPubDateLabel setTextColor:[UIColor colorWithWhite:0.6 alpha:1.0]];
-        [[sCell contentView] addSubview:sPubDateLabel];
-        [sPubDateLabel release];
+        sLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        [sLabel setTag:kCommentPubDateTag];
+        [sLabel setFont:[UIFont systemFontOfSize:10]];
+        [sLabel setTextColor:[UIColor colorWithWhite:0.6 alpha:1.0]];
+        [[sCell contentView] addSubview:sLabel];
+        [sLabel release];
     }
 
     return sCell;

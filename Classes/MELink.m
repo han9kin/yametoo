@@ -122,8 +122,6 @@
     }
 
     [self didChangeValueForKey:@"type"];
-
-    NSLog(@"%@", mDescription);
 }
 
 

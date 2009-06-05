@@ -21,7 +21,7 @@
 #import "MEPostBodyView.h"
 #import "MEAddCommentViewController.h"
 #import "MERoundBackView.h"
-#import "MEImageCache.h"
+#import "MELinkTableViewCell.h"
 
 
 @interface MEReplyViewController (Privates)
@@ -163,30 +163,61 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
 {
-    return 1;
+    return [mComments count] + 1;
 }
 
 
 - (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)aSection
 {
-    return [mComments count];
+    if (aSection)
+    {
+        return [[[mComments objectAtIndex:(aSection - 1)] links] count] + 1;
+    }
+    else
+    {
+        return [[mPost links] count];
+    }
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    UITableViewCell *sResult  = nil;
-    MEComment       *sComment = [mComments objectAtIndex:[aIndexPath row]];
-    UIColor         *sColor;
-    
-    sColor = (([aIndexPath row] % 2) == 1) ? [UIColor whiteColor] : [UIColor colorWithWhite:0.95 alpha:1.0];
+    UITableViewCell *sCell;
+    NSUInteger       sSection = [aIndexPath section];
+    NSUInteger       sRow     = [aIndexPath row];
 
-    sResult = [METableViewCellFactory commentCellForTableView:aTableView];
+    if (sSection)
+    {
+        MEComment  *sComment;
 
-    [sResult setComment:sComment isOwners:(([sComment author] == [mPost author]) ? YES : NO)];
-    [sResult setCommentBackgroundColor:sColor];
+        sSection -= 1;
+        sComment  = [mComments objectAtIndex:sSection];
 
-    return sResult;
+        if (sRow)
+        {
+            sCell = [MELinkTableViewCell cellForTableView:aTableView];
+
+            [(MELinkTableViewCell *)sCell setLink:[[sComment links] objectAtIndex:(sRow - 1)]];
+        }
+        else
+        {
+            UIColor *sColor;
+
+            sColor   = ((sSection % 2) == 1) ? [UIColor whiteColor] : [UIColor colorWithWhite:0.95 alpha:1.0];
+            sCell    = [METableViewCellFactory commentCellForTableView:aTableView];
+
+            [sCell setComment:sComment isOwners:(([sComment author] == [mPost author]) ? YES : NO)];
+            [sCell setCommentBackgroundColor:sColor];
+        }
+    }
+    else
+    {
+        sCell = [MELinkTableViewCell cellForTableView:aTableView];
+
+        [(MELinkTableViewCell *)sCell setLink:[[mPost links] objectAtIndex:sRow]];
+    }
+
+    return sCell;
 }
 
 
@@ -196,18 +227,34 @@
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    CGFloat             sResult     = 0;
-    MEComment          *sComment    = [mComments objectAtIndex:[aIndexPath row]];
-    MEAttributedString *sCommentStr = [sComment body];
-    CGSize              sSize;
+    NSUInteger sSection = [aIndexPath section];
 
-    sResult       = 10;
-    sSize         = [sCommentStr sizeForWidth:kCommentBodyWidth];
-    sSize.height += 14;
-    sResult      += (sSize.height > kIconImageSize) ? sSize.height : kIconImageSize;
-    sResult      += 10;
+    if (sSection)
+    {
+        if ([aIndexPath row])
+        {
+            return 35;
+        }
+        else
+        {
+            MEComment          *sComment    = [mComments objectAtIndex:(sSection - 1)];
+            MEAttributedString *sCommentStr = [sComment body];
+            CGSize              sSize;
+            CGFloat             sHeight;
 
-    return sResult;
+            sHeight       = 10;
+            sSize         = [sCommentStr sizeForWidth:kCommentBodyWidth];
+            sSize.height += 14;
+            sHeight      += (sSize.height > kIconImageSize) ? sSize.height : kIconImageSize;
+            sHeight      += 10;
+
+            return sHeight;
+        }
+    }
+    else
+    {
+        return 35;
+    }
 }
 
 

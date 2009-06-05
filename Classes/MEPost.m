@@ -9,13 +9,13 @@
 
 #import "NSDate+MEAdditions.h"
 #import "NSURL+MEAdditions.h"
+#import "MEAttributedString.h"
 #import "MELink.h"
 #import "MEPost.h"
 #import "MEUser.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEPostBodyTextParser.h"
-#import "MEAttributedString.h"
 
 
 @implementation MEPost
@@ -35,7 +35,6 @@
 @synthesize tags          = mTags;
 @synthesize iconURL       = mIconURL;
 @synthesize photoURL      = mPhotoURL;
-@dynamic    tagsString;
 @dynamic    links;
 @synthesize commentClosed = mCommentClosed;
 
@@ -57,7 +56,7 @@
         mCommentsCount = [[aPostDict objectForKey:@"commentsCount"] integerValue];
         mMetooCount    = [[aPostDict objectForKey:@"metooCount"] integerValue];
         mAuthor        = [[MEUser userWithUserID:[[aPostDict objectForKey:@"author"] objectForKey:@"id"]] retain];
-        mTags          = [[[aPostDict objectForKey:@"tags"] valueForKey:@"name"] retain];
+        mTags          = [[[[aPostDict objectForKey:@"tags"] valueForKey:@"name"] componentsJoinedByString:@" "] retain];
         mIconURL       = [[NSURL alloc] initWithStringOrNil:[aPostDict objectForKey:@"iconUrl"]];
         mPhotoURL      = [[NSURL alloc] initWithStringOrNil:[[aPostDict objectForKey:@"media"] objectForKey:@"photoUrl"]];
         mCommentClosed = [[aPostDict objectForKey:@"commentClosed"] boolValue];
@@ -79,15 +78,15 @@
 
 - (void)dealloc
 {
-    [mPostID   release];
-    [mBody     release];
-    [mKind     release];
-    [mPubDate  release];
-    [mAuthor   release];
-    [mTags     release];
-    [mIconURL  release];
+    [mPostID release];
+    [mBody release];
+    [mKind release];
+    [mPubDate release];
+    [mAuthor release];
+    [mTags release];
+    [mIconURL release];
     [mPhotoURL release];
-
+    [mLinks release];
     [super dealloc];
 }
 
@@ -119,55 +118,50 @@
 #pragma mark dynamic property accessors
 
 
-- (NSString *)tagsString
-{
-    return [mTags componentsJoinedByString:@" "];
-}
-
-
 - (NSArray *)links
 {
-    NSMutableArray *sLinks;
-    MELink         *sLink;
-    NSString       *sCurrURL;
-    NSString       *sLastURL;
-    NSRange         sCurrRange;
-    NSRange         sLastRange;
-    NSUInteger      sIndex;
-    NSUInteger      sLength;
-
-    sLinks   = nil;
-    sLastURL = nil;
-    sLength  = [mBody length];
-
-    for (sIndex = 0; sIndex < sLength; sIndex = NSMaxRange(sCurrRange))
+    if (!mLinks)
     {
-        sCurrURL = [mBody attribute:MELinkAttributeName atIndex:sIndex effectiveRange:&sCurrRange];
+        MELink     *sLink;
+        NSString   *sCurrURL;
+        NSString   *sLastURL;
+        NSRange     sCurrRange;
+        NSRange     sLastRange;
+        NSUInteger  sIndex;
+        NSUInteger  sLength;
 
-        if (sCurrURL)
+        sLastURL = nil;
+        sLength  = [mBody length];
+
+        for (sIndex = 0; sIndex < sLength; sIndex = NSMaxRange(sCurrRange))
         {
-            if ([sCurrURL isEqual:sLastURL] && (NSMaxRange(sLastRange) == sCurrRange.location))
+            sCurrURL = [mBody attribute:MELinkAttributeName atIndex:sIndex effectiveRange:&sCurrRange];
+
+            if (sCurrURL)
             {
-                [[sLinks lastObject] appendTitle:[[mBody string] substringWithRange:sCurrRange]];
-            }
-            else
-            {
-                if (!sLinks)
+                if ([sCurrURL isEqual:sLastURL] && (NSMaxRange(sLastRange) == sCurrRange.location))
                 {
-                    sLinks   = [NSMutableArray array];
+                    [[mLinks lastObject] appendTitle:[[mBody string] substringWithRange:sCurrRange]];
+                }
+                else
+                {
+                    if (!mLinks)
+                    {
+                        mLinks = [[NSMutableArray alloc] init];
+                    }
+
+                    sLink = [[MELink alloc] initWithURL:sCurrURL title:[[mBody string] substringWithRange:sCurrRange]];
+                    [mLinks addObject:sLink];
+                    [sLink release];
                 }
 
-                sLink = [[MELink alloc] initWithURL:sCurrURL title:[[mBody string] substringWithRange:sCurrRange]];
-                [sLinks addObject:sLink];
-                [sLink release];
+                sLastURL   = sCurrURL;
+                sLastRange = sCurrRange;
             }
-
-            sLastURL   = sCurrURL;
-            sLastRange = sCurrRange;
         }
     }
 
-    return sLinks;
+    return mLinks;
 }
 
 

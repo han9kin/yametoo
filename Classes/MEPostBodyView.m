@@ -87,7 +87,7 @@
 
     sHeight += [[aPost body] sizeForWidth:aWidth].height;
     sHeight += kLabelSpacing;
-    sHeight += [[aPost tagsString] sizeWithFont:[MEPostBodyView tagFont] constrainedToSize:CGSizeMake(aWidth, 1000) lineBreakMode:UILineBreakModeCharacterWrap].height;
+    sHeight += [[aPost tags] sizeWithFont:[MEPostBodyView tagFont] constrainedToSize:CGSizeMake(aWidth, 1000) lineBreakMode:UILineBreakModeCharacterWrap].height;
     sHeight += kLabelSpacing;
     sHeight += kBottomLabelHeight;
 
@@ -168,7 +168,7 @@
 - (void)setPost:(MEPost *)aPost
 {
     [mBodyLabel setAttributedText:[aPost body]];
-    [mTagsLabel setText:[aPost tagsString]];
+    [mTagsLabel setText:[aPost tags]];
 
     if ([aPost isCommentClosed])
     {

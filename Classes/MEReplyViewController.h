@@ -29,9 +29,11 @@
     NSMutableArray *mComments;
 }
 
-@property (nonatomic, retain) MEPost *post;
+@property(nonatomic, retain) MEPost *post;
+
 
 - (IBAction)addCommentButtonTapped:(id)aSender;
 - (IBAction)closeButtonTapped:(id)aSender;
+
 
 @end

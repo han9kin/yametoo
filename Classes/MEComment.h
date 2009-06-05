@@ -19,12 +19,14 @@
     MEAttributedString *mBody;
     NSDate             *mPubDate;
     MEUser             *mAuthor;
+    NSMutableArray     *mLinks;
 }
 
 @property(nonatomic, readonly) NSString           *commentID;
 @property(nonatomic, readonly) MEAttributedString *body;
 @property(nonatomic, readonly) NSDate             *pubDate;
 @property(nonatomic, readonly) MEUser             *author;
+@property(nonatomic, readonly) NSArray            *links;
 
 
 - (id)initWithDictionary:(NSDictionary *)aCommentDict;
