@@ -17,19 +17,32 @@
 {
     IBOutlet UIBarButtonItem *mCancelButton;
     IBOutlet UIBarButtonItem *mPostButton;
-    IBOutlet UIButton        *mTakePictureButton;
-    IBOutlet UIButton        *mFromPhotoLibraryButton;
+
     IBOutlet UITextView      *mBodyTextView;
     IBOutlet UITextField     *mTagTextField;
     IBOutlet UIImageView     *mAttachedImageView;
 
+    IBOutlet UIButton        *mTakePictureButton;
+    IBOutlet UIButton        *mFromPhotoLibraryButton;
+    IBOutlet UIButton        *mRotateLeftButton;
+    IBOutlet UIButton        *mRotateRightButton;
+    IBOutlet UIButton        *mResizeButton;
+    
+    IBOutlet UILabel         *mImageResolutionLabel;
+    IBOutlet UILabel         *mImageSizeLabel;
+
     MECharCounter *mCharCounter;
     UIImage       *mAttachedImage;
+    NSData        *mImageRep;
 }
+
+- (IBAction)postButtonTapped:(id)aSender;
+- (IBAction)cancelButtonTapped:(id)aSender;
 
 - (IBAction)takePictureButtonTapped:(id)aSender;
 - (IBAction)fromPhotoLibraryButtonTapped:(id)aSender;
-- (IBAction)postButtonTapped:(id)aSender;
-- (IBAction)cancelButtonTapped:(id)aSender;
+- (IBAction)rotateLeftButtonTapped:(id)aSender;
+- (IBAction)rotateRightButtonTapped:(id)aSender;
+- (IBAction)resizeButtonTapped:(id)aSender;
 
 @end

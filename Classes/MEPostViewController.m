@@ -9,6 +9,7 @@
 
 #import "UIAlertView+MEAdditions.h"
 #import "MEPostViewController.h"
+#import "MEPhotoEditorController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEDrawingFunctions.h"
@@ -72,6 +73,12 @@
     {
         [mTakePictureButton setEnabled:NO];
     }
+    
+    [mRotateLeftButton     setEnabled:NO];
+    [mRotateRightButton    setEnabled:NO];
+    [mResizeButton         setEnabled:NO];
+    [mImageResolutionLabel setText:@""];
+    [mImageSizeLabel       setText:@""];
 }
 
 
@@ -87,6 +94,25 @@
     [mFromPhotoLibraryButton setEnabled:aFlag];
     [mBodyTextView           setEditable:aFlag];
     [mTagTextField           setEnabled:aFlag];
+}
+
+
+- (void)updateImageInfo
+{
+    CGSize     sImageSize = CGSizeZero;
+    NSUInteger sLength    = 0;
+    
+    if (mAttachedImage)
+    {
+        sImageSize = [mAttachedImage size];
+        
+        [mImageRep release];
+        mImageRep = UIImageJPEGRepresentation(mAttachedImage, 0.8);
+        sLength   = [mImageRep length];
+        
+        [mImageResolutionLabel setText:[NSString stringWithFormat:@"%d X %d", (int)sImageSize.width, (int)sImageSize.height]];
+        [mImageSizeLabel       setText:[NSString stringWithFormat:@"%.1f KB", ((float)sLength / 1024.0)]];
+    }
 }
 
 
@@ -118,6 +144,25 @@
     [sKeyWindow addSubview:[sImagePickerController view]];
     [sKeyWindow bringSubviewToFront:[sImagePickerController view]];
 }
+
+
+- (IBAction)rotateLeftButtonTapped:(id)aSender
+{
+    NSLog(@"rotateLeftButtonTapped");
+}
+
+
+- (IBAction)rotateRightButtonTapped:(id)aSender
+{
+    NSLog(@"rotateRightButtonTapped");
+}
+
+
+- (IBAction)resizeButtonTapped:(id)aSender
+{
+    NSLog(@"resizeButtonTapped");
+}
+
 
 
 - (IBAction)postButtonTapped:(id)aSender
@@ -303,6 +348,11 @@
     mAttachedImage = [aImage retain];
 
     [mAttachedImageView setImage:mAttachedImage];
+
+    [mRotateLeftButton  setEnabled:YES];
+    [mRotateRightButton setEnabled:YES];
+    [mResizeButton      setEnabled:YES];
+    [self updateImageInfo];
 }
 
 
