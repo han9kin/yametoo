@@ -203,7 +203,6 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     UIView  *sView;
 
     sView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)];
-//    [sView setBackgroundColor:[UIColor colorWithRed:1.0 green:0.7 blue:0.7 alpha:1.0]];
     [sView setBackgroundColor:[UIColor lightGrayColor]];
     [[self view] addSubview:sView];
     [sView release];
@@ -212,6 +211,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     [mTitleLabel setBackgroundColor:[UIColor clearColor]];
     [mTitleLabel setTextColor:[UIColor blackColor]];
     [mTitleLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
+    [mTitleLabel setText:mTitle];
     [sView addSubview:mTitleLabel];
     [mTitleLabel release];
 
@@ -234,6 +234,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
     [mMediaView release];
 
+    mTitleLabel = nil;
     mReaderView = nil;
     mMediaView  = nil;
 }
@@ -242,8 +243,6 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 - (void)viewDidAppear:(BOOL)aAnimated
 {
     [super viewDidAppear:aAnimated];
-
-    [mTitleLabel setText:mTitle];
 
     if ([mPosts count])
     {
@@ -283,6 +282,8 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     {
         [mTitle release];
         mTitle = [aTitle copy];
+
+        [mTitleLabel setText:mTitle];
     }
 }
 

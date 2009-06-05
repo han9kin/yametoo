@@ -11,6 +11,7 @@
 #import "MEFriendsViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
+#import "MEUser.h"
 
 
 @implementation MEFriendsViewController
@@ -55,12 +56,38 @@
 
 
 #pragma mark -
+#pragma mark MEClientDelegate
+
+
+- (void)client:(MEClient *)aClient didGetPerson:(MEUser *)aUser error:(NSError *)aError
+{
+    NSString *sName;
+
+    if (aUser)
+    {
+        sName = [aUser nickname];
+    }
+    else
+    {
+        sName = [[MEClientStore currentClient] userID];
+    }
+
+    [self setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s friends", @""), sName]];
+}
+
+
+#pragma mark -
 #pragma mark MEClientStore Notifications
 
 
 - (void)currentUserDidChange:(NSNotification *)aNotification
 {
-    [self setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s friends", @""), [[MEClientStore currentClient] userID]]];
+    MEClient *sClient = [MEClientStore currentClient];
+    NSString *sUserID = [sClient userID];
+
+    [self setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s friends", @""), sUserID]];
+    [sClient getPersonWithUserID:sUserID delegate:self];
+
     [self invalidateData];
 }
 
