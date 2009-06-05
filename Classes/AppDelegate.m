@@ -9,6 +9,7 @@
 
 #import "AppDelegate.h"
 #import "MEClientStore.h"
+#import "MEImageCache.h"
 #import "MELoginViewController.h"
 
 
@@ -98,6 +99,8 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)aApplication
 {
+    [MEImageCache removeCachedImagesInDisk];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChangeNotification:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
 
     [self showLoginView];
