@@ -35,6 +35,12 @@
             mURL = [aURL retain];
         }
 
+        if (!mURL)
+        {
+            mURL = (NSURL *)CFURLCreateWithBytes(NULL, [aURL UTF8String], [aURL lengthOfBytesUsingEncoding:NSUTF8StringEncoding], kCFStringEncodingUTF8, NULL);
+            mDescription = [aURL copy];
+        }
+
         mTitle = [aTitle copy];
     }
 
@@ -61,15 +67,24 @@
 {
     if (!mDescription)
     {
-        mDescription = [[mURL absoluteString] retain];
-
-        if ([[mURL host] isEqualToString:@"me2day.net"])
+        if (mURL)
         {
-            NSArray *pathComps = [[[mURL path] stringByAppendingString:@"/"] pathComponents];
+            mDescription = [[mURL absoluteString] retain];
 
-            if ([pathComps count] > 1)
+            if ([[mURL host] isEqualToString:@"me2day.net"])
             {
-                [[MEClientStore currentClient] getPersonWithUserID:[pathComps objectAtIndex:1] delegate:self];
+                NSArray *pathComps = [[[mURL path] stringByAppendingString:@"/"] pathComponents];
+
+                if ([pathComps count] > 1)
+                {
+                    [[MEClientStore currentClient] getPersonWithUserID:[pathComps objectAtIndex:1] delegate:self];
+                }
+                else
+                {
+                    [self willChangeValueForKey:@"type"];
+                    mType = kMELinkTypeOther;
+                    [self didChangeValueForKey:@"type"];
+                }
             }
             else
             {
@@ -80,6 +95,8 @@
         }
         else
         {
+            mDescription = @"<Invalid URL>";
+
             [self willChangeValueForKey:@"type"];
             mType = kMELinkTypeOther;
             [self didChangeValueForKey:@"type"];
