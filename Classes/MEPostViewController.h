@@ -13,7 +13,7 @@
 @class MECharCounter;
 
 
-@interface MEPostViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface MEPostViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
 {
     IBOutlet UIBarButtonItem *mCancelButton;
     IBOutlet UIBarButtonItem *mPostButton;
@@ -32,8 +32,17 @@
     IBOutlet UILabel         *mImageSizeLabel;
 
     MECharCounter *mCharCounter;
-    UIImage       *mAttachedImage;
+    
+    UIImage       *mOriginalImage;
+    BOOL           mIsMiddleSizeEnabled;
+    BOOL           mIsLargeSizeEnabled;
+    NSInteger      mImageDir;
+    CGFloat        mRotateAngle;
+    CGFloat        mLongSideLength;
+    
+    UIImage       *mResizedImage;
     NSData        *mImageRep;
+
 }
 
 - (IBAction)postButtonTapped:(id)aSender;

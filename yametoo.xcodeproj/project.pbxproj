@@ -893,7 +893,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "82E0FECF-1566-4640-A2A6-E0B217CAF243";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F685E63A-005E-4D14-B8B4-326F636B1C3A";
 				SDKROOT = iphoneos2.2.1;
 			};
 			name = "Distribution - AdHoc";
@@ -921,7 +921,7 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E37DCFD4-2F23-4228-AE3D-973A8CEEB46C";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C0F73316-95D6-4004-9954-6699C1F30F1C";
 				SDKROOT = iphoneos2.2.1;
 			};
 			name = Debug;

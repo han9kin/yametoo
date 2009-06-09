@@ -13,6 +13,14 @@
 #import "MEClient.h"
 #import "MEDrawingFunctions.h"
 #import "MECharCounter.h"
+#import <math.h>
+
+
+static double radians(double degrees) {return degrees * M_PI/180;}
+
+
+#define IMAGE_PORTRAIT_MODE     0
+#define IMAGE_LANDSCAPE_MODE    1
 
 
 #define BEGIN_ANIMATION_OFF()       [CATransaction begin]; \
@@ -36,7 +44,9 @@
     [mAttachedImageView      release];
 
     [mCharCounter    release];
-    [mAttachedImage  release];
+    [mOriginalImage  release];
+    [mResizedImage   release];
+    [mImageRep       release];
 
     [super dealloc];
 }
@@ -101,17 +111,93 @@
     CGSize     sImageSize = CGSizeZero;
     NSUInteger sLength    = 0;
     
-    if (mAttachedImage)
+    if (mResizedImage)
     {
-        sImageSize = [mAttachedImage size];
-        
+        sImageSize = [mResizedImage size];
+
         [mImageRep release];
-        mImageRep = UIImageJPEGRepresentation(mAttachedImage, 0.8);
+        mImageRep = UIImageJPEGRepresentation(mResizedImage, 0.8);
+        [mImageRep retain];
         sLength   = [mImageRep length];
-        
+
+        [mAttachedImageView    setImage:mResizedImage];
         [mImageResolutionLabel setText:[NSString stringWithFormat:@"%d X %d", (int)sImageSize.width, (int)sImageSize.height]];
         [mImageSizeLabel       setText:[NSString stringWithFormat:@"%.1f KB", ((float)sLength / 1024.0)]];
     }
+}
+
+
+- (void)resizeImage
+{
+    CGSize sSize      = CGSizeZero;
+    CGSize sImageSize = [mOriginalImage size];    
+    
+    if (mImageDir == IMAGE_PORTRAIT_MODE)
+    {
+        sSize.height = mLongSideLength;
+        sSize.width  = sImageSize.width * sSize.height / sImageSize.height;
+    }
+    else
+    {
+        sSize.width = mLongSideLength;
+        sSize.height = sImageSize.height * sSize.width / sImageSize.width;        
+    }
+
+    double sAngle = (double)(((NSInteger)mRotateAngle % 360));
+    
+    if (sAngle == 90.0 || sAngle == 270.0)
+    {
+        CGFloat sTemp = sSize.width;
+        sSize.width   = sSize.height;
+        sSize.height  = sTemp;
+    }
+    
+    UIGraphicsBeginImageContext(sSize);
+    CGContextRef sContext = UIGraphicsGetCurrentContext();
+    
+    if (sAngle == 90)
+    {
+        CGContextTranslateCTM(sContext, sSize.width, 0);
+    }
+    else if (sAngle == 180)
+    {
+        CGContextTranslateCTM(sContext, sSize.width, sSize.height);    
+    }
+    else if (sAngle == 270)
+    {
+        CGContextTranslateCTM(sContext, 0, sSize.height);    
+    }
+    
+    CGContextRotateCTM(sContext, radians(sAngle));
+
+    if (sAngle == 0 || sAngle == 180)
+    {
+        [mOriginalImage drawInRect:CGRectMake(0, 0, sSize.width, sSize.height)];    
+    }
+    else if (sAngle == 90 || sAngle == 270)
+    {
+        [mOriginalImage drawInRect:CGRectMake(0, 0, sSize.height, sSize.width)];
+    }
+
+    CGContextSetLineWidth(sContext, 10);
+    [[UIColor redColor] set];
+  
+/*    if (sAngle == 0 || sAngle == 180)
+    {
+        UIRectFrame(CGRectMake(0, 0, sSize.width, sSize.height));    
+    }
+    else if (sAngle == 90 || sAngle == 270)
+    {
+        UIRectFrame(CGRectMake(0, 0, sSize.height, sSize.width));    
+    }*/
+    
+    [mResizedImage release];
+    mResizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    [mResizedImage retain];
+    
+    UIGraphicsEndImageContext();
+    
+    [self updateImageInfo];
 }
 
 
@@ -148,20 +234,46 @@
 - (IBAction)rotateLeftButtonTapped:(id)aSender
 {
     NSLog(@"rotateLeftButtonTapped");
+    mRotateAngle -= 90;
+    [self resizeImage];
 }
 
 
 - (IBAction)rotateRightButtonTapped:(id)aSender
 {
     NSLog(@"rotateRightButtonTapped");
+    mRotateAngle += 90;
+    [self resizeImage];
 }
 
 
 - (IBAction)resizeButtonTapped:(id)aSender
 {
-    NSLog(@"resizeButtonTapped");
+    UIActionSheet *sActionSheet  = nil;
+    
+    if (mIsMiddleSizeEnabled && mIsLargeSizeEnabled)
+    {
+        sActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Resize Photo Size", nil)
+                                                   delegate:self
+                                          cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                     destructiveButtonTitle:nil
+                                          otherButtonTitles:NSLocalizedString(@"Mid Size", nil),
+                                                            NSLocalizedString(@"Big Size", nil),
+                                                            NSLocalizedString(@"Original Size", nil), nil];
+    }
+    else if (mIsMiddleSizeEnabled && !mIsLargeSizeEnabled)
+    {
+        sActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Resize Photo Size", nil)
+                                                   delegate:self
+                                          cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                     destructiveButtonTitle:nil
+                                          otherButtonTitles:NSLocalizedString(@"Mid Size", nil),
+                                                            NSLocalizedString(@"Original Size", nil), nil];
+    }
+    
+    [sActionSheet showInView:[self view]];
+    [sActionSheet release];
 }
-
 
 
 - (IBAction)postButtonTapped:(id)aSender
@@ -175,7 +287,7 @@
         [mBodyTextView resignFirstResponder];
         [mTagTextField resignFirstResponder];
 
-        [[MEClientStore currentClient] createPostWithBody:sBody tags:sTags icon:0 attachedImage:mAttachedImage delegate:self];
+        [[MEClientStore currentClient] createPostWithBody:sBody tags:sTags icon:0 attachedImage:mResizedImage delegate:self];
     }
     else
     {
@@ -343,14 +455,24 @@
     [[aPicker view] removeFromSuperview];
     [aPicker autorelease];
 
-    [mAttachedImage autorelease];
-    mAttachedImage = [aImage retain];
+    [mOriginalImage autorelease];
+    [mResizedImage  autorelease];
+    
+    mOriginalImage = [aImage retain];
+    mResizedImage  = [mOriginalImage retain];
 
-    [mAttachedImageView setImage:mAttachedImage];
+    [mAttachedImageView setImage:mOriginalImage];
 
+    CGSize  sImageSize   = [mOriginalImage size];
+    mLongSideLength      = MAX(sImageSize.width, sImageSize.height);
+    mIsMiddleSizeEnabled = (mLongSideLength > 500) ? YES : NO;
+    mIsLargeSizeEnabled  = (mLongSideLength > 1024) ? YES : NO;
+    mImageDir            = (sImageSize.width > sImageSize.height) ? IMAGE_LANDSCAPE_MODE : IMAGE_PORTRAIT_MODE;
+    
     [mRotateLeftButton  setEnabled:YES];
     [mRotateRightButton setEnabled:YES];
-    [mResizeButton      setEnabled:YES];
+    [mResizeButton      setEnabled:(mIsMiddleSizeEnabled || mIsLargeSizeEnabled) ? YES : NO];
+    
     [self updateImageInfo];
 }
 
@@ -361,6 +483,55 @@
     [[aPicker view] setHidden:YES];
     [[aPicker view] removeFromSuperview];
     [aPicker autorelease];
+}
+
+
+#pragma mark -
+#pragma mark UIActionSheet Delegate
+
+
+- (void)actionSheet:(UIActionSheet *)aActionSheet didDismissWithButtonIndex:(NSInteger)aButtonIndex
+{
+    CGFloat sTargetSize = 0.0;
+    
+    if (mIsMiddleSizeEnabled && mIsLargeSizeEnabled)
+    {
+        if (aButtonIndex == 0)
+        {
+            sTargetSize = 500.0;
+        }
+        else if (aButtonIndex == 1)
+        {
+            sTargetSize = 1024.0;
+        }
+        else if (aButtonIndex == 2)
+        {
+            sTargetSize = -1.0;
+        }
+    }
+    else if (mIsMiddleSizeEnabled && !mIsLargeSizeEnabled)
+    {
+        if (aButtonIndex == 0)
+        {
+            sTargetSize = 500.0;
+        }
+        else if (aButtonIndex == 1)
+        {
+            sTargetSize = -1.0;
+        }
+    }
+    
+    if (sTargetSize != -1.0)
+    {
+        mLongSideLength = sTargetSize;        
+        [self resizeImage];
+    }
+    else
+    {
+        [mResizedImage release];
+        mResizedImage = [mOriginalImage retain];
+        [self updateImageInfo];
+    }
 }
 
 
