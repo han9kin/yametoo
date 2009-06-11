@@ -15,7 +15,7 @@
 @class MEPostBodyView;
 
 
-@interface MEReplyViewController : UIViewController
+@interface MEReplyViewController : UIViewController <UIActionSheetDelegate>
 {
     IBOutlet UINavigationBar *mNaviBar;
     IBOutlet UIView          *mContainerView;
@@ -23,16 +23,20 @@
     IBOutlet MEPostBodyView  *mPostBodyView;
     IBOutlet UIScrollView    *mPostScrollView;
     IBOutlet UITableView     *mTableView;
-    IBOutlet UIBarButtonItem *mReplyButtonItem;
+    IBOutlet UIBarButtonItem *mActionButtonItem;
 
     MEPost         *mPost;
     NSMutableArray *mComments;
+    
+    NSInteger       mAddCommentIndex;
+    NSInteger       mAddMetooIndex;
+    NSInteger       mCancelIndex;
 }
 
 @property(nonatomic, retain) MEPost *post;
 
 
-- (IBAction)addCommentButtonTapped:(id)aSender;
+- (IBAction)actionButtonTapped:(id)aSender;
 - (IBAction)closeButtonTapped:(id)aSender;
 
 

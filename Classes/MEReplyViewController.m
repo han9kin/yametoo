@@ -27,6 +27,8 @@
 @interface MEReplyViewController (Privates)
 
 - (void)getComments;
+- (void)addComment;
+- (void)addMetoo;
 
 @end
 
@@ -38,7 +40,24 @@
 {
     MEClient *sClient = [MEClientStore currentClient];
     [sClient getCommentsWithPostID:[mPost postID] delegate:self];
-//    [sClient getCommentsWithPostID:@"http://me2day.net/killk/2009/04/08#15:22:32" delegate:self];
+}
+
+
+- (void)addComment
+{
+    MEAddCommentViewController *sViewController;
+     
+    sViewController = [[MEAddCommentViewController alloc] initWithNibName:@"AddCommentViewController" bundle:nil];
+    [sViewController setPost:mPost];
+    [self presentModalViewController:sViewController animated:YES];
+    [sViewController release];
+}
+
+
+- (void)addMetoo
+{
+    MEClient *sClient = [MEClientStore currentClient];
+    [sClient metooWithPostID:[mPost postID] delegate:self];
 }
 
 
@@ -66,7 +85,7 @@
     [mPostBodyView release];
     [mPostScrollView release];
     [mTableView release];
-    [mReplyButtonItem release];
+    [mActionButtonItem release];
 
     [mPost release];
     [mComments release];
@@ -106,7 +125,7 @@
     [mContainerView setFrame:CGRectMake(0, 0, 320, sHeight)];
     [mTableView setTableHeaderView:mContainerView];
 
-    [mReplyButtonItem setEnabled:![mPost isCommentClosed]];
+//    [mActionButtonItem setEnabled:![mPost isCommentClosed]];
 }
 
 
@@ -121,14 +140,29 @@
 #pragma mark Actions
 
 
-- (IBAction)addCommentButtonTapped:(id)aSender
+- (IBAction)actionButtonTapped:(id)aSender
 {
-    MEAddCommentViewController *sViewController;
+    UIActionSheet *sActionSheet = nil;
+    BOOL           sIsCommentClosed = [mPost isCommentClosed];
 
-    sViewController = [[MEAddCommentViewController alloc] initWithNibName:@"AddCommentViewController" bundle:nil];
-    [sViewController setPost:mPost];
-    [self presentModalViewController:sViewController animated:YES];
-    [sViewController release];
+    if (!sIsCommentClosed)
+    {
+        sActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"To This Post", nil)
+                                                   delegate:self
+                                          cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                     destructiveButtonTitle:nil
+                                          otherButtonTitles:NSLocalizedString(@"Add Metoo", nil), NSLocalizedString(@"Add Comment", nil), nil]; 
+        mAddMetooIndex   = 0;
+        mAddCommentIndex = 1;
+        mCancelIndex     = 2;
+    }
+    else
+    {
+    
+    }
+
+    [sActionSheet showInView:[self view]];
+    [sActionSheet release];
 }
 
 
@@ -153,6 +187,15 @@
         [mComments removeAllObjects];
         [mComments addObjectsFromArray:aComments];
         [mTableView reloadData];
+    }
+}
+
+
+- (void)client:(MEClient *)aClient didMetooWithError:(NSError *)aError;
+{
+    if (aError)
+    {
+        [UIAlertView showError:aError];
     }
 }
 
@@ -254,6 +297,27 @@
     else
     {
         return 35;
+    }
+}
+
+
+#pragma mark -
+#pragma mark UIActionSheet Delegate
+
+
+- (void)actionSheet:(UIActionSheet *)aActionSheet didDismissWithButtonIndex:(NSInteger)aButtonIndex
+{
+    if (aButtonIndex == mAddCommentIndex)
+    {
+        [self addComment];
+    }
+    else if (aButtonIndex == mAddMetooIndex)
+    {
+        [self addMetoo];
+    }
+    else if (aButtonIndex == mCancelIndex)
+    {
+    
     }
 }
 
