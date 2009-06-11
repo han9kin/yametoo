@@ -48,6 +48,20 @@
     return self;
 }
 
+- (id)initWithUser:(MEUser *)aUser
+{
+    self = [super init];
+
+    if (self)
+    {
+        mURL         = [[aUser userID] copy];
+        mDescription = [[NSString alloc] initWithFormat:NSLocalizedString(@"%@'s me2DAY", @""), [aUser nickname]];
+        mType        = kMELinkTypeMe2DAY;
+    }
+
+    return self;
+}
+
 - (void)dealloc
 {
     [mURL release];

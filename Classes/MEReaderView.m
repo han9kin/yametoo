@@ -191,24 +191,30 @@
 #pragma mark actions
 
 
-- (void)faceImageViewTapped:(id)aSender
+- (void)faceImageButtonTapped:(id)aSender
 {
     if ([mDelegate respondsToSelector:@selector(readerView:didTapUserInfoButtonForUser:)])
     {
-        MEUser *sAuthor = [(MEImageButton *)aSender userInfo];
+        MEUser *sUser = [(MEImageButton *)aSender userInfo];
 
-        [mDelegate readerView:self didTapUserInfoButtonForUser:sAuthor];
+        if (sUser)
+        {
+            [mDelegate readerView:self didTapUserInfoButtonForUser:sUser];
+        }
     }
 }
 
 
-- (void)iconImageViewTapped:(id)aSender
+- (void)iconImageButtonTapped:(id)aSender
 {
     if ([mDelegate respondsToSelector:@selector(readerView:didTapPostIconButtonForPost:)])
     {
         MEPost *sPost = [(MEImageButton *)aSender userInfo];
 
-        [mDelegate readerView:self didTapPostIconButtonForPost:sPost];
+        if (sPost)
+        {
+            [mDelegate readerView:self didTapPostIconButtonForPost:sPost];
+        }
     }
 }
 
@@ -268,14 +274,14 @@
 
         if (mShowsPostAuthor)
         {
-            sCell = [METableViewCellFactory postCellWithAuthorForTableView:aTableView];
+            sCell = [METableViewCellFactory postCellWithAuthorForTableView:aTableView withTarget:self];
         }
         else
         {
-            sCell = [METableViewCellFactory postCellForTableView:aTableView];
+            sCell = [METableViewCellFactory postCellForTableView:aTableView withTarget:self];
         }
 
-        [sCell setPost:sPost withTarget:self];
+        [sCell setPost:sPost];
     }
     else
     {

@@ -34,9 +34,9 @@
 + (UITableViewCell *)userCellForTableView:(UITableView *)aTableView;
 + (UITableViewCell *)clientCellForTableView:(UITableView *)aTableView;
 
-+ (UITableViewCell *)postCellForTableView:(UITableView *)aTableView;
-+ (UITableViewCell *)postCellWithAuthorForTableView:(UITableView *)aTableView;
-+ (UITableViewCell *)commentCellForTableView:(UITableView *)aTableView;
++ (UITableViewCell *)postCellForTableView:(UITableView *)aTableView withTarget:(id)aTarget;
++ (UITableViewCell *)postCellWithAuthorForTableView:(UITableView *)aTableView withTarget:(id)aTarget;
++ (UITableViewCell *)commentCellForTableView:(UITableView *)aTableView withTarget:(id)aTarget;
 
 @end
 
@@ -54,7 +54,7 @@
 - (void)setUser:(MEUser *)aUser;
 - (void)setUserID:(NSString *)aUserID;
 - (void)setClient:(MEClient *)aClient;
-- (void)setPost:(MEPost *)aPost withTarget:(id)aTarget;
+- (void)setPost:(MEPost *)aPost;
 - (void)setComment:(MEComment *)aComment isOwners:(BOOL)aOwners;
 - (void)setCommentBackgroundColor:(UIColor *)aColor;
 

@@ -15,10 +15,14 @@
 #import "MEUserInfoViewController.h"
 #import "MEPostViewController.h"
 #import "MEReplyViewController.h"
+#import "MEVisitsViewController.h"
 #import "MEMediaView.h"
+#import "MEClientStore.h"
 #import "MEClient.h"
 #import "MESettings.h"
 #import "MEPost.h"
+#import "MEUser.h"
+#import "MELink.h"
 
 
 #define kUpdateFetchCount 10
@@ -416,6 +420,19 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 }
 
 
+- (void)readerView:(MEReaderView *)aReaderView didTapUserInfoButtonForUser:(MEUser *)aUser
+{
+    UIActionSheet *sActionSheet;
+
+    sActionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Dear %@", @""), [aUser nickname]] delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Visit me2DAY", @""), nil];
+
+    [sActionSheet showInView:[[self view] window]];
+    [sActionSheet release];
+
+    mTappedUser = aUser;
+}
+
+
 - (void)readerView:(MEReaderView *)aReaderView didTapPostIconButtonForPost:(MEPost *)aPost
 {
     NSURL *sPhotoURL = [aPost photoURL];
@@ -435,6 +452,25 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     sReplyViewController = [[MEReplyViewController alloc] initWithPost:[self postForIndexPath:aIndexPath]];
     [[self navigationController] pushViewController:sReplyViewController animated:YES];
     [sReplyViewController release];
+}
+
+
+#pragma mark -
+#pragma mark UIActionSheetDelegate
+
+
+- (void)actionSheet:(UIActionSheet *)aActionSheet clickedButtonAtIndex:(NSInteger)aButtonIndex
+{
+    if ((aButtonIndex == 0) && mTappedUser)
+    {
+        MELink *sLink;
+
+        sLink = [(MELink *)[MELink alloc] initWithUser:mTappedUser];
+        [[MEVisitsViewController sharedController] visitLink:sLink];
+        [sLink release];
+    }
+
+    mTappedUser = nil;
 }
 
 

@@ -12,9 +12,8 @@
 
 @interface MEWebViewController : UIViewController <UIWebViewDelegate>
 {
-    NSURL *mURL;
-    NSURL *mExternalURL;
-    int    mLoading;
+    NSURL     *mURL;
+    NSInteger  mLoading;
 }
 
 - (id)initWithURL:(NSURL *)aURL;

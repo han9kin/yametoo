@@ -11,6 +11,7 @@
 
 
 @class MEPost;
+@class MEUser;
 @class MEImageView;
 @class MEPostBodyView;
 
@@ -28,10 +29,7 @@
     NSString       *mPostID;
     MEPost         *mPost;
     NSMutableArray *mComments;
-
-    NSInteger       mAddCommentIndex;
-    NSInteger       mAddMetooIndex;
-    NSInteger       mCancelIndex;
+    MEUser         *mTappedUser;
 }
 
 - (id)initWithPost:(MEPost *)aPost;

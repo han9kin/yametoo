@@ -19,6 +19,7 @@ typedef enum MELinkType
 } MELinkType;
 
 
+@class    MEUser;
 @protocol MEClientDelegate;
 
 @interface MELink : NSObject <MEClientDelegate>
@@ -36,6 +37,7 @@ typedef enum MELinkType
 
 
 - (id)initWithURL:(id)aURL title:(NSString *)aTitle;
+- (id)initWithUser:(MEUser *)aUser;
 
 - (void)appendTitle:(NSString *)aTitle;
 

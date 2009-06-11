@@ -62,26 +62,6 @@
 
 #pragma mark UIWebViewDelegate
 
-- (BOOL)webView:(UIWebView *)aWebView shouldStartLoadWithRequest:(NSURLRequest *)aRequest navigationType:(UIWebViewNavigationType)aNavigationType
-{
-    UIAlertView *sAlertView;
-
-    if (aNavigationType == UIWebViewNavigationTypeLinkClicked)
-    {
-        mExternalURL  = [[aRequest URL] retain];
-
-        sAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Open Link with Safari", @"") message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"OK", @""), nil];
-        [sAlertView show];
-        [sAlertView autorelease];
-
-        return NO;
-    }
-    else
-    {
-        return YES;
-    }
-}
-
 - (void)webViewDidStartLoad:(UIWebView *)aWebView
 {
     if (mLoading <= 0)
@@ -117,20 +97,6 @@
     {
         [MEClient endNetworkOperation];
     }
-}
-
-
-#pragma mark UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)aAlertView clickedButtonAtIndex:(NSInteger)aButtonIndex
-{
-    if (aButtonIndex)
-    {
-        [[UIApplication sharedApplication] openURL:mExternalURL];
-    }
-
-    [mExternalURL release];
-    mExternalURL  = nil;
 }
 
 

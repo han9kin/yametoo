@@ -255,7 +255,7 @@ enum
 }
 
 
-+ (UITableViewCell *)postCellForTableView:(UITableView *)aTableView
++ (UITableViewCell *)postCellForTableView:(UITableView *)aTableView withTarget:(id)aTarget
 {
     UITableViewCell *sCell;
     MEImageButton   *sImageButton;
@@ -270,6 +270,7 @@ enum
         sImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(7, kPostCellBodyPadding - 1, kIconImageSize + 2, kIconImageSize + 2)];
         [sImageButton setBorderColor:[UIColor lightGrayColor]];
         [sImageButton setTag:kPostIconTag];
+        [sImageButton addTarget:aTarget action:@selector(iconImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [[sCell contentView] addSubview:sImageButton];
         [sImageButton release];
 
@@ -284,7 +285,7 @@ enum
 }
 
 
-+ (UITableViewCell *)postCellWithAuthorForTableView:(UITableView *)aTableView
++ (UITableViewCell *)postCellWithAuthorForTableView:(UITableView *)aTableView withTarget:(id)aTarget
 {
     UITableViewCell *sCell;
     UILabel         *sLabel;
@@ -300,12 +301,14 @@ enum
         sImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(7, kPostCellBodyPadding - 1, kIconImageSize + 2, kIconImageSize + 2)];
         [sImageButton setTag:kPostFaceImageTag];
         [sImageButton setBorderColor:[UIColor lightGrayColor]];
+        [sImageButton addTarget:aTarget action:@selector(faceImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [[sCell contentView] addSubview:sImageButton];
         [sImageButton release];
 
         sImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(7, kPostCellBodyPadding + 49, kIconImageSize + 2, kIconImageSize + 2)];
         [sImageButton setTag:kPostIconTag];
         [sImageButton setBorderColor:[UIColor lightGrayColor]];
+        [sImageButton addTarget:aTarget action:@selector(iconImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [[sCell contentView] addSubview:sImageButton];
         [sImageButton release];
 
@@ -329,11 +332,11 @@ enum
 }
 
 
-+ (UITableViewCell *)commentCellForTableView:(UITableView *)aTableView
++ (UITableViewCell *)commentCellForTableView:(UITableView *)aTableView withTarget:(id)aTarget
 {
     UITableViewCell   *sCell;
     MECommentBackView *sBackView;
-    MEImageView       *sImageView;
+    MEImageButton     *sImageButton;
     MEAttributedLabel *sBodyLabel;
     UILabel           *sLabel;
 
@@ -355,11 +358,12 @@ enum
         [[sCell contentView] addSubview:sBodyLabel];
         [sBodyLabel release];
 
-        sImageView = [[MEImageView alloc] initWithFrame:CGRectMake(0, 0, kIconImageSize + 2, kIconImageSize + 2)];
-        [sImageView setBorderColor:[UIColor lightGrayColor]];
-        [sImageView setTag:kCommentFaceImageTag];
-        [[sCell contentView] addSubview:sImageView];
-        [sImageView release];
+        sImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(0, 0, kIconImageSize + 2, kIconImageSize + 2)];
+        [sImageButton setBorderColor:[UIColor lightGrayColor]];
+        [sImageButton setTag:kCommentFaceImageTag];
+        [sImageButton addTarget:aTarget action:@selector(faceImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [[sCell contentView] addSubview:sImageButton];
+        [sImageButton release];
 
         sLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         [sLabel setTag:kCommentAuthorTag];
@@ -477,7 +481,7 @@ enum
 }
 
 
-- (void)setPost:(MEPost *)aPost withTarget:(id)aTarget
+- (void)setPost:(MEPost *)aPost
 {
     UILabel        *sLabel;
     MEImageButton  *sImageButton;
@@ -487,12 +491,10 @@ enum
     [sLabel setText:[[aPost author] nickname]];
 
     sImageButton = (MEImageButton *)[[self contentView] viewWithTag:kPostFaceImageTag];
-    [sImageButton addTarget:aTarget action:@selector(faceImageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
     [sImageButton setUserInfo:[aPost author]];
     [sImageButton setImageWithURL:[[aPost author] faceImageURL]];
 
     sImageButton = (MEImageButton *)[[self contentView] viewWithTag:kPostIconTag];
-    [sImageButton addTarget:aTarget action:@selector(iconImageViewTapped:) forControlEvents:UIControlEventTouchUpInside];
     [sImageButton setUserInfo:aPost];
     [sImageButton setImageWithURL:[aPost iconURL]];
 
@@ -508,7 +510,7 @@ enum
 - (void)setComment:(MEComment *)aComment isOwners:(BOOL)aOwners
 {
     MECommentBackView *sBackView     = (MECommentBackView *)[[self contentView] viewWithTag:kCommentBackViewTag];
-    MEImageView       *sImageView    = (MEImageView *)[[self contentView] viewWithTag:kCommentFaceImageTag];
+    MEImageButton     *sImageButton  = (MEImageButton *)[[self contentView] viewWithTag:kCommentFaceImageTag];
     MEAttributedLabel *sBodyLabel    = (MEAttributedLabel *)[[self contentView] viewWithTag:kCommentBodyTag];
     UILabel           *sAuthorLabel  = (UILabel *)[[self contentView] viewWithTag:kCommentAuthorTag];
     UILabel           *sPubDateLabel = (UILabel *)[[self contentView] viewWithTag:kCommentPubDateTag];
@@ -517,18 +519,20 @@ enum
 
     if (aOwners)
     {
-        [sImageView setFrame:CGRectMake(265, 9, kIconImageSize + 2, kIconImageSize + 2)];
+        [sImageButton setUserInfo:nil];
+        [sImageButton setFrame:CGRectMake(265, 9, kIconImageSize + 2, kIconImageSize + 2)];
         [sBodyLabel setFrame:CGRectMake(10, 10, kCommentBodyWidth, 0)];
         [sAuthorLabel setFrame:CGRectMake(265, 41, kIconImageSize + 2, 14)];
     }
     else
     {
-        [sImageView setFrame:CGRectMake(9, 9, kIconImageSize + 2, kIconImageSize + 2)];
+        [sImageButton setUserInfo:[aComment author]];
+        [sImageButton setFrame:CGRectMake(9, 9, kIconImageSize + 2, kIconImageSize + 2)];
         [sBodyLabel setFrame:CGRectMake(70, 10, kCommentBodyWidth, 0)];
         [sAuthorLabel setFrame:CGRectMake(9, 41, kIconImageSize + 2, 14)];
     }
 
-    [sImageView setImageWithURL:[[aComment author] faceImageURL]];
+    [sImageButton setImageWithURL:[[aComment author] faceImageURL]];
 
     [sBodyLabel setAttributedText:[aComment body]];
     [sBodyLabel sizeToFit];

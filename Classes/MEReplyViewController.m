@@ -18,12 +18,16 @@
 #import "MEAttributedString.h"
 #import "MEAttributedLabel.h"
 #import "MEImageView.h"
+#import "MEImageButton.h"
 #import "METableViewCellFactory.h"
 #import "MEPostBodyView.h"
 #import "MEAddCommentViewController.h"
 #import "MEVisitsViewController.h"
 #import "MERoundBackView.h"
 #import "MELinkTableViewCell.h"
+
+
+static NSDictionary *gActionSelectors = nil;
 
 
 @interface MEReplyViewController (Privates)
@@ -83,6 +87,18 @@
 
 
 @implementation MEReplyViewController
+
+
+#pragma mark -
+
+
++ (void)initialize
+{
+    if (!gActionSelectors)
+    {
+        gActionSelectors = [[NSDictionary alloc] initWithObjectsAndKeys:@"addComment", NSLocalizedString(@"Add Comment", @""), @"addMetoo", NSLocalizedString(@"Add Metoo", @""), nil];
+    }
+}
 
 
 #pragma mark -
@@ -180,32 +196,43 @@
 #pragma mark Actions
 
 
+- (void)faceImageButtonTapped:(id)aSender
+{
+    MEUser *sUser = [(MEImageButton *)aSender userInfo];
+
+    if (sUser)
+    {
+        UIActionSheet *sActionSheet;
+
+        sActionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Dear %@", @""), [sUser nickname]] delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Visit me2DAY", @""), nil];
+
+        [sActionSheet showInView:[[self view] window]];
+        [sActionSheet release];
+
+        mTappedUser = sUser;
+    }
+}
+
+
 - (IBAction)actionButtonTapped:(id)aSender
 {
-    UIActionSheet *sActionSheet = nil;
-    BOOL           sIsCommentClosed = [mPost isCommentClosed];
+    UIActionSheet *sActionSheet;
 
-    if (!sIsCommentClosed)
+    if ([mPost isCommentClosed])
     {
-        sActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"To This Post", nil)
+        sActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"To This Post", @"")
                                                    delegate:self
-                                          cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                      destructiveButtonTitle:nil
-                                          otherButtonTitles:NSLocalizedString(@"Add Metoo", nil), NSLocalizedString(@"Add Comment", nil), nil];
-        mAddMetooIndex   = 0;
-        mAddCommentIndex = 1;
-        mCancelIndex     = 2;
+                                          otherButtonTitles:NSLocalizedString(@"Add Metoo", @""), nil];
     }
     else
     {
-        sActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"To This Post", nil)
+        sActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"To This Post", @"")
                                                    delegate:self
-                                          cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                      destructiveButtonTitle:nil
-                                          otherButtonTitles:NSLocalizedString(@"Add Metoo", nil), nil];
-        mAddMetooIndex   = 0;
-        mAddCommentIndex = -1;
-        mCancelIndex     = 1;
+                                          otherButtonTitles:NSLocalizedString(@"Add Metoo", @""), NSLocalizedString(@"Add Comment", @""), nil];
     }
 
     [sActionSheet showInView:[[self view] window]];
@@ -309,7 +336,7 @@
             UIColor *sColor;
 
             sColor   = ((sSection % 2) == 1) ? [UIColor whiteColor] : [UIColor colorWithWhite:0.95 alpha:1.0];
-            sCell    = [METableViewCellFactory commentCellForTableView:aTableView];
+            sCell    = [METableViewCellFactory commentCellForTableView:aTableView withTarget:self];
 
             [sCell setComment:sComment isOwners:(([sComment author] == [mPost author]) ? YES : NO)];
             [sCell setCommentBackgroundColor:sColor];
@@ -396,18 +423,35 @@
 
 - (void)actionSheet:(UIActionSheet *)aActionSheet didDismissWithButtonIndex:(NSInteger)aButtonIndex
 {
-    if (aButtonIndex == mAddCommentIndex)
+    if (aButtonIndex != [aActionSheet cancelButtonIndex])
     {
-        [self addComment];
-    }
-    else if (aButtonIndex == mAddMetooIndex)
-    {
-        [self addMetoo];
-    }
-    else if (aButtonIndex == mCancelIndex)
-    {
+        NSString *sSelector;
 
+        sSelector = [gActionSelectors objectForKey:[aActionSheet buttonTitleAtIndex:aButtonIndex]];
+
+        if (sSelector)
+        {
+            [self performSelector:NSSelectorFromString(sSelector)];
+        }
     }
+}
+
+
+- (void)actionSheet:(UIActionSheet *)aActionSheet clickedButtonAtIndex:(NSInteger)aButtonIndex
+{
+    if (aButtonIndex != [aActionSheet cancelButtonIndex])
+    {
+        if (mTappedUser)
+        {
+            MELink *sLink;
+
+            sLink = [(MELink *)[MELink alloc] initWithUser:mTappedUser];
+            [[MEVisitsViewController sharedController] visitLink:sLink];
+            [sLink release];
+        }
+    }
+
+    mTappedUser = nil;
 }
 
 
