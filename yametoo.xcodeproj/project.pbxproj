@@ -37,6 +37,7 @@
 		2E53A12D0FBD579800144B0A /* metoo_transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E53A12C0FBD579800144B0A /* metoo_transparent.png */; };
 		2E53A1350FBD5A0500144B0A /* friends.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E53A1340FBD5A0500144B0A /* friends.png */; };
 		2E53A1380FBD5C0D00144B0A /* setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E53A1370FBD5C0D00144B0A /* setting.png */; };
+		2E5937000FE0EE340095063A /* visit.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E5936FF0FE0EE340095063A /* visit.png */; };
 		2E6101AF0F983AF60097AD3D /* METableViewCellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6101AE0F983AF60097AD3D /* METableViewCellFactory.m */; };
 		2E6102280F985AA40097AD3D /* MEReaderHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6102270F985AA40097AD3D /* MEReaderHeadView.m */; };
 		2E6102CC0F986B930097AD3D /* MEReaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6102CB0F986B930097AD3D /* MEReaderView.m */; };
@@ -47,6 +48,8 @@
 		2E7521020FA6CDBE00B0D4FA /* UserInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E7521010FA6CDBE00B0D4FA /* UserInfoViewController.xib */; };
 		2E7521E30FA6EDB900B0D4FA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E7521E20FA6EDB900B0D4FA /* QuartzCore.framework */; };
 		2EB3F9820FB979F500CAF94A /* MECommentBackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3F9810FB979F500CAF94A /* MECommentBackView.m */; };
+		2EBB59610FE0D0250096BFF1 /* iconview.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EBB59600FE0D0250096BFF1 /* iconview.png */; };
+		2EBB596C0FE0D6F20096BFF1 /* MEIconListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBB596B0FE0D6F20096BFF1 /* MEIconListView.m */; };
 		2EC19A590F9C1D5D00963971 /* MELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC19A580F9C1D5D00963971 /* MELoginViewController.m */; };
 		2EC19A5B0F9C1E9800963971 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EC19A5A0F9C1E9800963971 /* LoginViewController.xib */; };
 		2EC19F740F9DCFAC00963971 /* MEImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC19F730F9DCFAC00963971 /* MEImageView.m */; };
@@ -150,6 +153,7 @@
 		2E53A12C0FBD579800144B0A /* metoo_transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = metoo_transparent.png; sourceTree = "<group>"; };
 		2E53A1340FBD5A0500144B0A /* friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friends.png; sourceTree = "<group>"; };
 		2E53A1370FBD5C0D00144B0A /* setting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setting.png; sourceTree = "<group>"; };
+		2E5936FF0FE0EE340095063A /* visit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = visit.png; sourceTree = "<group>"; };
 		2E6101AD0F983AF60097AD3D /* METableViewCellFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = METableViewCellFactory.h; sourceTree = "<group>"; };
 		2E6101AE0F983AF60097AD3D /* METableViewCellFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = METableViewCellFactory.m; sourceTree = "<group>"; };
 		2E6102260F985AA40097AD3D /* MEReaderHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReaderHeadView.h; sourceTree = "<group>"; };
@@ -167,6 +171,9 @@
 		2E7521E20FA6EDB900B0D4FA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		2EB3F9800FB979F500CAF94A /* MECommentBackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MECommentBackView.h; sourceTree = "<group>"; };
 		2EB3F9810FB979F500CAF94A /* MECommentBackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MECommentBackView.m; sourceTree = "<group>"; };
+		2EBB59600FE0D0250096BFF1 /* iconview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconview.png; sourceTree = "<group>"; };
+		2EBB596A0FE0D6F20096BFF1 /* MEIconListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEIconListView.h; sourceTree = "<group>"; };
+		2EBB596B0FE0D6F20096BFF1 /* MEIconListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEIconListView.m; sourceTree = "<group>"; };
 		2EC19A570F9C1D5D00963971 /* MELoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELoginViewController.h; sourceTree = "<group>"; };
 		2EC19A580F9C1D5D00963971 /* MELoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MELoginViewController.m; sourceTree = "<group>"; };
 		2EC19A5A0F9C1E9800963971 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -402,6 +409,8 @@
 				2EB3F9810FB979F500CAF94A /* MECommentBackView.m */,
 				CF45B3920FD90B140069C6BA /* MELinkTableViewCell.h */,
 				CF45B3930FD90B140069C6BA /* MELinkTableViewCell.m */,
+				2EBB596A0FE0D6F20096BFF1 /* MEIconListView.h */,
+				2EBB596B0FE0D6F20096BFF1 /* MEIconListView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -451,6 +460,8 @@
 				2E1474C40FD8C1B500E0D93A /* resize_disable.png */,
 				2E1474C50FD8C1B500E0D93A /* fromCamera_enable.png */,
 				2E1474C60FD8C1B500E0D93A /* rotate_right_disable.png */,
+				2EBB59600FE0D0250096BFF1 /* iconview.png */,
+				2E5936FF0FE0EE340095063A /* visit.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -767,6 +778,8 @@
 				2E1474D00FD8C1B500E0D93A /* resize_disable.png in Resources */,
 				2E1474D10FD8C1B500E0D93A /* fromCamera_enable.png in Resources */,
 				2E1474D20FD8C1B500E0D93A /* rotate_right_disable.png in Resources */,
+				2EBB59610FE0D0250096BFF1 /* iconview.png in Resources */,
+				2E5937000FE0EE340095063A /* visit.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -838,6 +851,7 @@
 				CF45B2A10FD78E170069C6BA /* MELink.m in Sources */,
 				CF45B3940FD90B140069C6BA /* MELinkTableViewCell.m in Sources */,
 				CFE43E510FDE4AD2009C451A /* MEVisitsViewController.m in Sources */,
+				2EBB596C0FE0D6F20096BFF1 /* MEIconListView.m in Sources */,
 				CFC8A19A0FE0CA9100EA77C6 /* MEWebViewController.m in Sources */,
 				CFC8A1D40FE0D1B100EA77C6 /* MEOtherMetooViewController.m in Sources */,
 			);

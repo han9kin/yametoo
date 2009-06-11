@@ -13,6 +13,10 @@
 #import "MEClient.h"
 #import "MEDrawingFunctions.h"
 #import "MECharCounter.h"
+#import "MEIconListView.h"
+#import "MEUser.h"
+#import "MEPostIcon.h"
+#import "MEImageButton.h"
 #import <math.h>
 
 
@@ -58,6 +62,24 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 }
 
 
+- (void)updateSelectedIcon
+{
+    MEUser     *sUser      = [MEUser userWithUserID:[[MEClientStore currentClient] userID]];
+    NSArray    *sPostIcons = [sUser postIcons];
+    MEPostIcon *sPostIcon  = nil;
+
+    for (sPostIcon in sPostIcons)
+    {
+        if ([sPostIcon iconIndex] == mSelectedIconIndex)
+        {
+            break;
+        }
+    }
+    
+    [mIconSelectButton setImageWithURL:[sPostIcon iconURL]];
+}
+
+
 - (void)viewDidLoad
 {
     NSString *sModel;
@@ -83,11 +105,19 @@ static double radians(double degrees) {return degrees * M_PI/180;}
         [mTakePictureButton setEnabled:NO];
     }
     
+    MEUser *sUser = [MEUser userWithUserID:[[MEClientStore currentClient] userID]];
+    mSelectedIconIndex = [[sUser defaultPostIcon] iconIndex];
+
+    [self updateSelectedIcon];
+
+    [mIconSelectButton     setBorderColor:[UIColor colorWithWhite:0.6 alpha:1.0]];
     [mRotateLeftButton     setEnabled:NO];
     [mRotateRightButton    setEnabled:NO];
     [mResizeButton         setEnabled:NO];
     [mImageResolutionLabel setText:@""];
     [mImageSizeLabel       setText:@""];
+    
+    [mIconListView setDelegate:self];
 }
 
 
@@ -205,6 +235,13 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 #pragma mark Actions
 
 
+- (IBAction)iconSelectButtonTapped:(id)aSender
+{
+    NSLog(@"iconSelectButtonTapped");
+    [[[self view] window] addSubview:mIconListView];
+}
+
+
 - (IBAction)takePictureButtonTapped:(id)aSender
 {
     UIApplication           *sApp                   = [UIApplication sharedApplication];
@@ -287,7 +324,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
         [mBodyTextView resignFirstResponder];
         [mTagTextField resignFirstResponder];
 
-        [[MEClientStore currentClient] createPostWithBody:sBody tags:sTags icon:0 attachedImage:mResizedImage delegate:self];
+        [[MEClientStore currentClient] createPostWithBody:sBody tags:sTags icon:mSelectedIconIndex attachedImage:mResizedImage delegate:self];
     }
     else
     {
@@ -532,6 +569,19 @@ static double radians(double degrees) {return degrees * M_PI/180;}
         mResizedImage = [mOriginalImage retain];
         [self updateImageInfo];
     }
+}
+
+
+#pragma mark -
+#pragma mark UIActionSheet Delegate
+
+
+- (void)iconListView:(MEIconListView *)aView iconDidSelect:(NSInteger)aIndex
+{
+    NSLog(@"iconListView: %@ iconDidSelect: %d", aView, aIndex);
+    
+    mSelectedIconIndex = aIndex;
+    [self updateSelectedIcon];
 }
 
 
