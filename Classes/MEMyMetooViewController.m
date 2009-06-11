@@ -97,6 +97,7 @@
 
     [self setTitleUserID:sUserID];
     [self invalidateData];
+    [[self navigationController] popToRootViewControllerAnimated:NO];
 }
 
 

@@ -459,9 +459,9 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 #pragma mark UIActionSheetDelegate
 
 
-- (void)actionSheet:(UIActionSheet *)aActionSheet clickedButtonAtIndex:(NSInteger)aButtonIndex
+- (void)actionSheet:(UIActionSheet *)aActionSheet didDismissWithButtonIndex:(NSInteger)aButtonIndex
 {
-    if ((aButtonIndex == 0) && mTappedUser)
+    if (mTappedUser && (aButtonIndex != [aActionSheet cancelButtonIndex]))
     {
         MELink *sLink;
 

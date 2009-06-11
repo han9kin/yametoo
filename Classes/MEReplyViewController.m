@@ -425,22 +425,6 @@ static NSDictionary *gActionSelectors = nil;
 {
     if (aButtonIndex != [aActionSheet cancelButtonIndex])
     {
-        NSString *sSelector;
-
-        sSelector = [gActionSelectors objectForKey:[aActionSheet buttonTitleAtIndex:aButtonIndex]];
-
-        if (sSelector)
-        {
-            [self performSelector:NSSelectorFromString(sSelector)];
-        }
-    }
-}
-
-
-- (void)actionSheet:(UIActionSheet *)aActionSheet clickedButtonAtIndex:(NSInteger)aButtonIndex
-{
-    if (aButtonIndex != [aActionSheet cancelButtonIndex])
-    {
         if (mTappedUser)
         {
             MELink *sLink;
@@ -448,6 +432,17 @@ static NSDictionary *gActionSelectors = nil;
             sLink = [(MELink *)[MELink alloc] initWithUser:mTappedUser];
             [[MEVisitsViewController sharedController] visitLink:sLink];
             [sLink release];
+        }
+        else
+        {
+            NSString *sSelector;
+
+            sSelector = [gActionSelectors objectForKey:[aActionSheet buttonTitleAtIndex:aButtonIndex]];
+
+            if (sSelector)
+            {
+                [self performSelector:NSSelectorFromString(sSelector)];
+            }
         }
     }
 

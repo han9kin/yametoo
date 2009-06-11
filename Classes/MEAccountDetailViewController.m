@@ -392,9 +392,9 @@
 #pragma mark UIActionSheetDelegate
 
 
-- (void)actionSheet:(UIActionSheet *)aActionSheet clickedButtonAtIndex:(NSInteger)aButtonIndex
+- (void)actionSheet:(UIActionSheet *)aActionSheet didDismissWithButtonIndex:(NSInteger)aButtonIndex
 {
-    if (aButtonIndex == 0)
+    if (aButtonIndex != [aActionSheet cancelButtonIndex])
     {
         [MEClientStore removeClientForUserID:mUserID];
         [[self navigationController] popViewControllerAnimated:YES];

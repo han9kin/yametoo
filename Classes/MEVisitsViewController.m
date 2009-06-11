@@ -251,6 +251,8 @@ SYNTHESIZE_SINGLETON_CLASS(MEVisitsViewController, sharedController);
 
     [mLinks removeAllObjects];
     [mTableView reloadData];
+
+    [[self navigationController] popToRootViewControllerAnimated:NO];
 }
 
 

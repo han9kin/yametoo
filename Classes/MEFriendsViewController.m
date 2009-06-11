@@ -96,6 +96,7 @@
     [sClient getPersonWithUserID:sUserID delegate:self];
 
     [self invalidateData];
+    [[self navigationController] popToRootViewControllerAnimated:NO];
 }
 
 
