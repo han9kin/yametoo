@@ -176,11 +176,15 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 - (void)dealloc
 {
     [mTimer invalidate];
+
     [mMediaView release];
     [mTitle release];
     [mTitleUserID release];
     [mPosts release];
     [mLastestDate release];
+
+    mMediaView = nil;
+
     [super dealloc];
 }
 

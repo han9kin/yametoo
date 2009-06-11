@@ -56,6 +56,10 @@ typedef enum MEClientGetPostsScope
 @property(nonatomic, readonly) NSString *userID;
 
 
++ (void)beginNetworkOperation;
++ (void)endNetworkOperation;
+
+
 - (void)setPasscode:(NSString *)aPasscode;
 - (BOOL)checkPasscode:(NSString *)aPasscode;
 - (BOOL)hasPasscode;
@@ -72,6 +76,7 @@ typedef enum MEClientGetPostsScope
 - (void)getFriendsWithUserID:(NSString *)aUserID delegate:(id)aDelegate;
 - (void)getMetoosWithPostID:(NSString *)aPostID delegate:(id)aDelegate;
 - (void)getPersonWithUserID:(NSString *)aUserID delegate:(id)aDelegate;
+- (void)getPostWithPostID:(NSString *)aPostID delegate:(id)aDelegate;
 - (void)getPostsWithUserID:(NSString *)aUserID scope:(MEClientGetPostsScope)aScope offset:(NSInteger)aOffset count:(NSInteger)aCount delegate:(id)aDelegate;
 - (void)metooWithPostID:(NSString *)aPostID delegate:(id)aDelegate;
 

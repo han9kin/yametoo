@@ -27,21 +27,37 @@
 
 
 @interface MEReplyViewController (Privates)
-
-- (void)getComments;
-- (void)addComment;
-- (void)addMetoo;
-
 @end
 
 
 @implementation MEReplyViewController (Privates)
 
 
+- (void)getPost
+{
+    [[MEClientStore currentClient] getPostWithPostID:mPostID delegate:self];
+}
+
+
 - (void)getComments
 {
-    MEClient *sClient = [MEClientStore currentClient];
-    [sClient getCommentsWithPostID:[mPost postID] delegate:self];
+    [[MEClientStore currentClient] getCommentsWithPostID:[mPost postID] delegate:self];
+}
+
+
+- (void)showPost
+{
+    [[mNaviBar topItem] setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s Post", @""), [[mPost author] nickname]]];
+
+    [mIconView setImageWithURL:[mPost iconURL]];
+    [mPostBodyView setPost:mPost];
+    [mPostBodyView sizeToFit];
+    [mPostScrollView setContentSize:[mPostBodyView frame].size];
+    [mContainerView setFrame:CGRectMake(0, 0, 320, [mPostBodyView frame].size.height + kPostCellBodyPadding * 2)];
+
+    [mTableView setTableHeaderView:mContainerView];
+
+    [mActionButtonItem setEnabled:YES];
 }
 
 
@@ -86,6 +102,20 @@
 }
 
 
+- (id)initWithPostID:(NSString *)aPostID
+{
+    self = [super initWithNibName:@"MEReplyViewController" bundle:nil];
+
+    if (self)
+    {
+        mPostID   = [aPostID copy];
+        mComments = [[NSMutableArray alloc] init];
+    }
+
+    return self;
+}
+
+
 - (void)dealloc
 {
     [mNaviBar release];
@@ -96,6 +126,7 @@
     [mTableView release];
     [mActionButtonItem release];
 
+    [mPostID release];
     [mPost release];
     [mComments release];
 
@@ -111,35 +142,37 @@
 
 - (void)viewDidLoad
 {
-    NSString         *sNickname = [[mPost author] nickname];
-    UINavigationItem *sTopItem  = [mNaviBar topItem];
-    NSString         *sTitleStr = [NSString stringWithFormat:NSLocalizedString(@"%@'s Post", @""), sNickname];
-
     [super viewDidLoad];
 
-    [sTopItem        setTitle:sTitleStr];
-    [mIconView       setBorderColor:[UIColor lightGrayColor]];
-    [mIconView       setImageWithURL:[mPost iconURL]];
-    [mPostBodyView   setShowsPostDate:YES];
-    [mPostBodyView   setPost:mPost];
-    [mPostBodyView   sizeToFit];
+    [mIconView setBorderColor:[UIColor lightGrayColor]];
+    [mPostBodyView setShowsPostDate:YES];
 
-    [mPostScrollView setContentSize:[mPostBodyView frame].size];
-    [mTableView      setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [mTableView      setRowHeight:1000.0];
+    [mTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [mTableView setRowHeight:1000.0];
 
-    CGFloat sHeight = [mPostBodyView frame].size.height + kPostCellBodyPadding * 2;
-    [mContainerView setFrame:CGRectMake(0, 0, 320, sHeight)];
-    [mTableView setTableHeaderView:mContainerView];
-
-//    [mActionButtonItem setEnabled:![mPost isCommentClosed]];
+    if (mPost && ![mTableView tableHeaderView])
+    {
+        [self showPost];
+    }
+    else
+    {
+        [mActionButtonItem setEnabled:NO];
+    }
 }
 
 
 - (void)viewDidAppear:(BOOL)aAnimated
 {
     [super viewDidAppear:aAnimated];
-    [self getComments];
+
+    if (mPost)
+    {
+        [self getComments];
+    }
+    else
+    {
+        [self getPost];
+    }
 }
 
 
@@ -188,6 +221,21 @@
 
 #pragma mark -
 #pragma mark MEClient Delegate
+
+
+- (void)client:(MEClient *)aClient didGetPosts:(NSArray *)aPosts error:(NSError *)aError
+{
+    if (aError)
+    {
+        [UIAlertView showError:aError];
+    }
+    else
+    {
+        mPost = [[aPosts objectAtIndex:0] retain];
+        [self showPost];
+        [self getComments];
+    }
+}
 
 
 - (void)client:(MEClient *)aClient didGetComments:(NSArray *)aComments error:(NSError *)aError
@@ -337,12 +385,8 @@
         sLink = [[mPost links] objectAtIndex:sRow];
     }
 
+    [[MEVisitsViewController sharedController] visitLink:sLink];
     [aTableView deselectRowAtIndexPath:aIndexPath animated:YES];
-
-    if (sLink)
-    {
-        [[MEVisitsViewController sharedController] showLink:sLink];
-    }
 }
 
 

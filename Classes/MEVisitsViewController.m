@@ -9,12 +9,50 @@
 
 #import "ObjCUtil.h"
 #import "UIViewController+MEAdditions.h"
+#import "MEReaderView.h"
 #import "MEVisitsViewController.h"
+#import "MEOtherMetooViewController.h"
+#import "MEReplyViewController.h"
+#import "MEWebViewController.h"
+#import "METableViewCellFactory.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEUser.h"
 #import "MELink.h"
-#import "METableViewCellFactory.h"
+
+
+@interface MEVisitsViewController (Private)
+@end
+
+@implementation MEVisitsViewController (Private)
+
+- (UIViewController *)viewControllerForLink:(MELink *)aLink
+{
+    UIViewController *sViewController;
+
+    switch ([aLink type])
+    {
+        case kMELinkTypeMe2DAY:
+            sViewController = [[MEOtherMetooViewController alloc] initWithUserID:[aLink url]];
+            break;
+
+        case kMELinkTypePost:
+            sViewController = [[MEReplyViewController alloc] initWithPostID:[aLink url]];
+            break;
+
+        case kMELinkTypeOther:
+            sViewController = [[MEWebViewController alloc] initWithURL:[aLink url]];
+            break;
+
+        default:
+            sViewController = nil;
+            break;
+    }
+
+    return [sViewController autorelease];
+}
+
+@end
 
 
 @implementation MEVisitsViewController
@@ -111,14 +149,29 @@ SYNTHESIZE_SINGLETON_CLASS(MEVisitsViewController, sharedController);
 }
 
 
-- (void)showLink:(MELink *)aLink
+- (void)viewDidAppear:(BOOL)aAnimated
 {
-    [mLinks removeObject:aLink];
-    [mLinks insertObject:aLink atIndex:0];
+    [super viewDidAppear:aAnimated];
 
-    [mTableView reloadData];
+    [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:YES];
+}
 
-    [[self tabBarController] setSelectedViewController:[self navigationController]];
+
+- (void)visitLink:(MELink *)aLink
+{
+    if (aLink)
+    {
+        [mLinks removeObject:aLink];
+        [mLinks insertObject:aLink atIndex:0];
+
+        [mTableView reloadData];
+        [mTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
+
+        [[self navigationController] popToRootViewControllerAnimated:NO];
+        [[self navigationController] pushViewController:[self viewControllerForLink:aLink] animated:NO];
+
+        [[self tabBarController] setSelectedViewController:[self navigationController]];
+    }
 }
 
 
@@ -143,6 +196,7 @@ SYNTHESIZE_SINGLETON_CLASS(MEVisitsViewController, sharedController);
     UITableViewCell *sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
     MELink          *sLink = [mLinks objectAtIndex:[aIndexPath row]];
 
+    [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     [sCell setFont:[UIFont systemFontOfSize:15.0]];
     [sCell setText:[sLink urlDescription]];
 
@@ -152,6 +206,12 @@ SYNTHESIZE_SINGLETON_CLASS(MEVisitsViewController, sharedController);
 
 #pragma mark -
 #pragma mark UITableViewDelegate
+
+
+- (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
+{
+    [[self navigationController] pushViewController:[self viewControllerForLink:[mLinks objectAtIndex:[aIndexPath row]]] animated:YES];
+}
 
 
 #pragma mark -

@@ -108,6 +108,7 @@
             sHeaderView = [MEReaderHeadView readerHeadView];
 
             [sHeaderView setDelegate:self];
+            [sHeaderView setShowsPostButton:mShowsPostButton];
             [mTableView setTableHeaderView:sHeaderView];
         }
 
@@ -123,9 +124,16 @@
 }
 
 
-- (void)setShowsPostAuthor:(BOOL)aFlag
+- (void)setShowsPostAuthor:(BOOL)aShowsPostAuthor
 {
-    mShowsPostAuthor = aFlag;
+    mShowsPostAuthor = aShowsPostAuthor;
+}
+
+
+- (void)setShowsPostButton:(BOOL)aShowsPostButton
+{
+    mShowsPostButton = aShowsPostButton;
+    [(MEReaderHeadView *)[mTableView tableHeaderView] setShowsPostButton:mShowsPostButton];
 }
 
 

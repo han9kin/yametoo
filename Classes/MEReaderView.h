@@ -56,6 +56,7 @@
     NSInteger                   mSectionCount;
 
     BOOL                        mShowsPostAuthor;
+    BOOL                        mShowsPostButton;
 }
 
 @property(nonatomic, assign) id<MEReaderViewDataSource> dataSource;
@@ -63,7 +64,8 @@
 
 
 - (void)setTitleUserID:(NSString *)aUserID;
-- (void)setShowsPostAuthor:(BOOL)aFlag;
+- (void)setShowsPostAuthor:(BOOL)aShowsPostAuthor;
+- (void)setShowsPostButton:(BOOL)aShowsPostButton;
 
 - (NSIndexPath *)indexPathForSelectedPost;
 - (void)selectPostAtIndexPath:(NSIndexPath *)aIndexPath animated:(BOOL)aAnimated scrollPosition:(UITableViewScrollPosition)aScrollPosition;

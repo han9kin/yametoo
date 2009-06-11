@@ -25,7 +25,7 @@
 + (MEVisitsViewController *)sharedController;
 
 
-- (void)showLink:(MELink *)aLink;
+- (void)visitLink:(MELink *)aLink;
 
 
 @end

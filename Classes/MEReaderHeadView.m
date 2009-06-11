@@ -28,46 +28,28 @@
 
 - (id)initWithFrame:(CGRect)aFrame
 {
-    CGRect sFrame;
-
     self = [super initWithFrame:aFrame];
+
     if (self)
     {
         [self setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:1.0]];
 
-        {
-            mFaceImageView = [[MEImageView alloc] initWithFrame:CGRectMake(7, 10, kFaceImageViewWidth, kFaceImageViewHeight)];
-            [mFaceImageView setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
+        CGRect sFrame;
 
-            [self addSubview:mFaceImageView];
-            [mFaceImageView release];
-        }
+        mFaceImageView = [[MEImageView alloc] initWithFrame:CGRectMake(7, 10, kFaceImageViewWidth, kFaceImageViewHeight)];
+        [mFaceImageView setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
+        [self addSubview:mFaceImageView];
+        [mFaceImageView release];
 
-        {
-            sFrame.size.width  = kNickButtonWidth;
-            sFrame.size.height = kNickButtonHeight;
-            sFrame.origin.x    = 65;
-            sFrame.origin.y    = (int)((aFrame.size.height - sFrame.size.height) / 2);
-            mUserDescLabel = [[UILabel alloc] initWithFrame:sFrame];
-            [mUserDescLabel setFont:[UIFont systemFontOfSize:14]];
-            [mUserDescLabel setNumberOfLines:2];
-            [self addSubview:mUserDescLabel];
-            [mUserDescLabel release];
-        }
-
-        {
-            mNewPostButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [mNewPostButton setTitle:NSLocalizedString(@"New Post", nil) forState:UIControlStateNormal];
-            [mNewPostButton addTarget:self action:@selector(newPostButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-
-            sFrame.size.width  = kPostButtonWidth;
-            sFrame.size.height = kPostButtonHeight;
-            sFrame.origin.x    = 225;
-            sFrame.origin.y    = (int)((aFrame.size.height - sFrame.size.height ) / 2);
-            [mNewPostButton setFrame:sFrame];
-
-            [self addSubview:mNewPostButton];
-        }
+        sFrame.size.width  = kNickButtonWidth;
+        sFrame.size.height = kNickButtonHeight;
+        sFrame.origin.x    = 65;
+        sFrame.origin.y    = (int)((aFrame.size.height - sFrame.size.height) / 2);
+        mUserDescLabel = [[UILabel alloc] initWithFrame:sFrame];
+        [mUserDescLabel setFont:[UIFont systemFontOfSize:14]];
+        [mUserDescLabel setNumberOfLines:2];
+        [self addSubview:mUserDescLabel];
+        [mUserDescLabel release];
     }
 
     return self;
@@ -106,6 +88,32 @@
     [mUserDescLabel setText:nil];
 
     [[MEClientStore currentClient] getPersonWithUserID:aUserID delegate:self];
+}
+
+
+- (void)setShowsPostButton:(BOOL)aShowsPostButton
+{
+    if (aShowsPostButton && !mNewPostButton)
+    {
+        CGRect sFrame;
+
+        mNewPostButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [mNewPostButton setTitle:NSLocalizedString(@"New Post", nil) forState:UIControlStateNormal];
+        [mNewPostButton addTarget:self action:@selector(newPostButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+
+        sFrame.size.width  = kPostButtonWidth;
+        sFrame.size.height = kPostButtonHeight;
+        sFrame.origin.x    = 225;
+        sFrame.origin.y    = (int)(([self frame].size.height - sFrame.size.height ) / 2);
+        [mNewPostButton setFrame:sFrame];
+
+        [self addSubview:mNewPostButton];
+    }
+    else if (!aShowsPostButton && mNewPostButton)
+    {
+        [mNewPostButton removeFromSuperview];
+        mNewPostButton = nil;
+    }
 }
 
 

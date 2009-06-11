@@ -25,6 +25,7 @@
     IBOutlet UITableView     *mTableView;
     IBOutlet UIBarButtonItem *mActionButtonItem;
 
+    NSString       *mPostID;
     MEPost         *mPost;
     NSMutableArray *mComments;
 
@@ -34,6 +35,7 @@
 }
 
 - (id)initWithPost:(MEPost *)aPost;
+- (id)initWithPostID:(NSString *)aPostID;
 
 - (IBAction)actionButtonTapped:(id)aSender;
 - (IBAction)closeButtonTapped:(id)aSender;

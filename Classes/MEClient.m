@@ -21,10 +21,39 @@
 #import "MEComment.h"
 
 
+static int gNetworkOperationsCount = 0;
+
+
 NSString *MEClientErrorDomain = @"MEClientErrorDomain";
 
 
 @implementation MEClient
+
+
+#pragma mark -
+#pragma mark indicating network activity
+
+
++ (void)beginNetworkOperation
+{
+    if (gNetworkOperationsCount == 0)
+    {
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    }
+
+    gNetworkOperationsCount++;
+}
+
+
++ (void)endNetworkOperation
+{
+    gNetworkOperationsCount--;
+
+    if (gNetworkOperationsCount == 0)
+    {
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    }
+}
 
 
 #pragma mark -
@@ -332,6 +361,22 @@ NSString *MEClientErrorDomain = @"MEClientErrorDomain";
         [mOperationQueue addOperation:sOperation];
         [sOperation release];
     }
+}
+
+
+- (void)getPostWithPostID:(NSString *)aPostID delegate:(id)aDelegate
+{
+    MEClientOperation *sOperation = [[MEClientOperation alloc] init];
+
+    [sOperation setRequest:[self getPostRequestWithPostID:aPostID]];
+    [sOperation setQueuePriority:NSOperationQueuePriorityHigh];
+    [sOperation setContext:aDelegate];
+    [sOperation setDelegate:self];
+    [sOperation setSelector:@selector(clientOperation:didReceiveGetPostsResult:error:)];
+    [sOperation retainContext];
+
+    [mOperationQueue addOperation:sOperation];
+    [sOperation release];
 }
 
 

@@ -23,13 +23,13 @@ typedef enum MELinkType
 
 @interface MELink : NSObject <MEClientDelegate>
 {
-    NSURL      *mURL;
+    id          mURL;
     NSString   *mTitle;
     NSString   *mDescription;
     MELinkType  mType;
 }
 
-@property(nonatomic, readonly) NSURL      *url;
+@property(nonatomic, readonly) id          url;
 @property(nonatomic, readonly) NSString   *title;
 @property(nonatomic, readonly) NSString   *urlDescription;
 @property(nonatomic, readonly) MELinkType  type;

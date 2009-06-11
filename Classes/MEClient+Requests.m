@@ -30,6 +30,7 @@ static NSString *kGetCommentsURLFormat     = @"http://me2day.net/api/get_comment
 static NSString *kGetFriendsURLFormat      = @"http://me2day.net/api/get_friends/%@.json";
 static NSString *kGetMetoosURLFormat       = @"http://me2day.net/api/get_metoos.json?post_id=%@";
 static NSString *kGetPersonURLFormat       = @"http://me2day.net/api/get_person/%@.json";
+static NSString *kGetPostURLFormat         = @"http://me2day.net/api/get_posts.json?post_id=%@";
 static NSString *kGetPostsURLFormat        = @"http://me2day.net/api/get_posts/%@.json?scope=%@&offset=%d&count=%d";
 static NSString *kGetSettingsURLFormat     = @"http://me2day.net/api/get_settings.json?uid=%@&ukey=%@&akey=%@";
 static NSString *kGetTagsURLFormat         = @"http://me2day.net/api/get_tags.json?user_id=%@";
@@ -195,6 +196,18 @@ static NSString *kGetPostsScopeValue[] = {
     NSString            *sURLStr;
 
     sURLStr  = [NSString stringWithFormat:kGetPersonURLFormat, aUserID];
+    sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
+
+    return sRequest;
+}
+
+
+- (NSMutableURLRequest *)getPostRequestWithPostID:(NSString *)aPostID
+{
+    NSMutableURLRequest *sRequest;
+    NSString            *sURLStr;
+
+    sURLStr  = [NSString stringWithFormat:kGetPostURLFormat, aPostID];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
 
     return sRequest;

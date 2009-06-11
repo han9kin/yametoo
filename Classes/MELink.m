@@ -151,6 +151,7 @@
     {
         [self willChangeValueForKey:@"urlDescription"];
 
+        [mURL autorelease];
         [mDescription release];
 
         if ([mURL fragment] && ([[mURL path] length] > ([[aUser userID] length] + 2)))
@@ -159,11 +160,13 @@
             NSString *sDate  = [[mURL path] substringFromIndex:[[aUser userID] length] + 2];
             NSString *sTime  = [mURL fragment];
 
+            mURL         = [[mURL absoluteString] copy];
             mDescription = [[NSString alloc] initWithFormat:@"%@ (%@ %@)", sTitle, sDate, sTime];
             mType        = kMELinkTypePost;
         }
         else
         {
+            mURL         = [[aUser nickname] copy];
             mDescription = [[NSString alloc] initWithFormat:NSLocalizedString(@"%@'s me2DAY", @""), [aUser nickname]];
             mType        = kMELinkTypeMe2DAY;
         }

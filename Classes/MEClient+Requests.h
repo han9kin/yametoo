@@ -26,6 +26,7 @@
 - (NSMutableURLRequest *)getFriendsRequestWithUserID:(NSString *)aUserID;
 - (NSMutableURLRequest *)getMetoosRequestWithPostID:(NSString *)aPostID;
 - (NSMutableURLRequest *)getPersonRequestWithUserID:(NSString *)aUserID;
+- (NSMutableURLRequest *)getPostRequestWithPostID:(NSString *)aPostID;
 - (NSMutableURLRequest *)getPostsRequestWithUserID:(NSString *)aUserID
                                              scope:(MEClientGetPostsScope)aScope
                                             offset:(NSInteger)aOffset

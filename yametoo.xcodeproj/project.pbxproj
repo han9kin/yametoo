@@ -86,6 +86,8 @@
 		CF9046430F95C4A4001AE52C /* NSURL+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9046420F95C4A4001AE52C /* NSURL+MEAdditions.m */; };
 		CFBED93F0FBD16CC0005FD9D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFBED93E0FBD16CC0005FD9D /* SystemConfiguration.framework */; };
 		CFBED9800FBD37490005FD9D /* MEReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBED97F0FBD37490005FD9D /* MEReachability.m */; };
+		CFC8A19A0FE0CA9100EA77C6 /* MEWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC8A1990FE0CA9100EA77C6 /* MEWebViewController.m */; };
+		CFC8A1D40FE0D1B100EA77C6 /* MEOtherMetooViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC8A1D30FE0D1B100EA77C6 /* MEOtherMetooViewController.m */; };
 		CFDD41990FB2DF6E00B9931A /* MEMyMetooViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD41980FB2DF6E00B9931A /* MEMyMetooViewController.m */; };
 		CFDD419C0FB2DF8400B9931A /* MEFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD419B0FB2DF8400B9931A /* MEFriendsViewController.m */; };
 		CFDD42560FB3DB9200B9931A /* UITableView+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD42550FB3DB9200B9931A /* UITableView+MEAdditions.m */; };
@@ -235,6 +237,10 @@
 		CFBED93E0FBD16CC0005FD9D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		CFBED97E0FBD37490005FD9D /* MEReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReachability.h; sourceTree = "<group>"; };
 		CFBED97F0FBD37490005FD9D /* MEReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReachability.m; sourceTree = "<group>"; };
+		CFC8A1980FE0CA9100EA77C6 /* MEWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEWebViewController.h; sourceTree = "<group>"; };
+		CFC8A1990FE0CA9100EA77C6 /* MEWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEWebViewController.m; sourceTree = "<group>"; };
+		CFC8A1D20FE0D1B100EA77C6 /* MEOtherMetooViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEOtherMetooViewController.h; sourceTree = "<group>"; };
+		CFC8A1D30FE0D1B100EA77C6 /* MEOtherMetooViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEOtherMetooViewController.m; sourceTree = "<group>"; };
 		CFDD41970FB2DF6E00B9931A /* MEMyMetooViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEMyMetooViewController.h; sourceTree = "<group>"; };
 		CFDD41980FB2DF6E00B9931A /* MEMyMetooViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEMyMetooViewController.m; sourceTree = "<group>"; };
 		CFDD419A0FB2DF8400B9931A /* MEFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEFriendsViewController.h; sourceTree = "<group>"; };
@@ -613,6 +619,8 @@
 				CFDD41980FB2DF6E00B9931A /* MEMyMetooViewController.m */,
 				CFDD419A0FB2DF8400B9931A /* MEFriendsViewController.h */,
 				CFDD419B0FB2DF8400B9931A /* MEFriendsViewController.m */,
+				CFC8A1D20FE0D1B100EA77C6 /* MEOtherMetooViewController.h */,
+				CFC8A1D30FE0D1B100EA77C6 /* MEOtherMetooViewController.m */,
 			);
 			name = "Reader View Controller";
 			sourceTree = "<group>";
@@ -639,6 +647,8 @@
 				2E7520FF0FA6CDA300B0D4FA /* MEUserInfoViewController.m */,
 				CFE43E4F0FDE4AD2009C451A /* MEVisitsViewController.h */,
 				CFE43E500FDE4AD2009C451A /* MEVisitsViewController.m */,
+				CFC8A1980FE0CA9100EA77C6 /* MEWebViewController.h */,
+				CFC8A1990FE0CA9100EA77C6 /* MEWebViewController.m */,
 			);
 			name = "Other View Controllers";
 			sourceTree = "<group>";
@@ -828,6 +838,8 @@
 				CF45B2A10FD78E170069C6BA /* MELink.m in Sources */,
 				CF45B3940FD90B140069C6BA /* MELinkTableViewCell.m in Sources */,
 				CFE43E510FDE4AD2009C451A /* MEVisitsViewController.m in Sources */,
+				CFC8A19A0FE0CA9100EA77C6 /* MEWebViewController.m in Sources */,
+				CFC8A1D40FE0D1B100EA77C6 /* MEOtherMetooViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

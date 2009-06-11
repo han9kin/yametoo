@@ -25,6 +25,7 @@
 
 - (void)setDelegate:(id)aDelegate;
 - (void)setUserID:(NSString *)aUserID;
+- (void)setShowsPostButton:(BOOL)aShowsPostButton;
 
 @end
 

@@ -8,38 +8,10 @@
  */
 
 #import "MEClientOperation.h"
+#import "MEClient.h"
 
 
-static NSString *gUserAgent              = nil;
-static int       gNetworkOperationsCount = 0;
-
-
-@interface MEClientOperation (NetworkActivityIndicating)
-@end
-
-@implementation MEClientOperation (NetworkActivityIndicating)
-
-+ (void)beginNetworkOperation
-{
-    if (gNetworkOperationsCount == 0)
-    {
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    }
-
-    gNetworkOperationsCount++;
-}
-
-+ (void)endNetworkOperation
-{
-    gNetworkOperationsCount--;
-
-    if (gNetworkOperationsCount == 0)
-    {
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    }
-}
-
-@end
+static NSString *gUserAgent = nil;
 
 
 @implementation MEClientOperation
@@ -106,7 +78,7 @@ static int       gNetworkOperationsCount = 0;
         [mConnection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         [mConnection start];
 
-        [MEClientOperation beginNetworkOperation];
+        [MEClient beginNetworkOperation];
     }
 }
 
@@ -136,7 +108,7 @@ static int       gNetworkOperationsCount = 0;
         [self didChangeValueForKey:@"isExecuting"];
         [self didChangeValueForKey:@"isFinished"];
 
-        [MEClientOperation endNetworkOperation];
+        [MEClient endNetworkOperation];
     }
 }
 
