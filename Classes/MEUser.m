@@ -87,7 +87,7 @@ static NSMutableDictionary *gCachedUsers = nil;
 
 - (void)setPostIcons:(NSArray *)aPostIcons
 {
-    if (aPostIcons && ![mPostIcons isEqualToArray:aPostIcons])
+    if (aPostIcons != mPostIcons)
     {
         [mPostIcons release];
         mPostIcons = [aPostIcons retain];
@@ -113,6 +113,7 @@ static NSMutableDictionary *gCachedUsers = nil;
 @synthesize email             = mEmail;
 @synthesize messenger         = mMessenger;
 @synthesize postIcons         = mPostIcons;
+@synthesize defaultPostIcon   = mDefaultPostIcon;
 
 
 #pragma mark -
@@ -193,7 +194,16 @@ static NSMutableDictionary *gCachedUsers = nil;
 
             for (sDict in [aUserDict objectForKey:@"postIcons"])
             {
-                [sPostIcons addObject:[[[MEPostIcon alloc] initWithDictionary:sDict] autorelease]];
+                MEPostIcon *sPostIcon;
+
+                sPostIcon = [[MEPostIcon alloc] initWithDictionary:sDict];
+                [sPostIcons addObject:sPostIcon];
+                [sPostIcon release];
+
+                if ([[sDict objectForKey:@"default"] boolValue])
+                {
+                    mDefaultPostIcon = sPostIcon;
+                }
             }
 
             [self setPostIcons:sPostIcons];
