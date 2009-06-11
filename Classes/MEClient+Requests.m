@@ -22,19 +22,19 @@ static NSString *kMultipartBoundary        = @"----YAMETOO";
 static NSString *kNonce                    = @"1A3D485B";
 static NSString *kAppKey                   = @"e9a4f3c223bba69df0b1347d755b8c38";
 
-static NSString *kLoginURLFormat           = @"http://me2day.net/api/noop.json?uid=%@&ukey=%@&akey=%@";
-static NSString *kCreateCommentURLFormat   = @"http://me2day.net/api/create_comment.json?uid=%@&ukey=%@&akey=%@&post_id=%@";
-static NSString *kCreatePostURLFormat      = @"http://me2day.net/api/create_post/%@.json?uid=%@&ukey=%@&akey=%@";
-static NSString *kDeleteCommentURLFormat   = @"http://me2day.net/api/delete_comment.json?uid=%@&ukey=%@&akey=%@&comment_id=%@";
+static NSString *kLoginURLFormat           = @"http://me2day.net/api/noop.json?uid=%@&ukey=%@";
+static NSString *kCreateCommentURLFormat   = @"http://me2day.net/api/create_comment.json?uid=%@&ukey=%@&post_id=%@";
+static NSString *kCreatePostURLFormat      = @"http://me2day.net/api/create_post/%@.json?uid=%@&ukey=%@";
+static NSString *kDeleteCommentURLFormat   = @"http://me2day.net/api/delete_comment.json?uid=%@&ukey=%@&comment_id=%@";
 static NSString *kGetCommentsURLFormat     = @"http://me2day.net/api/get_comments.json?post_id=%@";
 static NSString *kGetFriendsURLFormat      = @"http://me2day.net/api/get_friends/%@.json";
 static NSString *kGetMetoosURLFormat       = @"http://me2day.net/api/get_metoos.json?post_id=%@";
 static NSString *kGetPersonURLFormat       = @"http://me2day.net/api/get_person/%@.json";
 static NSString *kGetPostURLFormat         = @"http://me2day.net/api/get_posts.json?post_id=%@";
 static NSString *kGetPostsURLFormat        = @"http://me2day.net/api/get_posts/%@.json?scope=%@&offset=%d&count=%d";
-static NSString *kGetSettingsURLFormat     = @"http://me2day.net/api/get_settings.json?uid=%@&ukey=%@&akey=%@";
+static NSString *kGetSettingsURLFormat     = @"http://me2day.net/api/get_settings.json?uid=%@&ukey=%@";
 static NSString *kGetTagsURLFormat         = @"http://me2day.net/api/get_tags.json?user_id=%@";
-static NSString *kMetooURLFormat           = @"http://me2day.net/api/metoo.json?uid=%@&ukey=%@&akey=%@&post_id=%@";
+static NSString *kMetooURLFormat           = @"http://me2day.net/api/metoo.json?uid=%@&ukey=%@&post_id=%@";
 static NSString *kTrackCommentsURLFormat   = @"http://me2day.net/api/track_comments/%@.json?scope=%@";
 
 
@@ -61,8 +61,10 @@ static NSString *kGetPostsScopeValue[] = {
     [mAuthKey release];
     mAuthKey = [[MEClient authKeyWithUserKey:aUserKey] retain];
 
-    sURLStr  = [NSString stringWithFormat:kLoginURLFormat, aUserID, mAuthKey, kAppKey];
+    sURLStr  = [NSString stringWithFormat:kLoginURLFormat, aUserID, mAuthKey];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
+
+    [sRequest setValue:kAppKey forHTTPHeaderField:@"me2_application_key"];
 
     return sRequest;
 }
@@ -74,10 +76,11 @@ static NSString *kGetPostsScopeValue[] = {
     NSString            *sURLStr;
     NSData              *sPostData;
 
-    sURLStr   = [NSString stringWithFormat:kCreateCommentURLFormat, mUserID, mAuthKey, kAppKey, aPostID];
+    sURLStr   = [NSString stringWithFormat:kCreateCommentURLFormat, mUserID, mAuthKey, aPostID];
     sPostData = [[NSString stringWithFormat:@"body=%@", [aBody stringByAddingPercentEscapes]] dataUsingEncoding:NSUTF8StringEncoding];
     sRequest  = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
 
+    [sRequest setValue:kAppKey forHTTPHeaderField:@"me2_application_key"];
     [sRequest setValue:@"application/x-www-form-urlencoded; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
     [sRequest setHTTPMethod:@"POST"];
     [sRequest setHTTPBody:sPostData];
@@ -95,7 +98,7 @@ static NSString *kGetPostsScopeValue[] = {
     NSString            *sURLStr;
     NSMutableData       *sPostData;
 
-    sURLStr   = [NSString stringWithFormat:kCreatePostURLFormat, mUserID, mUserID, mAuthKey, kAppKey];
+    sURLStr   = [NSString stringWithFormat:kCreatePostURLFormat, mUserID, mUserID, mAuthKey];
     sPostData = [NSMutableData data];
     sRequest  = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
 
@@ -135,6 +138,7 @@ static NSString *kGetPostsScopeValue[] = {
         [sRequest setValue:@"application/x-www-form-urlencoded; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
     }
 
+    [sRequest setValue:kAppKey forHTTPHeaderField:@"me2_application_key"];
     [sRequest setHTTPMethod:@"POST"];
     [sRequest setHTTPBody:sPostData];
 
@@ -147,8 +151,10 @@ static NSString *kGetPostsScopeValue[] = {
     NSMutableURLRequest *sRequest;
     NSString            *sURLStr;
 
-    sURLStr  = [NSString stringWithFormat:kDeleteCommentURLFormat, mUserID, mAuthKey, kAppKey, aCommentID];
+    sURLStr  = [NSString stringWithFormat:kDeleteCommentURLFormat, mUserID, mAuthKey, aCommentID];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
+
+    [sRequest setValue:kAppKey forHTTPHeaderField:@"me2_application_key"];
 
     return sRequest;
 }
@@ -162,6 +168,8 @@ static NSString *kGetPostsScopeValue[] = {
     sURLStr  = [NSString stringWithFormat:kGetCommentsURLFormat, aPostID];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
 
+    [sRequest setValue:kAppKey forHTTPHeaderField:@"me2_application_key"];
+
     return sRequest;
 }
 
@@ -173,6 +181,8 @@ static NSString *kGetPostsScopeValue[] = {
 
     sURLStr  = [NSString stringWithFormat:kGetFriendsURLFormat, aUserID];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
+
+    [sRequest setValue:kAppKey forHTTPHeaderField:@"me2_application_key"];
 
     return sRequest;
 }
@@ -186,6 +196,8 @@ static NSString *kGetPostsScopeValue[] = {
     sURLStr  = [NSString stringWithFormat:kGetMetoosURLFormat, aPostID];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
 
+    [sRequest setValue:kAppKey forHTTPHeaderField:@"me2_application_key"];
+
     return sRequest;
 }
 
@@ -197,6 +209,8 @@ static NSString *kGetPostsScopeValue[] = {
 
     sURLStr  = [NSString stringWithFormat:kGetPersonURLFormat, aUserID];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
+
+    [sRequest setValue:kAppKey forHTTPHeaderField:@"me2_application_key"];
 
     return sRequest;
 }
@@ -210,6 +224,8 @@ static NSString *kGetPostsScopeValue[] = {
     sURLStr  = [NSString stringWithFormat:kGetPostURLFormat, aPostID];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
 
+    [sRequest setValue:kAppKey forHTTPHeaderField:@"me2_application_key"];
+
     return sRequest;
 }
 
@@ -222,6 +238,8 @@ static NSString *kGetPostsScopeValue[] = {
     sURLStr  = [NSString stringWithFormat:kGetPostsURLFormat, aUserID, kGetPostsScopeValue[aScope], aOffset, aCount];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
 
+    [sRequest setValue:kAppKey forHTTPHeaderField:@"me2_application_key"];
+
     return sRequest;
 }
 
@@ -231,8 +249,10 @@ static NSString *kGetPostsScopeValue[] = {
     NSMutableURLRequest *sRequest;
     NSString            *sURLStr;
 
-    sURLStr  = [NSString stringWithFormat:kGetSettingsURLFormat, mUserID, mAuthKey, kAppKey];
+    sURLStr  = [NSString stringWithFormat:kGetSettingsURLFormat, mUserID, mAuthKey];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
+
+    [sRequest setValue:kAppKey forHTTPHeaderField:@"me2_application_key"];
 
     return sRequest;
 }
@@ -246,6 +266,8 @@ static NSString *kGetPostsScopeValue[] = {
     sURLStr  = [NSString stringWithFormat:kGetTagsURLFormat, aUserID];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
 
+    [sRequest setValue:kAppKey forHTTPHeaderField:@"me2_application_key"];
+
     return sRequest;
 }
 
@@ -255,8 +277,10 @@ static NSString *kGetPostsScopeValue[] = {
     NSMutableURLRequest *sRequest;
     NSString            *sURLStr;
 
-    sURLStr  = [NSString stringWithFormat:kMetooURLFormat, mUserID, mAuthKey, kAppKey, aPostID];
+    sURLStr  = [NSString stringWithFormat:kMetooURLFormat, mUserID, mAuthKey, aPostID];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
+
+    [sRequest setValue:kAppKey forHTTPHeaderField:@"me2_application_key"];
 
     return sRequest;
 }
@@ -269,6 +293,8 @@ static NSString *kGetPostsScopeValue[] = {
 
     sURLStr  = [NSString stringWithFormat:kTrackCommentsURLFormat, mUserID, aScope];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
+
+    [sRequest setValue:kAppKey forHTTPHeaderField:@"me2_application_key"];
 
     return sRequest;
 }

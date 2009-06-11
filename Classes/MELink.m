@@ -166,7 +166,7 @@
         }
         else
         {
-            mURL         = [[aUser nickname] copy];
+            mURL         = [[aUser userID] copy];
             mDescription = [[NSString alloc] initWithFormat:NSLocalizedString(@"%@'s me2DAY", @""), [aUser nickname]];
             mType        = kMELinkTypeMe2DAY;
         }

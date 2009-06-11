@@ -51,6 +51,7 @@
 - (void)configureReaderView:(MEReaderView *)aReaderView
 {
     [aReaderView setShowsPostAuthor:YES];
+    [aReaderView setShowsPostButton:NO];
 }
 
 - (void)fetchFromOffset:(NSInteger)aOffset count:(NSInteger)aCount
