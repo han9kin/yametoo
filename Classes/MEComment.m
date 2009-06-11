@@ -9,6 +9,7 @@
 
 #import "NSDate+MEAdditions.h"
 #import "MEAttributedString.h"
+#import "MEClient.h"
 #import "MELink.h"
 #import "MEComment.h"
 #import "MECommentBodyTextParser.h"

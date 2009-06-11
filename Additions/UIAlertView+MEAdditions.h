@@ -13,6 +13,7 @@
 @interface UIAlertView (MEAdditions)
 
 + (void)showAlert:(NSString *)aString;
++ (void)showConfirm:(NSString *)aString delegate:(id)aDelegate;
 + (void)showError:(NSError *)aError;
 
 @end

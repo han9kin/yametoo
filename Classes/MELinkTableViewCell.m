@@ -8,6 +8,7 @@
  */
 
 #import "MELinkTableViewCell.h"
+#import "MEClient.h"
 #import "MELink.h"
 
 

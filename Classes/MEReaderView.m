@@ -43,9 +43,8 @@
     mSectionTitleCache = [[NSMutableArray alloc] init];
     mCellHeightCache   = [[NSMutableDictionary alloc] init];
 
-    CGRect sBounds = [self bounds];
-
-    mTableView = [[UITableView alloc] initWithFrame:sBounds style:UITableViewStylePlain];
+    mTableView = [[UITableView alloc] initWithFrame:[self bounds] style:UITableViewStylePlain];
+    [mTableView setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
     [mTableView setRowHeight:1000];
     [mTableView setDataSource:self];
     [mTableView setDelegate:self];

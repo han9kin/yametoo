@@ -7,10 +7,10 @@
  *
  */
 
-#import "MELink.h"
-#import "MEUser.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
+#import "MELink.h"
+#import "MEUser.h"
 
 
 @implementation MELink
@@ -37,8 +37,9 @@
 
         if (!mURL)
         {
-            mURL = (NSURL *)CFURLCreateWithBytes(NULL, [aURL UTF8String], [aURL lengthOfBytesUsingEncoding:NSUTF8StringEncoding], kCFStringEncodingUTF8, NULL);
+            mURL         = (NSURL *)CFURLCreateWithBytes(NULL, (UInt8 *)[aURL UTF8String], [aURL lengthOfBytesUsingEncoding:NSUTF8StringEncoding], kCFStringEncodingUTF8, NULL);
             mDescription = [aURL copy];
+            mType        = kMELinkTypeOther;
         }
 
         mTitle = [aTitle copy];
@@ -53,6 +54,28 @@
     [mTitle release];
     [mDescription release];
     [super dealloc];
+}
+
+
+- (BOOL)isEqual:(id)aObject
+{
+    if (self == aObject)
+    {
+        return YES;
+    }
+    else if ([aObject isKindOfClass:[self class]])
+    {
+        return [mURL isEqual:[aObject url]];
+    }
+    else
+    {
+        return NO;
+    }
+}
+
+- (NSUInteger)hash
+{
+    return [mURL hash];
 }
 
 
@@ -77,7 +100,17 @@
 
                 if ([pathComps count] > 1)
                 {
-                    [[MEClientStore currentClient] getPersonWithUserID:[pathComps objectAtIndex:1] delegate:self];
+                    NSString *sUserID = [pathComps objectAtIndex:1];
+                    MEUser   *sUser   = [MEUser userWithUserID:sUserID];
+
+                    if (sUser)
+                    {
+                        [self client:nil didGetPerson:sUser error:nil];
+                    }
+                    else
+                    {
+                        [[MEClientStore currentClient] getPersonWithUserID:sUserID delegate:self];
+                    }
                 }
                 else
                 {
@@ -120,9 +153,13 @@
 
         [mDescription release];
 
-        if ([mURL fragment])
+        if ([mURL fragment] && ([[mURL path] length] > ([[aUser userID] length] + 2)))
         {
-            mDescription = [[NSString alloc] initWithFormat:NSLocalizedString(@"%@'s Post", @""), [aUser nickname]];
+            NSString *sTitle = [NSString stringWithFormat:NSLocalizedString(@"%@'s Post", @""), [aUser nickname]];
+            NSString *sDate  = [[mURL path] substringFromIndex:[[aUser userID] length] + 2];
+            NSString *sTime  = [mURL fragment];
+
+            mDescription = [[NSString alloc] initWithFormat:@"%@ (%@ %@)", sTitle, sDate, sTime];
             mType        = kMELinkTypePost;
         }
         else

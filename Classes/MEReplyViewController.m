@@ -14,12 +14,14 @@
 #import "MEPost.h"
 #import "MEUser.h"
 #import "MEComment.h"
+#import "MELink.h"
 #import "MEAttributedString.h"
 #import "MEAttributedLabel.h"
 #import "MEImageView.h"
 #import "METableViewCellFactory.h"
 #import "MEPostBodyView.h"
 #import "MEAddCommentViewController.h"
+#import "MEVisitsViewController.h"
 #import "MERoundBackView.h"
 #import "MELinkTableViewCell.h"
 
@@ -46,7 +48,7 @@
 - (void)addComment
 {
     MEAddCommentViewController *sViewController;
-     
+
     sViewController = [[MEAddCommentViewController alloc] initWithNibName:@"AddCommentViewController" bundle:nil];
     [sViewController setPost:mPost];
     [self presentModalViewController:sViewController animated:YES];
@@ -68,13 +70,20 @@
 
 
 #pragma mark -
-#pragma mark properties
 
 
-@synthesize post = mPost;
+- (id)initWithPost:(MEPost *)aPost
+{
+    self = [super initWithNibName:@"MEReplyViewController" bundle:nil];
 
+    if (self)
+    {
+        mPost     = [aPost retain];
+        mComments = [[NSMutableArray alloc] init];
+    }
 
-#pragma mark -
+    return self;
+}
 
 
 - (void)dealloc
@@ -107,8 +116,6 @@
     NSString         *sTitleStr = [NSString stringWithFormat:NSLocalizedString(@"%@'s Post", @""), sNickname];
 
     [super viewDidLoad];
-
-    mComments = [[NSMutableArray alloc] init];
 
     [sTopItem        setTitle:sTitleStr];
     [mIconView       setBorderColor:[UIColor lightGrayColor]];
@@ -151,24 +158,31 @@
                                                    delegate:self
                                           cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
                                      destructiveButtonTitle:nil
-                                          otherButtonTitles:NSLocalizedString(@"Add Metoo", nil), NSLocalizedString(@"Add Comment", nil), nil]; 
+                                          otherButtonTitles:NSLocalizedString(@"Add Metoo", nil), NSLocalizedString(@"Add Comment", nil), nil];
         mAddMetooIndex   = 0;
         mAddCommentIndex = 1;
         mCancelIndex     = 2;
     }
     else
     {
-    
+        sActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"To This Post", nil)
+                                                   delegate:self
+                                          cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                     destructiveButtonTitle:nil
+                                          otherButtonTitles:NSLocalizedString(@"Add Metoo", nil), nil];
+        mAddMetooIndex   = 0;
+        mAddCommentIndex = -1;
+        mCancelIndex     = 1;
     }
 
-    [sActionSheet showInView:[self view]];
+    [sActionSheet showInView:[[self view] window]];
     [sActionSheet release];
 }
 
 
 - (IBAction)closeButtonTapped:(id)aSender
 {
-    [[self parentViewController] dismissModalViewControllerAnimated:NO];
+    [[self navigationController] popViewControllerAnimated:YES];
 }
 
 
@@ -301,6 +315,37 @@
 }
 
 
+- (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
+{
+    MELink     *sLink;
+    NSUInteger  sSection = [aIndexPath section];
+    NSUInteger  sRow     = [aIndexPath row];
+
+    if (sSection)
+    {
+        if (sRow)
+        {
+            sLink = [[[mComments objectAtIndex:(sSection - 1)] links] objectAtIndex:(sRow - 1)];
+        }
+        else
+        {
+            sLink = nil;
+        }
+    }
+    else
+    {
+        sLink = [[mPost links] objectAtIndex:sRow];
+    }
+
+    [aTableView deselectRowAtIndexPath:aIndexPath animated:YES];
+
+    if (sLink)
+    {
+        [[MEVisitsViewController sharedController] showLink:sLink];
+    }
+}
+
+
 #pragma mark -
 #pragma mark UIActionSheet Delegate
 
@@ -317,7 +362,7 @@
     }
     else if (aButtonIndex == mCancelIndex)
     {
-    
+
     }
 }
 

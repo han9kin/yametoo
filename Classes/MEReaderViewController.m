@@ -200,14 +200,19 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 {
     [super viewDidLoad];
 
-    UIView  *sView;
+    UIView *sView;
+    CGRect  sRect;
 
-    sView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)];
+    sRect = [[self view] bounds];
+
+    sView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, sRect.size.width, 25)];
+    [sView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [sView setBackgroundColor:[UIColor lightGrayColor]];
     [[self view] addSubview:sView];
     [sView release];
 
-    mTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 25)];
+    mTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, sRect.size.width - 20, 25)];
+    [mTitleLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [mTitleLabel setBackgroundColor:[UIColor clearColor]];
     [mTitleLabel setTextColor:[UIColor blackColor]];
     [mTitleLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
@@ -215,7 +220,8 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     [sView addSubview:mTitleLabel];
     [mTitleLabel release];
 
-    mReaderView = [[MEReaderView alloc] initWithFrame:CGRectMake(0, 25, 320, 386)];
+    mReaderView = [[MEReaderView alloc] initWithFrame:CGRectMake(0, 25, sRect.size.width, sRect.size.height - 25)];
+    [mReaderView setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
     [mReaderView setTitleUserID:mTitleUserID];
     [mReaderView setDataSource:self];
     [mReaderView setDelegate:self];
@@ -256,6 +262,8 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     {
         [self fetchFromOffset:0 count:[MESettings initialFetchCount]];
     }
+
+    [mReaderView deselectPostAtIndexPath:[mReaderView indexPathForSelectedPost] animated:YES];
 
     if ([MESettings fetchInterval] > 0)
     {
@@ -419,15 +427,9 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 - (void)readerView:(MEReaderView *)aReaderView didSelectPostAtIndexPath:(NSIndexPath *)aIndexPath
 {
     MEReplyViewController *sReplyViewController;
-    MEPost                *sPost;
 
-    [aReaderView deselectPostAtIndexPath:aIndexPath animated:YES];
-
-    sPost = [self postForIndexPath:aIndexPath];
-
-    sReplyViewController = [[MEReplyViewController alloc] initWithNibName:@"MEReplyViewController" bundle:nil];
-    [sReplyViewController setPost:sPost];
-    [self presentModalViewController:sReplyViewController animated:NO];
+    sReplyViewController = [[MEReplyViewController alloc] initWithPost:[self postForIndexPath:aIndexPath]];
+    [[self navigationController] pushViewController:sReplyViewController animated:YES];
     [sReplyViewController release];
 }
 

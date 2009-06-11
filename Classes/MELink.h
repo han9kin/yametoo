@@ -19,7 +19,9 @@ typedef enum MELinkType
 } MELinkType;
 
 
-@interface MELink : NSObject
+@protocol MEClientDelegate;
+
+@interface MELink : NSObject <MEClientDelegate>
 {
     NSURL      *mURL;
     NSString   *mTitle;

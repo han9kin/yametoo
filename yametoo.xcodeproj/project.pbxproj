@@ -92,6 +92,7 @@
 		CFDD429E0FB4190700B9931A /* MEHighlightableImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD429D0FB4190700B9931A /* MEHighlightableImageView.m */; };
 		CFDD42A80FB41A4100B9931A /* MEImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD42A70FB41A4100B9931A /* MEImageButton.m */; };
 		CFDD43CC0FB80A0900B9931A /* NSMutableData+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD43CB0FB80A0900B9931A /* NSMutableData+MEAdditions.m */; };
+		CFE43E510FDE4AD2009C451A /* MEVisitsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE43E500FDE4AD2009C451A /* MEVisitsViewController.m */; };
 		CFE72AA90FA1A0C400C54792 /* MEAttributedLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72AA80FA1A0C400C54792 /* MEAttributedLayoutManager.m */; };
 		CFE72BDD0FA5859300C54792 /* MEPostIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72BDC0FA5859300C54792 /* MEPostIcon.m */; };
 		CFE72CB80FA6A36B00C54792 /* MEComment.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72CB70FA6A36B00C54792 /* MEComment.m */; };
@@ -246,6 +247,8 @@
 		CFDD42A70FB41A4100B9931A /* MEImageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEImageButton.m; sourceTree = "<group>"; };
 		CFDD43CA0FB80A0900B9931A /* NSMutableData+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableData+MEAdditions.h"; sourceTree = "<group>"; };
 		CFDD43CB0FB80A0900B9931A /* NSMutableData+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableData+MEAdditions.m"; sourceTree = "<group>"; };
+		CFE43E4F0FDE4AD2009C451A /* MEVisitsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEVisitsViewController.h; sourceTree = "<group>"; };
+		CFE43E500FDE4AD2009C451A /* MEVisitsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEVisitsViewController.m; sourceTree = "<group>"; };
 		CFE72AA70FA1A0C400C54792 /* MEAttributedLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEAttributedLayoutManager.h; sourceTree = "<group>"; };
 		CFE72AA80FA1A0C400C54792 /* MEAttributedLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEAttributedLayoutManager.m; sourceTree = "<group>"; };
 		CFE72BDB0FA5859300C54792 /* MEPostIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPostIcon.h; sourceTree = "<group>"; };
@@ -634,6 +637,8 @@
 				2ED83E3A0FAECFDC00786952 /* MEAddCommentViewController.m */,
 				2E7520FE0FA6CDA300B0D4FA /* MEUserInfoViewController.h */,
 				2E7520FF0FA6CDA300B0D4FA /* MEUserInfoViewController.m */,
+				CFE43E4F0FDE4AD2009C451A /* MEVisitsViewController.h */,
+				CFE43E500FDE4AD2009C451A /* MEVisitsViewController.m */,
 			);
 			name = "Other View Controllers";
 			sourceTree = "<group>";
@@ -822,6 +827,7 @@
 				CFBED9800FBD37490005FD9D /* MEReachability.m in Sources */,
 				CF45B2A10FD78E170069C6BA /* MELink.m in Sources */,
 				CF45B3940FD90B140069C6BA /* MELinkTableViewCell.m in Sources */,
+				CFE43E510FDE4AD2009C451A /* MEVisitsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -921,7 +927,7 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C0F73316-95D6-4004-9954-6699C1F30F1C";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E37DCFD4-2F23-4228-AE3D-973A8CEEB46C";
 				SDKROOT = iphoneos2.2.1;
 			};
 			name = Debug;

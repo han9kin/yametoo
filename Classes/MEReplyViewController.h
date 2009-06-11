@@ -27,14 +27,13 @@
 
     MEPost         *mPost;
     NSMutableArray *mComments;
-    
+
     NSInteger       mAddCommentIndex;
     NSInteger       mAddMetooIndex;
     NSInteger       mCancelIndex;
 }
 
-@property(nonatomic, retain) MEPost *post;
-
+- (id)initWithPost:(MEPost *)aPost;
 
 - (IBAction)actionButtonTapped:(id)aSender;
 - (IBAction)closeButtonTapped:(id)aSender;

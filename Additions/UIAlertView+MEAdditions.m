@@ -21,6 +21,14 @@
     [sAlertView release];
 }
 
++ (void)showConfirm:(NSString *)aString delegate:(id)aDelegate
+{
+    UIAlertView *sAlertView;
+
+    sAlertView = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(aString, @"") delegate:aDelegate cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"OK", @""), nil];
+    [sAlertView show];
+    [sAlertView release];
+}
 
 + (void)showError:(NSError *)aError
 {

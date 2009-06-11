@@ -10,11 +10,11 @@
 #import "NSDate+MEAdditions.h"
 #import "NSURL+MEAdditions.h"
 #import "MEAttributedString.h"
+#import "MEClientStore.h"
+#import "MEClient.h"
 #import "MELink.h"
 #import "MEPost.h"
 #import "MEUser.h"
-#import "MEClientStore.h"
-#import "MEClient.h"
 #import "MEPostBodyTextParser.h"
 
 

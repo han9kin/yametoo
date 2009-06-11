@@ -26,6 +26,8 @@ typedef enum MEClientGetPostsScope
 
 @protocol MEClientDelegate
 
+@optional
+
 - (void)client:(MEClient *)aClient didLoadImage:(UIImage *)aImage key:(NSString *)aKey error:(NSError *)aError;
 
 - (void)client:(MEClient *)aClient didLoginWithError:(NSError *)aError;
