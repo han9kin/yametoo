@@ -35,6 +35,8 @@
 
 
 + (void)removeUnusedCachedUsers;
+
++ (MEUser *)currentUser;
 + (MEUser *)userWithUserID:(NSString *)aUserID;
 
 - (id)initWithDictionary:(NSDictionary *)aUserDict;

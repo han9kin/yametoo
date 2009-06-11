@@ -133,6 +133,12 @@ static NSMutableDictionary *gCachedUsers = nil;
 }
 
 
++ (MEUser *)currentUser
+{
+    return [gCachedUsers objectForKey:[[MEClientStore currentClient] userID]];
+}
+
+
 + (MEUser *)userWithUserID:(NSString *)aUserID
 {
     return [gCachedUsers objectForKey:aUserID];
