@@ -25,6 +25,7 @@
     IBOutlet UIImageView     *mAttachedImageView;
     
     IBOutlet MEImageButton   *mIconSelectButton;
+    IBOutlet UILabel         *mIconDescLabel;
 
     IBOutlet UIButton        *mTakePictureButton;
     IBOutlet UIButton        *mFromPhotoLibraryButton;

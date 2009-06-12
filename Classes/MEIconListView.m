@@ -25,7 +25,6 @@
 
 - (void)initVars
 {
-    NSLog(@"initVars");
     NSInteger      sIndex;
     MEImageButton *sButton = nil;
     
@@ -33,7 +32,6 @@
     {
         sButton = (MEImageButton *)[self viewWithTag:sIndex];
         [sButton setBorderColor:[UIColor colorWithWhite:0.6 alpha:1.0]];
-        NSLog(@"sButton = %@", sButton);        
     }
 
     MEUser     *sUser      = [MEUser userWithUserID:[[MEClientStore currentClient] userID]];
@@ -43,9 +41,7 @@
     for (sPostIcon in sPostIcons)
     {
         sIconIndex = 200 + [sPostIcon iconIndex] - 1;
-        NSLog(@"sIconIndex = %d", sIconIndex);
         sButton = (MEImageButton *)[self viewWithTag:sIconIndex];
-        NSLog(@"sButton = %@", sButton);
         [sButton setImageWithURL:[sPostIcon iconURL]];
     }
 }

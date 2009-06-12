@@ -32,6 +32,152 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 #define END_ANIMATION_OFF()         [CATransaction commit];
 
 
+
+@interface MEPostViewController (Privates)
+
+- (void)setInterfaceEnabled:(BOOL)aFlag;
+- (void)updateSelectedIcon;
+- (void)updateImageInfo;
+- (void)resizeImage;
+
+@end
+
+
+@implementation MEPostViewController (Privates)
+
+
+- (void)setInterfaceEnabled:(BOOL)aFlag
+{
+    [mCancelButton           setEnabled:aFlag];
+    [mPostButton             setEnabled:aFlag];
+    [mTakePictureButton      setEnabled:aFlag];
+    [mFromPhotoLibraryButton setEnabled:aFlag];
+    [mBodyTextView           setEditable:aFlag];
+    [mTagTextField           setEnabled:aFlag];
+}
+
+
+- (void)updateSelectedIcon
+{
+    MEUser     *sUser      = [MEUser userWithUserID:[[MEClientStore currentClient] userID]];
+    NSArray    *sPostIcons = [sUser postIcons];
+    MEPostIcon *sPostIcon  = nil;
+    NSArray    *sDescArray = [NSArray arrayWithObjects:@"생각", @"느낌", @"알림", nil];
+    NSString   *sDesc      = nil;
+    
+    for (sPostIcon in sPostIcons)
+    {
+        if ([sPostIcon iconIndex] == mSelectedIconIndex)
+        {
+            break;
+        }
+    }
+
+    sDesc = (mSelectedIconIndex < 4) ? [sDescArray objectAtIndex:(mSelectedIconIndex - 1)] : [sPostIcon iconDescription];
+    [mIconDescLabel    setText:sDesc];
+    [mIconSelectButton setImageWithURL:[sPostIcon iconURL]];
+}
+
+
+- (void)updateImageInfo
+{
+    CGSize     sImageSize = CGSizeZero;
+    NSUInteger sLength    = 0;
+    
+    if (mResizedImage)
+    {
+        sImageSize = [mResizedImage size];
+        
+        [mImageRep release];
+        mImageRep = UIImageJPEGRepresentation(mResizedImage, 0.8);
+        [mImageRep retain];
+        sLength   = [mImageRep length];
+        
+        [mAttachedImageView    setImage:mResizedImage];
+        [mImageResolutionLabel setText:[NSString stringWithFormat:@"%d X %d", (int)sImageSize.width, (int)sImageSize.height]];
+        [mImageSizeLabel       setText:[NSString stringWithFormat:@"%.1f KB", ((float)sLength / 1024.0)]];
+    }
+}
+
+
+- (void)resizeImage
+{
+    CGSize sSize      = CGSizeZero;
+    CGSize sImageSize = [mOriginalImage size];
+    
+    if (mImageDir == IMAGE_PORTRAIT_MODE)
+    {
+        sSize.height = mLongSideLength;
+        sSize.width  = sImageSize.width * sSize.height / sImageSize.height;
+    }
+    else
+    {
+        sSize.width = mLongSideLength;
+        sSize.height = sImageSize.height * sSize.width / sImageSize.width;        
+    }
+    
+    double sAngle = (double)(((NSInteger)mRotateAngle % 360));
+    sAngle = (sAngle < 0) ? (sAngle + 360) : sAngle;
+    
+    if (sAngle == 90.0 || sAngle == 270.0)
+    {
+        CGFloat sTemp = sSize.width;
+        sSize.width   = sSize.height;
+        sSize.height  = sTemp;
+    }
+    
+    UIGraphicsBeginImageContext(sSize);
+    CGContextRef sContext = UIGraphicsGetCurrentContext();
+    
+    if (sAngle == 90)
+    {
+        CGContextTranslateCTM(sContext, sSize.width, 0);
+    }
+    else if (sAngle == 180)
+    {
+        CGContextTranslateCTM(sContext, sSize.width, sSize.height);    
+    }
+    else if (sAngle == 270)
+    {
+        CGContextTranslateCTM(sContext, 0, sSize.height);    
+    }
+    
+    CGContextRotateCTM(sContext, radians(sAngle));
+    
+    if (sAngle == 0 || sAngle == 180)
+    {
+        [mOriginalImage drawInRect:CGRectMake(0, 0, sSize.width, sSize.height)];    
+    }
+    else if (sAngle == 90 || sAngle == 270)
+    {
+        [mOriginalImage drawInRect:CGRectMake(0, 0, sSize.height, sSize.width)];
+    }
+    
+    CGContextSetLineWidth(sContext, 10);
+    [[UIColor redColor] set];
+    
+    /*    if (sAngle == 0 || sAngle == 180)
+     {
+     UIRectFrame(CGRectMake(0, 0, sSize.width, sSize.height));    
+     }
+     else if (sAngle == 90 || sAngle == 270)
+     {
+     UIRectFrame(CGRectMake(0, 0, sSize.height, sSize.width));    
+     }*/
+    
+    [mResizedImage release];
+    mResizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    [mResizedImage retain];
+    
+    UIGraphicsEndImageContext();
+    
+    [self updateImageInfo];
+}
+
+
+@end
+
+
 @implementation MEPostViewController
 
 
@@ -41,11 +187,24 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
     [mCancelButton           release];
     [mPostButton             release];
-    [mTakePictureButton      release];
-    [mFromPhotoLibraryButton release];
+
     [mBodyTextView           release];
     [mTagTextField           release];
     [mAttachedImageView      release];
+    
+    [mIconSelectButton       release];
+    [mIconDescLabel          release];
+    
+    [mTakePictureButton      release];
+    [mFromPhotoLibraryButton release];
+    [mRotateLeftButton       release];
+    [mRotateRightButton      release];
+    [mResizeButton           release];
+    
+    [mImageResolutionLabel   release];
+    [mImageSizeLabel         release];
+    
+    [mIconListView           release];
 
     [mCharCounter    release];
     [mOriginalImage  release];
@@ -59,24 +218,6 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-}
-
-
-- (void)updateSelectedIcon
-{
-    MEUser     *sUser      = [MEUser userWithUserID:[[MEClientStore currentClient] userID]];
-    NSArray    *sPostIcons = [sUser postIcons];
-    MEPostIcon *sPostIcon  = nil;
-
-    for (sPostIcon in sPostIcons)
-    {
-        if ([sPostIcon iconIndex] == mSelectedIconIndex)
-        {
-            break;
-        }
-    }
-    
-    [mIconSelectButton setImageWithURL:[sPostIcon iconURL]];
 }
 
 
@@ -122,122 +263,11 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 
 #pragma mark -
-#pragma mark Private
-
-
-- (void)setInterfaceEnabled:(BOOL)aFlag
-{
-    [mCancelButton           setEnabled:aFlag];
-    [mPostButton             setEnabled:aFlag];
-    [mTakePictureButton      setEnabled:aFlag];
-    [mFromPhotoLibraryButton setEnabled:aFlag];
-    [mBodyTextView           setEditable:aFlag];
-    [mTagTextField           setEnabled:aFlag];
-}
-
-
-- (void)updateImageInfo
-{
-    CGSize     sImageSize = CGSizeZero;
-    NSUInteger sLength    = 0;
-    
-    if (mResizedImage)
-    {
-        sImageSize = [mResizedImage size];
-
-        [mImageRep release];
-        mImageRep = UIImageJPEGRepresentation(mResizedImage, 0.8);
-        [mImageRep retain];
-        sLength   = [mImageRep length];
-
-        [mAttachedImageView    setImage:mResizedImage];
-        [mImageResolutionLabel setText:[NSString stringWithFormat:@"%d X %d", (int)sImageSize.width, (int)sImageSize.height]];
-        [mImageSizeLabel       setText:[NSString stringWithFormat:@"%.1f KB", ((float)sLength / 1024.0)]];
-    }
-}
-
-
-- (void)resizeImage
-{
-    CGSize sSize      = CGSizeZero;
-    CGSize sImageSize = [mOriginalImage size];    
-    
-    if (mImageDir == IMAGE_PORTRAIT_MODE)
-    {
-        sSize.height = mLongSideLength;
-        sSize.width  = sImageSize.width * sSize.height / sImageSize.height;
-    }
-    else
-    {
-        sSize.width = mLongSideLength;
-        sSize.height = sImageSize.height * sSize.width / sImageSize.width;        
-    }
-
-    double sAngle = (double)(((NSInteger)mRotateAngle % 360));
-    
-    if (sAngle == 90.0 || sAngle == 270.0)
-    {
-        CGFloat sTemp = sSize.width;
-        sSize.width   = sSize.height;
-        sSize.height  = sTemp;
-    }
-    
-    UIGraphicsBeginImageContext(sSize);
-    CGContextRef sContext = UIGraphicsGetCurrentContext();
-    
-    if (sAngle == 90)
-    {
-        CGContextTranslateCTM(sContext, sSize.width, 0);
-    }
-    else if (sAngle == 180)
-    {
-        CGContextTranslateCTM(sContext, sSize.width, sSize.height);    
-    }
-    else if (sAngle == 270)
-    {
-        CGContextTranslateCTM(sContext, 0, sSize.height);    
-    }
-    
-    CGContextRotateCTM(sContext, radians(sAngle));
-
-    if (sAngle == 0 || sAngle == 180)
-    {
-        [mOriginalImage drawInRect:CGRectMake(0, 0, sSize.width, sSize.height)];    
-    }
-    else if (sAngle == 90 || sAngle == 270)
-    {
-        [mOriginalImage drawInRect:CGRectMake(0, 0, sSize.height, sSize.width)];
-    }
-
-    CGContextSetLineWidth(sContext, 10);
-    [[UIColor redColor] set];
-  
-/*    if (sAngle == 0 || sAngle == 180)
-    {
-        UIRectFrame(CGRectMake(0, 0, sSize.width, sSize.height));    
-    }
-    else if (sAngle == 90 || sAngle == 270)
-    {
-        UIRectFrame(CGRectMake(0, 0, sSize.height, sSize.width));    
-    }*/
-    
-    [mResizedImage release];
-    mResizedImage = UIGraphicsGetImageFromCurrentImageContext();
-    [mResizedImage retain];
-    
-    UIGraphicsEndImageContext();
-    
-    [self updateImageInfo];
-}
-
-
-#pragma mark -
 #pragma mark Actions
 
 
 - (IBAction)iconSelectButtonTapped:(id)aSender
 {
-    NSLog(@"iconSelectButtonTapped");
     [[[self view] window] addSubview:mIconListView];
 }
 
@@ -270,7 +300,6 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 - (IBAction)rotateLeftButtonTapped:(id)aSender
 {
-    NSLog(@"rotateLeftButtonTapped");
     mRotateAngle -= 90;
     [self resizeImage];
 }
@@ -578,8 +607,6 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 - (void)iconListView:(MEIconListView *)aView iconDidSelect:(NSInteger)aIndex
 {
-    NSLog(@"iconListView: %@ iconDidSelect: %d", aView, aIndex);
-    
     mSelectedIconIndex = aIndex;
     [self updateSelectedIcon];
 }
