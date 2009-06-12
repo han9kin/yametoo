@@ -167,17 +167,19 @@
 
 - (void)setPost:(MEPost *)aPost
 {
+    NSMutableArray *sComments = [NSMutableArray array];
+
     [mBodyLabel setAttributedText:[aPost body]];
     [mTagsLabel setText:[aPost tags]];
 
-    if ([aPost isCommentClosed])
+    [sComments addObject:[NSString stringWithFormat:NSLocalizedString(@"Metoo (%d)", @""), [aPost metooCount]]];
+
+    if (![aPost isCommentClosed])
     {
-        [mCommentsLabel setText:nil];
+        [sComments addObject:[NSString stringWithFormat:NSLocalizedString(@"Comments (%d)", @""), [aPost commentsCount]]];
     }
-    else
-    {
-        [mCommentsLabel setText:[NSString stringWithFormat:NSLocalizedString(@"Comments (%d)", @""), [aPost commentsCount]]];
-    }
+
+    [mCommentsLabel setText:[sComments componentsJoinedByString:@"    "]];
 
     if (mShowsPostDate)
     {
