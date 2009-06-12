@@ -164,6 +164,7 @@
         else
         {
             [sClient setPasscode:nil];
+            [MEClientStore addClient:sClient];
 
             [[self navigationController] popViewControllerAnimated:YES];
             [mParentViewController dismissModalViewControllerAnimated:YES];
