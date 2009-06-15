@@ -50,7 +50,11 @@
     
     UIImage       *mResizedImage;
     NSData        *mImageRep;
-
+    
+    NSInteger      mMiddleSizeButtonIndex;
+    NSInteger      mLargeSizeButtonIndex;
+    NSInteger      mOriginalSizeButtonIndex;
+    NSInteger      mCancelButtonIndex;
 }
 
 - (IBAction)postButtonTapped:(id)aSender;

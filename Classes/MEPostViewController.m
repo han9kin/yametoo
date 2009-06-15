@@ -307,7 +307,6 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 - (IBAction)rotateRightButtonTapped:(id)aSender
 {
-    NSLog(@"rotateRightButtonTapped");
     mRotateAngle += 90;
     [self resizeImage];
 }
@@ -326,6 +325,10 @@ static double radians(double degrees) {return degrees * M_PI/180;}
                                           otherButtonTitles:NSLocalizedString(@"Mid Size", nil),
                                                             NSLocalizedString(@"Big Size", nil),
                                                             NSLocalizedString(@"Original Size", nil), nil];
+        mMiddleSizeButtonIndex   = 0;
+        mLargeSizeButtonIndex    = 1;
+        mOriginalSizeButtonIndex = 2;
+        mCancelButtonIndex       = 3;
     }
     else if (mIsMiddleSizeEnabled && !mIsLargeSizeEnabled)
     {
@@ -335,6 +338,9 @@ static double radians(double degrees) {return degrees * M_PI/180;}
                                      destructiveButtonTitle:nil
                                           otherButtonTitles:NSLocalizedString(@"Mid Size", nil),
                                                             NSLocalizedString(@"Original Size", nil), nil];
+        mMiddleSizeButtonIndex   = 0;
+        mOriginalSizeButtonIndex = 1;
+        mCancelButtonIndex       = 2;
     }
     
     [sActionSheet showInView:[self view]];
@@ -410,7 +416,9 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 {
     if (aTextView == mBodyTextView)
     {
+        BEGIN_ANIMATION_OFF();
         [mCharCounter update];
+        END_ANIMATION_OFF();
     }
 
     NSRange sRange = [aTextView selectedRange];
@@ -453,10 +461,10 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     [mCharCounter setLimitCount:300];
     BEGIN_ANIMATION_OFF();
     [mCharCounter setFrame:CGRectMake(200, 165, 0, 0)];
-    END_ANIMATION_OFF();
     [mCharCounter setHidden:NO];
-    [mCharCounter setTextOwner:aTextField];
-    [mCharCounter update];
+    [mCharCounter setTextOwner:aTextField];    
+    [mCharCounter update];    
+    END_ANIMATION_OFF();
 }
 
 
@@ -558,45 +566,24 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 - (void)actionSheet:(UIActionSheet *)aActionSheet didDismissWithButtonIndex:(NSInteger)aButtonIndex
 {
-    CGFloat sTargetSize = 0.0;
-    
-    if (mIsMiddleSizeEnabled && mIsLargeSizeEnabled)
+    if (aButtonIndex == mMiddleSizeButtonIndex)
     {
-        if (aButtonIndex == 0)
-        {
-            sTargetSize = 500.0;
-        }
-        else if (aButtonIndex == 1)
-        {
-            sTargetSize = 1024.0;
-        }
-        else if (aButtonIndex == 2)
-        {
-            sTargetSize = -1.0;
-        }
-    }
-    else if (mIsMiddleSizeEnabled && !mIsLargeSizeEnabled)
-    {
-        if (aButtonIndex == 0)
-        {
-            sTargetSize = 500.0;
-        }
-        else if (aButtonIndex == 1)
-        {
-            sTargetSize = -1.0;
-        }
-    }
-    
-    if (sTargetSize != -1.0)
-    {
-        mLongSideLength = sTargetSize;        
+        mLongSideLength = 500.0;
         [self resizeImage];
     }
-    else
+    else if (aButtonIndex == mLargeSizeButtonIndex)
+    {
+        mLongSideLength = 1024.0;
+        [self resizeImage];
+    }
+    else if (aButtonIndex == mOriginalSizeButtonIndex)
     {
         [mResizedImage release];
         mResizedImage = [mOriginalImage retain];
         [self updateImageInfo];
+    }
+    else if (aButtonIndex == mCancelButtonIndex)
+    {
     }
 }
 
