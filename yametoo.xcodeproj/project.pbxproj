@@ -953,7 +953,7 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C0F73316-95D6-4004-9954-6699C1F30F1C";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E37DCFD4-2F23-4228-AE3D-973A8CEEB46C";
 				SDKROOT = iphoneos2.2.1;
 			};
 			name = Debug;

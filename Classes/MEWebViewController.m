@@ -28,6 +28,14 @@
 
 - (void)dealloc
 {
+    if (mLoading > 0)
+    {
+        [MEClient endNetworkOperation];
+    }
+
+    mLoading = -1;
+
+    [mWebView stopLoading];
     [mURL release];
     [super dealloc];
 }
@@ -48,15 +56,13 @@
 {
     [super viewDidLoad];
 
-    UIWebView *sWebView;
-
-    sWebView = [[UIWebView alloc] initWithFrame:[[self view] bounds]];
-    [sWebView setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
-    [sWebView setScalesPageToFit:YES];
-    [sWebView setDelegate:self];
-    [sWebView loadRequest:[NSURLRequest requestWithURL:mURL]];
-    [[self view] addSubview:sWebView];
-    [sWebView release];
+    mWebView = [[UIWebView alloc] initWithFrame:[[self view] bounds]];
+    [mWebView setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
+    [mWebView setScalesPageToFit:YES];
+    [mWebView setDelegate:self];
+    [mWebView loadRequest:[NSURLRequest requestWithURL:mURL]];
+    [[self view] addSubview:mWebView];
+    [mWebView release];
 }
 
 
@@ -64,38 +70,46 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)aWebView
 {
-    if (mLoading <= 0)
+    if (mLoading == 0)
     {
-        mLoading = 0;
         [MEClient beginNetworkOperation];
+        mLoading++;
     }
-
-    mLoading++;
+    else if (mLoading > 0)
+    {
+        mLoading++;
+    }
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)aWebView
 {
-    mLoading--;
-
-    if (mLoading <= 0)
+    if (mLoading > 0)
     {
-        [MEClient endNetworkOperation];
+        mLoading--;
 
-	[aWebView stringByEvaluatingJavaScriptFromString:@"{\n"
-                  "var a = document.getElementsByTagName(\"a\");\n"
-                  "for (var i = 0; i < a.length; i++)\n"
-                  "a[i].target = \"_self\";\n"
-                  "}"];
+        if (mLoading == 0)
+        {
+            [MEClient endNetworkOperation];
+
+            [aWebView stringByEvaluatingJavaScriptFromString:@"{\n"
+                      "var a = document.getElementsByTagName(\"a\");\n"
+                      "for (var i = 0; i < a.length; i++)\n"
+                      "a[i].target = \"_self\";\n"
+                      "}"];
+        }
     }
 }
 
 - (void)webView:(UIWebView *)aWebView didFailLoadWithError:(NSError *)aError
 {
-    mLoading--;
-
-    if (mLoading <= 0)
+    if (mLoading > 0)
     {
-        [MEClient endNetworkOperation];
+        mLoading--;
+
+        if (mLoading == 0)
+        {
+            [MEClient endNetworkOperation];
+        }
     }
 }
 

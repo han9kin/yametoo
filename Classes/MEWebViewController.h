@@ -12,6 +12,7 @@
 
 @interface MEWebViewController : UIViewController <UIWebViewDelegate>
 {
+    UIWebView *mWebView;
     NSURL     *mURL;
     NSInteger  mLoading;
 }
