@@ -62,7 +62,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     MEUser     *sUser      = [MEUser userWithUserID:[[MEClientStore currentClient] userID]];
     NSArray    *sPostIcons = [sUser postIcons];
     MEPostIcon *sPostIcon  = nil;
-    NSArray    *sDescArray = [NSArray arrayWithObjects:@"생각", @"느낌", @"알림", nil];
+    NSArray    *sDescArray = [NSArray arrayWithObjects:@"Think Icon", @"Feeling Icon", @"Notice Icon", nil];
     NSString   *sDesc      = nil;
     
     for (sPostIcon in sPostIcons)
@@ -441,9 +441,17 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     }
     else if (aTextView == mBodyTextView)
     {
-        NSString *sBody = [mBodyTextView text];
-        if ([sBody length] >= [mCharCounter limitCount])
+        NSString *sBody    = [mBodyTextView text];
+        NSString *sNewText = [sBody stringByReplacingCharactersInRange:aRange withString:aText];
+        if ([sNewText length] > [mCharCounter limitCount])
         {
+            UIAlertView *sAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert", nil)
+                                                             message:NSLocalizedString(@"You have exceeded limit the number of input characters.", nil)
+                                                            delegate:nil
+                                                   cancelButtonTitle:NSLocalizedString(@"Close", nil)
+                                                   otherButtonTitles:nil];
+            [sAlert show];
+            
             return NO;
         }
     }
