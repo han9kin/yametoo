@@ -9,6 +9,102 @@
 
 #import "METextParser.h"
 #import "MEMutableAttributedString.h"
+#import <libxml/HTMLparser.h>
+
+
+static void saxStartElement(void *aContext, const xmlChar *aName, const xmlChar **aAttributes)
+{
+    NSString            *sElementName;
+    NSMutableDictionary *sAttributes;
+
+    if (aAttributes)
+    {
+        sAttributes = [[NSMutableDictionary alloc] init];
+
+        for (; *aAttributes; aAttributes += 2)
+        {
+            NSString *sKey   = [[NSString alloc] initWithUTF8String:(const char *)*aAttributes];
+            NSString *sValue = [[NSString alloc] initWithUTF8String:(const char *)*(aAttributes + 1)];
+
+            [sAttributes setObject:sValue forKey:sKey];
+            [sKey release];
+            [sValue release];
+        }
+    }
+    else
+    {
+        sAttributes = nil;
+    }
+
+    sElementName = [[NSString alloc] initWithUTF8String:(const char *)aName];
+    [(id)aContext parser:nil didStartElement:sElementName namespaceURI:nil qualifiedName:nil attributes:sAttributes];
+    [sElementName release];
+    [sAttributes release];
+}
+
+static void saxEndElement(void *aContext, const xmlChar *aName)
+{
+    NSString *sElementName;
+
+    sElementName = [[NSString alloc] initWithUTF8String:(const char *)aName];
+    [(id)aContext parser:nil didEndElement:sElementName namespaceURI:nil qualifiedName:nil];
+    [sElementName release];
+}
+
+static void saxCharacters(void *aContext, const xmlChar *aCharacters, int aLength)
+{
+    NSString *sString;
+
+    sString = [[NSString alloc] initWithBytesNoCopy:(void *)aCharacters length:aLength encoding:NSUTF8StringEncoding freeWhenDone:NO];
+    [(id)aContext parser:nil foundCharacters:sString];
+    [sString release];
+}
+
+static void saxError(void *aContext, const char * msg, ...)
+{
+    va_list sArgs;
+
+    va_start(sArgs, msg);
+    NSLogv([NSString stringWithUTF8String:msg], sArgs);
+    va_end(sArgs);
+}
+
+
+static htmlSAXHandler simpleSAXHandlerStruct =
+{
+    NULL,                       /* internalSubset */
+    NULL,                       /* isStandalone   */
+    NULL,                       /* hasInternalSubset */
+    NULL,                       /* hasExternalSubset */
+    NULL,                       /* resolveEntity */
+    NULL,                       /* getEntity */
+    NULL,                       /* entityDecl */
+    NULL,                       /* notationDecl */
+    NULL,                       /* attributeDecl */
+    NULL,                       /* elementDecl */
+    NULL,                       /* unparsedEntityDecl */
+    NULL,                       /* setDocumentLocator */
+    NULL,                       /* startDocument */
+    NULL,                       /* endDocument */
+    saxStartElement,            /* startElement*/
+    saxEndElement,              /* endElement */
+    NULL,                       /* reference */
+    saxCharacters,              /* characters */
+    NULL,                       /* ignorableWhitespace */
+    NULL,                       /* processingInstruction */
+    NULL,                       /* comment */
+    NULL,                       /* warning */
+    saxError,                   /* error */
+    NULL,                       /* fatalError //: unused error() get all the errors */
+    NULL,                       /* getParameterEntity */
+    NULL,                       /* cdataBlock */
+    NULL,                       /* externalSubset */
+    XML_SAX2_MAGIC,
+    NULL,
+    NULL,                       /* startElementNs */
+    NULL,                       /* endElementNs */
+    NULL,                       /* serror */
+};
 
 
 @implementation METextParser
@@ -33,11 +129,6 @@
     [mAttributesStack release];
     [mCurrentString release];
     [super dealloc];
-}
-
-- (BOOL)errorOccurred
-{
-    return mErrorOccurred;
 }
 
 - (MEAttributedString *)attributedString
@@ -81,28 +172,20 @@
 {
     NSAutoreleasePool  *sPool;
     NSData             *sData;
-    NSXMLParser        *sParser;
     METextParser       *sHandler;
     MEAttributedString *sResult;
+    htmlParserCtxtPtr   sContext;
 
     sPool    = [[NSAutoreleasePool alloc] init];
-    aString  = [aString stringByReplacingOccurrencesOfString:@"'" withString:@"\""];
-    sData    = [[NSString stringWithFormat:@"<text>%@</text>", aString] dataUsingEncoding:NSUTF8StringEncoding];
-    sParser  = [[[NSXMLParser alloc] initWithData:sData] autorelease];
+    sData    = [[NSString stringWithFormat:@"<p>%@</p>", aString] dataUsingEncoding:NSUTF8StringEncoding];
     sHandler = [[[self alloc] init] autorelease];
+    sContext = htmlCreatePushParserCtxt(&simpleSAXHandlerStruct, sHandler, NULL, 0, NULL, XML_CHAR_ENCODING_UTF8);
 
-    [sParser setDelegate:sHandler];
-    [sParser parse];
+    htmlParseChunk(sContext, (const char *)[sData bytes], [sData length], 1);
 
-    if ([sHandler errorOccurred])
-    {
-        sResult = [[MEAttributedString alloc] initWithString:aString attributes:[sHandler defaultAttributes]];
-        NSLog(@"Error Source Text: %@", aString);
-    }
-    else
-    {
-        sResult = [[sHandler attributedString] copy];
-    }
+    sResult = [[sHandler attributedString] copy];
+
+    htmlFreeParserCtxt(sContext);
 
     [sPool release];
 
@@ -112,19 +195,16 @@
 
 #pragma mark NSXMLParserDelegate
 
-- (void)parser:(NSXMLParser *)aParser parseErrorOccurred:(NSError *)aError
+- (void)parser:(NSXMLParser *)aParser didStartElement:(NSString *)aElementName namespaceURI:(NSString *)aNamespaceURI qualifiedName:(NSString *)aQualifiedName attributes:(NSDictionary *)aAttributes
 {
-    switch ([aError code])
-    {
-        case NSXMLParserEntityReferenceMissingSemiError:
-        case NSXMLParserNAMERequiredError:
-            break;
+}
 
-        default:
-            NSLog(@"METextParser %@", aError);
-            mErrorOccurred = YES;
-            break;
-    }
+- (void)parser:(NSXMLParser *)aParser didEndElement:(NSString *)aElementName namespaceURI:(NSString *)aNamespaceURI qualifiedName:(NSString *)aQualifiedName
+{
+}
+
+- (void)parser:(NSXMLParser *)aParser foundCharacters:(NSString *)aString
+{
 }
 
 

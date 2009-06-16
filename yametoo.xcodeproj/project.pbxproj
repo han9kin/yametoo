@@ -91,6 +91,7 @@
 		CFBED9800FBD37490005FD9D /* MEReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBED97F0FBD37490005FD9D /* MEReachability.m */; };
 		CFC8A19A0FE0CA9100EA77C6 /* MEWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC8A1990FE0CA9100EA77C6 /* MEWebViewController.m */; };
 		CFC8A1D40FE0D1B100EA77C6 /* MEOtherMetooViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC8A1D30FE0D1B100EA77C6 /* MEOtherMetooViewController.m */; };
+		CFC8A59E0FE7364E00EA77C6 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC8A59D0FE7364E00EA77C6 /* libxml2.2.dylib */; };
 		CFDD41990FB2DF6E00B9931A /* MEMyMetooViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD41980FB2DF6E00B9931A /* MEMyMetooViewController.m */; };
 		CFDD419C0FB2DF8400B9931A /* MEFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD419B0FB2DF8400B9931A /* MEFriendsViewController.m */; };
 		CFDD42560FB3DB9200B9931A /* UITableView+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD42550FB3DB9200B9931A /* UITableView+MEAdditions.m */; };
@@ -248,6 +249,7 @@
 		CFC8A1990FE0CA9100EA77C6 /* MEWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEWebViewController.m; sourceTree = "<group>"; };
 		CFC8A1D20FE0D1B100EA77C6 /* MEOtherMetooViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEOtherMetooViewController.h; sourceTree = "<group>"; };
 		CFC8A1D30FE0D1B100EA77C6 /* MEOtherMetooViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEOtherMetooViewController.m; sourceTree = "<group>"; };
+		CFC8A59D0FE7364E00EA77C6 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		CFDD41970FB2DF6E00B9931A /* MEMyMetooViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEMyMetooViewController.h; sourceTree = "<group>"; };
 		CFDD41980FB2DF6E00B9931A /* MEMyMetooViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEMyMetooViewController.m; sourceTree = "<group>"; };
 		CFDD419A0FB2DF8400B9931A /* MEFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEFriendsViewController.h; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
 				2E7521E30FA6EDB900B0D4FA /* QuartzCore.framework in Frameworks */,
 				CFBED93F0FBD16CC0005FD9D /* SystemConfiguration.framework in Frameworks */,
+				CFC8A59E0FE7364E00EA77C6 /* libxml2.2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,6 +376,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CFC8A59D0FE7364E00EA77C6 /* libxml2.2.dylib */,
 				2E7521E20FA6EDB900B0D4FA /* QuartzCore.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
@@ -895,7 +899,10 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ExternalSources",
+					"$(SDK_DIR)/usr/include/libxml2",
+				);
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0B1665A4-91D1-45FC-92F9-4A7E339337B1";
 				SDKROOT = iphoneos2.2.1;
@@ -923,7 +930,10 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ExternalSources",
+					"$(SDK_DIR)/usr/include/libxml2",
+				);
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F685E63A-005E-4D14-B8B4-326F636B1C3A";
 				SDKROOT = iphoneos2.2.1;
@@ -950,7 +960,10 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ExternalSources",
+					"$(SDK_DIR)/usr/include/libxml2",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C0F73316-95D6-4004-9954-6699C1F30F1C";
@@ -966,7 +979,10 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/ExternalSources";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ExternalSources",
+					"$(SDK_DIR)/usr/include/libxml2",
+				);
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E37DCFD4-2F23-4228-AE3D-973A8CEEB46C";
 				SDKROOT = iphoneos2.2.1;
