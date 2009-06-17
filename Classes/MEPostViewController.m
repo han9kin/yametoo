@@ -62,7 +62,9 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     MEUser     *sUser      = [MEUser userWithUserID:[[MEClientStore currentClient] userID]];
     NSArray    *sPostIcons = [sUser postIcons];
     MEPostIcon *sPostIcon  = nil;
-    NSArray    *sDescArray = [NSArray arrayWithObjects:@"Think Icon", @"Feeling Icon", @"Notice Icon", nil];
+    NSArray    *sDescArray = [NSArray arrayWithObjects:NSLocalizedString(@"Think Icon", nil),
+                                                       NSLocalizedString(@"Feeling Icon", nil),
+                                                       NSLocalizedString(@"Notice Icon", nil), nil];
     NSString   *sDesc      = nil;
     
     for (sPostIcon in sPostIcons)

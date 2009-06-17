@@ -12,15 +12,16 @@
 
 @class MEPost;
 @class MEUser;
-@class MEImageView;
+@class MEImageButton;
 @class MEPostBodyView;
+@class MEMediaView;
 
 
 @interface MEReplyViewController : UIViewController <UIActionSheetDelegate>
 {
     IBOutlet UINavigationBar *mNaviBar;
     IBOutlet UIView          *mContainerView;
-    IBOutlet MEImageView     *mIconView;
+    IBOutlet MEImageButton   *mIconButton;
     IBOutlet MEPostBodyView  *mPostBodyView;
     IBOutlet UIScrollView    *mPostScrollView;
     IBOutlet UITableView     *mTableView;
@@ -30,6 +31,8 @@
     MEPost         *mPost;
     NSMutableArray *mComments;
     MEUser         *mTappedUser;
+    
+    MEMediaView    *mMediaView;
 }
 
 - (id)initWithPost:(MEPost *)aPost;
@@ -37,6 +40,6 @@
 
 - (IBAction)actionButtonTapped:(id)aSender;
 - (IBAction)closeButtonTapped:(id)aSender;
-
+- (IBAction)iconButtonTapped:(id)aSender;
 
 @end

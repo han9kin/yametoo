@@ -25,6 +25,7 @@
 #import "MEVisitsViewController.h"
 #import "MERoundBackView.h"
 #import "MELinkTableViewCell.h"
+#import "MEMediaView.h"
 
 
 static NSDictionary *gActionSelectors = nil;
@@ -53,7 +54,11 @@ static NSDictionary *gActionSelectors = nil;
 {
     [[mNaviBar topItem] setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s Post", @""), [[mPost author] nickname]]];
 
-    [mIconView setImageWithURL:[mPost iconURL]];
+    [mIconButton setImageWithURL:[mPost iconURL]];
+    if ([mPost photoURL])
+    {
+        [mIconButton addTarget:self action:@selector(iconButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    }
     [mPostBodyView setPost:mPost];
     [mPostBodyView sizeToFit];
     [mPostScrollView setContentSize:[mPostBodyView frame].size];
@@ -134,17 +139,18 @@ static NSDictionary *gActionSelectors = nil;
 
 - (void)dealloc
 {
-    [mNaviBar release];
-    [mContainerView release];
-    [mIconView release];
-    [mPostBodyView release];
-    [mPostScrollView release];
-    [mTableView release];
+    [mNaviBar          release];
+    [mContainerView    release];
+    [mIconButton       release];
+    [mPostBodyView     release];
+    [mPostScrollView   release];
+    [mTableView        release];
     [mActionButtonItem release];
 
-    [mPostID release];
-    [mPost release];
-    [mComments release];
+    [mMediaView release];
+    [mPostID    release];
+    [mPost      release];
+    [mComments  release];
 
     [super dealloc];
 }
@@ -159,8 +165,11 @@ static NSDictionary *gActionSelectors = nil;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    mMediaView = [[MEMediaView alloc] initWithFrame:CGRectZero];
+    [mMediaView setFrame:CGRectMake(0, 0, 320, 480)];
 
-    [mIconView setBorderColor:[UIColor lightGrayColor]];
+    [mIconButton setBorderColor:[UIColor lightGrayColor]];
     [mPostBodyView setShowsPostDate:YES];
 
     [mTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -243,6 +252,18 @@ static NSDictionary *gActionSelectors = nil;
 - (IBAction)closeButtonTapped:(id)aSender
 {
     [[self navigationController] popViewControllerAnimated:YES];
+}
+
+
+- (IBAction)iconButtonTapped:(id)aSender
+{
+    NSURL *sPhotoURL = [mPost photoURL];
+    
+    if (sPhotoURL)
+    {
+        [mMediaView setPhotoURL:sPhotoURL];
+        [[[self view] window] addSubview:mMediaView];
+    }
 }
 
 

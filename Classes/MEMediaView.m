@@ -186,6 +186,7 @@
 - (IBAction)closeButtonTapped:(id)aSender
 {
     [self imageViewHideAnimation];
+    [mImageView setImageWithURL:nil];    
 }
 
 

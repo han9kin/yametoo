@@ -8,8 +8,8 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="12"/>
 			<integer value="39"/>
+			<integer value="12"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -105,10 +105,10 @@
 						<int key="NSvFlags">274</int>
 						<object class="NSMutableArray" key="NSSubviews">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUIView" id="90512824">
+							<object class="IBUIView" id="840547788">
 								<reference key="NSNextResponder" ref="515326804"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{13, 9}, {46, 46}}</string>
+								<string key="NSFrame">{{68, 10}, {240, 59}}</string>
 								<reference key="NSSuperview" ref="515326804"/>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">3</int>
@@ -117,10 +117,10 @@
 								</object>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 							</object>
-							<object class="IBUIView" id="840547788">
+							<object class="IBUIView" id="654081307">
 								<reference key="NSNextResponder" ref="515326804"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{68, 10}, {240, 59}}</string>
+								<string key="NSFrame">{{13, 9}, {46, 46}}</string>
 								<reference key="NSSuperview" ref="515326804"/>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">3</int>
@@ -211,14 +211,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">mIconView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="90512824"/>
-					</object>
-					<int key="connectionID">42</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">mPostBodyView</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="840547788"/>
@@ -240,6 +232,14 @@
 						<reference key="destination" ref="372490531"/>
 					</object>
 					<int key="connectionID">47</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">mIconButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="654081307"/>
+					</object>
+					<int key="connectionID">51</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -322,19 +322,19 @@
 						<reference key="object" ref="515326804"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="90512824"/>
 							<reference ref="840547788"/>
+							<reference ref="654081307"/>
 						</object>
 						<reference key="parent" ref="1046481512"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">41</int>
-						<reference key="object" ref="90512824"/>
+						<int key="objectID">43</int>
+						<reference key="object" ref="840547788"/>
 						<reference key="parent" ref="515326804"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">43</int>
-						<reference key="object" ref="840547788"/>
+						<int key="objectID">50</int>
+						<reference key="object" ref="654081307"/>
 						<reference key="parent" ref="515326804"/>
 					</object>
 				</object>
@@ -356,10 +356,10 @@
 					<string>37.IBPluginDependency</string>
 					<string>39.CustomClassName</string>
 					<string>39.IBPluginDependency</string>
-					<string>41.CustomClassName</string>
-					<string>41.IBPluginDependency</string>
 					<string>43.CustomClassName</string>
 					<string>43.IBPluginDependency</string>
+					<string>50.CustomClassName</string>
+					<string>50.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -376,9 +376,9 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>MERoundBackView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>MEImageView</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>MEPostBodyView</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>MEImageButton</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
@@ -402,21 +402,21 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">47</int>
+			<int key="maxID">51</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
-					<string key="className">MEImageView</string>
-					<string key="superclassName">UIView</string>
+					<string key="className">MEImageButton</string>
+					<string key="superclassName">UIControl</string>
 					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">mDelegate</string>
+						<string key="NS.key.0">mUserInfo</string>
 						<string key="NS.object.0">id</string>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/MEImageView.h</string>
+						<string key="minorKey">Classes/MEImageButton.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -436,9 +436,11 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>actionButtonTapped:</string>
 							<string>closeButtonTapped:</string>
+							<string>iconButtonTapped:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
@@ -449,7 +451,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>mActionButtonItem</string>
 							<string>mContainerView</string>
-							<string>mIconView</string>
+							<string>mIconButton</string>
 							<string>mNaviBar</string>
 							<string>mPostBodyView</string>
 							<string>mPostScrollView</string>
@@ -459,7 +461,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIBarButtonItem</string>
 							<string>UIView</string>
-							<string>MEImageView</string>
+							<string>MEImageButton</string>
 							<string>UINavigationBar</string>
 							<string>MEPostBodyView</string>
 							<string>UIScrollView</string>
@@ -519,6 +521,5 @@
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.LastKnownRelativeProjectPath">yametoo.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<string key="IBCocoaTouchPluginVersion">3.0</string>
 	</data>
 </archive>

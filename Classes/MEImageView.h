@@ -22,7 +22,6 @@
 @property(nonatomic, retain) UIColor *borderColor;
 @property(nonatomic, assign) id       delegate;
 
-
 - (void)setImageWithURL:(NSURL *)aURL;
 
 @end

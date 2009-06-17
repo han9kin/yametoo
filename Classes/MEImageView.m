@@ -145,6 +145,14 @@
 
 - (void)setImageWithURL:(NSURL *)aURL
 {
+    if (!aURL)
+    {
+        [mURL release];
+        mURL = nil;
+        
+        [mImageView setImage:nil];
+    }
+    
     if (mURL != aURL)
     {
         [mImageView setImage:nil];
