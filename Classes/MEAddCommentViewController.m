@@ -44,18 +44,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    mCharCounter = [[MECharCounter alloc] initWithParentView:[self view]];
     
     [mTextView setText:@""];
-    [mTextView becomeFirstResponder];
     [mTextView setReturnKeyType:UIReturnKeySend];
     
+    mCharCounter = [[MECharCounter alloc] initWithParentView:[self view]];
     [mCharCounter setTextOwner:mTextView];
     [mCharCounter setLimitCount:300];
     [mCharCounter setFrame:CGRectMake(200, 207, 0, 0)];
     [mCharCounter setHidden:NO];
     [mCharCounter update];
+    
+    [mTextView becomeFirstResponder];
 }
 
 
