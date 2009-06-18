@@ -25,20 +25,25 @@ static NSDate *gTodayMidnight         = nil;
 
 + (NSDate *)dateFromISO8601:(NSString *)aDateString
 {
-    static NSDateFormatter *sDateFormatterTZD  = nil;
+    static NSDateFormatter *sDateFormatterTZD = nil;
     static NSDateFormatter *sDateFormatterGMT = nil;
 
     if (!sDateFormatterTZD)
     {
+        NSLocale *sLocale;
+
+        sLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+
         sDateFormatterTZD = [[NSDateFormatter alloc] init];
         [sDateFormatterTZD setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZ"];
-    }
+        [sDateFormatterTZD setLocale:sLocale];
 
-    if (!sDateFormatterGMT)
-    {
         sDateFormatterGMT = [[NSDateFormatter alloc] init];
         [sDateFormatterGMT setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
         [sDateFormatterGMT setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+        [sDateFormatterGMT setLocale:sLocale];
+
+        [sLocale release];
     }
 
     if ([aDateString hasSuffix:@"Z"])
