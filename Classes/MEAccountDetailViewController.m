@@ -331,7 +331,7 @@
                     [sCell setTitleText:NSLocalizedString(@"User ID", @"")];
 
                     mUserIDField = [sCell textField];
-                    [mUserIDField setKeyboardType:UIKeyboardTypeASCIICapable];
+                    [mUserIDField setKeyboardType:UIKeyboardTypeDefault];
                     [mUserIDField setReturnKeyType:UIReturnKeyNext];
                     [mUserIDField setPlaceholder:NSLocalizedString(@"me2DAY ID", @"")];
                     [mUserIDField setDelegate:self];
