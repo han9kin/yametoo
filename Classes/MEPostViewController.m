@@ -423,8 +423,14 @@ static double radians(double degrees) {return degrees * M_PI/180;}
         END_ANIMATION_OFF();
     }
 
-    NSRange sRange = [aTextView selectedRange];
-    [aTextView scrollRangeToVisible:sRange];
+    if ([aTextView hasText])
+    {
+        NSRange sRange = [aTextView selectedRange];
+        if (sRange.location < [[aTextView text] length])
+        {
+            [aTextView scrollRangeToVisible:sRange];
+        }
+    }
 }
 
 

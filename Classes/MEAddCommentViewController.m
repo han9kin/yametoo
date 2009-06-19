@@ -44,9 +44,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [mTextView setText:@""];
+
     [mTextView setReturnKeyType:UIReturnKeySend];
+    [mTextView setText:@""];
     
     mCharCounter = [[MECharCounter alloc] initWithParentView:[self view]];
     [mCharCounter setTextOwner:mTextView];
@@ -108,8 +108,14 @@
         [mCharCounter update];
     }
     
-    NSRange sRange = [aTextView selectedRange];
-    [aTextView scrollRangeToVisible:sRange];
+    if ([aTextView hasText])
+    {
+        NSRange sRange = [aTextView selectedRange];
+        if (sRange.location < [[aTextView text] length])
+        {
+            [aTextView scrollRangeToVisible:sRange];
+        }
+    }
 }
 
 
