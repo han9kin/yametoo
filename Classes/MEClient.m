@@ -274,7 +274,7 @@ NSString *MEClientErrorDomain = @"MEClientErrorDomain";
 {
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
 
-    [sOperation setRequest:[self createPostRequestWithBody:aBody tags:[aTags stringByAppendingString:@" yametoo"] icon:aIcon attachedImage:aImage]];
+    [sOperation setRequest:[self createPostRequestWithBody:aBody tags:aTags icon:aIcon attachedImage:aImage]];
     [sOperation setQueuePriority:NSOperationQueuePriorityVeryHigh];
     [sOperation setContext:aDelegate];
     [sOperation setDelegate:self];

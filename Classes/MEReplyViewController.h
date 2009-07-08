@@ -31,7 +31,7 @@
     MEPost         *mPost;
     NSMutableArray *mComments;
     MEUser         *mTappedUser;
-    
+
     MEMediaView    *mMediaView;
 }
 

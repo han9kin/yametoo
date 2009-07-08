@@ -10,6 +10,10 @@
 #import <Foundation/Foundation.h>
 
 
+#define kMEPostBodyMaxLen 150
+#define kMEPostTagMaxLen  150
+
+
 @class MEAttributedString;
 @class MEUser;
 
