@@ -15,6 +15,7 @@
 #import "MECharCounter.h"
 #import "MEIconListView.h"
 #import "MEUser.h"
+#import "MEPost.h"
 #import "MEPostIcon.h"
 #import "MEImageButton.h"
 #import <math.h>
@@ -66,7 +67,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
                                                        NSLocalizedString(@"Feeling Icon", nil),
                                                        NSLocalizedString(@"Notice Icon", nil), nil];
     NSString   *sDesc      = nil;
-    
+
     for (sPostIcon in sPostIcons)
     {
         if ([sPostIcon iconIndex] == mSelectedIconIndex)
@@ -85,16 +86,16 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 {
     CGSize     sImageSize = CGSizeZero;
     NSUInteger sLength    = 0;
-    
+
     if (mResizedImage)
     {
         sImageSize = [mResizedImage size];
-        
+
         [mImageRep release];
         mImageRep = UIImageJPEGRepresentation(mResizedImage, 0.8);
         [mImageRep retain];
         sLength   = [mImageRep length];
-        
+
         [mAttachedImageView    setImage:mResizedImage];
         [mImageResolutionLabel setText:[NSString stringWithFormat:@"%d X %d", (int)sImageSize.width, (int)sImageSize.height]];
         [mImageSizeLabel       setText:[NSString stringWithFormat:@"%.1f KB", ((float)sLength / 1024.0)]];
@@ -106,7 +107,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 {
     CGSize sSize      = CGSizeZero;
     CGSize sImageSize = [mOriginalImage size];
-    
+
     if (mImageDir == IMAGE_PORTRAIT_MODE)
     {
         sSize.height = mLongSideLength;
@@ -115,64 +116,64 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     else
     {
         sSize.width = mLongSideLength;
-        sSize.height = sImageSize.height * sSize.width / sImageSize.width;        
+        sSize.height = sImageSize.height * sSize.width / sImageSize.width;
     }
-    
+
     double sAngle = (double)(((NSInteger)mRotateAngle % 360));
     sAngle = (sAngle < 0) ? (sAngle + 360) : sAngle;
-    
+
     if (sAngle == 90.0 || sAngle == 270.0)
     {
         CGFloat sTemp = sSize.width;
         sSize.width   = sSize.height;
         sSize.height  = sTemp;
     }
-    
+
     UIGraphicsBeginImageContext(sSize);
     CGContextRef sContext = UIGraphicsGetCurrentContext();
-    
+
     if (sAngle == 90)
     {
         CGContextTranslateCTM(sContext, sSize.width, 0);
     }
     else if (sAngle == 180)
     {
-        CGContextTranslateCTM(sContext, sSize.width, sSize.height);    
+        CGContextTranslateCTM(sContext, sSize.width, sSize.height);
     }
     else if (sAngle == 270)
     {
-        CGContextTranslateCTM(sContext, 0, sSize.height);    
+        CGContextTranslateCTM(sContext, 0, sSize.height);
     }
-    
+
     CGContextRotateCTM(sContext, radians(sAngle));
-    
+
     if (sAngle == 0 || sAngle == 180)
     {
-        [mOriginalImage drawInRect:CGRectMake(0, 0, sSize.width, sSize.height)];    
+        [mOriginalImage drawInRect:CGRectMake(0, 0, sSize.width, sSize.height)];
     }
     else if (sAngle == 90 || sAngle == 270)
     {
         [mOriginalImage drawInRect:CGRectMake(0, 0, sSize.height, sSize.width)];
     }
-    
+
     CGContextSetLineWidth(sContext, 10);
     [[UIColor redColor] set];
-    
+
     /*    if (sAngle == 0 || sAngle == 180)
      {
-     UIRectFrame(CGRectMake(0, 0, sSize.width, sSize.height));    
+     UIRectFrame(CGRectMake(0, 0, sSize.width, sSize.height));
      }
      else if (sAngle == 90 || sAngle == 270)
      {
-     UIRectFrame(CGRectMake(0, 0, sSize.height, sSize.width));    
+     UIRectFrame(CGRectMake(0, 0, sSize.height, sSize.width));
      }*/
-    
+
     [mResizedImage release];
     mResizedImage = UIGraphicsGetImageFromCurrentImageContext();
     [mResizedImage retain];
-    
+
     UIGraphicsEndImageContext();
-    
+
     [self updateImageInfo];
 }
 
@@ -193,19 +194,19 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     [mBodyTextView           release];
     [mTagTextField           release];
     [mAttachedImageView      release];
-    
+
     [mIconSelectButton       release];
     [mIconDescLabel          release];
-    
+
     [mTakePictureButton      release];
     [mFromPhotoLibraryButton release];
     [mRotateLeftButton       release];
     [mRotateRightButton      release];
     [mResizeButton           release];
-    
+
     [mImageResolutionLabel   release];
     [mImageSizeLabel         release];
-    
+
     [mIconListView           release];
 
     [mCharCounter    release];
@@ -247,7 +248,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     {
         [mTakePictureButton setEnabled:NO];
     }
-    
+
     MEUser *sUser = [MEUser userWithUserID:[[MEClientStore currentClient] userID]];
     mSelectedIconIndex = [[sUser defaultPostIcon] iconIndex];
 
@@ -259,7 +260,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     [mResizeButton         setEnabled:NO];
     [mImageResolutionLabel setText:@""];
     [mImageSizeLabel       setText:@""];
-    
+
     [mIconListView setDelegate:self];
 }
 
@@ -317,7 +318,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 - (IBAction)resizeButtonTapped:(id)aSender
 {
     UIActionSheet *sActionSheet  = nil;
-    
+
     if (mIsMiddleSizeEnabled && mIsLargeSizeEnabled)
     {
         sActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Resize Photo Size", nil)
@@ -344,7 +345,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
         mOriginalSizeButtonIndex = 1;
         mCancelButtonIndex       = 2;
     }
-    
+
     [sActionSheet showInView:[self view]];
     [sActionSheet release];
 }
@@ -395,7 +396,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     if (aTextView == mBodyTextView)
     {
         [mCharCounter setTextOwner:mBodyTextView];
-        [mCharCounter setLimitCount:150];
+        [mCharCounter setLimitCount:kMEPostBodyMaxLen];
         BEGIN_ANIMATION_OFF();
         [mCharCounter setFrame:CGRectMake(200, 192, 0, 0)];
         END_ANIMATION_OFF();
@@ -459,7 +460,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
                                                    cancelButtonTitle:NSLocalizedString(@"Close", nil)
                                                    otherButtonTitles:nil];
             [sAlert show];
-            
+
             return NO;
         }
     }
@@ -474,12 +475,12 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 - (void)textFieldDidBeginEditing:(UITextField *)aTextField
 {
-    [mCharCounter setLimitCount:300];
+    [mCharCounter setLimitCount:kMEPostTagMaxLen];
     BEGIN_ANIMATION_OFF();
     [mCharCounter setFrame:CGRectMake(200, 165, 0, 0)];
     [mCharCounter setHidden:NO];
-    [mCharCounter setTextOwner:aTextField];    
-    [mCharCounter update];    
+    [mCharCounter setTextOwner:aTextField];
+    [mCharCounter update];
     END_ANIMATION_OFF();
 }
 
@@ -547,7 +548,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
     [mOriginalImage autorelease];
     [mResizedImage  autorelease];
-    
+
     mOriginalImage = [aImage retain];
     mResizedImage  = [mOriginalImage retain];
 
@@ -558,11 +559,11 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     mIsMiddleSizeEnabled = (mLongSideLength > 500) ? YES : NO;
     mIsLargeSizeEnabled  = (mLongSideLength > 1024) ? YES : NO;
     mImageDir            = (sImageSize.width > sImageSize.height) ? IMAGE_LANDSCAPE_MODE : IMAGE_PORTRAIT_MODE;
-    
+
     [mRotateLeftButton  setEnabled:YES];
     [mRotateRightButton setEnabled:YES];
     [mResizeButton      setEnabled:(mIsMiddleSizeEnabled || mIsLargeSizeEnabled) ? YES : NO];
-    
+
     [self updateImageInfo];
 }
 

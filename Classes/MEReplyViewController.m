@@ -83,8 +83,9 @@ static NSDictionary *gActionSelectors = nil;
 
 - (void)addMetoo
 {
-    MEClient *sClient = [MEClientStore currentClient];
-    [sClient metooWithPostID:[mPost postID] delegate:self];
+    [[MEClientStore currentClient] metooWithPostID:[mPost postID] delegate:self];
+
+    [mActionButtonItem setEnabled:NO];
 }
 
 
@@ -165,7 +166,7 @@ static NSDictionary *gActionSelectors = nil;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     mMediaView = [[MEMediaView alloc] initWithFrame:CGRectZero];
     [mMediaView setFrame:CGRectMake(0, 0, 320, 480)];
 
@@ -258,7 +259,7 @@ static NSDictionary *gActionSelectors = nil;
 - (IBAction)iconButtonTapped:(id)aSender
 {
     NSURL *sPhotoURL = [mPost photoURL];
-    
+
     if (sPhotoURL)
     {
         [mMediaView setPhotoURL:sPhotoURL];
@@ -307,6 +308,8 @@ static NSDictionary *gActionSelectors = nil;
     {
         [UIAlertView showError:aError];
     }
+
+    [mActionButtonItem setEnabled:YES];
 }
 
 
