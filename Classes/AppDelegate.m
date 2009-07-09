@@ -54,7 +54,7 @@
 {
     if (!mLoginViewController)
     {
-        mLoginViewController = [[MELoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        mLoginViewController = [[MELoginViewController alloc] init];
         [[mLoginViewController view] setFrame:CGRectMake(0, 20, 320, 460)];
 
         if ([[mTabBarController view] superview] == mWindow)

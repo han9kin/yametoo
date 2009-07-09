@@ -49,7 +49,7 @@
 		2EBB59610FE0D0250096BFF1 /* iconview.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EBB59600FE0D0250096BFF1 /* iconview.png */; };
 		2EBB596C0FE0D6F20096BFF1 /* MEIconListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBB596B0FE0D6F20096BFF1 /* MEIconListView.m */; };
 		2EC19A590F9C1D5D00963971 /* MELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC19A580F9C1D5D00963971 /* MELoginViewController.m */; };
-		2EC19A5B0F9C1E9800963971 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EC19A5A0F9C1E9800963971 /* LoginViewController.xib */; };
+		2EC19A5B0F9C1E9800963971 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EC19A5A0F9C1E9800963971 /* LoginView.xib */; };
 		2EC19F740F9DCFAC00963971 /* MEImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC19F730F9DCFAC00963971 /* MEImageView.m */; };
 		2ED163E60F9589D3009557F1 /* MEClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED163E50F9589D3009557F1 /* MEClient.m */; };
 		2ED164440F959B2A009557F1 /* NSString+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED164430F959B2A009557F1 /* NSString+MEAdditions.m */; };
@@ -172,7 +172,7 @@
 		2EBB596B0FE0D6F20096BFF1 /* MEIconListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEIconListView.m; sourceTree = "<group>"; };
 		2EC19A570F9C1D5D00963971 /* MELoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELoginViewController.h; sourceTree = "<group>"; };
 		2EC19A580F9C1D5D00963971 /* MELoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MELoginViewController.m; sourceTree = "<group>"; };
-		2EC19A5A0F9C1E9800963971 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		2EC19A5A0F9C1E9800963971 /* LoginView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
 		2EC19F720F9DCFAC00963971 /* MEImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEImageView.h; sourceTree = "<group>"; };
 		2EC19F730F9DCFAC00963971 /* MEImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEImageView.m; sourceTree = "<group>"; };
 		2ED163E40F9589D3009557F1 /* MEClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEClient.h; sourceTree = "<group>"; };
@@ -353,11 +353,7 @@
 			isa = PBXGroup;
 			children = (
 				2E6D55800F95BADC00AA1DF6 /* Images */,
-				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
-				2EC19A5A0F9C1E9800963971 /* LoginViewController.xib */,
-				2899E5210DE3E06400AC0155 /* PostViewController.xib */,
-				2ED4E8320FA942D6000BFE2F /* ReadView.xib */,
-				2ED83E370FAECFC600786952 /* ReplyView.xib */,
+				CF7B8AFF1005A83A001A089A /* Interfaces */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				CF528C970FA06BC1007C7A03 /* Localizable.strings */,
 				CF528CB70FA149B6007C7A03 /* CharacterEntity.strings */,
@@ -595,6 +591,18 @@
 			name = "Yame Extensions";
 			sourceTree = "<group>";
 		};
+		CF7B8AFF1005A83A001A089A /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
+				2EC19A5A0F9C1E9800963971 /* LoginView.xib */,
+				2899E5210DE3E06400AC0155 /* PostViewController.xib */,
+				2ED4E8320FA942D6000BFE2F /* ReadView.xib */,
+				2ED83E370FAECFC600786952 /* ReplyView.xib */,
+			);
+			name = Interfaces;
+			sourceTree = "<group>";
+		};
 		CF90458C0F959D29001AE52C /* External Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -746,7 +754,7 @@
 				CF5EE9440F9BFEBD004712FF /* checkmark_normal.png in Resources */,
 				CF5EE9450F9BFEBD004712FF /* locked_highlighted.png in Resources */,
 				CF5EE9460F9BFEBD004712FF /* locked_normal.png in Resources */,
-				2EC19A5B0F9C1E9800963971 /* LoginViewController.xib in Resources */,
+				2EC19A5B0F9C1E9800963971 /* LoginView.xib in Resources */,
 				CF528C980FA06BC2007C7A03 /* Localizable.strings in Resources */,
 				CF528CB80FA149B6007C7A03 /* CharacterEntity.strings in Resources */,
 				CFE72DE90FA815B100C54792 /* keypad_highlighted.png in Resources */,

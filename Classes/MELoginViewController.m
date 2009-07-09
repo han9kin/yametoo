@@ -20,22 +20,9 @@
 @implementation MELoginViewController
 
 
-- (id)initWithCoder:(NSCoder *)aCoder
+- (id)init
 {
-    self = [super initWithCoder:aCoder];
-
-    if (self)
-    {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userListDidChangeNotification:) name:MEClientStoreUserListDidChangeNotification object:nil];
-    }
-
-    return self;
-}
-
-
-- (id)initWithNibName:(NSString *)aNibName bundle:(NSBundle *)aBundle
-{
-    self = [super initWithNibName:aNibName bundle:aBundle];
+    self = [super initWithNibName:@"LoginView" bundle:nil];
 
     if (self)
     {
@@ -64,7 +51,6 @@
 {
     [super viewDidLoad];
 
-//    [mTableView setBackgroundColor:[UIColor clearColor]];
     [mTableView setBackgroundColor:[UIColor colorWithWhite:0.85 alpha:1.0]];
 }
 
