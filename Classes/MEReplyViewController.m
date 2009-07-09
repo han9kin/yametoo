@@ -1,5 +1,5 @@
 /*
- *  MEAddCommentViewController.m
+ *  MEReplyViewController.m
  *  yametoo
  *
  *  Created by cgkim on 09. 05. 04.
@@ -8,7 +8,7 @@
  */
 
 #import "UIAlertView+MEAdditions.h"
-#import "MEAddCommentViewController.h"
+#import "MEReplyViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEPost.h"
@@ -16,13 +16,25 @@
 #import "MECharCounter.h"
 
 
-@implementation MEAddCommentViewController
+@implementation MEReplyViewController
 
 
 @synthesize post = mPost;
 
 
 #pragma mark -
+
+
+- (id)init
+{
+    self = [super initWithNibName:@"ReplyView" bundle:nil];
+
+    if (self)
+    {
+    }
+
+    return self;
+}
 
 
 - (void)dealloc

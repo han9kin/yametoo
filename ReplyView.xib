@@ -243,7 +243,7 @@
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<string>MEAddCommentViewController</string>
+					<string>MEReplyViewController</string>
 					<string>UIResponder</string>
 					<string>{{897, 501}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -281,7 +281,7 @@
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
-					<string key="className">MEAddCommentViewController</string>
+					<string key="className">MEReplyViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -302,7 +302,7 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/MEAddCommentViewController.h</string>
+						<string key="minorKey">Classes/MEReplyViewController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

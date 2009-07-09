@@ -1,5 +1,5 @@
 /*
- *  MEAddCommentViewController.h
+ *  MEReplyViewController.h
  *  yametoo
  *
  *  Created by cgkim on 09. 05. 04.
@@ -14,7 +14,7 @@
 @class MECharCounter;
 
 
-@interface MEAddCommentViewController : UIViewController
+@interface MEReplyViewController : UIViewController
 {
     IBOutlet UITextView *mTextView;
     

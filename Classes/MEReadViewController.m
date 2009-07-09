@@ -21,7 +21,7 @@
 #import "MEImageButton.h"
 #import "METableViewCellFactory.h"
 #import "MEPostBodyView.h"
-#import "MEAddCommentViewController.h"
+#import "MEReplyViewController.h"
 #import "MEVisitsViewController.h"
 #import "MERoundBackView.h"
 #import "MELinkTableViewCell.h"
@@ -70,18 +70,18 @@ static NSDictionary *gActionSelectors = nil;
 }
 
 
-- (void)addComment
+- (void)reply
 {
-    MEAddCommentViewController *sViewController;
+    MEReplyViewController *sViewController;
 
-    sViewController = [[MEAddCommentViewController alloc] initWithNibName:@"AddCommentViewController" bundle:nil];
+    sViewController = [[MEReplyViewController alloc] init];
     [sViewController setPost:mPost];
     [self presentModalViewController:sViewController animated:YES];
     [sViewController release];
 }
 
 
-- (void)addMetoo
+- (void)metoo
 {
     [[MEClientStore currentClient] metooWithPostID:[mPost postID] delegate:self];
 
@@ -102,7 +102,7 @@ static NSDictionary *gActionSelectors = nil;
 {
     if (!gActionSelectors)
     {
-        gActionSelectors = [[NSDictionary alloc] initWithObjectsAndKeys:@"addComment", NSLocalizedString(@"Add Comment", @""), @"addMetoo", NSLocalizedString(@"Add Metoo", @""), nil];
+        gActionSelectors = [[NSDictionary alloc] initWithObjectsAndKeys:@"reply", NSLocalizedString(@"reply", @""), @"metoo", NSLocalizedString(@"metoo", @""), nil];
     }
 }
 
@@ -234,7 +234,7 @@ static NSDictionary *gActionSelectors = nil;
                                                    delegate:self
                                           cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                      destructiveButtonTitle:nil
-                                          otherButtonTitles:NSLocalizedString(@"Add Metoo", @""), nil];
+                                          otherButtonTitles:NSLocalizedString(@"metoo", @""), nil];
     }
     else
     {
@@ -242,7 +242,7 @@ static NSDictionary *gActionSelectors = nil;
                                                    delegate:self
                                           cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                      destructiveButtonTitle:nil
-                                          otherButtonTitles:NSLocalizedString(@"Add Metoo", @""), NSLocalizedString(@"Add Comment", @""), nil];
+                                          otherButtonTitles:NSLocalizedString(@"metoo", @""), NSLocalizedString(@"reply", @""), nil];
     }
 
     [sActionSheet showInView:[[self view] window]];
