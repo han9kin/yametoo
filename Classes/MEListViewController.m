@@ -14,7 +14,7 @@
 #import "MEListViewController.h"
 #import "MEUserInfoViewController.h"
 #import "MEPostViewController.h"
-#import "MEReplyViewController.h"
+#import "MEReadViewController.h"
 #import "MEVisitsViewController.h"
 #import "MEMediaView.h"
 #import "MEClientStore.h"
@@ -447,11 +447,11 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 - (void)listView:(MEListView *)aListView didSelectPostAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    MEReplyViewController *sReplyViewController;
+    MEReadViewController *sReadViewController;
 
-    sReplyViewController = [[MEReplyViewController alloc] initWithPost:[self postForIndexPath:aIndexPath]];
-    [[self navigationController] pushViewController:sReplyViewController animated:YES];
-    [sReplyViewController release];
+    sReadViewController = [[MEReadViewController alloc] initWithPost:[self postForIndexPath:aIndexPath]];
+    [[self navigationController] pushViewController:sReadViewController animated:YES];
+    [sReadViewController release];
 }
 
 

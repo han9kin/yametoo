@@ -1,5 +1,5 @@
 /*
- *  MEReplyViewController.m
+ *  MEReadViewController.m
  *  yametoo
  *
  *  Created by cgkim on 09. 04. 30.
@@ -8,7 +8,7 @@
  */
 
 #import "UIAlertView+MEAdditions.h"
-#import "MEReplyViewController.h"
+#import "MEReadViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEPost.h"
@@ -31,11 +31,11 @@
 static NSDictionary *gActionSelectors = nil;
 
 
-@interface MEReplyViewController (Privates)
+@interface MEReadViewController (Privates)
 @end
 
 
-@implementation MEReplyViewController (Privates)
+@implementation MEReadViewController (Privates)
 
 
 - (void)getPost
@@ -92,7 +92,7 @@ static NSDictionary *gActionSelectors = nil;
 @end
 
 
-@implementation MEReplyViewController
+@implementation MEReadViewController
 
 
 #pragma mark -
@@ -112,7 +112,7 @@ static NSDictionary *gActionSelectors = nil;
 
 - (id)initWithPost:(MEPost *)aPost
 {
-    self = [super initWithNibName:@"MEReplyViewController" bundle:nil];
+    self = [super initWithNibName:@"ReadView" bundle:nil];
 
     if (self)
     {
@@ -126,7 +126,7 @@ static NSDictionary *gActionSelectors = nil;
 
 - (id)initWithPostID:(NSString *)aPostID
 {
-    self = [super initWithNibName:@"MEReplyViewController" bundle:nil];
+    self = [super initWithNibName:@"ReadView" bundle:nil];
 
     if (self)
     {

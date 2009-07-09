@@ -58,8 +58,8 @@
 		2ED1646A0F959F46009557F1 /* MEClient+Requests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED164690F959F46009557F1 /* MEClient+Requests.m */; };
 		2ED4E7F30FA84A06000BFE2F /* white_round_rect.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED4E7F20FA84A06000BFE2F /* white_round_rect.png */; };
 		2ED4E8290FA8507B000BFE2F /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2ED4E8280FA8507B000BFE2F /* Entitlements.plist */; };
-		2ED4E8330FA942D6000BFE2F /* MEReplyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED4E8320FA942D6000BFE2F /* MEReplyViewController.xib */; };
-		2ED4E84F0FA9611D000BFE2F /* MEReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */; };
+		2ED4E8330FA942D6000BFE2F /* ReadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED4E8320FA942D6000BFE2F /* ReadView.xib */; };
+		2ED4E84F0FA9611D000BFE2F /* MEReadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED4E84E0FA9611D000BFE2F /* MEReadViewController.m */; };
 		2ED83E380FAECFC600786952 /* AddCommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED83E370FAECFC600786952 /* AddCommentViewController.xib */; };
 		2ED83E3B0FAECFDC00786952 /* MEAddCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED83E3A0FAECFDC00786952 /* MEAddCommentViewController.m */; };
 		CF45B2A10FD78E170069C6BA /* MELink.m in Sources */ = {isa = PBXBuildFile; fileRef = CF45B2A00FD78E170069C6BA /* MELink.m */; };
@@ -188,9 +188,9 @@
 		2ED164690F959F46009557F1 /* MEClient+Requests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MEClient+Requests.m"; sourceTree = "<group>"; };
 		2ED4E7F20FA84A06000BFE2F /* white_round_rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = white_round_rect.png; sourceTree = "<group>"; };
 		2ED4E8280FA8507B000BFE2F /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
-		2ED4E8320FA942D6000BFE2F /* MEReplyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEReplyViewController.xib; sourceTree = "<group>"; };
-		2ED4E84D0FA9611D000BFE2F /* MEReplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReplyViewController.h; sourceTree = "<group>"; };
-		2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReplyViewController.m; sourceTree = "<group>"; };
+		2ED4E8320FA942D6000BFE2F /* ReadView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReadView.xib; sourceTree = "<group>"; };
+		2ED4E84D0FA9611D000BFE2F /* MEReadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReadViewController.h; sourceTree = "<group>"; };
+		2ED4E84E0FA9611D000BFE2F /* MEReadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReadViewController.m; sourceTree = "<group>"; };
 		2ED83E370FAECFC600786952 /* AddCommentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddCommentViewController.xib; sourceTree = "<group>"; };
 		2ED83E390FAECFDC00786952 /* MEAddCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEAddCommentViewController.h; sourceTree = "<group>"; };
 		2ED83E3A0FAECFDC00786952 /* MEAddCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEAddCommentViewController.m; sourceTree = "<group>"; };
@@ -362,7 +362,7 @@
 				2EC19A5A0F9C1E9800963971 /* LoginViewController.xib */,
 				2899E5210DE3E06400AC0155 /* PostViewController.xib */,
 				2E7521010FA6CDBE00B0D4FA /* UserInfoViewController.xib */,
-				2ED4E8320FA942D6000BFE2F /* MEReplyViewController.xib */,
+				2ED4E8320FA942D6000BFE2F /* ReadView.xib */,
 				2ED83E370FAECFC600786952 /* AddCommentViewController.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				CF528C970FA06BC1007C7A03 /* Localizable.strings */,
@@ -654,8 +654,8 @@
 			children = (
 				28D7ACF60DDB3853001CB0EB /* MEPostViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* MEPostViewController.m */,
-				2ED4E84D0FA9611D000BFE2F /* MEReplyViewController.h */,
-				2ED4E84E0FA9611D000BFE2F /* MEReplyViewController.m */,
+				2ED4E84D0FA9611D000BFE2F /* MEReadViewController.h */,
+				2ED4E84E0FA9611D000BFE2F /* MEReadViewController.m */,
 				2ED83E390FAECFDC00786952 /* MEAddCommentViewController.h */,
 				2ED83E3A0FAECFDC00786952 /* MEAddCommentViewController.m */,
 				2E7520FE0FA6CDA300B0D4FA /* MEUserInfoViewController.h */,
@@ -761,7 +761,7 @@
 				CFE72DE90FA815B100C54792 /* keypad_highlighted.png in Resources */,
 				2ED4E7F30FA84A06000BFE2F /* white_round_rect.png in Resources */,
 				2ED4E8290FA8507B000BFE2F /* Entitlements.plist in Resources */,
-				2ED4E8330FA942D6000BFE2F /* MEReplyViewController.xib in Resources */,
+				2ED4E8330FA942D6000BFE2F /* ReadView.xib in Resources */,
 				CFE72EA90FA8678E00C54792 /* Credits.html in Resources */,
 				2ED83E380FAECFC600786952 /* AddCommentViewController.xib in Resources */,
 				2E53A0E40FBBD92100144B0A /* yame_text.jpg in Resources */,
@@ -833,7 +833,7 @@
 				2E7521000FA6CDA300B0D4FA /* MEUserInfoViewController.m in Sources */,
 				CFE72DAF0FA7ED7100C54792 /* MEPasscodeViewController.m in Sources */,
 				CFE72E9E0FA863B900C54792 /* MEAboutViewController.m in Sources */,
-				2ED4E84F0FA9611D000BFE2F /* MEReplyViewController.m in Sources */,
+				2ED4E84F0FA9611D000BFE2F /* MEReadViewController.m in Sources */,
 				CFE72F070FA9672400C54792 /* MEPostBodyView.m in Sources */,
 				2ED83E3B0FAECFDC00786952 /* MEAddCommentViewController.m in Sources */,
 				CFE72FE80FAE8D0200C54792 /* MEListViewController.m in Sources */,

@@ -12,7 +12,7 @@
 #import "MEListView.h"
 #import "MEVisitsViewController.h"
 #import "MEOtherMetooViewController.h"
-#import "MEReplyViewController.h"
+#import "MEReadViewController.h"
 #import "MEWebViewController.h"
 #import "METableViewCellFactory.h"
 #import "MEClientStore.h"
@@ -37,7 +37,7 @@
             break;
 
         case kMELinkTypePost:
-            sViewController = [[MEReplyViewController alloc] initWithPostID:[aLink url]];
+            sViewController = [[MEReadViewController alloc] initWithPostID:[aLink url]];
             break;
 
         case kMELinkTypeOther:

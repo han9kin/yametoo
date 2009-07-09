@@ -1,5 +1,5 @@
 /*
- *  MEReplyViewController.h
+ *  MEReadViewController.h
  *  yametoo
  *
  *  Created by cgkim on 09. 04. 30.
@@ -17,7 +17,7 @@
 @class MEMediaView;
 
 
-@interface MEReplyViewController : UIViewController <UIActionSheetDelegate>
+@interface MEReadViewController : UIViewController <UIActionSheetDelegate>
 {
     IBOutlet UINavigationBar *mNaviBar;
     IBOutlet UIView          *mContainerView;
