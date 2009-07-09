@@ -19,7 +19,8 @@
 #import "MEAttributedLabel.h"
 #import "MEImageView.h"
 #import "MEImageButton.h"
-#import "METableViewCellFactory.h"
+#import "MEPostTableViewCell.h"
+#import "MECommentTableViewCell.h"
 #import "MEPostBodyView.h"
 #import "MEReplyViewController.h"
 #import "MEVisitsViewController.h"
@@ -360,10 +361,10 @@ static NSDictionary *gActionSelectors = nil;
             UIColor *sColor;
 
             sColor   = ((sSection % 2) == 1) ? [UIColor whiteColor] : [UIColor colorWithWhite:0.95 alpha:1.0];
-            sCell    = [METableViewCellFactory commentCellForTableView:aTableView withTarget:self];
+            sCell    = [MECommentTableViewCell cellForTableView:aTableView withTarget:self];
 
-            [sCell setComment:sComment isOwners:(([sComment author] == [mPost author]) ? YES : NO)];
-            [sCell setCommentBackgroundColor:sColor];
+            [(MECommentTableViewCell *)sCell setComment:sComment];
+            [[sCell contentView] setBackgroundColor:sColor];
         }
     }
     else

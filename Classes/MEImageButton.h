@@ -10,6 +10,9 @@
 #import <UIKit/UIKit.h>
 
 
+#define kIconImageSize 44
+
+
 @interface MEImageButton : UIControl
 {
     NSURL       *mURL;

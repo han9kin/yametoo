@@ -45,7 +45,6 @@
 		2E61037B0F9883B30097AD3D /* MEPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E61037A0F9883B30097AD3D /* MEPost.m */; };
 		2E6D55820F95BAF400AA1DF6 /* yametoo_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E6D55810F95BAF400AA1DF6 /* yametoo_icon.png */; };
 		2E7521E30FA6EDB900B0D4FA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E7521E20FA6EDB900B0D4FA /* QuartzCore.framework */; };
-		2EB3F9820FB979F500CAF94A /* MECommentBackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3F9810FB979F500CAF94A /* MECommentBackView.m */; };
 		2EBB59610FE0D0250096BFF1 /* iconview.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EBB59600FE0D0250096BFF1 /* iconview.png */; };
 		2EBB596C0FE0D6F20096BFF1 /* MEIconListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBB596B0FE0D6F20096BFF1 /* MEIconListView.m */; };
 		2EC19A590F9C1D5D00963971 /* MELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC19A580F9C1D5D00963971 /* MELoginViewController.m */; };
@@ -80,6 +79,8 @@
 		CF5EE9E00F9C4738004712FF /* MEFuture.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE9DF0F9C4738004712FF /* MEFuture.m */; };
 		CF5EEA610F9C7BF8004712FF /* MEMutableAttributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EEA600F9C7BF8004712FF /* MEMutableAttributedString.m */; };
 		CF5EEA700F9C7D9B004712FF /* MEAttributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EEA6F0F9C7D9B004712FF /* MEAttributedString.m */; };
+		CF7B8B1F1005ACF4001A089A /* MEPostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7B8B1E1005ACF4001A089A /* MEPostTableViewCell.m */; };
+		CF7B8B221005AD00001A089A /* MECommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7B8B211005AD00001A089A /* MECommentTableViewCell.m */; };
 		CF9045A30F959EE4001AE52C /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF90459E0F959EE4001AE52C /* NSObject+SBJSON.m */; };
 		CF9045A40F959EE4001AE52C /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9045A00F959EE4001AE52C /* NSString+SBJSON.m */; };
 		CF9045A50F959EE4001AE52C /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9045A20F959EE4001AE52C /* SBJSON.m */; };
@@ -165,8 +166,6 @@
 		2E61037A0F9883B30097AD3D /* MEPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPost.m; sourceTree = "<group>"; };
 		2E6D55810F95BAF400AA1DF6 /* yametoo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yametoo_icon.png; sourceTree = "<group>"; };
 		2E7521E20FA6EDB900B0D4FA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		2EB3F9800FB979F500CAF94A /* MECommentBackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MECommentBackView.h; sourceTree = "<group>"; };
-		2EB3F9810FB979F500CAF94A /* MECommentBackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MECommentBackView.m; sourceTree = "<group>"; };
 		2EBB59600FE0D0250096BFF1 /* iconview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconview.png; sourceTree = "<group>"; };
 		2EBB596A0FE0D6F20096BFF1 /* MEIconListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEIconListView.h; sourceTree = "<group>"; };
 		2EBB596B0FE0D6F20096BFF1 /* MEIconListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEIconListView.m; sourceTree = "<group>"; };
@@ -226,6 +225,10 @@
 		CF5EEA600F9C7BF8004712FF /* MEMutableAttributedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEMutableAttributedString.m; sourceTree = "<group>"; };
 		CF5EEA6E0F9C7D9B004712FF /* MEAttributedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEAttributedString.h; sourceTree = "<group>"; };
 		CF5EEA6F0F9C7D9B004712FF /* MEAttributedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEAttributedString.m; sourceTree = "<group>"; };
+		CF7B8B1D1005ACF4001A089A /* MEPostTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPostTableViewCell.h; sourceTree = "<group>"; };
+		CF7B8B1E1005ACF4001A089A /* MEPostTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPostTableViewCell.m; sourceTree = "<group>"; };
+		CF7B8B201005AD00001A089A /* MECommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MECommentTableViewCell.h; sourceTree = "<group>"; };
+		CF7B8B211005AD00001A089A /* MECommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MECommentTableViewCell.m; sourceTree = "<group>"; };
 		CF90459C0F959EE4001AE52C /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		CF90459D0F959EE4001AE52C /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		CF90459E0F959EE4001AE52C /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -379,32 +382,9 @@
 		2E6101930F982B810097AD3D /* View */ = {
 			isa = PBXGroup;
 			children = (
-				CFDD429C0FB4190700B9931A /* MEHighlightableImageView.h */,
-				CFDD429D0FB4190700B9931A /* MEHighlightableImageView.m */,
-				2EC19F720F9DCFAC00963971 /* MEImageView.h */,
-				2EC19F730F9DCFAC00963971 /* MEImageView.m */,
-				CFDD42A60FB41A4100B9931A /* MEImageButton.h */,
-				CFDD42A70FB41A4100B9931A /* MEImageButton.m */,
-				2E6101AD0F983AF60097AD3D /* METableViewCellFactory.h */,
-				2E6101AE0F983AF60097AD3D /* METableViewCellFactory.m */,
-				2E6102260F985AA40097AD3D /* MEListHeadView.h */,
-				2E6102270F985AA40097AD3D /* MEListHeadView.m */,
-				2E6102CA0F986B930097AD3D /* MEListView.h */,
-				2E6102CB0F986B930097AD3D /* MEListView.m */,
-				2E2B6BD80FA5A48200F4B830 /* MEMediaView.h */,
-				2E2B6BD90FA5A48200F4B830 /* MEMediaView.m */,
-				CFE72F050FA9672400C54792 /* MEPostBodyView.h */,
-				CFE72F060FA9672400C54792 /* MEPostBodyView.m */,
-				2E27666D0FAEF16000F59ACD /* MERoundBackView.h */,
-				2E2766890FAEF3A700F59ACD /* MERoundBackView.m */,
-				2E151E440FB7C18600E49861 /* MECharCounter.h */,
-				2E151E450FB7C18600E49861 /* MECharCounter.m */,
-				2EB3F9800FB979F500CAF94A /* MECommentBackView.h */,
-				2EB3F9810FB979F500CAF94A /* MECommentBackView.m */,
-				CF45B3920FD90B140069C6BA /* MELinkTableViewCell.h */,
-				CF45B3930FD90B140069C6BA /* MELinkTableViewCell.m */,
-				2EBB596A0FE0D6F20096BFF1 /* MEIconListView.h */,
-				2EBB596B0FE0D6F20096BFF1 /* MEIconListView.m */,
+				CF7B8B191005AC75001A089A /* Customized Views */,
+				CF7B8B181005AC6D001A089A /* Container Views */,
+				CF7B8B171005AC60001A089A /* TableView Cells */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -601,6 +581,55 @@
 				2ED83E370FAECFC600786952 /* ReplyView.xib */,
 			);
 			name = Interfaces;
+			sourceTree = "<group>";
+		};
+		CF7B8B171005AC60001A089A /* TableView Cells */ = {
+			isa = PBXGroup;
+			children = (
+				2E6101AD0F983AF60097AD3D /* METableViewCellFactory.h */,
+				2E6101AE0F983AF60097AD3D /* METableViewCellFactory.m */,
+				CF7B8B1D1005ACF4001A089A /* MEPostTableViewCell.h */,
+				CF7B8B1E1005ACF4001A089A /* MEPostTableViewCell.m */,
+				CF7B8B201005AD00001A089A /* MECommentTableViewCell.h */,
+				CF7B8B211005AD00001A089A /* MECommentTableViewCell.m */,
+				CF45B3920FD90B140069C6BA /* MELinkTableViewCell.h */,
+				CF45B3930FD90B140069C6BA /* MELinkTableViewCell.m */,
+			);
+			name = "TableView Cells";
+			sourceTree = "<group>";
+		};
+		CF7B8B181005AC6D001A089A /* Container Views */ = {
+			isa = PBXGroup;
+			children = (
+				2E6102260F985AA40097AD3D /* MEListHeadView.h */,
+				2E6102270F985AA40097AD3D /* MEListHeadView.m */,
+				2E6102CA0F986B930097AD3D /* MEListView.h */,
+				2E6102CB0F986B930097AD3D /* MEListView.m */,
+				2E2B6BD80FA5A48200F4B830 /* MEMediaView.h */,
+				2E2B6BD90FA5A48200F4B830 /* MEMediaView.m */,
+				CFE72F050FA9672400C54792 /* MEPostBodyView.h */,
+				CFE72F060FA9672400C54792 /* MEPostBodyView.m */,
+				2E151E440FB7C18600E49861 /* MECharCounter.h */,
+				2E151E450FB7C18600E49861 /* MECharCounter.m */,
+				2EBB596A0FE0D6F20096BFF1 /* MEIconListView.h */,
+				2EBB596B0FE0D6F20096BFF1 /* MEIconListView.m */,
+			);
+			name = "Container Views";
+			sourceTree = "<group>";
+		};
+		CF7B8B191005AC75001A089A /* Customized Views */ = {
+			isa = PBXGroup;
+			children = (
+				CFDD429C0FB4190700B9931A /* MEHighlightableImageView.h */,
+				CFDD429D0FB4190700B9931A /* MEHighlightableImageView.m */,
+				2EC19F720F9DCFAC00963971 /* MEImageView.h */,
+				2EC19F730F9DCFAC00963971 /* MEImageView.m */,
+				CFDD42A60FB41A4100B9931A /* MEImageButton.h */,
+				CFDD42A70FB41A4100B9931A /* MEImageButton.m */,
+				2E27666D0FAEF16000F59ACD /* MERoundBackView.h */,
+				2E2766890FAEF3A700F59ACD /* MERoundBackView.m */,
+			);
+			name = "Customized Views";
 			sourceTree = "<group>";
 		};
 		CF90458C0F959D29001AE52C /* External Sources */ = {
@@ -848,7 +877,6 @@
 				CFDD43CC0FB80A0900B9931A /* NSMutableData+MEAdditions.m in Sources */,
 				2E151E460FB7C18600E49861 /* MECharCounter.m in Sources */,
 				CFFC6C660FB93E4800B935E7 /* NSDate+MEAdditions.m in Sources */,
-				2EB3F9820FB979F500CAF94A /* MECommentBackView.m in Sources */,
 				CFBED9800FBD37490005FD9D /* MEReachability.m in Sources */,
 				CF45B2A10FD78E170069C6BA /* MELink.m in Sources */,
 				CF45B3940FD90B140069C6BA /* MELinkTableViewCell.m in Sources */,
@@ -856,6 +884,8 @@
 				2EBB596C0FE0D6F20096BFF1 /* MEIconListView.m in Sources */,
 				CFC8A19A0FE0CA9100EA77C6 /* MEWebViewController.m in Sources */,
 				CFC8A1D40FE0D1B100EA77C6 /* MEOtherMetooViewController.m in Sources */,
+				CF7B8B1F1005ACF4001A089A /* MEPostTableViewCell.m in Sources */,
+				CF7B8B221005AD00001A089A /* MECommentTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

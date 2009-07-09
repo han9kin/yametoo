@@ -10,15 +10,8 @@
 #import <Foundation/Foundation.h>
 
 
-#define kIconImageSize       44
-#define kPostCellBodyPadding 10
-#define kCommentBodyWidth    240
-
-
 @class MEClient;
 @class MEUser;
-@class MEPost;
-@class MEComment;
 
 @interface METableViewCellFactory : NSObject
 {
@@ -33,10 +26,6 @@
 
 + (UITableViewCell *)userCellForTableView:(UITableView *)aTableView;
 + (UITableViewCell *)clientCellForTableView:(UITableView *)aTableView;
-
-+ (UITableViewCell *)postCellForTableView:(UITableView *)aTableView withTarget:(id)aTarget;
-+ (UITableViewCell *)postCellWithAuthorForTableView:(UITableView *)aTableView withTarget:(id)aTarget;
-+ (UITableViewCell *)commentCellForTableView:(UITableView *)aTableView withTarget:(id)aTarget;
 
 @end
 
@@ -54,8 +43,5 @@
 - (void)setUser:(MEUser *)aUser;
 - (void)setUserID:(NSString *)aUserID;
 - (void)setClient:(MEClient *)aClient;
-- (void)setPost:(MEPost *)aPost;
-- (void)setComment:(MEComment *)aComment isOwners:(BOOL)aOwners;
-- (void)setCommentBackgroundColor:(UIColor *)aColor;
 
 @end

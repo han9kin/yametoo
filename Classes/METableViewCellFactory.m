@@ -13,13 +13,9 @@
 #import "MEHighlightableImageView.h"
 #import "MEImageView.h"
 #import "MEImageButton.h"
-#import "MEPostBodyView.h"
-#import "MEAttributedLabel.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEUser.h"
-#import "MEPost.h"
-#import "MECommentBackView.h"
 
 
 enum
@@ -30,17 +26,6 @@ enum
     kTextFieldTag,
     kCheckmarkTag,
     kLockIconTag,
-
-    kPostFaceImageTag,
-    kPostIconTag,
-    kPostAuthorLabelTag,
-    kPostBodyTag,
-
-    kCommentBackViewTag,
-    kCommentFaceImageTag,
-    kCommentBodyTag,
-    kCommentAuthorTag,
-    kCommentPubDateTag,
 };
 
 
@@ -255,137 +240,6 @@ enum
 }
 
 
-+ (UITableViewCell *)postCellForTableView:(UITableView *)aTableView withTarget:(id)aTarget
-{
-    UITableViewCell *sCell;
-    MEImageButton   *sImageButton;
-    MEPostBodyView  *sBodyView;
-
-    sCell = [aTableView dequeueReusableCellWithIdentifier:@"Post"];
-
-    if (!sCell)
-    {
-        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Post"] autorelease];
-
-        sImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(7, kPostCellBodyPadding - 1, kIconImageSize + 2, kIconImageSize + 2)];
-        [sImageButton setBorderColor:[UIColor lightGrayColor]];
-        [sImageButton setTag:kPostIconTag];
-        [sImageButton addTarget:aTarget action:@selector(iconImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [[sCell contentView] addSubview:sImageButton];
-        [sImageButton release];
-
-        sBodyView = [[MEPostBodyView alloc] initWithFrame:CGRectMake(60, kPostCellBodyPadding, 0, 0)];
-        [sBodyView setTag:kPostBodyTag];
-        [sBodyView setBackgroundColor:[UIColor whiteColor]];
-        [[sCell contentView] addSubview:sBodyView];
-        [sBodyView release];
-    }
-
-    return sCell;
-}
-
-
-+ (UITableViewCell *)postCellWithAuthorForTableView:(UITableView *)aTableView withTarget:(id)aTarget
-{
-    UITableViewCell *sCell;
-    UILabel         *sLabel;
-    MEImageButton   *sImageButton;
-    MEPostBodyView  *sBodyView;
-
-    sCell = [aTableView dequeueReusableCellWithIdentifier:@"PostWithAuthor"];
-
-    if (!sCell)
-    {
-        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"PostWithAuthor"] autorelease];
-
-        sImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(7, kPostCellBodyPadding - 1, kIconImageSize + 2, kIconImageSize + 2)];
-        [sImageButton setTag:kPostFaceImageTag];
-        [sImageButton setBorderColor:[UIColor lightGrayColor]];
-        [sImageButton addTarget:aTarget action:@selector(faceImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [[sCell contentView] addSubview:sImageButton];
-        [sImageButton release];
-
-        sImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(7, kPostCellBodyPadding + 49, kIconImageSize + 2, kIconImageSize + 2)];
-        [sImageButton setTag:kPostIconTag];
-        [sImageButton setBorderColor:[UIColor lightGrayColor]];
-        [sImageButton addTarget:aTarget action:@selector(iconImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [[sCell contentView] addSubview:sImageButton];
-        [sImageButton release];
-
-        sLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, kPostCellBodyPadding, 250, 15)];
-        [sLabel setTag:kPostAuthorLabelTag];
-        [sLabel setBackgroundColor:[UIColor whiteColor]];
-        [sLabel setFont:[UIFont systemFontOfSize:12.0]];
-        [sLabel setTextColor:[UIColor darkGrayColor]];
-        [sLabel setHighlightedTextColor:[UIColor colorWithWhite:0.9 alpha:1.0]];
-        [[sCell contentView] addSubview:sLabel];
-        [sLabel release];
-
-        sBodyView = [[MEPostBodyView alloc] initWithFrame:CGRectMake(60, kPostCellBodyPadding + 20, 0, 0)];
-        [sBodyView setTag:kPostBodyTag];
-        [sBodyView setBackgroundColor:[UIColor whiteColor]];
-        [[sCell contentView] addSubview:sBodyView];
-        [sBodyView release];
-    }
-
-    return sCell;
-}
-
-
-+ (UITableViewCell *)commentCellForTableView:(UITableView *)aTableView withTarget:(id)aTarget
-{
-    UITableViewCell   *sCell;
-    MECommentBackView *sBackView;
-    MEImageButton     *sImageButton;
-    MEAttributedLabel *sBodyLabel;
-    UILabel           *sLabel;
-
-    sCell = [aTableView dequeueReusableCellWithIdentifier:@"Comment"];
-
-    if (!sCell)
-    {
-        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Comment"] autorelease];
-
-        [sCell setSelectionStyle:UITableViewCellSelectionStyleNone];
-
-        sBackView = [[MECommentBackView alloc] initWithFrame:CGRectZero];
-        [sBackView setTag:kCommentBackViewTag];
-        [[sCell contentView] addSubview:sBackView];
-        [sBackView release];
-
-        sBodyLabel = [[MEAttributedLabel alloc] initWithFrame:CGRectZero];
-        [sBodyLabel setTag:kCommentBodyTag];
-        [[sCell contentView] addSubview:sBodyLabel];
-        [sBodyLabel release];
-
-        sImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(0, 0, kIconImageSize + 2, kIconImageSize + 2)];
-        [sImageButton setBorderColor:[UIColor lightGrayColor]];
-        [sImageButton setTag:kCommentFaceImageTag];
-        [sImageButton addTarget:aTarget action:@selector(faceImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [[sCell contentView] addSubview:sImageButton];
-        [sImageButton release];
-
-        sLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        [sLabel setTag:kCommentAuthorTag];
-        [sLabel setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:0.7]];
-        [sLabel setFont:[UIFont systemFontOfSize:9]];
-        [sLabel setTextColor:[UIColor whiteColor]];
-        [sLabel setTextAlignment:UITextAlignmentCenter];
-        [[sCell contentView] addSubview:sLabel];
-        [sLabel release];
-
-        sLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        [sLabel setTag:kCommentPubDateTag];
-        [sLabel setFont:[UIFont systemFontOfSize:10]];
-        [sLabel setTextColor:[UIColor colorWithWhite:0.6 alpha:1.0]];
-        [[sCell contentView] addSubview:sLabel];
-        [sLabel release];
-    }
-
-    return sCell;
-}
-
-
 @end
 
 
@@ -478,99 +332,6 @@ enum
     {
         [sLockIcon setHidden:YES];
     }
-}
-
-
-- (void)setPost:(MEPost *)aPost
-{
-    UILabel        *sLabel;
-    MEImageButton  *sImageButton;
-    MEPostBodyView *sBodyView;
-
-    sLabel = (UILabel *)[[self contentView] viewWithTag:kPostAuthorLabelTag];
-    [sLabel setText:[[aPost author] nickname]];
-
-    sImageButton = (MEImageButton *)[[self contentView] viewWithTag:kPostFaceImageTag];
-    [sImageButton setUserInfo:[aPost author]];
-    [sImageButton setImageWithURL:[[aPost author] faceImageURL]];
-
-    sImageButton = (MEImageButton *)[[self contentView] viewWithTag:kPostIconTag];
-    [sImageButton setUserInfo:aPost];
-    [sImageButton setImageWithURL:[aPost iconURL]];
-
-    sBodyView = (MEPostBodyView *)[[self contentView] viewWithTag:kPostBodyTag];
-    [sBodyView setPost:aPost];
-}
-
-
-#pragma mark -
-#pragma mark Comment Table Cell
-
-
-- (void)setComment:(MEComment *)aComment isOwners:(BOOL)aOwners
-{
-    MECommentBackView *sBackView     = (MECommentBackView *)[[self contentView] viewWithTag:kCommentBackViewTag];
-    MEImageButton     *sImageButton  = (MEImageButton *)[[self contentView] viewWithTag:kCommentFaceImageTag];
-    MEAttributedLabel *sBodyLabel    = (MEAttributedLabel *)[[self contentView] viewWithTag:kCommentBodyTag];
-    UILabel           *sAuthorLabel  = (UILabel *)[[self contentView] viewWithTag:kCommentAuthorTag];
-    UILabel           *sPubDateLabel = (UILabel *)[[self contentView] viewWithTag:kCommentPubDateTag];
-    CGRect             sBodyFrame;
-    CGFloat            sCellHeight;
-
-    if (aOwners)
-    {
-        [sImageButton setUserInfo:nil];
-        [sImageButton setFrame:CGRectMake(265, 9, kIconImageSize + 2, kIconImageSize + 2)];
-        [sBodyLabel setFrame:CGRectMake(10, 10, kCommentBodyWidth, 0)];
-        [sAuthorLabel setFrame:CGRectMake(265, 41, kIconImageSize + 2, 14)];
-    }
-    else
-    {
-        [sImageButton setUserInfo:[aComment author]];
-        [sImageButton setFrame:CGRectMake(9, 9, kIconImageSize + 2, kIconImageSize + 2)];
-        [sBodyLabel setFrame:CGRectMake(70, 10, kCommentBodyWidth, 0)];
-        [sAuthorLabel setFrame:CGRectMake(9, 41, kIconImageSize + 2, 14)];
-    }
-
-    [sImageButton setImageWithURL:[[aComment author] faceImageURL]];
-
-    [sBodyLabel setAttributedText:[aComment body]];
-    [sBodyLabel sizeToFit];
-
-    [sAuthorLabel  setText:[[aComment author] nickname]];
-    [sPubDateLabel setText:[[aComment pubDate] localizedDateTimeString]];
-
-    sBodyFrame  = [sBodyLabel frame];
-    sBodyFrame.size.height += 14;
-
-    sCellHeight = 10;
-    sCellHeight += (sBodyFrame.size.height > kIconImageSize) ? sBodyFrame.size.height : kIconImageSize;
-    sCellHeight += 10;
-
-    if (aOwners)
-    {
-        [sPubDateLabel setTextAlignment:UITextAlignmentLeft];
-        [sPubDateLabel setFrame:CGRectMake(10, sCellHeight - 20, 200, 14)];
-    }
-    else
-    {
-        [sPubDateLabel setTextAlignment:UITextAlignmentRight];
-        [sPubDateLabel setFrame:CGRectMake(sBodyFrame.origin.x + 40, sCellHeight - 20, 200, 14)];
-    }
-
-    [sBackView setFrame:CGRectMake(0, 0, 320, sCellHeight)];
-}
-
-
-- (void)setCommentBackgroundColor:(UIColor *)aColor
-{
-    MECommentBackView *sBackView     = (MECommentBackView *)[[self contentView] viewWithTag:kCommentBackViewTag];
-    MEAttributedLabel *sBodyLabel    = (MEAttributedLabel *)[[self contentView] viewWithTag:kCommentBodyTag];
-    UILabel           *sPubDateLabel = (UILabel *)[[self contentView] viewWithTag:kCommentPubDateTag];
-
-    [sBackView setBackgroundColor:aColor];
-    [sBodyLabel setBackgroundColor:aColor];
-    [sPubDateLabel setBackgroundColor:aColor];
 }
 
 

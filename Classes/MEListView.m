@@ -10,6 +10,7 @@
 #import "NSNull+NilObject.h"
 #import "MEListView.h"
 #import "METableViewCellFactory.h"
+#import "MEPostTableViewCell.h"
 #import "MEListHeadView.h"
 #import "MEImageButton.h"
 #import "MEPostBodyView.h"
@@ -274,14 +275,14 @@
 
         if (mShowsPostAuthor)
         {
-            sCell = [METableViewCellFactory postCellWithAuthorForTableView:aTableView withTarget:self];
+            sCell = [MEPostTableViewCell cellWithAuthorForTableView:aTableView withTarget:self];
         }
         else
         {
-            sCell = [METableViewCellFactory postCellForTableView:aTableView withTarget:self];
+            sCell = [MEPostTableViewCell cellForTableView:aTableView withTarget:self];
         }
 
-        [sCell setPost:sPost];
+        [(MEPostTableViewCell *)sCell setPost:sPost];
     }
     else
     {

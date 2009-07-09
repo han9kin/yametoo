@@ -32,18 +32,10 @@
 
     if (self)
     {
-        UIView  *sBackView;
-        UIColor *sColor;
-
-        sColor = [UIColor colorWithRed:0.95 green:1.0 blue:1.0 alpha:1.0];
-
-        sBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 34)];
-        [sBackView setBackgroundColor:sColor];
-        [[self contentView] addSubview:sBackView];
-        [sBackView release];
+        [[self contentView] setBackgroundColor:[UIColor colorWithRed:0.95 green:1.0 blue:1.0 alpha:1.0]];
 
         mTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 70, 34)];
-        [mTitleLabel setBackgroundColor:sColor];
+        [mTitleLabel setBackgroundColor:[UIColor clearColor]];
         [mTitleLabel setTextColor:[UIColor orangeColor]];
         [mTitleLabel setHighlightedTextColor:[UIColor whiteColor]];
         [mTitleLabel setFont:[UIFont systemFontOfSize:14.0]];
@@ -51,7 +43,7 @@
         [mTitleLabel release];
 
         mURLLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 200, 34)];
-        [mURLLabel setBackgroundColor:sColor];
+        [mURLLabel setBackgroundColor:[UIColor clearColor]];
         [mURLLabel setTextColor:[UIColor brownColor]];
         [mURLLabel setHighlightedTextColor:[UIColor whiteColor]];
         [mURLLabel setFont:[UIFont systemFontOfSize:14.0]];
