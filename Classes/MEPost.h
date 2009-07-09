@@ -26,7 +26,7 @@
     NSInteger           mCommentsCount;
     NSInteger           mMetooCount;
     MEUser             *mAuthor;
-    NSString           *mTags;
+    NSString           *mTagText;
     NSURL              *mIconURL;
     NSURL              *mPhotoURL;
     NSMutableArray     *mLinks;
@@ -40,7 +40,7 @@
 @property(nonatomic, readonly)                         NSInteger           commentsCount;
 @property(nonatomic, readonly)                         NSInteger           metooCount;
 @property(nonatomic, readonly)                         MEUser             *author;
-@property(nonatomic, readonly)                         NSString           *tags;
+@property(nonatomic, readonly)                         NSString           *tagText;
 @property(nonatomic, readonly)                         NSURL              *iconURL;
 @property(nonatomic, readonly)                         NSURL              *photoURL;
 @property(nonatomic, readonly)                         NSArray            *links;

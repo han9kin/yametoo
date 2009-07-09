@@ -32,7 +32,7 @@
 @synthesize commentsCount = mCommentsCount;
 @synthesize metooCount    = mMetooCount;
 @synthesize author        = mAuthor;
-@synthesize tags          = mTags;
+@synthesize tagText       = mTagText;
 @synthesize iconURL       = mIconURL;
 @synthesize photoURL      = mPhotoURL;
 @dynamic    links;
@@ -56,7 +56,7 @@
         mCommentsCount = [[aPostDict objectForKey:@"commentsCount"] integerValue];
         mMetooCount    = [[aPostDict objectForKey:@"metooCount"] integerValue];
         mAuthor        = [[MEUser userWithUserID:[[aPostDict objectForKey:@"author"] objectForKey:@"id"]] retain];
-        mTags          = [[[[aPostDict objectForKey:@"tags"] valueForKey:@"name"] componentsJoinedByString:@" "] retain];
+        mTagText       = [[aPostDict objectForKey:@"tagText"] retain];
         mIconURL       = [[NSURL alloc] initWithStringOrNil:[aPostDict objectForKey:@"iconUrl"]];
         mPhotoURL      = [[NSURL alloc] initWithStringOrNil:[[aPostDict objectForKey:@"media"] objectForKey:@"photoUrl"]];
         mCommentClosed = [[aPostDict objectForKey:@"commentClosed"] boolValue];
@@ -83,7 +83,7 @@
     [mKind release];
     [mPubDate release];
     [mAuthor release];
-    [mTags release];
+    [mTagText release];
     [mIconURL release];
     [mPhotoURL release];
     [mLinks release];

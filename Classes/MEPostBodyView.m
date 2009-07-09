@@ -87,7 +87,7 @@
 
     sHeight += [[aPost body] sizeForWidth:aWidth].height;
     sHeight += kLabelSpacing;
-    sHeight += [[aPost tags] sizeWithFont:[MEPostBodyView tagFont] constrainedToSize:CGSizeMake(aWidth, 1000) lineBreakMode:UILineBreakModeCharacterWrap].height;
+    sHeight += [[aPost tagText] sizeWithFont:[MEPostBodyView tagFont] constrainedToSize:CGSizeMake(aWidth, 1000) lineBreakMode:UILineBreakModeCharacterWrap].height;
     sHeight += kLabelSpacing;
     sHeight += kBottomLabelHeight;
 
@@ -170,7 +170,7 @@
     NSMutableArray *sComments = [NSMutableArray array];
 
     [mBodyLabel setAttributedText:[aPost body]];
-    [mTagsLabel setText:[aPost tags]];
+    [mTagsLabel setText:[aPost tagText]];
 
     [sComments addObject:[NSString stringWithFormat:NSLocalizedString(@"Metoo (%d)", @""), [aPost metooCount]]];
 
