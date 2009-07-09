@@ -1,5 +1,5 @@
 /*
- *  MainViewController.h
+ *  MEWriteViewController.h
  *  yametoo
  *
  *  Created by cgkim on 09. 04. 15.
@@ -15,7 +15,7 @@
 @class MEImageButton;
 
 
-@interface MEPostViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, MEIconListViewDelegate>
+@interface MEWriteViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, MEIconListViewDelegate>
 {
     IBOutlet UIBarButtonItem *mCancelButton;
     IBOutlet UIBarButtonItem *mPostButton;

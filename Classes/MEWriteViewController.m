@@ -1,5 +1,5 @@
 /*
- *  MainViewController.m
+ *  MEWriteViewController.m
  *  yametoo
  *
  *  Created by cgkim on 09. 04. 15.
@@ -8,7 +8,7 @@
  */
 
 #import "UIAlertView+MEAdditions.h"
-#import "MEPostViewController.h"
+#import "MEWriteViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEDrawingFunctions.h"
@@ -34,7 +34,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 
 
-@interface MEPostViewController (Privates)
+@interface MEWriteViewController (Privates)
 
 - (void)setInterfaceEnabled:(BOOL)aFlag;
 - (void)updateSelectedIcon;
@@ -44,7 +44,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 @end
 
 
-@implementation MEPostViewController (Privates)
+@implementation MEWriteViewController (Privates)
 
 
 - (void)setInterfaceEnabled:(BOOL)aFlag
@@ -181,8 +181,19 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 @end
 
 
-@implementation MEPostViewController
+@implementation MEWriteViewController
 
+
+- (id)init
+{
+    self = [super initWithNibName:@"WriteView" bundle:nil];
+
+    if (self)
+    {
+    }
+
+    return self;
+}
 
 - (void)dealloc
 {

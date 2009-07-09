@@ -12,9 +12,9 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
-		2899E5220DE3E06400AC0155 /* PostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* PostViewController.xib */; };
+		2899E5220DE3E06400AC0155 /* WriteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* WriteView.xib */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
-		28D7ACF80DDB3853001CB0EB /* MEPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* MEPostViewController.m */; };
+		28D7ACF80DDB3853001CB0EB /* MEWriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* MEWriteViewController.m */; };
 		2E1474C70FD8C1B500E0D93A /* rotate_left_enable.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E1474BB0FD8C1B500E0D93A /* rotate_left_enable.png */; };
 		2E1474C80FD8C1B500E0D93A /* resize_enable.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E1474BC0FD8C1B500E0D93A /* resize_enable.png */; };
 		2E1474C90FD8C1B500E0D93A /* no_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E1474BD0FD8C1B500E0D93A /* no_image.png */; };
@@ -121,10 +121,10 @@
 		1D6058910D05DD3D006BFB54 /* yametoo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = yametoo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		2899E5210DE3E06400AC0155 /* PostViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostViewController.xib; sourceTree = "<group>"; };
+		2899E5210DE3E06400AC0155 /* WriteView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WriteView.xib; sourceTree = "<group>"; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		28D7ACF60DDB3853001CB0EB /* MEPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPostViewController.h; sourceTree = "<group>"; };
-		28D7ACF70DDB3853001CB0EB /* MEPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPostViewController.m; sourceTree = "<group>"; };
+		28D7ACF60DDB3853001CB0EB /* MEWriteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEWriteViewController.h; sourceTree = "<group>"; };
+		28D7ACF70DDB3853001CB0EB /* MEWriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEWriteViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2E1474BB0FD8C1B500E0D93A /* rotate_left_enable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rotate_left_enable.png; sourceTree = "<group>"; };
 		2E1474BC0FD8C1B500E0D93A /* resize_enable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resize_enable.png; sourceTree = "<group>"; };
@@ -596,8 +596,8 @@
 			children = (
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				2EC19A5A0F9C1E9800963971 /* LoginView.xib */,
-				2899E5210DE3E06400AC0155 /* PostViewController.xib */,
 				2ED4E8320FA942D6000BFE2F /* ReadView.xib */,
+				2899E5210DE3E06400AC0155 /* WriteView.xib */,
 				2ED83E370FAECFC600786952 /* ReplyView.xib */,
 			);
 			name = Interfaces;
@@ -654,10 +654,10 @@
 		CFE72F750FA9983B00C54792 /* Other View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				28D7ACF60DDB3853001CB0EB /* MEPostViewController.h */,
-				28D7ACF70DDB3853001CB0EB /* MEPostViewController.m */,
 				2ED4E84D0FA9611D000BFE2F /* MEReadViewController.h */,
 				2ED4E84E0FA9611D000BFE2F /* MEReadViewController.m */,
+				28D7ACF60DDB3853001CB0EB /* MEWriteViewController.h */,
+				28D7ACF70DDB3853001CB0EB /* MEWriteViewController.m */,
 				2ED83E390FAECFDC00786952 /* MEReplyViewController.h */,
 				2ED83E3A0FAECFDC00786952 /* MEReplyViewController.m */,
 				CFE43E4F0FDE4AD2009C451A /* MEVisitsViewController.h */,
@@ -748,7 +748,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
-				2899E5220DE3E06400AC0155 /* PostViewController.xib in Resources */,
+				2899E5220DE3E06400AC0155 /* WriteView.xib in Resources */,
 				2E6D55820F95BAF400AA1DF6 /* yametoo_icon.png in Resources */,
 				CF5EE9430F9BFEBD004712FF /* checkmark_highlighted.png in Resources */,
 				CF5EE9440F9BFEBD004712FF /* checkmark_normal.png in Resources */,
@@ -795,7 +795,7 @@
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
-				28D7ACF80DDB3853001CB0EB /* MEPostViewController.m in Sources */,
+				28D7ACF80DDB3853001CB0EB /* MEWriteViewController.m in Sources */,
 				2ED163E60F9589D3009557F1 /* MEClient.m in Sources */,
 				2ED164440F959B2A009557F1 /* NSString+MEAdditions.m in Sources */,
 				2ED1646A0F959F46009557F1 /* MEClient+Requests.m in Sources */,

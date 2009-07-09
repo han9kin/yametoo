@@ -12,7 +12,7 @@
 #import "UIViewController+MEAdditions.h"
 #import "MEListView.h"
 #import "MEListViewController.h"
-#import "MEPostViewController.h"
+#import "MEWriteViewController.h"
 #import "MEReadViewController.h"
 #import "MEVisitsViewController.h"
 #import "MEMediaView.h"
@@ -407,7 +407,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 {
     UIViewController *sViewController;
 
-    sViewController = [[MEPostViewController alloc] initWithNibName:@"PostViewController" bundle:nil];
+    sViewController = [[MEWriteViewController alloc] init];
     [self presentModalViewController:sViewController animated:YES];
     [sViewController release];
 }
