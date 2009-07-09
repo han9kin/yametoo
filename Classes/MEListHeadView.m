@@ -1,5 +1,5 @@
 /*
- *  MEReaderHeadView.m
+ *  MEListHeadView.m
  *  yametoo
  *
  *  Created by cgkim on 09. 04. 17.
@@ -7,14 +7,14 @@
  *
  */
 
-#import "MEReaderHeadView.h"
+#import "MEListHeadView.h"
 #import "MEImageView.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEUser.h"
 
 
-#define kReaderHeadViewHeight 70
+#define kListHeadViewHeight 70
 #define kFaceImageViewWidth   50
 #define kFaceImageViewHeight  50
 #define kNickButtonWidth      152
@@ -23,7 +23,7 @@
 #define kPostButtonHeight     35
 
 
-@implementation MEReaderHeadView
+@implementation MEListHeadView
 
 
 - (id)initWithFrame:(CGRect)aFrame
@@ -66,9 +66,9 @@
 #pragma mark Class Method
 
 
-+ (MEReaderHeadView *)readerHeadView
++ (MEListHeadView *)listHeadView
 {
-    return [[[MEReaderHeadView alloc] initWithFrame:CGRectMake(0, 0, 320, kReaderHeadViewHeight)] autorelease];
+    return [[[MEListHeadView alloc] initWithFrame:CGRectMake(0, 0, 320, kListHeadViewHeight)] autorelease];
 }
 
 

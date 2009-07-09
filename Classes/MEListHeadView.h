@@ -1,5 +1,5 @@
 /*
- *  MEReaderHeadView.h
+ *  MEListHeadView.h
  *  yametoo
  *
  *  Created by cgkim on 09. 04. 17.
@@ -12,7 +12,7 @@
 
 @class MEImageView;
 
-@interface MEReaderHeadView : UIView
+@interface MEListHeadView : UIView
 {
     MEImageView *mFaceImageView;
     UILabel     *mUserDescLabel;
@@ -21,7 +21,7 @@
     id           mDelegate;
 }
 
-+ (MEReaderHeadView *)readerHeadView;
++ (MEListHeadView *)listHeadView;
 
 - (void)setDelegate:(id)aDelegate;
 - (void)setUserID:(NSString *)aUserID;
@@ -30,8 +30,8 @@
 @end
 
 
-@protocol MEReaderHeadViewDelegate
+@protocol MEListHeadViewDelegate
 
-- (void)newPostButtonTapped:(MEReaderHeadView *)aHeaderView;
+- (void)newPostButtonTapped:(MEListHeadView *)aHeaderView;
 
 @end

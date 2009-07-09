@@ -1,5 +1,5 @@
 /*
- *  MEReaderView.m
+ *  MEListView.m
  *  yametoo
  *
  *  Created by cgkim on 09. 04. 17.
@@ -8,9 +8,9 @@
  */
 
 #import "NSNull+NilObject.h"
-#import "MEReaderView.h"
+#import "MEListView.h"
 #import "METableViewCellFactory.h"
-#import "MEReaderHeadView.h"
+#import "MEListHeadView.h"
 #import "MEImageButton.h"
 #import "MEPostBodyView.h"
 #import "MEMediaView.h"
@@ -24,7 +24,7 @@
 #define kTimeStrHeight  13.0
 
 
-@implementation MEReaderView
+@implementation MEListView
 
 
 #pragma mark -
@@ -101,11 +101,11 @@
 {
     if (aUserID)
     {
-        MEReaderHeadView *sHeaderView = (MEReaderHeadView *)[mTableView tableHeaderView];
+        MEListHeadView *sHeaderView = (MEListHeadView *)[mTableView tableHeaderView];
 
         if (!sHeaderView)
         {
-            sHeaderView = [MEReaderHeadView readerHeadView];
+            sHeaderView = [MEListHeadView listHeadView];
 
             [sHeaderView setDelegate:self];
             [sHeaderView setShowsPostButton:mShowsPostButton];
@@ -133,7 +133,7 @@
 - (void)setShowsPostButton:(BOOL)aShowsPostButton
 {
     mShowsPostButton = aShowsPostButton;
-    [(MEReaderHeadView *)[mTableView tableHeaderView] setShowsPostButton:mShowsPostButton];
+    [(MEListHeadView *)[mTableView tableHeaderView] setShowsPostButton:mShowsPostButton];
 }
 
 
@@ -165,13 +165,13 @@
 {
     NSInteger i;
 
-    mSectionCount = [mDataSource numberOfSectionsInReaderView:self];
+    mSectionCount = [mDataSource numberOfSectionsInListView:self];
 
     [mSectionTitleCache removeAllObjects];
 
     for (i = 0; i < mSectionCount; i++)
     {
-        NSString *sTitle = [mDataSource readerView:self titleForSection:i];
+        NSString *sTitle = [mDataSource listView:self titleForSection:i];
 
         if (sTitle)
         {
@@ -193,13 +193,13 @@
 
 - (void)faceImageButtonTapped:(id)aSender
 {
-    if ([mDelegate respondsToSelector:@selector(readerView:didTapUserInfoButtonForUser:)])
+    if ([mDelegate respondsToSelector:@selector(listView:didTapUserInfoButtonForUser:)])
     {
         MEUser *sUser = [(MEImageButton *)aSender userInfo];
 
         if (sUser)
         {
-            [mDelegate readerView:self didTapUserInfoButtonForUser:sUser];
+            [mDelegate listView:self didTapUserInfoButtonForUser:sUser];
         }
     }
 }
@@ -207,13 +207,13 @@
 
 - (void)iconImageButtonTapped:(id)aSender
 {
-    if ([mDelegate respondsToSelector:@selector(readerView:didTapPostIconButtonForPost:)])
+    if ([mDelegate respondsToSelector:@selector(listView:didTapPostIconButtonForPost:)])
     {
         MEPost *sPost = [(MEImageButton *)aSender userInfo];
 
         if (sPost)
         {
-            [mDelegate readerView:self didTapPostIconButtonForPost:sPost];
+            [mDelegate listView:self didTapPostIconButtonForPost:sPost];
         }
     }
 }
@@ -255,7 +255,7 @@
 {
     if (aSection < mSectionCount)
     {
-        return [mDataSource readerView:self numberOfPostsInSection:aSection];
+        return [mDataSource listView:self numberOfPostsInSection:aSection];
     }
     else
     {
@@ -270,7 +270,7 @@
 
     if ([aIndexPath section] < mSectionCount)
     {
-        MEPost *sPost = [mDataSource readerView:self postAtIndexPath:aIndexPath];
+        MEPost *sPost = [mDataSource listView:self postAtIndexPath:aIndexPath];
 
         if (mShowsPostAuthor)
         {
@@ -306,7 +306,7 @@
 
     if ([aIndexPath section] < mSectionCount)
     {
-        MEPost   *sPost         = [mDataSource readerView:self postAtIndexPath:aIndexPath];
+        MEPost   *sPost         = [mDataSource listView:self postAtIndexPath:aIndexPath];
         NSNumber *sCachedHeight = [mCellHeightCache objectForKey:[sPost postID]];
 
         if (sCachedHeight)
@@ -343,16 +343,16 @@
 {
     if ([aIndexPath section] < mSectionCount)
     {
-        if ([mDelegate respondsToSelector:@selector(readerView:didSelectPostAtIndexPath:)])
+        if ([mDelegate respondsToSelector:@selector(listView:didSelectPostAtIndexPath:)])
         {
-            [mDelegate readerView:self didSelectPostAtIndexPath:aIndexPath];
+            [mDelegate listView:self didSelectPostAtIndexPath:aIndexPath];
         }
     }
     else
     {
-        if ([mDelegate respondsToSelector:@selector(readerViewDidTapFetchMoreButton:)])
+        if ([mDelegate respondsToSelector:@selector(listViewDidTapFetchMoreButton:)])
         {
-            [mDelegate readerViewDidTapFetchMoreButton:self];
+            [mDelegate listViewDidTapFetchMoreButton:self];
         }
 
         [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];
@@ -361,14 +361,14 @@
 
 
 #pragma mark -
-#pragma mark MEReaderHead Delegate
+#pragma mark MEListHead Delegate
 
 
-- (void)newPostButtonTapped:(MEReaderHeadView *)aReaderHeadView
+- (void)newPostButtonTapped:(MEListHeadView *)aListHeadView
 {
-    if ([mDelegate respondsToSelector:@selector(readerViewDidTapNewPostButton:)])
+    if ([mDelegate respondsToSelector:@selector(listViewDidTapNewPostButton:)])
     {
-        [mDelegate readerViewDidTapNewPostButton:self];
+        [mDelegate listViewDidTapNewPostButton:self];
     }
 }
 

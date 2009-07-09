@@ -39,8 +39,8 @@
 		2E53A1380FBD5C0D00144B0A /* setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E53A1370FBD5C0D00144B0A /* setting.png */; };
 		2E5937000FE0EE340095063A /* visit.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E5936FF0FE0EE340095063A /* visit.png */; };
 		2E6101AF0F983AF60097AD3D /* METableViewCellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6101AE0F983AF60097AD3D /* METableViewCellFactory.m */; };
-		2E6102280F985AA40097AD3D /* MEReaderHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6102270F985AA40097AD3D /* MEReaderHeadView.m */; };
-		2E6102CC0F986B930097AD3D /* MEReaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6102CB0F986B930097AD3D /* MEReaderView.m */; };
+		2E6102280F985AA40097AD3D /* MEListHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6102270F985AA40097AD3D /* MEListHeadView.m */; };
+		2E6102CC0F986B930097AD3D /* MEListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6102CB0F986B930097AD3D /* MEListView.m */; };
 		2E61035A0F9880820097AD3D /* MEUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6103590F9880820097AD3D /* MEUser.m */; };
 		2E61037B0F9883B30097AD3D /* MEPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E61037A0F9883B30097AD3D /* MEPost.m */; };
 		2E6D55820F95BAF400AA1DF6 /* yametoo_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E6D55810F95BAF400AA1DF6 /* yametoo_icon.png */; };
@@ -108,7 +108,7 @@
 		CFE72E9E0FA863B900C54792 /* MEAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72E9D0FA863B900C54792 /* MEAboutViewController.m */; };
 		CFE72EA90FA8678E00C54792 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = CFE72EA80FA8678E00C54792 /* Credits.html */; };
 		CFE72F070FA9672400C54792 /* MEPostBodyView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72F060FA9672400C54792 /* MEPostBodyView.m */; };
-		CFE72FE80FAE8D0200C54792 /* MEReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72FE70FAE8D0200C54792 /* MEReaderViewController.m */; };
+		CFE72FE80FAE8D0200C54792 /* MEListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72FE70FAE8D0200C54792 /* MEListViewController.m */; };
 		CFE7318F0FB175A200C54792 /* UIAlertView+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE7318E0FB175A200C54792 /* UIAlertView+MEAdditions.m */; };
 		CFE7320E0FB1906300C54792 /* MESettings.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE7320D0FB1906300C54792 /* MESettings.m */; };
 		CFE732260FB192D900C54792 /* MEFetchSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE732250FB192D900C54792 /* MEFetchSettingsViewController.m */; };
@@ -157,10 +157,10 @@
 		2E5936FF0FE0EE340095063A /* visit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = visit.png; sourceTree = "<group>"; };
 		2E6101AD0F983AF60097AD3D /* METableViewCellFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = METableViewCellFactory.h; sourceTree = "<group>"; };
 		2E6101AE0F983AF60097AD3D /* METableViewCellFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = METableViewCellFactory.m; sourceTree = "<group>"; };
-		2E6102260F985AA40097AD3D /* MEReaderHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReaderHeadView.h; sourceTree = "<group>"; };
-		2E6102270F985AA40097AD3D /* MEReaderHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReaderHeadView.m; sourceTree = "<group>"; };
-		2E6102CA0F986B930097AD3D /* MEReaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReaderView.h; sourceTree = "<group>"; };
-		2E6102CB0F986B930097AD3D /* MEReaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReaderView.m; sourceTree = "<group>"; };
+		2E6102260F985AA40097AD3D /* MEListHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEListHeadView.h; sourceTree = "<group>"; };
+		2E6102270F985AA40097AD3D /* MEListHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEListHeadView.m; sourceTree = "<group>"; };
+		2E6102CA0F986B930097AD3D /* MEListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEListView.h; sourceTree = "<group>"; };
+		2E6102CB0F986B930097AD3D /* MEListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEListView.m; sourceTree = "<group>"; };
 		2E6103580F9880820097AD3D /* MEUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEUser.h; sourceTree = "<group>"; };
 		2E6103590F9880820097AD3D /* MEUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEUser.m; sourceTree = "<group>"; };
 		2E6103790F9883B30097AD3D /* MEPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPost.h; sourceTree = "<group>"; };
@@ -280,8 +280,8 @@
 		CFE72EA80FA8678E00C54792 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		CFE72F050FA9672400C54792 /* MEPostBodyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPostBodyView.h; sourceTree = "<group>"; };
 		CFE72F060FA9672400C54792 /* MEPostBodyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPostBodyView.m; sourceTree = "<group>"; };
-		CFE72FE60FAE8D0200C54792 /* MEReaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReaderViewController.h; sourceTree = "<group>"; };
-		CFE72FE70FAE8D0200C54792 /* MEReaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReaderViewController.m; sourceTree = "<group>"; };
+		CFE72FE60FAE8D0200C54792 /* MEListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEListViewController.h; sourceTree = "<group>"; };
+		CFE72FE70FAE8D0200C54792 /* MEListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEListViewController.m; sourceTree = "<group>"; };
 		CFE7318D0FB175A200C54792 /* UIAlertView+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+MEAdditions.h"; sourceTree = "<group>"; };
 		CFE7318E0FB175A200C54792 /* UIAlertView+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+MEAdditions.m"; sourceTree = "<group>"; };
 		CFE7320C0FB1906300C54792 /* MESettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MESettings.h; sourceTree = "<group>"; };
@@ -397,10 +397,10 @@
 				CFDD42A70FB41A4100B9931A /* MEImageButton.m */,
 				2E6101AD0F983AF60097AD3D /* METableViewCellFactory.h */,
 				2E6101AE0F983AF60097AD3D /* METableViewCellFactory.m */,
-				2E6102260F985AA40097AD3D /* MEReaderHeadView.h */,
-				2E6102270F985AA40097AD3D /* MEReaderHeadView.m */,
-				2E6102CA0F986B930097AD3D /* MEReaderView.h */,
-				2E6102CB0F986B930097AD3D /* MEReaderView.m */,
+				2E6102260F985AA40097AD3D /* MEListHeadView.h */,
+				2E6102270F985AA40097AD3D /* MEListHeadView.m */,
+				2E6102CA0F986B930097AD3D /* MEListView.h */,
+				2E6102CB0F986B930097AD3D /* MEListView.m */,
 				2E2B6BD80FA5A48200F4B830 /* MEMediaView.h */,
 				2E2B6BD90FA5A48200F4B830 /* MEMediaView.m */,
 				CFE72F050FA9672400C54792 /* MEPostBodyView.h */,
@@ -500,7 +500,7 @@
 				CFE72F740FA9983300C54792 /* Application Controller */,
 				CFFC6DD80FBAB8A800B935E7 /* Login View Controller */,
 				CFE732230FB192A200C54792 /* Settings View Controller */,
-				CFDD41F40FB3C13300B9931A /* Reader View Controller */,
+				CFDD41F40FB3C13300B9931A /* List View Controller */,
 				CFE72F750FA9983B00C54792 /* Other View Controllers */,
 			);
 			name = Controllers;
@@ -625,11 +625,11 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
-		CFDD41F40FB3C13300B9931A /* Reader View Controller */ = {
+		CFDD41F40FB3C13300B9931A /* List View Controller */ = {
 			isa = PBXGroup;
 			children = (
-				CFE72FE60FAE8D0200C54792 /* MEReaderViewController.h */,
-				CFE72FE70FAE8D0200C54792 /* MEReaderViewController.m */,
+				CFE72FE60FAE8D0200C54792 /* MEListViewController.h */,
+				CFE72FE70FAE8D0200C54792 /* MEListViewController.m */,
 				CFDD41970FB2DF6E00B9931A /* MEMyMetooViewController.h */,
 				CFDD41980FB2DF6E00B9931A /* MEMyMetooViewController.m */,
 				CFDD419A0FB2DF8400B9931A /* MEFriendsViewController.h */,
@@ -637,7 +637,7 @@
 				CFC8A1D20FE0D1B100EA77C6 /* MEOtherMetooViewController.h */,
 				CFC8A1D30FE0D1B100EA77C6 /* MEOtherMetooViewController.m */,
 			);
-			name = "Reader View Controller";
+			name = "List View Controller";
 			sourceTree = "<group>";
 		};
 		CFE72F740FA9983300C54792 /* Application Controller */ = {
@@ -811,8 +811,8 @@
 				CF5EE8160F981C4E004712FF /* MEClientStore.m in Sources */,
 				CF5EE8650F98525E004712FF /* MEAccountDetailViewController.m in Sources */,
 				2E6101AF0F983AF60097AD3D /* METableViewCellFactory.m in Sources */,
-				2E6102280F985AA40097AD3D /* MEReaderHeadView.m in Sources */,
-				2E6102CC0F986B930097AD3D /* MEReaderView.m in Sources */,
+				2E6102280F985AA40097AD3D /* MEListHeadView.m in Sources */,
+				2E6102CC0F986B930097AD3D /* MEListView.m in Sources */,
 				2E61035A0F9880820097AD3D /* MEUser.m in Sources */,
 				2E61037B0F9883B30097AD3D /* MEPost.m in Sources */,
 				2EC19A590F9C1D5D00963971 /* MELoginViewController.m in Sources */,
@@ -836,7 +836,7 @@
 				2ED4E84F0FA9611D000BFE2F /* MEReplyViewController.m in Sources */,
 				CFE72F070FA9672400C54792 /* MEPostBodyView.m in Sources */,
 				2ED83E3B0FAECFDC00786952 /* MEAddCommentViewController.m in Sources */,
-				CFE72FE80FAE8D0200C54792 /* MEReaderViewController.m in Sources */,
+				CFE72FE80FAE8D0200C54792 /* MEListViewController.m in Sources */,
 				2E27668A0FAEF3A700F59ACD /* MERoundBackView.m in Sources */,
 				CFE7318F0FB175A200C54792 /* UIAlertView+MEAdditions.m in Sources */,
 				CFE7320E0FB1906300C54792 /* MESettings.m in Sources */,
@@ -966,7 +966,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C0F73316-95D6-4004-9954-6699C1F30F1C";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E37DCFD4-2F23-4228-AE3D-973A8CEEB46C";
 				SDKROOT = iphoneos2.2.1;
 			};
 			name = Debug;

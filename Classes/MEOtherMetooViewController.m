@@ -7,7 +7,7 @@
  *
  */
 
-#import "MEReaderView.h"
+#import "MEListView.h"
 #import "MEOtherMetooViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
@@ -47,10 +47,10 @@
 }
 
 
-- (void)configureReaderView:(MEReaderView *)aReaderView
+- (void)configureListView:(MEListView *)aListView
 {
-    [aReaderView setShowsPostAuthor:NO];
-    [aReaderView setShowsPostButton:NO];
+    [aListView setShowsPostAuthor:NO];
+    [aListView setShowsPostButton:NO];
 }
 
 - (void)fetchFromOffset:(NSInteger)aOffset count:(NSInteger)aCount

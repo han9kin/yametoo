@@ -496,7 +496,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">MEFriendsViewController</string>
-					<string key="superclassName">MEReaderViewController</string>
+					<string key="superclassName">MEListViewController</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Classes/MEFriendsViewController.h</string>
@@ -504,18 +504,18 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">MEMyMetooViewController</string>
-					<string key="superclassName">MEReaderViewController</string>
+					<string key="superclassName">MEListViewController</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Classes/MEMyMetooViewController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">MEReaderViewController</string>
+					<string key="className">MEListViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/MEReaderViewController.h</string>
+						<string key="minorKey">Classes/MEListViewController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

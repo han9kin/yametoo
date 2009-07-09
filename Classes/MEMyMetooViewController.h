@@ -8,10 +8,10 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "MEReaderViewController.h"
+#import "MEListViewController.h"
 
 
-@interface MEMyMetooViewController : MEReaderViewController
+@interface MEMyMetooViewController : MEListViewController
 {
 
 }

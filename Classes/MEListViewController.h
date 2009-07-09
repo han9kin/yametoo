@@ -1,5 +1,5 @@
 /*
- *  MEReaderViewController.h
+ *  MEListViewController.h
  *  yametoo
  *
  *  Created by han9kin on 09. 05. 04.
@@ -10,24 +10,24 @@
 #import <UIKit/UIKit.h>
 
 
-typedef enum MEReaderViewControllerType
+typedef enum MEListViewControllerType
 {
-    kMEReaderViewControllerTypeMyMetoo,
-    kMEReaderViewControllerTypeMyFriends,
-} MEReaderViewControllerType;
+    kMEListViewControllerTypeMyMetoo,
+    kMEListViewControllerTypeMyFriends,
+} MEListViewControllerType;
 
 
 @class    MEMediaView;
-@class    MEReaderView;
+@class    MEListView;
 @class    MEUser;
-@protocol MEReaderViewDataSource;
-@protocol MEReaderViewDelegate;
+@protocol MEListViewDataSource;
+@protocol MEListViewDelegate;
 
 
-@interface MEReaderViewController : UIViewController <MEReaderViewDataSource, MEReaderViewDelegate, UIActionSheetDelegate>
+@interface MEListViewController : UIViewController <MEListViewDataSource, MEListViewDelegate, UIActionSheetDelegate>
 {
     UILabel        *mTitleLabel;
-    MEReaderView   *mReaderView;
+    MEListView   *mListView;
     MEMediaView    *mMediaView;
 
     NSString       *mTitle;
@@ -50,7 +50,7 @@ typedef enum MEReaderViewControllerType
 
 #pragma mark subclass responsibles
 
-- (void)configureReaderView:(MEReaderView *)aReaderView;
+- (void)configureListView:(MEListView *)aListView;
 - (void)fetchFromOffset:(NSInteger)aOffset count:(NSInteger)aCount;
 
 

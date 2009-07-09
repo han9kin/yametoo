@@ -1,5 +1,5 @@
 /*
- *  MEReaderViewController.m
+ *  MEListViewController.m
  *  yametoo
  *
  *  Created by han9kin on 09. 05. 04.
@@ -10,8 +10,8 @@
 #import "NSDate+MEAdditions.h"
 #import "UIAlertView+MEAdditions.h"
 #import "UIViewController+MEAdditions.h"
-#import "MEReaderView.h"
-#import "MEReaderViewController.h"
+#import "MEListView.h"
+#import "MEListViewController.h"
 #import "MEUserInfoViewController.h"
 #import "MEPostViewController.h"
 #import "MEReplyViewController.h"
@@ -39,10 +39,10 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 }
 
 
-@interface MEReaderViewController (Private)
+@interface MEListViewController (Private)
 @end
 
-@implementation MEReaderViewController (Private)
+@implementation MEListViewController (Private)
 
 
 - (MEPost *)postForIndexPath:(NSIndexPath *)aIndexPath
@@ -144,13 +144,13 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
         [self fetchFromOffset:mUpdateOffset count:kUpdateFetchCount];
     }
 
-    [mReaderView reloadData];
+    [mListView reloadData];
 }
 
 @end
 
 
-@implementation MEReaderViewController
+@implementation MEListViewController
 
 
 - (id)initWithCoder:(NSCoder *)aCoder
@@ -228,18 +228,18 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     [sView addSubview:mTitleLabel];
     [mTitleLabel release];
 
-    mReaderView = [[MEReaderView alloc] initWithFrame:CGRectMake(0, 25, sRect.size.width, sRect.size.height - 25)];
-    [mReaderView setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
-    [mReaderView setTitleUserID:mTitleUserID];
-    [mReaderView setDataSource:self];
-    [mReaderView setDelegate:self];
-    [[self view] addSubview:mReaderView];
-    [mReaderView release];
+    mListView = [[MEListView alloc] initWithFrame:CGRectMake(0, 25, sRect.size.width, sRect.size.height - 25)];
+    [mListView setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
+    [mListView setTitleUserID:mTitleUserID];
+    [mListView setDataSource:self];
+    [mListView setDelegate:self];
+    [[self view] addSubview:mListView];
+    [mListView release];
 
     mMediaView = [[MEMediaView alloc] initWithFrame:CGRectZero];
     [mMediaView setFrame:CGRectMake(0, 0, 320, 480)];
 
-    [self configureReaderView:mReaderView];
+    [self configureListView:mListView];
 }
 
 - (void)viewDidUnload
@@ -249,7 +249,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     [mMediaView release];
 
     mTitleLabel = nil;
-    mReaderView = nil;
+    mListView = nil;
     mMediaView  = nil;
 }
 
@@ -271,7 +271,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
         [self fetchFromOffset:0 count:[MESettings initialFetchCount]];
     }
 
-    [mReaderView deselectPostAtIndexPath:[mReaderView indexPathForSelectedPost] animated:YES];
+    [mListView deselectPostAtIndexPath:[mListView indexPathForSelectedPost] animated:YES];
 
     if ([MESettings fetchInterval] > 0)
     {
@@ -311,24 +311,24 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
         [mTitleUserID release];
         mTitleUserID = [aUserID copy];
 
-        [mReaderView setTitleUserID:mTitleUserID];
+        [mListView setTitleUserID:mTitleUserID];
     }
 }
 
 - (void)invalidateData
 {
     [mPosts removeAllObjects];
-    [mReaderView invalidateData];
-    [mReaderView reloadData];
+    [mListView invalidateData];
+    [mListView reloadData];
 }
 
 - (void)reloadData
 {
-    [mReaderView reloadData];
+    [mListView reloadData];
 }
 
 
-- (void)configureReaderView:(MEReaderView *)aReaderView
+- (void)configureListView:(MEListView *)aListView
 {
 }
 
@@ -356,7 +356,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     if (aError)
     {
         [UIAlertView showError:aError];
-        [mReaderView reloadData];
+        [mListView reloadData];
     }
     else
     {
@@ -366,22 +366,22 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 
 #pragma mark -
-#pragma mark MEReaderViewDataSource
+#pragma mark MEListViewDataSource
 
 
-- (NSInteger)numberOfSectionsInReaderView:(MEReaderView *)aReaderView
+- (NSInteger)numberOfSectionsInListView:(MEListView *)aListView
 {
     return [mPosts count];
 }
 
 
-- (NSString *)readerView:(MEReaderView *)aReaderView titleForSection:(NSInteger)aSection
+- (NSString *)listView:(MEListView *)aListView titleForSection:(NSInteger)aSection
 {
     return [[self dateOfSection:aSection] localizedDateString];
 }
 
 
-- (NSInteger)readerView:(MEReaderView *)aReaderView numberOfPostsInSection:(NSInteger)aSection
+- (NSInteger)listView:(MEListView *)aListView numberOfPostsInSection:(NSInteger)aSection
 {
     if (aSection < [mPosts count])
     {
@@ -394,17 +394,17 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 }
 
 
-- (MEPost *)readerView:(MEReaderView *)aReaderView postAtIndexPath:(NSIndexPath *)aIndexPath
+- (MEPost *)listView:(MEListView *)aListView postAtIndexPath:(NSIndexPath *)aIndexPath
 {
     return [self postForIndexPath:aIndexPath];
 }
 
 
 #pragma mark -
-#pragma mark MEReaderViewDelegate
+#pragma mark MEListViewDelegate
 
 
-- (void)readerViewDidTapNewPostButton:(MEReaderView *)aReaderView
+- (void)listViewDidTapNewPostButton:(MEListView *)aListView
 {
     UIViewController *sViewController;
 
@@ -414,13 +414,13 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 }
 
 
-- (void)readerViewDidTapFetchMoreButton:(MEReaderView *)aReaderView
+- (void)listViewDidTapFetchMoreButton:(MEListView *)aListView
 {
     [self fetchFromOffset:mMoreOffset count:[MESettings moreFetchCount]];
 }
 
 
-- (void)readerView:(MEReaderView *)aReaderView didTapUserInfoButtonForUser:(MEUser *)aUser
+- (void)listView:(MEListView *)aListView didTapUserInfoButtonForUser:(MEUser *)aUser
 {
     UIActionSheet *sActionSheet;
 
@@ -433,7 +433,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 }
 
 
-- (void)readerView:(MEReaderView *)aReaderView didTapPostIconButtonForPost:(MEPost *)aPost
+- (void)listView:(MEListView *)aListView didTapPostIconButtonForPost:(MEPost *)aPost
 {
     NSURL *sPhotoURL = [aPost photoURL];
 
@@ -445,7 +445,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 }
 
 
-- (void)readerView:(MEReaderView *)aReaderView didSelectPostAtIndexPath:(NSIndexPath *)aIndexPath
+- (void)listView:(MEListView *)aListView didSelectPostAtIndexPath:(NSIndexPath *)aIndexPath
 {
     MEReplyViewController *sReplyViewController;
 
@@ -480,7 +480,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 - (void)todayDidChange:(NSNotification *)aNotification
 {
-    [mReaderView reloadData];
+    [mListView reloadData];
 }
 
 
