@@ -12,7 +12,6 @@
 #import "UIViewController+MEAdditions.h"
 #import "MEListView.h"
 #import "MEListViewController.h"
-#import "MEUserInfoViewController.h"
 #import "MEPostViewController.h"
 #import "MEReadViewController.h"
 #import "MEVisitsViewController.h"
