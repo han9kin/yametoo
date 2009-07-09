@@ -12,6 +12,7 @@
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEPost.h"
+#import "MEComment.h"
 #import "MECharCounter.h"
 
 
@@ -27,8 +28,8 @@
 - (void)dealloc
 {
     [mTextView release];
-    
-    [mCharCounter release];    
+
+    [mCharCounter release];
     [mPost        release];
 
     [super dealloc];
@@ -47,14 +48,14 @@
 
     [mTextView setReturnKeyType:UIReturnKeySend];
     [mTextView setText:@""];
-    
+
     mCharCounter = [[MECharCounter alloc] initWithParentView:[self view]];
     [mCharCounter setTextOwner:mTextView];
-    [mCharCounter setLimitCount:300];
+    [mCharCounter setLimitCount:kMECommentBodyMaxLen];
     [mCharCounter setFrame:CGRectMake(200, 207, 0, 0)];
     [mCharCounter setHidden:NO];
     [mCharCounter update];
-    
+
     [mTextView becomeFirstResponder];
 }
 
@@ -107,7 +108,7 @@
     {
         [mCharCounter update];
     }
-    
+
     if ([aTextView hasText])
     {
         NSRange sRange = [aTextView selectedRange];
@@ -137,7 +138,7 @@
             return NO;
         }
     }
-    
+
     return YES;
 }
 

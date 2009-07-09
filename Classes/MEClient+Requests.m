@@ -7,10 +7,11 @@
  *
  */
 
-#import "MEClient+Requests.h"
 #import "NSString+MEAdditions.h"
 #import "NSURL+MEAdditions.h"
 #import "NSMutableData+MEAdditions.h"
+#import "MEClient+Requests.h"
+#import "MEPost.h"
 
 
 #define MENotImplemented(x)     NSLog(@"NotImplemented %@", x)
@@ -19,8 +20,9 @@
 static NSString *kMultipartBoundary        = @"----YAMETOO";
 
 
-static NSString *kNonce                    = @"1A3D485B";
+static NSString *kAppTag                   = @" yametoo";
 static NSString *kAppKey                   = @"e9a4f3c223bba69df0b1347d755b8c38";
+static NSString *kNonce                    = @"1A3D485B";
 
 static NSString *kLoginURLFormat           = @"http://me2day.net/api/noop.json?uid=%@&ukey=%@";
 static NSString *kCreateCommentURLFormat   = @"http://me2day.net/api/create_comment.json?uid=%@&ukey=%@&post_id=%@";
@@ -101,6 +103,11 @@ static NSString *kGetPostsScopeValue[] = {
     sURLStr   = [NSString stringWithFormat:kCreatePostURLFormat, mUserID, mUserID, mAuthKey];
     sPostData = [NSMutableData data];
     sRequest  = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
+
+    if (([aTags length] + [kAppTag length]) <= kMEPostTagMaxLen)
+    {
+        aTags = [aTags stringByAppendingString:kAppTag];
+    }
 
     if (aImage)
     {

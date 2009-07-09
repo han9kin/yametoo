@@ -10,6 +10,9 @@
 #import <Foundation/Foundation.h>
 
 
+#define kMECommentBodyMaxLen 150
+
+
 @class MEAttributedString;
 @class MEUser;
 
