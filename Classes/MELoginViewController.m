@@ -159,14 +159,14 @@
 
             [sCell setIndentationLevel:1];
             [sCell setIndentationWidth:30];
-            [sCell setText:NSLocalizedString(@"Other...", @"")];
+            [[sCell textLabel] setText:NSLocalizedString(@"Other...", @"")];
         }
     }
     else
     {
         sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
 
-        [sCell setText:NSLocalizedString(@"About", @"")];
+        [[sCell textLabel] setText:NSLocalizedString(@"About", @"")];
     }
 
     return sCell;

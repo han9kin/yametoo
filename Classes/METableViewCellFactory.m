@@ -157,7 +157,7 @@ enum
     {
         sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Button"] autorelease];
 
-        [sCell setTextAlignment:UITextAlignmentCenter];
+        [[sCell textLabel] setTextAlignment:UITextAlignmentCenter];
     }
 
     return sCell;
@@ -254,12 +254,12 @@ enum
 {
     if (aDisabled)
     {
-        [self setTextColor:[UIColor lightGrayColor]];
+        [[self textLabel] setTextColor:[UIColor lightGrayColor]];
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
     else
     {
-        [self setTextColor:[UIColor blackColor]];
+        [[self textLabel] setTextColor:[UIColor blackColor]];
         [self setSelectionStyle:UITableViewCellSelectionStyleBlue];
     }
 }

@@ -141,17 +141,17 @@ static NSInteger kValue[2][6] = {
     }
 
     sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
-    [sCell setText:sText];
+    [[sCell textLabel] setText:sText];
 
     if (sRowValue == sCurrentValue)
     {
         [sCell setAccessoryType:UITableViewCellAccessoryCheckmark];
-        [sCell setTextColor:[UIColor selectedTextColor]];
+        [[sCell textLabel] setTextColor:[UIColor selectedTextColor]];
     }
     else
     {
         [sCell setAccessoryType:UITableViewCellAccessoryNone];
-        [sCell setTextColor:[UIColor blackColor]];
+        [[sCell textLabel] setTextColor:[UIColor blackColor]];
     }
 
     return sCell;
@@ -200,9 +200,9 @@ static NSInteger kValue[2][6] = {
     }
 
     [[aTableView cellForRowAtIndexPath:sIndexPath] setAccessoryType:UITableViewCellAccessoryNone];
-    [[aTableView cellForRowAtIndexPath:sIndexPath] setTextColor:[UIColor blackColor]];
+    [[[aTableView cellForRowAtIndexPath:sIndexPath] textLabel] setTextColor:[UIColor blackColor]];
     [[aTableView cellForRowAtIndexPath:aIndexPath] setAccessoryType:UITableViewCellAccessoryCheckmark];
-    [[aTableView cellForRowAtIndexPath:aIndexPath] setTextColor:[UIColor selectedTextColor]];
+    [[[aTableView cellForRowAtIndexPath:aIndexPath] textLabel] setTextColor:[UIColor selectedTextColor]];
 
     [aTableView deselectRowAtIndexPath:aIndexPath animated:YES];
 }

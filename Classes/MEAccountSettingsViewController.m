@@ -143,7 +143,7 @@
         sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
 
         [sCell setIndentationLevel:1];
-        [sCell setText:NSLocalizedString(@"Add...", @"")];
+        [[sCell textLabel] setText:NSLocalizedString(@"Add...", @"")];
 
         return sCell;
     }

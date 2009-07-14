@@ -276,7 +276,7 @@
         {
             case 0:
                 sCell = [METableViewCellFactory buttonCellForTableView:aTableView];
-                [sCell setText:NSLocalizedString(@"Delete this Account", @"")];
+                [[sCell textLabel] setText:NSLocalizedString(@"Delete this Account", @"")];
                 break;
 
             case 1:
@@ -293,7 +293,7 @@
 
             case 2:
                 sCell = [METableViewCellFactory switchCellForTableView:aTableView];
-                [sCell setText:NSLocalizedString(@"Passcode Lock", @"")];
+                [[sCell textLabel] setText:NSLocalizedString(@"Passcode Lock", @"")];
 
                 mPasscodeSwitch = [sCell switch];
                 [mPasscodeSwitch setOn:[[MEClientStore clientForUserID:mUserID] hasPasscode]];
@@ -332,7 +332,7 @@
 
             case 1:
                 sCell = [METableViewCellFactory switchCellForTableView:aTableView];
-                [sCell setText:NSLocalizedString(@"Passcode Lock", @"")];
+                [[sCell textLabel] setText:NSLocalizedString(@"Passcode Lock", @"")];
 
                 mPasscodeSwitch = [sCell switch];
                 [mPasscodeSwitch setOn:YES];

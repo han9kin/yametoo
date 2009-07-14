@@ -290,9 +290,9 @@
     {
         sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
 
-        [sCell setFont:[UIFont systemFontOfSize:15.0]];
-        [sCell setTextAlignment:UITextAlignmentCenter];
-        [sCell setText:NSLocalizedString(@"Fetch more...", @"")];
+        [[sCell textLabel] setFont:[UIFont systemFontOfSize:15.0]];
+        [[sCell textLabel] setTextAlignment:UITextAlignmentCenter];
+        [[sCell textLabel] setText:NSLocalizedString(@"Fetch more...", @"")];
     }
 
     return sCell;

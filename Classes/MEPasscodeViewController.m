@@ -162,7 +162,7 @@
 
     mCancelButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
     [mCancelButton setFrame:CGRectMake(0, 163, 106, 53)];
-    [mCancelButton setFont:[UIFont boldSystemFontOfSize:12.0]];
+    [[mCancelButton titleLabel] setFont:[UIFont boldSystemFontOfSize:12.0]];
     [mCancelButton setTitle:NSLocalizedString(@"Cancel", @"") forState:UIControlStateNormal];
     [mCancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [mCancelButton setBackgroundImage:[UIImage imageNamed:@"keypad_highlighted.png"] forState:UIControlStateHighlighted];
