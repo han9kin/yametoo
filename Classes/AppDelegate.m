@@ -11,6 +11,7 @@
 #import "MEClientStore.h"
 #import "MEImageCache.h"
 #import "MELoginViewController.h"
+#import "MEListViewController.h"
 
 
 @interface AppDelegate (Private)
@@ -19,58 +20,47 @@
 @implementation AppDelegate (Private)
 
 
-- (void)showMainView
+- (void)showLoginView
 {
-    if (mLoginViewController)
+    UIViewController *sViewController;
+
+    sViewController = [[MELoginViewController alloc] init];
+
+    if (mNavigationController)
     {
-        if ([[mWindow subviews] containsObject:[mLoginViewController view]])
-        {
-            [UIView beginAnimations:nil context:NULL];
-            [UIView setAnimationDuration:1.0];
-            [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp forView:mWindow cache:YES];
-            [[mLoginViewController view] removeFromSuperview];
-            [mWindow addSubview:[mTabBarController view]];
-            [UIView commitAnimations];
-
-            [mLoginViewController autorelease];
-            mLoginViewController = nil;
-
-            if ([[mTabBarController selectedViewController] isKindOfClass:[UINavigationController class]])
-            {
-                [(UINavigationController *)[mTabBarController selectedViewController] popToRootViewControllerAnimated:NO];
-            }
-
-            [mTabBarController setSelectedIndex:0];
-        }
-        else
-        {
-            [self performSelector:_cmd withObject:nil afterDelay:0.1];
-        }
+        [mNavigationController setViewControllers:[NSArray arrayWithObject:sViewController]];
     }
+    else
+    {
+        mNavigationController = [[UINavigationController alloc] initWithRootViewController:sViewController];
+    }
+
+    [mNavigationController setNavigationBarHidden:YES];
+    [mNavigationController setToolbarHidden:YES];
+
+    [sViewController release];
 }
 
 
-- (void)showLoginView
+- (void)showListView
 {
-    if (!mLoginViewController)
-    {
-        mLoginViewController = [[MELoginViewController alloc] init];
-        [[mLoginViewController view] setFrame:CGRectMake(0, 20, 320, 460)];
+    UIViewController *sViewController;
 
-        if ([[mTabBarController view] superview] == mWindow)
-        {
-            [UIView beginAnimations:nil context:NULL];
-            [UIView setAnimationDuration:1.0];
-            [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:mWindow cache:YES];
-            [[mTabBarController view] removeFromSuperview];
-            [mWindow addSubview:[mLoginViewController view]];
-            [UIView commitAnimations];
-        }
-        else
-        {
-            [mWindow addSubview:[mLoginViewController view]];
-        }
+    sViewController = [[MEListViewController alloc] initWithUserID:[[MEClientStore currentClient] userID] scope:kMEClientGetPostsScopeAll];
+
+    if (mNavigationController)
+    {
+        [mNavigationController setViewControllers:[NSArray arrayWithObject:sViewController] animated:NO];
     }
+    else
+    {
+        mNavigationController = [[UINavigationController alloc] initWithRootViewController:sViewController];
+    }
+
+    [mNavigationController setNavigationBarHidden:NO];
+    [mNavigationController setToolbarHidden:NO];
+
+    [sViewController release];
 }
 
 
@@ -79,16 +69,19 @@
 
 @implementation AppDelegate
 
+@synthesize window = mWindow;
+
+
+- (void)dealloc
+{
+    [mNavigationController release];
+    [mWindow release];
+    [super dealloc];
+}
+
 
 #pragma mark -
-#pragma mark Properties
-
-
-@synthesize window           = mWindow;
-@synthesize tabBarController = mTabBarController;
-
-
-#pragma mark -
+#pragma mark UIApplicationDelegate
 
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)aApplication
@@ -104,17 +97,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChangeNotification:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
 
     [self showLoginView];
+
+    [mWindow addSubview:[mNavigationController view]];
     [mWindow makeKeyAndVisible];
-}
-
-
-- (void)dealloc
-{
-    [mLoginViewController release];
-    [mTabBarController release];
-    [mWindow release];
-
-    [super dealloc];
 }
 
 
@@ -126,11 +111,11 @@
 {
     if ([MEClientStore currentClient])
     {
-        [self performSelector:@selector(showMainView) withObject:nil afterDelay:0.0];
+        [self showListView];
     }
     else
     {
-        [self performSelector:@selector(showLoginView) withObject:nil afterDelay:0.0];
+        [self showLoginView];
     }
 }
 

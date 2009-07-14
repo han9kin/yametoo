@@ -105,7 +105,7 @@
             else
             {
                 sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
-                [sCell setText:NSLocalizedString(@"Number of Posts to Fetch", @"")];
+                [[sCell textLabel] setText:NSLocalizedString(@"Number of Posts to Fetch", @"")];
             }
 
             [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
@@ -113,7 +113,7 @@
 
         case 2:
             sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
-            [sCell setText:NSLocalizedString(@"About", @"")];
+            [[sCell textLabel] setText:NSLocalizedString(@"About", @"")];
             [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
             break;
 

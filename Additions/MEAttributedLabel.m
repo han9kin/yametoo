@@ -41,6 +41,7 @@
 
 - (void)layoutSubviews
 {
+    [mText sizeForWidth:[self bounds].size.width];
     [[mText layoutManager] layoutOnAttributedLabel:self];
 }
 

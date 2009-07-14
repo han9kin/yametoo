@@ -42,7 +42,8 @@
         [[self contentView] addSubview:mTitleLabel];
         [mTitleLabel release];
 
-        mURLLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 200, 34)];
+        mURLLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, [[self contentView] bounds].size.width - 120, 34)];
+        [mURLLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [mURLLabel setBackgroundColor:[UIColor clearColor]];
         [mURLLabel setTextColor:[UIColor brownColor]];
         [mURLLabel setHighlightedTextColor:[UIColor whiteColor]];

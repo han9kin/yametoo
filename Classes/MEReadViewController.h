@@ -19,27 +19,28 @@
 
 @interface MEReadViewController : UIViewController <UIActionSheetDelegate>
 {
-    IBOutlet UINavigationBar *mNaviBar;
-    IBOutlet UIView          *mContainerView;
-    IBOutlet MEImageButton   *mIconButton;
-    IBOutlet MEPostBodyView  *mPostBodyView;
-    IBOutlet UIScrollView    *mPostScrollView;
-    IBOutlet UITableView     *mTableView;
-    IBOutlet UIBarButtonItem *mActionButtonItem;
+    UIView         *mHeaderView;
+    MEImageButton  *mIconButton;
+    MEPostBodyView *mPostBodyView;
+    UITableView    *mTableView;
 
     NSString       *mPostID;
     MEPost         *mPost;
     NSMutableArray *mComments;
-    MEUser         *mTappedUser;
 
     MEMediaView    *mMediaView;
 }
 
+@property(nonatomic, assign) IBOutlet UIView         *headerView;
+@property(nonatomic, assign) IBOutlet MEImageButton  *iconButton;
+@property(nonatomic, assign) IBOutlet MEPostBodyView *postBodyView;
+@property(nonatomic, assign) IBOutlet UITableView    *tableView;
+
+
 - (id)initWithPost:(MEPost *)aPost;
 - (id)initWithPostID:(NSString *)aPostID;
 
-- (IBAction)actionButtonTapped:(id)aSender;
-- (IBAction)closeButtonTapped:(id)aSender;
-- (IBAction)iconButtonTapped:(id)aSender;
+- (IBAction)metoo;
+- (IBAction)reply;
 
 @end

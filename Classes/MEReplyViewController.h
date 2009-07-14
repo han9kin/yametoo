@@ -16,15 +16,16 @@
 
 @interface MEReplyViewController : UIViewController
 {
-    IBOutlet UITextView *mTextView;
-    
-    MECharCounter  *mCharCounter;    
-    MEPost         *mPost;
+    UITextView    *mTextView;
+
+    MECharCounter *mCharCounter;
+    MEPost        *mPost;
 }
 
-@property (nonatomic, retain) MEPost *post;
+@property(nonatomic, assign) IBOutlet UITextView *textView;
 
-- (IBAction)closeButtonTapped:(id)aSender;
-- (IBAction)postButtonTapped:(id)aSender;
+
+- (id)initWithPost:(MEPost *)aPost;
+
 
 @end

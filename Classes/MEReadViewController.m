@@ -22,14 +22,11 @@
 #import "MEPostTableViewCell.h"
 #import "MECommentTableViewCell.h"
 #import "MEPostBodyView.h"
+#import "MEListViewController.h"
 #import "MEReplyViewController.h"
-#import "MEVisitsViewController.h"
-#import "MERoundBackView.h"
+#import "MEWebViewController.h"
 #import "MELinkTableViewCell.h"
 #import "MEMediaView.h"
-
-
-static NSDictionary *gActionSelectors = nil;
 
 
 @interface MEReadViewController (Privates)
@@ -37,6 +34,57 @@ static NSDictionary *gActionSelectors = nil;
 
 
 @implementation MEReadViewController (Privates)
+
+
+- (void)setupToolbarItemsWithMetooEnabled:(BOOL)aMetooEnabled
+{
+    if ([self toolbarItems])
+    {
+        UIBarButtonItem *sItem;
+
+        for (sItem in [self toolbarItems])
+        {
+            if ([sItem action] == @selector(metoo))
+            {
+                [sItem setEnabled:aMetooEnabled];
+            }
+
+            if ([sItem action] == @selector(reply))
+            {
+                [sItem setEnabled:YES];
+            }
+        }
+    }
+    else
+    {
+        NSMutableArray  *sItems = [NSMutableArray array];
+        UIBarButtonItem *sItem;
+
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+        [sItems addObject:sItem];
+        [sItem release];
+
+        sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"metoo", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(metoo)];
+        [sItem setEnabled:aMetooEnabled];
+        [sItems addObject:sItem];
+        [sItem release];
+
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+        [sItems addObject:sItem];
+        [sItem release];
+
+        sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"reply", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(reply)];
+        [sItem setEnabled:NO];
+        [sItems addObject:sItem];
+        [sItem release];
+
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+        [sItems addObject:sItem];
+        [sItem release];
+
+        [self setToolbarItems:sItems];
+    }
+}
 
 
 - (void)getPost
@@ -53,40 +101,22 @@ static NSDictionary *gActionSelectors = nil;
 
 - (void)showPost
 {
-    [[mNaviBar topItem] setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s Post", @""), [[mPost author] nickname]]];
+    [self setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s Post", @""), [[mPost author] nickname]]];
 
-    [mIconButton setImageWithURL:[mPost iconURL]];
     if ([mPost photoURL])
     {
         [mIconButton addTarget:self action:@selector(iconButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     }
+
+    [mIconButton setImageWithURL:[mPost iconURL]];
     [mPostBodyView setPost:mPost];
+
     [mPostBodyView sizeToFit];
-    [mPostScrollView setContentSize:[mPostBodyView frame].size];
-    [mContainerView setFrame:CGRectMake(0, 0, 320, [mPostBodyView frame].size.height + kPostCellBodyPadding * 2)];
+    [mHeaderView setFrame:CGRectMake(0, 0, [mHeaderView frame].size.width, [mPostBodyView frame].size.height + kPostCellBodyTopPadding * 2 + 2)];
 
-    [mTableView setTableHeaderView:mContainerView];
+    [mTableView setTableHeaderView:mHeaderView];
 
-    [mActionButtonItem setEnabled:YES];
-}
-
-
-- (void)reply
-{
-    MEReplyViewController *sViewController;
-
-    sViewController = [[MEReplyViewController alloc] init];
-    [sViewController setPost:mPost];
-    [self presentModalViewController:sViewController animated:YES];
-    [sViewController release];
-}
-
-
-- (void)metoo
-{
-    [[MEClientStore currentClient] metooWithPostID:[mPost postID] delegate:self];
-
-    [mActionButtonItem setEnabled:NO];
+    [self setupToolbarItemsWithMetooEnabled:![[[mPost author] userID] isEqualToString:[[MEClientStore currentClient] userID]]];
 }
 
 
@@ -96,16 +126,10 @@ static NSDictionary *gActionSelectors = nil;
 @implementation MEReadViewController
 
 
-#pragma mark -
-
-
-+ (void)initialize
-{
-    if (!gActionSelectors)
-    {
-        gActionSelectors = [[NSDictionary alloc] initWithObjectsAndKeys:@"reply", NSLocalizedString(@"reply", @""), @"metoo", NSLocalizedString(@"metoo", @""), nil];
-    }
-}
+@synthesize headerView   = mHeaderView;
+@synthesize iconButton   = mIconButton;
+@synthesize postBodyView = mPostBodyView;
+@synthesize tableView    = mTableView;
 
 
 #pragma mark -
@@ -119,6 +143,8 @@ static NSDictionary *gActionSelectors = nil;
     {
         mPost     = [aPost retain];
         mComments = [[NSMutableArray alloc] init];
+
+        [self setupToolbarItemsWithMetooEnabled:NO];
     }
 
     return self;
@@ -133,6 +159,8 @@ static NSDictionary *gActionSelectors = nil;
     {
         mPostID   = [aPostID copy];
         mComments = [[NSMutableArray alloc] init];
+
+        [self setupToolbarItemsWithMetooEnabled:NO];
     }
 
     return self;
@@ -141,19 +169,10 @@ static NSDictionary *gActionSelectors = nil;
 
 - (void)dealloc
 {
-    [mNaviBar          release];
-    [mContainerView    release];
-    [mIconButton       release];
-    [mPostBodyView     release];
-    [mPostScrollView   release];
-    [mTableView        release];
-    [mActionButtonItem release];
-
     [mMediaView release];
-    [mPostID    release];
-    [mPost      release];
-    [mComments  release];
-
+    [mPostID release];
+    [mPost release];
+    [mComments release];
     [super dealloc];
 }
 
@@ -172,25 +191,35 @@ static NSDictionary *gActionSelectors = nil;
     [mMediaView setFrame:CGRectMake(0, 0, 320, 480)];
 
     [mIconButton setBorderColor:[UIColor lightGrayColor]];
+    [mPostBodyView setBackgroundColor:[UIColor clearColor]];
     [mPostBodyView setShowsPostDate:YES];
 
+    [mTableView setTableHeaderView:mHeaderView];
     [mTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [mTableView setRowHeight:1000.0];
 
-    if (mPost && ![mTableView tableHeaderView])
+    if (mPost)
     {
         [self showPost];
     }
-    else
-    {
-        [mActionButtonItem setEnabled:NO];
-    }
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+
+    mHeaderView   = nil;
+    mIconButton   = nil;
+    mPostBodyView = nil;
+    mTableView    = nil;
 }
 
 
 - (void)viewDidAppear:(BOOL)aAnimated
 {
     [super viewDidAppear:aAnimated];
+
+    [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:YES];
 
     if (mPost)
     {
@@ -203,61 +232,35 @@ static NSDictionary *gActionSelectors = nil;
 }
 
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
+{
+    return YES;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [mTableView reloadData];
+}
+
+
 #pragma mark -
 #pragma mark Actions
 
 
 - (void)faceImageButtonTapped:(id)aSender
 {
-    MEUser *sUser = [(MEImageButton *)aSender userInfo];
+    MEUser           *sUser;
+    UIViewController *sViewController;
 
-    if (sUser)
-    {
-        UIActionSheet *sActionSheet;
+    sUser           = [(MEImageButton *)aSender userInfo];
+    sViewController = [[MEListViewController alloc] initWithUser:sUser scope:kMEClientGetPostsScopeAll];
 
-        sActionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Dear %@", @""), [sUser nickname]] delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Visit me2DAY", @""), nil];
-
-        [sActionSheet showInView:[[self view] window]];
-        [sActionSheet release];
-
-        mTappedUser = sUser;
-    }
+    [[self navigationController] pushViewController:sViewController animated:YES];
+    [sViewController release];
 }
 
 
-- (IBAction)actionButtonTapped:(id)aSender
-{
-    UIActionSheet *sActionSheet;
-
-    if ([mPost isCommentClosed])
-    {
-        sActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"To This Post", @"")
-                                                   delegate:self
-                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                     destructiveButtonTitle:nil
-                                          otherButtonTitles:NSLocalizedString(@"metoo", @""), nil];
-    }
-    else
-    {
-        sActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"To This Post", @"")
-                                                   delegate:self
-                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                     destructiveButtonTitle:nil
-                                          otherButtonTitles:NSLocalizedString(@"metoo", @""), NSLocalizedString(@"reply", @""), nil];
-    }
-
-    [sActionSheet showInView:[[self view] window]];
-    [sActionSheet release];
-}
-
-
-- (IBAction)closeButtonTapped:(id)aSender
-{
-    [[self navigationController] popViewControllerAnimated:YES];
-}
-
-
-- (IBAction)iconButtonTapped:(id)aSender
+- (void)iconButtonTapped:(id)aSender
 {
     NSURL *sPhotoURL = [mPost photoURL];
 
@@ -266,6 +269,24 @@ static NSDictionary *gActionSelectors = nil;
         [mMediaView setPhotoURL:sPhotoURL];
         [[[self view] window] addSubview:mMediaView];
     }
+}
+
+
+- (IBAction)metoo
+{
+    [[MEClientStore currentClient] metooWithPostID:[mPost postID] delegate:self];
+
+    [self setupToolbarItemsWithMetooEnabled:NO];
+}
+
+
+- (IBAction)reply
+{
+    MEReplyViewController *sViewController;
+
+    sViewController = [[MEReplyViewController alloc] initWithPost:mPost];
+    [[self navigationController] pushViewController:sViewController animated:YES];
+    [sViewController release];
 }
 
 
@@ -282,6 +303,7 @@ static NSDictionary *gActionSelectors = nil;
     else
     {
         mPost = [[aPosts objectAtIndex:0] retain];
+
         [self showPost];
         [self getComments];
     }
@@ -298,6 +320,7 @@ static NSDictionary *gActionSelectors = nil;
     {
         [mComments removeAllObjects];
         [mComments addObjectsFromArray:aComments];
+        [mPost setCommentsCount:[mComments count]];
         [mTableView reloadData];
     }
 }
@@ -309,8 +332,13 @@ static NSDictionary *gActionSelectors = nil;
     {
         [UIAlertView showError:aError];
     }
+    else
+    {
+        [UIAlertView showAlert:NSLocalizedString(@"metoo success", @"")];
+        [mPost setMetooCount:([mPost metooCount] + 1)];
+    }
 
-    [mActionButtonItem setEnabled:YES];
+    [self setupToolbarItemsWithMetooEnabled:YES];
 }
 
 
@@ -320,6 +348,10 @@ static NSDictionary *gActionSelectors = nil;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
 {
+    [mHeaderView setFrame:CGRectMake(0, 0, [mHeaderView frame].size.width, [mPostBodyView frame].size.height + kPostCellBodyTopPadding * 2 + 2)];
+
+    [mTableView setTableHeaderView:mHeaderView];
+
     return [mComments count] + 1;
 }
 
@@ -396,14 +428,10 @@ static NSDictionary *gActionSelectors = nil;
         {
             MEComment          *sComment    = [mComments objectAtIndex:(sSection - 1)];
             MEAttributedString *sCommentStr = [sComment body];
-            CGSize              sSize;
             CGFloat             sHeight;
 
-            sHeight       = 10;
-            sSize         = [sCommentStr sizeForWidth:kCommentBodyWidth];
-            sSize.height += 14;
-            sHeight      += (sSize.height > kIconImageSize) ? sSize.height : kIconImageSize;
-            sHeight      += 10;
+            sHeight = [sCommentStr sizeForWidth:([aTableView bounds].size.width - kCommentBodyLeftPadding)].height + 14;
+            sHeight = ((sHeight > kIconImageSize) ? sHeight : kIconImageSize) + 14;
 
             return sHeight;
         }
@@ -437,41 +465,32 @@ static NSDictionary *gActionSelectors = nil;
         sLink = [[mPost links] objectAtIndex:sRow];
     }
 
-    [[MEVisitsViewController sharedController] visitLink:sLink];
-    [aTableView deselectRowAtIndexPath:aIndexPath animated:YES];
-}
-
-
-#pragma mark -
-#pragma mark UIActionSheet Delegate
-
-
-- (void)actionSheet:(UIActionSheet *)aActionSheet didDismissWithButtonIndex:(NSInteger)aButtonIndex
-{
-    if (aButtonIndex != [aActionSheet cancelButtonIndex])
+    if (sLink)
     {
-        if (mTappedUser)
+        UIViewController *sViewController;
+
+        switch ([sLink type])
         {
-            MELink *sLink;
+            case kMELinkTypeMe2DAY:
+                sViewController = [[MEListViewController alloc] initWithUserID:[sLink url] scope:kMEClientGetPostsScopeAll];
+                break;
 
-            sLink = [(MELink *)[MELink alloc] initWithUser:mTappedUser];
-            [[MEVisitsViewController sharedController] visitLink:sLink];
-            [sLink release];
+            case kMELinkTypePost:
+                sViewController = [[MEReadViewController alloc] initWithPostID:[sLink url]];
+                break;
+
+            case kMELinkTypeOther:
+                sViewController = [[MEWebViewController alloc] initWithURL:[sLink url]];
+                break;
+
+            default:
+                sViewController = nil;
+                break;
         }
-        else
-        {
-            NSString *sSelector;
 
-            sSelector = [gActionSelectors objectForKey:[aActionSheet buttonTitleAtIndex:aButtonIndex]];
-
-            if (sSelector)
-            {
-                [self performSelector:NSSelectorFromString(sSelector)];
-            }
-        }
+        [[self navigationController] pushViewController:sViewController animated:YES];
+        [sViewController release];
     }
-
-    mTappedUser = nil;
 }
 
 

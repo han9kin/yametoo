@@ -10,7 +10,9 @@
 #import <UIKit/UIKit.h>
 
 
-#define kPostCellBodyPadding 10
+#define kPostCellBodyTopPadding  9
+#define kPostCellBodyLeftPadding 70
+#define kPostCellIconPadding     50
 
 
 @class MEPost;

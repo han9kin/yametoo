@@ -34,7 +34,6 @@
 
 @optional
 
-- (void)listViewDidTapNewPostButton:(MEListView *)aListView;
 - (void)listViewDidTapFetchMoreButton:(MEListView *)aListView;
 - (void)listView:(MEListView *)aListView didTapUserInfoButtonForUser:(MEUser *)aUser;
 - (void)listView:(MEListView *)aListView didTapPostIconButtonForPost:(MEPost *)aPost;
@@ -43,33 +42,37 @@
 @end
 
 
+#define NOOutlet
+
 
 @interface MEListView : UIView <UITableViewDataSource, UITableViewDelegate>
 {
-    id<MEListViewDataSource>  mDataSource;
-    id<MEListViewDelegate>    mDelegate;
+    NOOutlet id<MEListViewDataSource>  mDataSource;
+    NOOutlet id<MEListViewDelegate>    mDelegate;
 
-    UITableView                *mTableView;
+    UITableView                       *mTableView;
 
-    NSMutableArray             *mSectionTitleCache;
-    NSMutableDictionary        *mCellHeightCache;
-    NSInteger                   mSectionCount;
+    NSMutableArray                    *mSectionTitleCache;
+    NSMutableDictionary               *mCellHeightCache;
+    NSInteger                          mSectionCount;
 
-    BOOL                        mShowsPostAuthor;
-    BOOL                        mShowsPostButton;
+    BOOL                               mShowsPostAuthor;
+    BOOL                               mShowsPostButton;
 }
 
-@property(nonatomic, assign) id<MEListViewDataSource> dataSource;
-@property(nonatomic, assign) id<MEListViewDelegate>   delegate;
+@property(nonatomic, assign) IBOutlet id<MEListViewDataSource> dataSource;
+@property(nonatomic, assign) IBOutlet id<MEListViewDelegate>   delegate;
 
 
-- (void)setTitleUserID:(NSString *)aUserID;
+- (void)setAuthor:(MEUser *)aUser;
 - (void)setShowsPostAuthor:(BOOL)aShowsPostAuthor;
-- (void)setShowsPostButton:(BOOL)aShowsPostButton;
 
 - (NSIndexPath *)indexPathForSelectedPost;
 - (void)selectPostAtIndexPath:(NSIndexPath *)aIndexPath animated:(BOOL)aAnimated scrollPosition:(UITableViewScrollPosition)aScrollPosition;
 - (void)deselectPostAtIndexPath:(NSIndexPath *)aIndexPath animated:(BOOL)aAnimated;
+
+- (NSIndexPath *)indexPathForTopVisiblePost;
+- (void)scrollToPostAtIndexPath:(NSIndexPath *)indexPath atScrollPosition:(UITableViewScrollPosition)scrollPosition animated:(BOOL)animated;
 
 - (void)invalidateData;
 - (void)reloadData;

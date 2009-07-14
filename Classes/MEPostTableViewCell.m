@@ -19,13 +19,14 @@
 
 - (void)setupWithoutAuthorAndTarget:(id)aTarget
 {
-    mPostImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(7, kPostCellBodyPadding - 1, kIconImageSize + 2, kIconImageSize + 2)];
+    mPostImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(7, kPostCellBodyTopPadding, kIconImageSize + 2, kIconImageSize + 2)];
     [mPostImageButton setBorderColor:[UIColor lightGrayColor]];
     [mPostImageButton addTarget:aTarget action:@selector(iconImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [[self contentView] addSubview:mPostImageButton];
     [mPostImageButton release];
 
-    mBodyView = [[MEPostBodyView alloc] initWithFrame:CGRectMake(60, kPostCellBodyPadding, 0, 0)];
+    mBodyView = [[MEPostBodyView alloc] initWithFrame:CGRectMake(60, kPostCellBodyTopPadding, [self bounds].size.width - kPostCellBodyLeftPadding, 0)];
+    [mBodyView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [mBodyView setBackgroundColor:[UIColor whiteColor]];
     [[self contentView] addSubview:mBodyView];
     [mBodyView release];
@@ -33,27 +34,28 @@
 
 - (void)setupWithAuthorAndTarget:(id)aTarget
 {
-    mFaceImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(7, kPostCellBodyPadding - 1, kIconImageSize + 2, kIconImageSize + 2)];
+    mFaceImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(7, kPostCellBodyTopPadding, kIconImageSize + 2, kIconImageSize + 2)];
     [mFaceImageButton setBorderColor:[UIColor lightGrayColor]];
     [mFaceImageButton addTarget:aTarget action:@selector(faceImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [[self contentView] addSubview:mFaceImageButton];
     [mFaceImageButton release];
 
-    mPostImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(7, kPostCellBodyPadding + 49, kIconImageSize + 2, kIconImageSize + 2)];
+    mPostImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(7, kPostCellBodyTopPadding + 50, kIconImageSize + 2, kIconImageSize + 2)];
     [mPostImageButton setBorderColor:[UIColor lightGrayColor]];
     [mPostImageButton addTarget:aTarget action:@selector(iconImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [[self contentView] addSubview:mPostImageButton];
     [mPostImageButton release];
 
-    mAuthorLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, kPostCellBodyPadding, 250, 15)];
-    [mAuthorLabel setBackgroundColor:[UIColor whiteColor]];
-    [mAuthorLabel setFont:[UIFont systemFontOfSize:12.0]];
-    [mAuthorLabel setTextColor:[UIColor darkGrayColor]];
-    [mAuthorLabel setHighlightedTextColor:[UIColor colorWithWhite:0.9 alpha:1.0]];
+    mAuthorLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, kPostCellBodyTopPadding + 32, kIconImageSize + 2, 14)];
+    [mAuthorLabel setBackgroundColor:[UIColor colorWithWhite:0.5 alpha:0.7]];
+    [mAuthorLabel setFont:[UIFont systemFontOfSize:9]];
+    [mAuthorLabel setTextColor:[UIColor whiteColor]];
+    [mAuthorLabel setTextAlignment:UITextAlignmentCenter];
     [[self contentView] addSubview:mAuthorLabel];
     [mAuthorLabel release];
 
-    mBodyView = [[MEPostBodyView alloc] initWithFrame:CGRectMake(60, kPostCellBodyPadding + 20, 0, 0)];
+    mBodyView = [[MEPostBodyView alloc] initWithFrame:CGRectMake(60, kPostCellBodyTopPadding, [self bounds].size.width - kPostCellBodyLeftPadding, 0)];
+    [mBodyView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [mBodyView setBackgroundColor:[UIColor whiteColor]];
     [[self contentView] addSubview:mBodyView];
     [mBodyView release];
@@ -91,6 +93,28 @@
     }
 
     return sCell;
+}
+
+
+- (void)layoutSubviews
+{
+    if (mFaceImageButton)
+    {
+        CGRect sRect = [self bounds];
+
+        if (sRect.size.width > 400)
+        {
+            [mPostImageButton setFrame:CGRectMake(7 + kPostCellIconPadding, kPostCellBodyTopPadding, kIconImageSize + 2, kIconImageSize + 2)];
+            [mBodyView setFrame:CGRectMake(60 + kPostCellIconPadding, kPostCellBodyTopPadding, sRect.size.width - kPostCellBodyLeftPadding - kPostCellIconPadding, 0)];
+        }
+        else
+        {
+            [mPostImageButton setFrame:CGRectMake(7, kPostCellBodyTopPadding + kPostCellIconPadding, kIconImageSize + 2, kIconImageSize + 2)];
+            [mBodyView setFrame:CGRectMake(60, kPostCellBodyTopPadding, sRect.size.width - kPostCellBodyLeftPadding, 0)];
+        }
+    }
+
+    [super layoutSubviews];
 }
 
 

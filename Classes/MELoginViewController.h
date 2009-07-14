@@ -12,7 +12,10 @@
 
 @interface MELoginViewController : UIViewController
 {
-    IBOutlet UITableView *mTableView;
+    UITableView *mTableView;
 }
+
+@property(nonatomic, assign) IBOutlet UITableView *tableView;
+
 
 @end

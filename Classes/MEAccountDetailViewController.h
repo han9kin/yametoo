@@ -17,11 +17,9 @@
     UITextField      *mUserKeyField;
     UISwitch         *mPasscodeSwitch;
 
-    UIViewController *mParentViewController;
-
     NSString         *mUserID;
 }
 
-- (id)initWithUserID:(NSString *)aUserID parentViewController:(UIViewController *)aParentViewController;
+- (id)initWithUserID:(NSString *)aUserID;
 
 @end
