@@ -7,7 +7,6 @@
  *
  */
 
-#import "MEListView.h"
 #import "MEMyMetooViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
@@ -29,9 +28,9 @@
     return self;
 }
 
-- (id)initWithNibName:(NSString *)aNibName bundle:(NSBundle *)aBundle
+- (id)init
 {
-    self = [super initWithNibName:aNibName bundle:aBundle];
+    self = [super init];
 
     if (self)
     {
@@ -48,10 +47,17 @@
 }
 
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    [self setToolbarItems:[NSArray arrayWithObjects:[[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Friends", @"") style:UIBarButtonItemStyleBordered target:nil action:NULL] autorelease], nil]];
+}
+
+
 - (void)configureListView:(MEListView *)aListView
 {
     [aListView setShowsPostAuthor:NO];
-    [aListView setShowsPostButton:YES];
 }
 
 - (void)fetchFromOffset:(NSInteger)aOffset count:(NSInteger)aCount
@@ -97,6 +103,8 @@
 
     [self setTitleUserID:sUserID];
     [self invalidateData];
+
+    [[self navigationController] setNavigationBarHidden:NO];
     [[self navigationController] popToRootViewControllerAnimated:NO];
 }
 

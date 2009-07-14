@@ -91,7 +91,7 @@
     {
         UIViewController *sViewController;
 
-        sViewController = [[MEAccountDetailViewController alloc] initWithUserID:[aClient userID] parentViewController:nil];
+        sViewController = [[MEAccountDetailViewController alloc] initWithUserID:[aClient userID]];
         [[self navigationController] pushViewController:sViewController animated:YES];
         [sViewController release];
     }
@@ -170,7 +170,7 @@
         }
         else
         {
-            sViewController = [[MEAccountDetailViewController alloc] initWithUserID:[[sClients objectAtIndex:[aIndexPath row]] userID] parentViewController:nil];
+            sViewController = [[MEAccountDetailViewController alloc] initWithUserID:[[sClients objectAtIndex:[aIndexPath row]] userID]];
             [[self navigationController] pushViewController:sViewController animated:YES];
             [sViewController release];
         }
@@ -211,9 +211,9 @@
     {
         UIViewController *sViewController;
 
-        sViewController = [[MEAccountDetailViewController alloc] initWithUserID:nil parentViewController:self];
+        sViewController = [[MEAccountDetailViewController alloc] initWithUserID:nil];
         [sViewController setTitle:NSLocalizedString(@"Add Account", @"")];
-        [self presentModalViewController:sViewController animated:YES];
+        [[self navigationController] pushViewController:sViewController animated:YES];
         [sViewController release];
 
         [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];

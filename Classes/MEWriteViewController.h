@@ -17,48 +17,62 @@
 
 @interface MEWriteViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, MEIconListViewDelegate>
 {
-    IBOutlet UIBarButtonItem *mCancelButton;
-    IBOutlet UIBarButtonItem *mPostButton;
+    UITextView      *mBodyTextView;
+    UITextField     *mTagTextField;
+    UIImageView     *mAttachedImageView;
 
-    IBOutlet UITextView      *mBodyTextView;
-    IBOutlet UITextField     *mTagTextField;
-    IBOutlet UIImageView     *mAttachedImageView;
-    
-    IBOutlet MEImageButton   *mIconSelectButton;
-    IBOutlet UILabel         *mIconDescLabel;
+    MEImageButton   *mIconSelectButton;
+    UILabel         *mIconDescLabel;
 
-    IBOutlet UIButton        *mTakePictureButton;
-    IBOutlet UIButton        *mFromPhotoLibraryButton;
-    IBOutlet UIButton        *mRotateLeftButton;
-    IBOutlet UIButton        *mRotateRightButton;
-    IBOutlet UIButton        *mResizeButton;
-    
-    IBOutlet UILabel         *mImageResolutionLabel;
-    IBOutlet UILabel         *mImageSizeLabel;
+    UIButton        *mTakePictureButton;
+    UIButton        *mFromPhotoLibraryButton;
+    UIButton        *mRotateLeftButton;
+    UIButton        *mRotateRightButton;
+    UIButton        *mResizeButton;
 
-    IBOutlet MEIconListView  *mIconListView;
+    UILabel         *mImageResolutionLabel;
+    UILabel         *mImageSizeLabel;
 
-    MECharCounter *mCharCounter;
-    
-    NSInteger      mSelectedIconIndex;
-    UIImage       *mOriginalImage;
-    BOOL           mIsMiddleSizeEnabled;
-    BOOL           mIsLargeSizeEnabled;
-    NSInteger      mImageDir;
-    CGFloat        mRotateAngle;
-    CGFloat        mLongSideLength;
-    
-    UIImage       *mResizedImage;
-    NSData        *mImageRep;
-    
-    NSInteger      mMiddleSizeButtonIndex;
-    NSInteger      mLargeSizeButtonIndex;
-    NSInteger      mOriginalSizeButtonIndex;
-    NSInteger      mCancelButtonIndex;
+    MEIconListView  *mIconListView;
+
+
+    MECharCounter   *mCharCounter;
+
+    NSInteger        mSelectedIconIndex;
+    UIImage         *mOriginalImage;
+    BOOL             mIsMiddleSizeEnabled;
+    BOOL             mIsLargeSizeEnabled;
+    NSInteger        mImageDir;
+    CGFloat          mRotateAngle;
+    CGFloat          mLongSideLength;
+
+    UIImage         *mResizedImage;
+    NSData          *mImageRep;
+
+    NSInteger        mMiddleSizeButtonIndex;
+    NSInteger        mLargeSizeButtonIndex;
+    NSInteger        mOriginalSizeButtonIndex;
+    NSInteger        mCancelButtonIndex;
 }
 
-- (IBAction)postButtonTapped:(id)aSender;
-- (IBAction)cancelButtonTapped:(id)aSender;
+@property(nonatomic, assign) IBOutlet UITextView     *bodyTextView;
+@property(nonatomic, assign) IBOutlet UITextField    *tagTextField;
+@property(nonatomic, assign) IBOutlet UIImageView    *attachedImageView;
+
+@property(nonatomic, assign) IBOutlet MEImageButton  *iconSelectButton;
+@property(nonatomic, assign) IBOutlet UILabel        *iconDescLabel;
+
+@property(nonatomic, assign) IBOutlet UIButton       *takePictureButton;
+@property(nonatomic, assign) IBOutlet UIButton       *fromPhotoLibraryButton;
+@property(nonatomic, assign) IBOutlet UIButton       *rotateLeftButton;
+@property(nonatomic, assign) IBOutlet UIButton       *rotateRightButton;
+@property(nonatomic, assign) IBOutlet UIButton       *resizeButton;
+
+@property(nonatomic, assign) IBOutlet UILabel        *imageResolutionLabel;
+@property(nonatomic, assign) IBOutlet UILabel        *imageSizeLabel;
+
+@property(nonatomic, assign) IBOutlet MEIconListView *iconListView;
+
 
 - (IBAction)iconSelectButtonTapped:(id)aSender;
 - (IBAction)takePictureButtonTapped:(id)aSender;

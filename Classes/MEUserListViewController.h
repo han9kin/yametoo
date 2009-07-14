@@ -1,5 +1,5 @@
 /*
- *  MEOtherMetooViewController.h
+ *  MEUserListViewController.h
  *  yametoo
  *
  *  Created by han9kin on 09. 06. 11.
@@ -11,7 +11,7 @@
 #import "MEListViewController.h"
 
 
-@interface MEOtherMetooViewController : MEListViewController
+@interface MEUserListViewController : MEListViewController
 {
     NSString *mUserID;
 }

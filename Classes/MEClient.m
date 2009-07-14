@@ -431,7 +431,8 @@ NSString *MEClientErrorDomain = @"MEClientErrorDomain";
 - (NSError *)errorFromResultDictionary:(NSDictionary *)aDict
 {
     NSInteger     sCode;
-    NSString     *sMessage;
+    NSString     *sDescription;
+    NSString     *sFailureReason;
     NSDictionary *sUserInfo;
     NSError      *sError;
 
@@ -439,24 +440,27 @@ NSString *MEClientErrorDomain = @"MEClientErrorDomain";
 
     if (sCode)
     {
-        if ([[aDict objectForKey:@"message"] length] && [[aDict objectForKey:@"description"] length])
+        sDescription   = [aDict objectForKey:@"message"];
+        sFailureReason = [aDict objectForKey:@"description"];
+
+        if ([sDescription length] && [sFailureReason length])
         {
-            sMessage = [NSString stringWithFormat:@"%@ (%@)", [aDict objectForKey:@"message"], [aDict objectForKey:@"description"]];
+            sDescription = [NSString stringWithFormat:@"%@ (%@)", sDescription, sFailureReason];
         }
-        else if ([[aDict objectForKey:@"message"] length])
+        else if ([sDescription length])
         {
-            sMessage = [aDict objectForKey:@"message"];
+            sFailureReason = sDescription;
         }
-        else if ([[aDict objectForKey:@"description"] length])
+        else if ([sFailureReason length])
         {
-            sMessage = [aDict objectForKey:@"description"];
+            sDescription = sFailureReason;
         }
         else
         {
-            sMessage = @"Unknown error from server.";
+            sDescription = @"Unknown error from server.";
         }
 
-        sUserInfo = [NSDictionary dictionaryWithObject:sMessage forKey:NSLocalizedDescriptionKey];
+        sUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:sDescription, NSLocalizedDescriptionKey, sFailureReason, NSLocalizedFailureReasonErrorKey, nil];
         sError    = [NSError errorWithDomain:MEClientErrorDomain code:sCode userInfo:sUserInfo];
 
         return sError;

@@ -152,7 +152,7 @@
     [mTextField setEnablesReturnKeyAutomatically:YES];
     [mTextField setKeyboardAppearance:UIKeyboardAppearanceAlert];
     [mTextField setKeyboardType:UIKeyboardTypeNumberPad];
-    [mTextField setReturnKeyType:UIReturnKeyDefault];
+    [mTextField setReturnKeyType:UIReturnKeyDone];
     [mTextField setSecureTextEntry:YES];
     [mTextField setHidden:YES];
     [mTextField setDelegate:self];

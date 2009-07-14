@@ -10,28 +10,19 @@
 #import <UIKit/UIKit.h>
 
 
+#define kListHeadViewHeight 60
+
+
 @class MEImageView;
+@class MEUser;
 
 @interface MEListHeadView : UIView
 {
     MEImageView *mFaceImageView;
+    UILabel     *mUserIDLabel;
     UILabel     *mUserDescLabel;
-    UIButton    *mNewPostButton;
-
-    id           mDelegate;
 }
 
-+ (MEListHeadView *)listHeadView;
-
-- (void)setDelegate:(id)aDelegate;
-- (void)setUserID:(NSString *)aUserID;
-- (void)setShowsPostButton:(BOOL)aShowsPostButton;
-
-@end
-
-
-@protocol MEListHeadViewDelegate
-
-- (void)newPostButtonTapped:(MEListHeadView *)aHeaderView;
+- (void)setUser:(MEUser *)aUser;
 
 @end

@@ -1,5 +1,5 @@
 /*
- *  MEOtherMetooViewController.m
+ *  MEUserListViewController.m
  *  yametoo
  *
  *  Created by han9kin on 09. 06. 11.
@@ -7,19 +7,30 @@
  *
  */
 
-#import "MEListView.h"
-#import "MEOtherMetooViewController.h"
+#import "MEUserListViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEUser.h"
 
 
-@implementation MEOtherMetooViewController
+@implementation MEUserListViewController
 
+
+- (id)initWithCoder:(NSCoder *)aCoder
+{
+    self = [super initWithCoder:aCoder];
+
+    if (self)
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChange:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
+    }
+
+    return self;
+}
 
 - (id)initWithUserID:(NSString *)aUserID
 {
-    self = [super initWithNibName:nil bundle:nil];
+    self = [super init];
 
     if (self)
     {
@@ -31,8 +42,17 @@
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [mUserID release];
     [super dealloc];
+}
+
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    [self setToolbarItems:[NSArray arrayWithObjects:[[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Friends", @"") style:UIBarButtonItemStyleBordered target:nil action:NULL] autorelease], nil]];
 }
 
 
@@ -50,7 +70,6 @@
 - (void)configureListView:(MEListView *)aListView
 {
     [aListView setShowsPostAuthor:NO];
-    [aListView setShowsPostButton:NO];
 }
 
 - (void)fetchFromOffset:(NSInteger)aOffset count:(NSInteger)aCount
@@ -77,6 +96,26 @@
     }
 
     [self setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s me2DAY", @""), sName]];
+}
+
+
+#pragma mark -
+#pragma mark MEClientStore Notifications
+
+
+- (void)currentUserDidChange:(NSNotification *)aNotification
+{
+    MEClient *sClient = [MEClientStore currentClient];
+    NSString *sUserID = [sClient userID];
+
+    [mUserID release];
+    mUserID = [sUserID copy];
+
+    [self setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@'s me2DAY", @""), sUserID]];
+    [sClient getPersonWithUserID:sUserID delegate:self];
+
+    [self setTitleUserID:sUserID];
+    [self invalidateData];
 }
 
 

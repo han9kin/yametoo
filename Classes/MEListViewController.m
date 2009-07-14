@@ -10,11 +10,9 @@
 #import "NSDate+MEAdditions.h"
 #import "UIAlertView+MEAdditions.h"
 #import "UIViewController+MEAdditions.h"
-#import "MEListView.h"
 #import "MEListViewController.h"
 #import "MEWriteViewController.h"
 #import "MEReadViewController.h"
-#import "MEVisitsViewController.h"
 #import "MEMediaView.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
@@ -42,6 +40,72 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 @end
 
 @implementation MEListViewController (Private)
+
+
+- (void)setupTitle
+{
+    NSString *sName;
+    NSString *sTitle;
+
+    if (mUser)
+    {
+        sName = [mUser nickname];
+    }
+    else
+    {
+        sName = mUserID;
+    }
+
+    switch (mScope)
+    {
+        case kMEClientGetPostsScopeAll:
+            sTitle = sName;
+            break;
+
+        case kMEClientGetPostsScopeFriendAll:
+            sTitle = [NSString stringWithFormat:NSLocalizedString(@"%@'s Friends", @""), sName];
+            break;
+
+        default:
+            sTitle = nil;
+    }
+
+    [self setTitle:sTitle];
+}
+
+- (void)setupToolbarItems
+{
+    NSMutableArray  *sItems = [NSMutableArray array];
+    UIBarButtonItem *sItem;
+
+    sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+    [sItems addObject:sItem];
+    [sItem release];
+
+    sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Friends", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(showFriends)];
+    [sItems addObject:sItem];
+    [sItem release];
+
+    sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+    [sItems addObject:sItem];
+    [sItem release];
+
+    sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"New Post", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(write)];
+    [sItems addObject:sItem];
+    [sItem release];
+
+    sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+    [sItems addObject:sItem];
+    [sItem release];
+
+    [self setToolbarItems:sItems];
+}
+
+
+- (void)fetchFromOffset:(NSInteger)aOffset count:(NSInteger)aCount
+{
+    [[MEClientStore currentClient] getPostsWithUserID:mUserID scope:mScope offset:aOffset count:aCount delegate:self];
+}
 
 
 - (MEPost *)postForIndexPath:(NSIndexPath *)aIndexPath
@@ -151,6 +215,8 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 @implementation MEListViewController
 
+@synthesize listView = mListView;
+
 
 - (id)initWithCoder:(NSCoder *)aCoder
 {
@@ -158,19 +224,44 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
     if (self)
     {
+        mScope = kMEClientGetPostsScopeAll;
         mPosts = [[NSMutableArray alloc] init];
+
+        [self setupToolbarItems];
     }
 
     return self;
 }
 
-- (id)initWithNibName:(NSString *)aNibName bundle:(NSBundle *)aBundle
+- (id)initWithUserID:(NSString *)aUserID scope:(MEClientGetPostsScope)aScope
 {
-    self = [super initWithNibName:aNibName bundle:aBundle];
+    self = [super initWithNibName:nil bundle:nil];
 
     if (self)
     {
-        mPosts = [[NSMutableArray alloc] init];
+        mUserID = [aUserID copy];
+        mScope  = aScope;
+        mPosts  = [[NSMutableArray alloc] init];
+
+        [self setupToolbarItems];
+    }
+
+    return self;
+}
+
+- (id)initWithUser:(MEUser *)aUser scope:(MEClientGetPostsScope)aScope
+{
+    self = [super initWithNibName:nil bundle:nil];
+
+    if (self)
+    {
+        mUserID = [[aUser userID] copy];
+        mUser   = [aUser userDescription] ? [aUser retain] : nil;
+        mScope  = aScope;
+        mPosts  = [[NSMutableArray alloc] init];
+
+        [self setupTitle];
+        [self setupToolbarItems];
     }
 
     return self;
@@ -178,11 +269,13 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     [mTimer invalidate];
 
     [mMediaView release];
-    [mTitle release];
-    [mTitleUserID release];
+    [mUserID release];
+    [mUser release];
     [mPosts release];
     [mLastestDate release];
 
@@ -207,38 +300,25 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 {
     [super viewDidLoad];
 
-    UIView *sView;
-    CGRect  sRect;
-
-    sRect = [[self view] bounds];
-
-    sView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, sRect.size.width, 25)];
-    [sView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-    [sView setBackgroundColor:[UIColor lightGrayColor]];
-    [[self view] addSubview:sView];
-    [sView release];
-
-    mTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, sRect.size.width - 20, 25)];
-    [mTitleLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-    [mTitleLabel setBackgroundColor:[UIColor clearColor]];
-    [mTitleLabel setTextColor:[UIColor blackColor]];
-    [mTitleLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
-    [mTitleLabel setText:mTitle];
-    [sView addSubview:mTitleLabel];
-    [mTitleLabel release];
-
-    mListView = [[MEListView alloc] initWithFrame:CGRectMake(0, 25, sRect.size.width, sRect.size.height - 25)];
+    mListView = [[MEListView alloc] initWithFrame:[[self view] bounds]];
     [mListView setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
-    [mListView setTitleUserID:mTitleUserID];
     [mListView setDataSource:self];
     [mListView setDelegate:self];
     [[self view] addSubview:mListView];
     [mListView release];
 
+    if (mScope == kMEClientGetPostsScopeAll)
+    {
+        [mListView setAuthor:mUser];
+        [mListView setShowsPostAuthor:NO];
+    }
+    else
+    {
+        [mListView setShowsPostAuthor:YES];
+    }
+
     mMediaView = [[MEMediaView alloc] initWithFrame:CGRectZero];
     [mMediaView setFrame:CGRectMake(0, 0, 320, 480)];
-
-    [self configureListView:mListView];
 }
 
 - (void)viewDidUnload
@@ -247,7 +327,6 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
     [mMediaView release];
 
-    mTitleLabel = nil;
     mListView = nil;
     mMediaView  = nil;
 }
@@ -256,6 +335,9 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 - (void)viewDidAppear:(BOOL)aAnimated
 {
     [super viewDidAppear:aAnimated];
+
+    [mListView invalidateData];
+    [mListView reloadData];
 
     if ([mPosts count])
     {
@@ -277,6 +359,12 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
         mTimer = [NSTimer scheduledTimerWithTimeInterval:([MESettings fetchInterval] * 60) target:self selector:@selector(updateTimerFired:) userInfo:nil repeats:YES];
     }
 
+    if (!mUser)
+    {
+        [self setupTitle];
+        [[MEClientStore currentClient] getPersonWithUserID:mUserID delegate:self];
+    }
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(todayDidChange:) name:METodayDidChangeNotification object:nil];
 }
 
@@ -291,49 +379,55 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 }
 
 
-- (void)setTitle:(NSString *)aTitle
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
 {
-    if (mTitle != aTitle)
-    {
-        [mTitle release];
-        mTitle = [aTitle copy];
-
-        [mTitleLabel setText:mTitle];
-    }
+    return YES;
 }
 
-
-- (void)setTitleUserID:(NSString *)aUserID
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation duration:(NSTimeInterval)aDuration
 {
-    if (![mTitleUserID isEqualToString:aUserID])
-    {
-        [mTitleUserID release];
-        mTitleUserID = [aUserID copy];
-
-        [mListView setTitleUserID:mTitleUserID];
-    }
+    mIndexPath = [[mListView indexPathForTopVisiblePost] copy];
 }
 
-- (void)invalidateData
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
 {
-    [mPosts removeAllObjects];
     [mListView invalidateData];
     [mListView reloadData];
+
+    if (mIndexPath)
+    {
+        [mListView scrollToPostAtIndexPath:mIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        [mIndexPath release];
+    }
 }
 
-- (void)reloadData
+
+#pragma mark -
+#pragma mark Toolbar Actions
+
+
+- (void)showFriends
 {
-    [mListView reloadData];
+    UIViewController *sViewController;
+
+    sViewController = [[MEListViewController alloc] initWithUser:mUser scope:kMEClientGetPostsScopeFriendAll];
+    [[self navigationController] pushViewController:sViewController animated:YES];
+    [sViewController release];
 }
 
 
-- (void)configureListView:(MEListView *)aListView
+- (void)write
 {
+    UIViewController *sViewController;
+
+    sViewController = [[MEWriteViewController alloc] init];
+    [[self navigationController] pushViewController:sViewController animated:YES];
+    [sViewController release];
 }
 
-- (void)fetchFromOffset:(NSInteger)aOffset count:(NSInteger)aCount
-{
-}
+
+#pragma mark -
+#pragma mark NSTimer Events
 
 
 - (void)updateTimerFired:(NSTimer *)aTimer
@@ -348,6 +442,18 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 #pragma mark -
 #pragma mark MEClientDelegate
+
+
+- (void)client:(MEClient *)aClient didGetPerson:(MEUser *)aUser error:(NSError *)aError
+{
+    if (aUser)
+    {
+        mUser = [aUser retain];
+
+        [self setupTitle];
+        [mListView setAuthor:aUser];
+    }
+}
 
 
 - (void)client:(MEClient *)aClient didGetPosts:(NSArray *)aPosts error:(NSError *)aError
@@ -403,16 +509,6 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 #pragma mark MEListViewDelegate
 
 
-- (void)listViewDidTapNewPostButton:(MEListView *)aListView
-{
-    UIViewController *sViewController;
-
-    sViewController = [[MEWriteViewController alloc] init];
-    [self presentModalViewController:sViewController animated:YES];
-    [sViewController release];
-}
-
-
 - (void)listViewDidTapFetchMoreButton:(MEListView *)aListView
 {
     [self fetchFromOffset:mMoreOffset count:[MESettings moreFetchCount]];
@@ -421,14 +517,11 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 - (void)listView:(MEListView *)aListView didTapUserInfoButtonForUser:(MEUser *)aUser
 {
-    UIActionSheet *sActionSheet;
+    UIViewController *sViewController;
 
-    sActionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Dear %@", @""), [aUser nickname]] delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Visit me2DAY", @""), nil];
-
-    [sActionSheet showInView:[[self view] window]];
-    [sActionSheet release];
-
-    mTappedUser = aUser;
+    sViewController = [[MEListViewController alloc] initWithUser:aUser scope:kMEClientGetPostsScopeAll];
+    [[self navigationController] pushViewController:sViewController animated:YES];
+    [sViewController release];
 }
 
 
@@ -451,25 +544,6 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     sReadViewController = [[MEReadViewController alloc] initWithPost:[self postForIndexPath:aIndexPath]];
     [[self navigationController] pushViewController:sReadViewController animated:YES];
     [sReadViewController release];
-}
-
-
-#pragma mark -
-#pragma mark UIActionSheetDelegate
-
-
-- (void)actionSheet:(UIActionSheet *)aActionSheet didDismissWithButtonIndex:(NSInteger)aButtonIndex
-{
-    if (mTappedUser && (aButtonIndex != [aActionSheet cancelButtonIndex]))
-    {
-        MELink *sLink;
-
-        sLink = [(MELink *)[MELink alloc] initWithUser:mTappedUser];
-        [[MEVisitsViewController sharedController] visitLink:sLink];
-        [sLink release];
-    }
-
-    mTappedUser = nil;
 }
 
 

@@ -59,6 +59,7 @@
 		2ED4E84F0FA9611D000BFE2F /* MEReadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED4E84E0FA9611D000BFE2F /* MEReadViewController.m */; };
 		2ED83E380FAECFC600786952 /* ReplyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED83E370FAECFC600786952 /* ReplyView.xib */; };
 		2ED83E3B0FAECFDC00786952 /* MEReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED83E3A0FAECFDC00786952 /* MEReplyViewController.m */; };
+		CF15E4A9100C8786006B0E4F /* NSError+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15E4A8100C8786006B0E4F /* NSError+MEAdditions.m */; };
 		CF45B2A10FD78E170069C6BA /* MELink.m in Sources */ = {isa = PBXBuildFile; fileRef = CF45B2A00FD78E170069C6BA /* MELink.m */; };
 		CF45B3940FD90B140069C6BA /* MELinkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF45B3930FD90B140069C6BA /* MELinkTableViewCell.m */; };
 		CF528C980FA06BC2007C7A03 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF528C970FA06BC1007C7A03 /* Localizable.strings */; };
@@ -89,15 +90,11 @@
 		CFBED93F0FBD16CC0005FD9D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFBED93E0FBD16CC0005FD9D /* SystemConfiguration.framework */; };
 		CFBED9800FBD37490005FD9D /* MEReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBED97F0FBD37490005FD9D /* MEReachability.m */; };
 		CFC8A19A0FE0CA9100EA77C6 /* MEWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC8A1990FE0CA9100EA77C6 /* MEWebViewController.m */; };
-		CFC8A1D40FE0D1B100EA77C6 /* MEOtherMetooViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC8A1D30FE0D1B100EA77C6 /* MEOtherMetooViewController.m */; };
 		CFC8A59E0FE7364E00EA77C6 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC8A59D0FE7364E00EA77C6 /* libxml2.2.dylib */; };
-		CFDD41990FB2DF6E00B9931A /* MEMyMetooViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD41980FB2DF6E00B9931A /* MEMyMetooViewController.m */; };
-		CFDD419C0FB2DF8400B9931A /* MEFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD419B0FB2DF8400B9931A /* MEFriendsViewController.m */; };
 		CFDD42560FB3DB9200B9931A /* UITableView+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD42550FB3DB9200B9931A /* UITableView+MEAdditions.m */; };
 		CFDD429E0FB4190700B9931A /* MEHighlightableImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD429D0FB4190700B9931A /* MEHighlightableImageView.m */; };
 		CFDD42A80FB41A4100B9931A /* MEImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD42A70FB41A4100B9931A /* MEImageButton.m */; };
 		CFDD43CC0FB80A0900B9931A /* NSMutableData+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD43CB0FB80A0900B9931A /* NSMutableData+MEAdditions.m */; };
-		CFE43E510FDE4AD2009C451A /* MEVisitsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE43E500FDE4AD2009C451A /* MEVisitsViewController.m */; };
 		CFE72AA90FA1A0C400C54792 /* MEAttributedLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72AA80FA1A0C400C54792 /* MEAttributedLayoutManager.m */; };
 		CFE72BDD0FA5859300C54792 /* MEPostIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72BDC0FA5859300C54792 /* MEPostIcon.m */; };
 		CFE72CB80FA6A36B00C54792 /* MEComment.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72CB70FA6A36B00C54792 /* MEComment.m */; };
@@ -190,6 +187,8 @@
 		2ED83E3A0FAECFDC00786952 /* MEReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReplyViewController.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* yametoo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yametoo_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF15E4A7100C8786006B0E4F /* NSError+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+MEAdditions.h"; sourceTree = "<group>"; };
+		CF15E4A8100C8786006B0E4F /* NSError+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+MEAdditions.m"; sourceTree = "<group>"; };
 		CF45B29F0FD78E170069C6BA /* MELink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELink.h; sourceTree = "<group>"; };
 		CF45B2A00FD78E170069C6BA /* MELink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MELink.m; sourceTree = "<group>"; };
 		CF45B3920FD90B140069C6BA /* MELinkTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELinkTableViewCell.h; sourceTree = "<group>"; };
@@ -245,13 +244,7 @@
 		CFBED97F0FBD37490005FD9D /* MEReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReachability.m; sourceTree = "<group>"; };
 		CFC8A1980FE0CA9100EA77C6 /* MEWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEWebViewController.h; sourceTree = "<group>"; };
 		CFC8A1990FE0CA9100EA77C6 /* MEWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEWebViewController.m; sourceTree = "<group>"; };
-		CFC8A1D20FE0D1B100EA77C6 /* MEOtherMetooViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEOtherMetooViewController.h; sourceTree = "<group>"; };
-		CFC8A1D30FE0D1B100EA77C6 /* MEOtherMetooViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEOtherMetooViewController.m; sourceTree = "<group>"; };
 		CFC8A59D0FE7364E00EA77C6 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
-		CFDD41970FB2DF6E00B9931A /* MEMyMetooViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEMyMetooViewController.h; sourceTree = "<group>"; };
-		CFDD41980FB2DF6E00B9931A /* MEMyMetooViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEMyMetooViewController.m; sourceTree = "<group>"; };
-		CFDD419A0FB2DF8400B9931A /* MEFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEFriendsViewController.h; sourceTree = "<group>"; };
-		CFDD419B0FB2DF8400B9931A /* MEFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEFriendsViewController.m; sourceTree = "<group>"; };
 		CFDD42540FB3DB9200B9931A /* UITableView+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+MEAdditions.h"; sourceTree = "<group>"; };
 		CFDD42550FB3DB9200B9931A /* UITableView+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+MEAdditions.m"; sourceTree = "<group>"; };
 		CFDD429C0FB4190700B9931A /* MEHighlightableImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEHighlightableImageView.h; sourceTree = "<group>"; };
@@ -260,8 +253,6 @@
 		CFDD42A70FB41A4100B9931A /* MEImageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEImageButton.m; sourceTree = "<group>"; };
 		CFDD43CA0FB80A0900B9931A /* NSMutableData+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableData+MEAdditions.h"; sourceTree = "<group>"; };
 		CFDD43CB0FB80A0900B9931A /* NSMutableData+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableData+MEAdditions.m"; sourceTree = "<group>"; };
-		CFE43E4F0FDE4AD2009C451A /* MEVisitsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEVisitsViewController.h; sourceTree = "<group>"; };
-		CFE43E500FDE4AD2009C451A /* MEVisitsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEVisitsViewController.m; sourceTree = "<group>"; };
 		CFE72AA70FA1A0C400C54792 /* MEAttributedLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEAttributedLayoutManager.h; sourceTree = "<group>"; };
 		CFE72AA80FA1A0C400C54792 /* MEAttributedLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEAttributedLayoutManager.m; sourceTree = "<group>"; };
 		CFE72BDB0FA5859300C54792 /* MEPostIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPostIcon.h; sourceTree = "<group>"; };
@@ -470,7 +461,6 @@
 				CFE72F740FA9983300C54792 /* Application Controller */,
 				CFFC6DD80FBAB8A800B935E7 /* Login View Controller */,
 				CFE732230FB192A200C54792 /* Settings View Controller */,
-				CFDD41F40FB3C13300B9931A /* List View Controller */,
 				CFE72F750FA9983B00C54792 /* Other View Controllers */,
 			);
 			name = Controllers;
@@ -515,6 +505,8 @@
 				CF9046420F95C4A4001AE52C /* NSURL+MEAdditions.m */,
 				CFDD43CA0FB80A0900B9931A /* NSMutableData+MEAdditions.h */,
 				CFDD43CB0FB80A0900B9931A /* NSMutableData+MEAdditions.m */,
+				CF15E4A7100C8786006B0E4F /* NSError+MEAdditions.h */,
+				CF15E4A8100C8786006B0E4F /* NSError+MEAdditions.m */,
 			);
 			name = "Foundation Extensions";
 			sourceTree = "<group>";
@@ -656,21 +648,6 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
-		CFDD41F40FB3C13300B9931A /* List View Controller */ = {
-			isa = PBXGroup;
-			children = (
-				CFE72FE60FAE8D0200C54792 /* MEListViewController.h */,
-				CFE72FE70FAE8D0200C54792 /* MEListViewController.m */,
-				CFDD41970FB2DF6E00B9931A /* MEMyMetooViewController.h */,
-				CFDD41980FB2DF6E00B9931A /* MEMyMetooViewController.m */,
-				CFDD419A0FB2DF8400B9931A /* MEFriendsViewController.h */,
-				CFDD419B0FB2DF8400B9931A /* MEFriendsViewController.m */,
-				CFC8A1D20FE0D1B100EA77C6 /* MEOtherMetooViewController.h */,
-				CFC8A1D30FE0D1B100EA77C6 /* MEOtherMetooViewController.m */,
-			);
-			name = "List View Controller";
-			sourceTree = "<group>";
-		};
 		CFE72F740FA9983300C54792 /* Application Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -683,14 +660,14 @@
 		CFE72F750FA9983B00C54792 /* Other View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				CFE72FE60FAE8D0200C54792 /* MEListViewController.h */,
+				CFE72FE70FAE8D0200C54792 /* MEListViewController.m */,
 				2ED4E84D0FA9611D000BFE2F /* MEReadViewController.h */,
 				2ED4E84E0FA9611D000BFE2F /* MEReadViewController.m */,
 				28D7ACF60DDB3853001CB0EB /* MEWriteViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* MEWriteViewController.m */,
 				2ED83E390FAECFDC00786952 /* MEReplyViewController.h */,
 				2ED83E3A0FAECFDC00786952 /* MEReplyViewController.m */,
-				CFE43E4F0FDE4AD2009C451A /* MEVisitsViewController.h */,
-				CFE43E500FDE4AD2009C451A /* MEVisitsViewController.m */,
 				CFC8A1980FE0CA9100EA77C6 /* MEWebViewController.h */,
 				CFC8A1990FE0CA9100EA77C6 /* MEWebViewController.m */,
 			);
@@ -869,8 +846,6 @@
 				CFE7320E0FB1906300C54792 /* MESettings.m in Sources */,
 				CFE732260FB192D900C54792 /* MEFetchSettingsViewController.m in Sources */,
 				CFE732500FB19B4100C54792 /* UIColor+MEAdditions.m in Sources */,
-				CFDD41990FB2DF6E00B9931A /* MEMyMetooViewController.m in Sources */,
-				CFDD419C0FB2DF8400B9931A /* MEFriendsViewController.m in Sources */,
 				CFDD42560FB3DB9200B9931A /* UITableView+MEAdditions.m in Sources */,
 				CFDD429E0FB4190700B9931A /* MEHighlightableImageView.m in Sources */,
 				CFDD42A80FB41A4100B9931A /* MEImageButton.m in Sources */,
@@ -880,12 +855,11 @@
 				CFBED9800FBD37490005FD9D /* MEReachability.m in Sources */,
 				CF45B2A10FD78E170069C6BA /* MELink.m in Sources */,
 				CF45B3940FD90B140069C6BA /* MELinkTableViewCell.m in Sources */,
-				CFE43E510FDE4AD2009C451A /* MEVisitsViewController.m in Sources */,
 				2EBB596C0FE0D6F20096BFF1 /* MEIconListView.m in Sources */,
 				CFC8A19A0FE0CA9100EA77C6 /* MEWebViewController.m in Sources */,
-				CFC8A1D40FE0D1B100EA77C6 /* MEOtherMetooViewController.m in Sources */,
 				CF7B8B1F1005ACF4001A089A /* MEPostTableViewCell.m in Sources */,
 				CF7B8B221005AD00001A089A /* MECommentTableViewCell.m in Sources */,
+				CF15E4A9100C8786006B0E4F /* NSError+MEAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -933,7 +907,7 @@
 				);
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0B1665A4-91D1-45FC-92F9-4A7E339337B1";
-				SDKROOT = iphoneos2.2.1;
+				SDKROOT = iphoneos3.0;
 			};
 			name = "Distribution - AppStore";
 		};
@@ -964,7 +938,7 @@
 				);
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F685E63A-005E-4D14-B8B4-326F636B1C3A";
-				SDKROOT = iphoneos2.2.1;
+				SDKROOT = iphoneos3.0;
 			};
 			name = "Distribution - AdHoc";
 		};
@@ -995,7 +969,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E37DCFD4-2F23-4228-AE3D-973A8CEEB46C";
-				SDKROOT = iphoneos2.2.1;
+				SDKROOT = iphoneos3.0;
 			};
 			name = Debug;
 		};
@@ -1013,7 +987,7 @@
 				);
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E37DCFD4-2F23-4228-AE3D-973A8CEEB46C";
-				SDKROOT = iphoneos2.2.1;
+				SDKROOT = iphoneos3.0;
 			};
 			name = Release;
 		};

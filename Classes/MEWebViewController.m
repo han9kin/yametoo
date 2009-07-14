@@ -66,6 +66,18 @@
 }
 
 
+- (BOOL)hidesBottomBarWhenPushed
+{
+    return YES;
+}
+
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
+{
+    return YES;
+}
+
+
 #pragma mark UIWebViewDelegate
 
 - (void)webViewDidStartLoad:(UIWebView *)aWebView
@@ -90,13 +102,12 @@
         if (mLoading == 0)
         {
             [MEClient endNetworkOperation];
-
-            [aWebView stringByEvaluatingJavaScriptFromString:@"{\n"
-                      "var a = document.getElementsByTagName(\"a\");\n"
-                      "for (var i = 0; i < a.length; i++)\n"
-                      "a[i].target = \"_self\";\n"
-                      "}"];
         }
+    }
+
+    if (![self title])
+    {
+        [self setTitle:[mWebView stringByEvaluatingJavaScriptFromString:@"document.title"]];
     }
 }
 

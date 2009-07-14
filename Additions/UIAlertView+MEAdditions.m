@@ -8,6 +8,7 @@
  */
 
 #import "UIAlertView+MEAdditions.h"
+#import "NSError+MEAdditions.h"
 
 
 @implementation UIAlertView (MEAdditions)
@@ -34,7 +35,7 @@
 {
     UIAlertView *sAlertView;
 
-    sAlertView = [[UIAlertView alloc] initWithTitle:nil message:[aError localizedDescription] delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", @""), nil];
+    sAlertView = [[UIAlertView alloc] initWithTitle:nil message:[aError localizedDescriptionMe2DAY] delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", @""), nil];
     [sAlertView show];
     [sAlertView release];
 }

@@ -14,7 +14,6 @@
 #import "MEAttributedString.h"
 
 
-#define kDefaultBodyWidth  250
 #define kLabelSpacing      5
 #define kBottomLabelHeight 13
 
@@ -59,13 +58,6 @@
     [mCommentsLabel setHighlightedTextColor:[UIColor colorWithWhite:0.8 alpha:1.0]];
     [self addSubview:mCommentsLabel];
     [mCommentsLabel release];
-
-    mBodyWidth = [self frame].size.width;
-
-    if (mBodyWidth == 0)
-    {
-        mBodyWidth = kDefaultBodyWidth;
-    }
 }
 
 @end
@@ -75,11 +67,6 @@
 
 @synthesize showsPostDate = mShowsPostDate;
 
-
-+ (CGFloat)heightWithPost:(MEPost *)aPost
-{
-    return [self heightWithPost:aPost forWidth:kDefaultBodyWidth];
-}
 
 + (CGFloat)heightWithPost:(MEPost *)aPost forWidth:(CGFloat)aWidth
 {
@@ -142,23 +129,22 @@
 
 - (void)layoutSubviews
 {
-    CGRect  sRect;
+    CGRect  sRect   = [self frame];
     CGFloat sOffset = 0;
 
-    [mBodyLabel setFrame:CGRectMake(0, sOffset, mBodyWidth, 0)];
+    [mBodyLabel setFrame:CGRectMake(0, sOffset, sRect.size.width, 0)];
     [mBodyLabel sizeToFit];
 
     sOffset += [mBodyLabel frame].size.height + kLabelSpacing;
 
-    [mTagsLabel setFrame:CGRectMake(0, sOffset, mBodyWidth, 0)];
+    [mTagsLabel setFrame:CGRectMake(0, sOffset, sRect.size.width, 0)];
     [mTagsLabel sizeToFit];
 
     sOffset += [mTagsLabel frame].size.height + kLabelSpacing;
 
-    [mTimeLabel setFrame:CGRectMake(0, sOffset, mBodyWidth, kBottomLabelHeight)];
-    [mCommentsLabel setFrame:CGRectMake(0, sOffset, mBodyWidth, kBottomLabelHeight)];
+    [mTimeLabel setFrame:CGRectMake(0, sOffset, sRect.size.width, kBottomLabelHeight)];
+    [mCommentsLabel setFrame:CGRectMake(0, sOffset, sRect.size.width, kBottomLabelHeight)];
 
-    sRect             = [self frame];
     sRect.size.height = sOffset + 13;
 
     [self setFrame:sRect];

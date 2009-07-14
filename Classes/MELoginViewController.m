@@ -19,6 +19,8 @@
 
 @implementation MELoginViewController
 
+@synthesize tableView = mTableView;
+
 
 - (id)init
 {
@@ -54,12 +56,39 @@
     [mTableView setBackgroundColor:[UIColor colorWithWhite:0.85 alpha:1.0]];
 }
 
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+
+    mTableView = nil;
+}
+
+
+- (void)viewWillAppear:(BOOL)aAnimated
+{
+    [super viewWillAppear:aAnimated];
+
+    [[self navigationController] setNavigationBarHidden:YES animated:aAnimated];
+}
+
 
 - (void)viewDidAppear:(BOOL)aAnimated
 {
     [super viewDidAppear:aAnimated];
 
     [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:YES];
+}
+
+
+- (BOOL)hidesBottomBarWhenPushed
+{
+    return YES;
+}
+
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
+{
+    return YES;
 }
 
 
@@ -185,9 +214,9 @@
         }
         else
         {
-            sViewController = [[MEAccountDetailViewController alloc] initWithUserID:nil parentViewController:self];
+            sViewController = [[MEAccountDetailViewController alloc] initWithUserID:nil];
             [sViewController setTitle:NSLocalizedString(@"New Account", @"")];
-            [self presentModalViewController:sViewController animated:YES];
+            [[self navigationController] pushViewController:sViewController animated:YES];
             [sViewController release];
         }
     }

@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 
 
-#define kCommentBodyWidth 240
+#define kCommentBodyLeftPadding 70
 
 
 @class MEComment;

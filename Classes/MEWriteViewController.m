@@ -49,12 +49,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 - (void)setInterfaceEnabled:(BOOL)aFlag
 {
-    [mCancelButton           setEnabled:aFlag];
-    [mPostButton             setEnabled:aFlag];
-    [mTakePictureButton      setEnabled:aFlag];
-    [mFromPhotoLibraryButton setEnabled:aFlag];
-    [mBodyTextView           setEditable:aFlag];
-    [mTagTextField           setEnabled:aFlag];
+    // TODO
 }
 
 
@@ -183,6 +178,24 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 @implementation MEWriteViewController
 
+@synthesize bodyTextView           = mBodyTextView;
+@synthesize tagTextField           = mTagTextField;
+@synthesize attachedImageView      = mAttachedImageView;
+
+@synthesize iconSelectButton       = mIconSelectButton;
+@synthesize iconDescLabel          = mIconDescLabel;
+
+@synthesize takePictureButton      = mTakePictureButton;
+@synthesize fromPhotoLibraryButton = mFromPhotoLibraryButton;
+@synthesize rotateLeftButton       = mRotateLeftButton;
+@synthesize rotateRightButton      = mRotateRightButton;
+@synthesize resizeButton           = mResizeButton;
+
+@synthesize imageResolutionLabel   = mImageResolutionLabel;
+@synthesize imageSizeLabel         = mImageSizeLabel;
+
+@synthesize iconListView           = mIconListView;
+
 
 - (id)init
 {
@@ -190,6 +203,8 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
     if (self)
     {
+        [self setTitle:NSLocalizedString(@"Write", @"")];
+        [[self navigationItem] setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Upload", @"") style:UIBarButtonItemStyleDone target:self action:@selector(upload)] autorelease]];
     }
 
     return self;
@@ -199,31 +214,10 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    [mCancelButton           release];
-    [mPostButton             release];
-
-    [mBodyTextView           release];
-    [mTagTextField           release];
-    [mAttachedImageView      release];
-
-    [mIconSelectButton       release];
-    [mIconDescLabel          release];
-
-    [mTakePictureButton      release];
-    [mFromPhotoLibraryButton release];
-    [mRotateLeftButton       release];
-    [mRotateRightButton      release];
-    [mResizeButton           release];
-
-    [mImageResolutionLabel   release];
-    [mImageSizeLabel         release];
-
-    [mIconListView           release];
-
-    [mCharCounter    release];
-    [mOriginalImage  release];
-    [mResizedImage   release];
-    [mImageRep       release];
+    [mCharCounter release];
+    [mOriginalImage release];
+    [mResizedImage release];
+    [mImageRep release];
 
     [super dealloc];
 }
@@ -276,8 +270,34 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 }
 
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
+{
+    return YES;
+}
+
+
 #pragma mark -
 #pragma mark Actions
+
+
+- (void)upload
+{
+    NSString *sBody = [mBodyTextView text];
+    NSString *sTags = [mTagTextField text];
+
+    if ([sBody length] > 0)
+    {
+        [self setInterfaceEnabled:NO];
+        [mBodyTextView resignFirstResponder];
+        [mTagTextField resignFirstResponder];
+
+        [[MEClientStore currentClient] createPostWithBody:sBody tags:sTags icon:mSelectedIconIndex attachedImage:mResizedImage delegate:self];
+    }
+    else
+    {
+        [UIAlertView showAlert:NSLocalizedString(@"Please enter contents.", @"")];
+    }
+}
 
 
 - (IBAction)iconSelectButtonTapped:(id)aSender
@@ -359,32 +379,6 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
     [sActionSheet showInView:[self view]];
     [sActionSheet release];
-}
-
-
-- (IBAction)postButtonTapped:(id)aSender
-{
-    NSString *sBody = [mBodyTextView text];
-    NSString *sTags = [mTagTextField text];
-
-    if ([sBody length] > 0)
-    {
-        [self setInterfaceEnabled:NO];
-        [mBodyTextView resignFirstResponder];
-        [mTagTextField resignFirstResponder];
-
-        [[MEClientStore currentClient] createPostWithBody:sBody tags:sTags icon:mSelectedIconIndex attachedImage:mResizedImage delegate:self];
-    }
-    else
-    {
-        [UIAlertView showAlert:NSLocalizedString(@"Please enter contents.", @"")];
-    }
-}
-
-
-- (IBAction)cancelButtonTapped:(id)aSender
-{
-    [[self parentViewController] dismissModalViewControllerAnimated:YES];
 }
 
 

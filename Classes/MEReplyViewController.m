@@ -18,19 +18,19 @@
 
 @implementation MEReplyViewController
 
-
-@synthesize post = mPost;
-
-
-#pragma mark -
+@synthesize textView = mTextView;
 
 
-- (id)init
+- (id)initWithPost:(MEPost *)aPost
 {
     self = [super initWithNibName:@"ReplyView" bundle:nil];
 
     if (self)
     {
+        mPost = [aPost retain];
+
+        [self setTitle:NSLocalizedString(@"Reply", @"")];
+        [[self navigationItem] setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Upload", @"") style:UIBarButtonItemStyleDone target:self action:@selector(upload)] autorelease]];
     }
 
     return self;
@@ -42,7 +42,7 @@
     [mTextView release];
 
     [mCharCounter release];
-    [mPost        release];
+    [mPost release];
 
     [super dealloc];
 }
@@ -72,17 +72,17 @@
 }
 
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
+{
+    return YES;
+}
+
+
 #pragma mark -
 #pragma mark actions
 
 
-- (IBAction)closeButtonTapped:(id)aSender
-{
-    [[self parentViewController] dismissModalViewControllerAnimated:YES];
-}
-
-
-- (IBAction)postButtonTapped:(id)aSender
+- (void)upload
 {
     NSString *sComment = [mTextView text];
 
@@ -138,7 +138,7 @@
     {
         if (aTextView == mTextView)
         {
-            [self postButtonTapped:self];
+            [self upload];
             return NO;
         }
     }

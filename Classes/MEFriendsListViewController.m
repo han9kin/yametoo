@@ -7,8 +7,7 @@
  *
  */
 
-#import "MEListView.h"
-#import "MEFriendsViewController.h"
+#import "MEFriendsListViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEUser.h"
@@ -29,9 +28,9 @@
     return self;
 }
 
-- (id)initWithNibName:(NSString *)aNibName bundle:(NSBundle *)aBundle
+- (id)init
 {
-    self = [super initWithNibName:aNibName bundle:aBundle];
+    self = [super init];
 
     if (self)
     {
@@ -51,7 +50,6 @@
 - (void)configureListView:(MEListView *)aListView
 {
     [aListView setShowsPostAuthor:YES];
-    [aListView setShowsPostButton:NO];
 }
 
 - (void)fetchFromOffset:(NSInteger)aOffset count:(NSInteger)aCount

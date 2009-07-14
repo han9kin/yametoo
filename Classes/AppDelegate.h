@@ -10,17 +10,13 @@
 #import <UIKit/UIKit.h>
 
 
-@class MELoginViewController;
-
-
 @interface AppDelegate : NSObject <UIApplicationDelegate>
 {
-    UIWindow              *mWindow;
-    UITabBarController    *mTabBarController;
-    MELoginViewController *mLoginViewController;
+    UIWindow               *mWindow;
+    UINavigationController *mNavigationController;
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow           *window;
-@property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
+@property(nonatomic, retain) IBOutlet UIWindow *window;
+
 
 @end

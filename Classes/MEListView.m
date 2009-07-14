@@ -98,22 +98,21 @@
 #pragma mark Instance Methods
 
 
-- (void)setTitleUserID:(NSString *)aUserID
+- (void)setAuthor:(MEUser *)aUser
 {
-    if (aUserID)
+    if (aUser)
     {
         MEListHeadView *sHeaderView = (MEListHeadView *)[mTableView tableHeaderView];
 
         if (!sHeaderView)
         {
-            sHeaderView = [MEListHeadView listHeadView];
-
-            [sHeaderView setDelegate:self];
-            [sHeaderView setShowsPostButton:mShowsPostButton];
+            sHeaderView = [[MEListHeadView alloc] initWithFrame:CGRectMake(0, 0, [self bounds].size.width, kListHeadViewHeight)];
+            [sHeaderView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
             [mTableView setTableHeaderView:sHeaderView];
+            [sHeaderView release];
         }
 
-        [sHeaderView setUserID:aUserID];
+        [sHeaderView setUser:aUser];
     }
     else
     {
@@ -128,13 +127,6 @@
 - (void)setShowsPostAuthor:(BOOL)aShowsPostAuthor
 {
     mShowsPostAuthor = aShowsPostAuthor;
-}
-
-
-- (void)setShowsPostButton:(BOOL)aShowsPostButton
-{
-    mShowsPostButton = aShowsPostButton;
-    [(MEListHeadView *)[mTableView tableHeaderView] setShowsPostButton:mShowsPostButton];
 }
 
 
@@ -155,6 +147,16 @@
     [mTableView deselectRowAtIndexPath:aIndexPath animated:aAnimated];
 }
 
+
+- (NSIndexPath *)indexPathForTopVisiblePost
+{
+    return [mTableView indexPathForRowAtPoint:[mTableView contentOffset]];
+}
+
+- (void)scrollToPostAtIndexPath:(NSIndexPath *)aIndexPath atScrollPosition:(UITableViewScrollPosition)aScrollPosition animated:(BOOL)aAnimated
+{
+    [mTableView scrollToRowAtIndexPath:aIndexPath atScrollPosition:aScrollPosition animated:aAnimated];
+}
 
 - (void)invalidateData
 {
@@ -316,16 +318,26 @@
         }
         else
         {
-            sHeight = [MEPostBodyView heightWithPost:sPost] + kPostCellBodyPadding * 2;
+            CGFloat sWidth = [self bounds].size.width;
 
-            if (mShowsPostAuthor)
+            if (mShowsPostAuthor && (sWidth > 400))
             {
-                sHeight += 20;
+                sHeight = [MEPostBodyView heightWithPost:sPost forWidth:([self bounds].size.width - kPostCellBodyLeftPadding - kPostCellIconPadding)];
+            }
+            else
+            {
+                sHeight = [MEPostBodyView heightWithPost:sPost forWidth:([self bounds].size.width - kPostCellBodyLeftPadding)];
+            }
+
+            sHeight += kPostCellBodyTopPadding * 2;
+
+            if (mShowsPostAuthor && ([self bounds].size.width < 400))
+            {
                 sHeight  = (sHeight < 115) ? 115 : sHeight;
             }
             else
             {
-                sHeight  = (sHeight < 70) ? 70 : sHeight;
+                sHeight = (sHeight < 65) ? 65 : sHeight;
             }
 
             [mCellHeightCache setObject:[NSNumber numberWithFloat:sHeight] forKey:[sPost postID]];
@@ -357,19 +369,6 @@
         }
 
         [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];
-    }
-}
-
-
-#pragma mark -
-#pragma mark MEListHead Delegate
-
-
-- (void)newPostButtonTapped:(MEListHeadView *)aListHeadView
-{
-    if ([mDelegate respondsToSelector:@selector(listViewDidTapNewPostButton:)])
-    {
-        [mDelegate listViewDidTapNewPostButton:self];
     }
 }
 
