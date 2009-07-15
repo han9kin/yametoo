@@ -10,16 +10,17 @@
 #import <UIKit/UIKit.h>
 
 
+@class MEClient;
+
 @interface MEAccountDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIActionSheetDelegate>
 {
     UITableView      *mTableView;
     UITextField      *mUserIDField;
     UITextField      *mUserKeyField;
-    UISwitch         *mPasscodeSwitch;
 
-    NSString         *mUserID;
+    MEClient         *mClient;
 }
 
-- (id)initWithUserID:(NSString *)aUserID;
+- (id)initWithClient:(MEClient *)aClient;
 
 @end

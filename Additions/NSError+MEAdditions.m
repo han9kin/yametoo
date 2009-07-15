@@ -1,6 +1,6 @@
 /*
  *  NSError+MEAdditions.m
- *  me2DAY
+ *  yametoo
  *
  *  Created by han9kin on 09. 07. 02.
  *  Copyright 2009 NHN. All rights reserved.

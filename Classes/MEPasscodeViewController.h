@@ -12,8 +12,8 @@
 
 typedef enum MEPasscodeViewMode
 {
-    kMEPasscodeViewModeAuthenticate,
-    kMEPasscodeViewModeChange,
+    kMEPasscodeModeAuthenticate,
+    kMEPasscodeModeChange,
 } MEPasscodeViewMode;
 
 
@@ -22,37 +22,29 @@ typedef enum MEPasscodeViewMode
 
 @protocol MEPasscodeViewControllerDelegate
 
-- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didFinishAuthenticationClient:(MEClient *)aClient;
-- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didCancelAuthenticationClient:(MEClient *)aClient;
-
-- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didFinishChangingPasscodeClient:(MEClient *)aClient;
-- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didCancelChangingPasscodeClient:(MEClient *)aClient;
+- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didFinishAuthenticateClient:(MEClient *)aClient;
+- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didFinishChangeClient:(MEClient *)aClient;
 
 @end
 
 
 @interface MEPasscodeViewController : UIViewController <UITextFieldDelegate>
 {
-    UIView             *mBackView;
-    UIView             *mTitleView;
-    UILabel            *mTitleLabel;
-    UILabel            *mDescLabel;
+    UILabel            *mPromptLabel;
+    UILabel            *mErrorLabel;
     UITextField        *mTextField;
+    UIView             *mPasscodeView;
     NSMutableArray     *mPasscodeFields;
-    UIView             *mKeyboardLockView;
-    UIButton           *mCancelButton;
+    UIWindow           *mLockWindow;
 
     NSString           *mPasscode;
 
     MEClient           *mClient;
     MEPasscodeViewMode  mMode;
+    BOOL                mAuthenticated;
     id                  mDelegate;
-    SEL                 mDidEndSelector;
 }
 
-
 - (id)initWithClient:(MEClient *)aClient mode:(MEPasscodeViewMode)aMode delegate:(id)aDelegate;
-
-- (void)showInView:(UIView *)aView;
 
 @end

@@ -7,6 +7,7 @@
  *
  */
 
+#import "UIAlertView+MEAdditions.h"
 #import "MELoginViewController.h"
 #import "MEPasscodeViewController.h"
 #import "MEAccountDetailViewController.h"
@@ -28,6 +29,7 @@
 
     if (self)
     {
+        [self setTitle:NSLocalizedString(@"Login", @"")];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userListDidChangeNotification:) name:MEClientStoreUserListDidChangeNotification object:nil];
     }
 
@@ -64,25 +66,11 @@
 }
 
 
-- (void)viewWillAppear:(BOOL)aAnimated
-{
-    [super viewWillAppear:aAnimated];
-
-    [[self navigationController] setNavigationBarHidden:YES animated:aAnimated];
-}
-
-
 - (void)viewDidAppear:(BOOL)aAnimated
 {
     [super viewDidAppear:aAnimated];
 
     [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:YES];
-}
-
-
-- (BOOL)hidesBottomBarWhenPushed
-{
-    return YES;
 }
 
 
@@ -157,8 +145,8 @@
         {
             sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
 
+            [sCell setIndentationWidth:70];
             [sCell setIndentationLevel:1];
-            [sCell setIndentationWidth:30];
             [[sCell textLabel] setText:NSLocalizedString(@"Other...", @"")];
         }
     }
@@ -181,7 +169,7 @@
 {
     if ([aIndexPath section] == 0)
     {
-        return 70;
+        return 60;
     }
     else
     {
@@ -204,17 +192,19 @@
 
             if ([sClient hasPasscode])
             {
-                sViewController = [[MEPasscodeViewController alloc] initWithClient:sClient mode:kMEPasscodeViewModeAuthenticate delegate:self];
-                [(MEPasscodeViewController *)sViewController showInView:[self view]];
+                sViewController = [[MEPasscodeViewController alloc] initWithClient:sClient mode:kMEPasscodeModeAuthenticate delegate:self];
+                [sViewController setTitle:NSLocalizedString(@"Enter Passcode", @"")];
+                [[self navigationController] pushViewController:sViewController animated:YES];
+                [sViewController release];
             }
             else
             {
-                [MEClientStore setCurrentUserID:[sClient userID]];
+                [sClient loginWithUserID:nil userKey:nil delegate:self];
             }
         }
         else
         {
-            sViewController = [[MEAccountDetailViewController alloc] initWithUserID:nil];
+            sViewController = [[MEAccountDetailViewController alloc] initWithClient:nil];
             [sViewController setTitle:NSLocalizedString(@"New Account", @"")];
             [[self navigationController] pushViewController:sViewController animated:YES];
             [sViewController release];
@@ -246,22 +236,28 @@
 }
 
 
-#pragma mark -
-#pragma mark MEPasscodeViewControllerDelegate
-
-
-- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didFinishAuthenticationClient:(MEClient *)aClient
+- (void)client:(MEClient *)aClient didLoginWithError:(NSError *)aError
 {
-    [MEClientStore setCurrentUserID:[aClient userID]];
-    [aViewController release];
+    if (aError)
+    {
+        [UIAlertView showError:aError];
+    }
+    else
+    {
+        [MEClientStore setCurrentUserID:[aClient userID]];
+    }
+
     [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:YES];
 }
 
 
-- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didCancelAuthenticationClient:(MEClient *)aClient
+#pragma mark -
+#pragma mark MEPasscodeViewControllerDelegate
+
+
+- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didFinishAuthenticateClient:(MEClient *)aClient
 {
-    [aViewController release];
-    [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:YES];
+    [MEClientStore setCurrentUserID:[aClient userID]];
 }
 
 

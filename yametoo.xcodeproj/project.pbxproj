@@ -60,6 +60,7 @@
 		2ED83E380FAECFC600786952 /* ReplyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED83E370FAECFC600786952 /* ReplyView.xib */; };
 		2ED83E3B0FAECFDC00786952 /* MEReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED83E3A0FAECFDC00786952 /* MEReplyViewController.m */; };
 		CF15E4A9100C8786006B0E4F /* NSError+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15E4A8100C8786006B0E4F /* NSError+MEAdditions.m */; };
+		CF15E660100DC189006B0E4F /* MEPasscodeSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15E65F100DC189006B0E4F /* MEPasscodeSettingsViewController.m */; };
 		CF45B2A10FD78E170069C6BA /* MELink.m in Sources */ = {isa = PBXBuildFile; fileRef = CF45B2A00FD78E170069C6BA /* MELink.m */; };
 		CF45B3940FD90B140069C6BA /* MELinkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF45B3930FD90B140069C6BA /* MELinkTableViewCell.m */; };
 		CF528C980FA06BC2007C7A03 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF528C970FA06BC1007C7A03 /* Localizable.strings */; };
@@ -100,7 +101,6 @@
 		CFE72CB80FA6A36B00C54792 /* MEComment.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72CB70FA6A36B00C54792 /* MEComment.m */; };
 		CFE72CCB0FA6A80800C54792 /* MECommentBodyTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72CCA0FA6A80800C54792 /* MECommentBodyTextParser.m */; };
 		CFE72DAF0FA7ED7100C54792 /* MEPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72DAE0FA7ED7100C54792 /* MEPasscodeViewController.m */; };
-		CFE72DE90FA815B100C54792 /* keypad_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE72DE80FA815B100C54792 /* keypad_highlighted.png */; };
 		CFE72E9E0FA863B900C54792 /* MEAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72E9D0FA863B900C54792 /* MEAboutViewController.m */; };
 		CFE72EA90FA8678E00C54792 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = CFE72EA80FA8678E00C54792 /* Credits.html */; };
 		CFE72F070FA9672400C54792 /* MEPostBodyView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72F060FA9672400C54792 /* MEPostBodyView.m */; };
@@ -189,6 +189,8 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CF15E4A7100C8786006B0E4F /* NSError+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+MEAdditions.h"; sourceTree = "<group>"; };
 		CF15E4A8100C8786006B0E4F /* NSError+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+MEAdditions.m"; sourceTree = "<group>"; };
+		CF15E65E100DC189006B0E4F /* MEPasscodeSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPasscodeSettingsViewController.h; sourceTree = "<group>"; };
+		CF15E65F100DC189006B0E4F /* MEPasscodeSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPasscodeSettingsViewController.m; sourceTree = "<group>"; };
 		CF45B29F0FD78E170069C6BA /* MELink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELink.h; sourceTree = "<group>"; };
 		CF45B2A00FD78E170069C6BA /* MELink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MELink.m; sourceTree = "<group>"; };
 		CF45B3920FD90B140069C6BA /* MELinkTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELinkTableViewCell.h; sourceTree = "<group>"; };
@@ -262,7 +264,6 @@
 		CFE72CCA0FA6A80800C54792 /* MECommentBodyTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MECommentBodyTextParser.m; sourceTree = "<group>"; };
 		CFE72DAD0FA7ED7100C54792 /* MEPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPasscodeViewController.h; sourceTree = "<group>"; };
 		CFE72DAE0FA7ED7100C54792 /* MEPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPasscodeViewController.m; sourceTree = "<group>"; };
-		CFE72DE80FA815B100C54792 /* keypad_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = keypad_highlighted.png; sourceTree = "<group>"; };
 		CFE72E9C0FA863B900C54792 /* MEAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEAboutViewController.h; sourceTree = "<group>"; };
 		CFE72E9D0FA863B900C54792 /* MEAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEAboutViewController.m; sourceTree = "<group>"; };
 		CFE72EA80FA8678E00C54792 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
@@ -410,7 +411,6 @@
 				CF5EE9400F9BFEBD004712FF /* checkmark_normal.png */,
 				CF5EE9410F9BFEBD004712FF /* locked_highlighted.png */,
 				CF5EE9420F9BFEBD004712FF /* locked_normal.png */,
-				CFE72DE80FA815B100C54792 /* keypad_highlighted.png */,
 				2ED4E7F20FA84A06000BFE2F /* white_round_rect.png */,
 				2E1474BB0FD8C1B500E0D93A /* rotate_left_enable.png */,
 				2E1474BC0FD8C1B500E0D93A /* resize_enable.png */,
@@ -459,8 +459,8 @@
 			children = (
 				CFE72F740FA9983300C54792 /* Application Controller */,
 				CFFC6DD80FBAB8A800B935E7 /* Login View Controller */,
+				CFE72F750FA9983B00C54792 /* Main View Controller */,
 				CFE732230FB192A200C54792 /* Settings View Controller */,
-				CFE72F750FA9983B00C54792 /* Other View Controllers */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -655,7 +655,7 @@
 			name = "Application Controller";
 			sourceTree = "<group>";
 		};
-		CFE72F750FA9983B00C54792 /* Other View Controllers */ = {
+		CFE72F750FA9983B00C54792 /* Main View Controller */ = {
 			isa = PBXGroup;
 			children = (
 				CFE72FE60FAE8D0200C54792 /* MEListViewController.h */,
@@ -669,7 +669,7 @@
 				CFC8A1980FE0CA9100EA77C6 /* MEWebViewController.h */,
 				CFC8A1990FE0CA9100EA77C6 /* MEWebViewController.m */,
 			);
-			name = "Other View Controllers";
+			name = "Main View Controller";
 			sourceTree = "<group>";
 		};
 		CFE7320B0FB1905800C54792 /* Settings */ = {
@@ -688,10 +688,12 @@
 				CF5EE75C0F97162F004712FF /* MESettingsViewController.m */,
 				CF5EE75F0F97164A004712FF /* MEAccountSettingsViewController.h */,
 				CF5EE7600F97164A004712FF /* MEAccountSettingsViewController.m */,
-				CFE732240FB192D900C54792 /* MEFetchSettingsViewController.h */,
-				CFE732250FB192D900C54792 /* MEFetchSettingsViewController.m */,
 				CF5EE8630F98525E004712FF /* MEAccountDetailViewController.h */,
 				CF5EE8640F98525E004712FF /* MEAccountDetailViewController.m */,
+				CF15E65E100DC189006B0E4F /* MEPasscodeSettingsViewController.h */,
+				CF15E65F100DC189006B0E4F /* MEPasscodeSettingsViewController.m */,
+				CFE732240FB192D900C54792 /* MEFetchSettingsViewController.h */,
+				CFE732250FB192D900C54792 /* MEFetchSettingsViewController.m */,
 				CFE72E9C0FA863B900C54792 /* MEAboutViewController.h */,
 				CFE72E9D0FA863B900C54792 /* MEAboutViewController.m */,
 			);
@@ -761,7 +763,6 @@
 				2EC19A5B0F9C1E9800963971 /* LoginView.xib in Resources */,
 				CF528C980FA06BC2007C7A03 /* Localizable.strings in Resources */,
 				CF528CB80FA149B6007C7A03 /* CharacterEntity.strings in Resources */,
-				CFE72DE90FA815B100C54792 /* keypad_highlighted.png in Resources */,
 				2ED4E7F30FA84A06000BFE2F /* white_round_rect.png in Resources */,
 				2ED4E8290FA8507B000BFE2F /* Entitlements.plist in Resources */,
 				2ED4E8330FA942D6000BFE2F /* ReadView.xib in Resources */,
@@ -858,6 +859,7 @@
 				CF7B8B1F1005ACF4001A089A /* MEPostTableViewCell.m in Sources */,
 				CF7B8B221005AD00001A089A /* MECommentTableViewCell.m in Sources */,
 				CF15E4A9100C8786006B0E4F /* NSError+MEAdditions.m in Sources */,
+				CF15E660100DC189006B0E4F /* MEPasscodeSettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

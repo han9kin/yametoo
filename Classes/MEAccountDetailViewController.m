@@ -10,6 +10,7 @@
 #import "UIAlertView+MEAdditions.h"
 #import "MEAccountDetailViewController.h"
 #import "MEPasscodeViewController.h"
+#import "MEPasscodeSettingsViewController.h"
 #import "METableViewCellFactory.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
@@ -17,15 +18,28 @@
 
 @implementation MEAccountDetailViewController
 
-- (id)initWithUserID:(NSString *)aUserID
+- (id)initWithClient:(MEClient *)aClient
 {
     self = [super initWithNibName:nil bundle:nil];
 
     if (self)
     {
-        mUserID = [aUserID copy];
+        mClient = [aClient retain];
 
-        [self setTitle:mUserID];
+        if (mClient)
+        {
+            [self setTitle:[mClient userID]];
+            [[self navigationItem] setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", @"") style:UIBarButtonItemStyleDone target:self action:@selector(modifyAccount)] autorelease]];
+        }
+        else
+        {
+            mClient = [[MEClient alloc] init];
+            [[self navigationItem] setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", @"") style:UIBarButtonItemStyleDone target:self action:@selector(addAccount)] autorelease]];
+        }
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userListDidChange:) name:MEClientStoreUserListDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     }
 
     return self;
@@ -33,7 +47,8 @@
 
 - (void)dealloc
 {
-    [mUserID release];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [mClient release];
     [super dealloc];
 }
 
@@ -45,16 +60,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    if (mUserID)
-    {
-        [[self navigationItem] setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(modifyButtonTapped)] autorelease]];
-    }
-    else
-    {
-        [[self navigationItem] setPrompt:NSLocalizedString(@"Enter account information", @"")];
-        [[self navigationItem] setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(addButtonTapped)] autorelease]];
-    }
 
     mTableView = [[UITableView alloc] initWithFrame:[[self view] bounds] style:UITableViewStyleGrouped];
     [mTableView setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
@@ -71,21 +76,14 @@
     mTableView      = nil;
     mUserIDField    = nil;
     mUserKeyField   = nil;
-    mPasscodeSwitch = nil;
 }
 
 
-- (void)viewWillAppear:(BOOL)aAnimated
+- (void)viewDidAppear:(BOOL)aAnimated
 {
-    [super viewWillAppear:aAnimated];
+    [super viewDidAppear:aAnimated];
 
-    [[self navigationController] setNavigationBarHidden:NO animated:aAnimated];
-}
-
-
-- (BOOL)hidesBottomBarWhenPushed
-{
-    return YES;
+    [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:YES];
 }
 
 
@@ -97,11 +95,8 @@
 
 #pragma mark actions
 
-- (void)cancelButtonTapped
-{
-}
 
-- (void)addButtonTapped
+- (void)addAccount
 {
     if ([[mUserIDField text] length] && [[mUserKeyField text] length])
     {
@@ -111,10 +106,7 @@
         }
         else
         {
-            MEClient *sClient;
-
-            sClient = [[MEClient alloc] init];
-            [sClient loginWithUserID:[mUserIDField text] userKey:[mUserKeyField text] delegate:self];
+            [mClient loginWithUserID:[mUserIDField text] userKey:[mUserKeyField text] delegate:self];
         }
     }
     else
@@ -123,43 +115,24 @@
     }
 }
 
-- (void)modifyButtonTapped
+- (void)modifyAccount
 {
-    MEClient *sClient;
-
     if ([[mUserKeyField text] length])
     {
-        sClient = [[MEClient alloc] init];
-        [sClient loginWithUserID:mUserID userKey:[mUserKeyField text] delegate:self];
+        [mClient loginWithUserID:[mClient userID] userKey:[mUserKeyField text] delegate:self];
     }
     else
     {
-        sClient = [MEClientStore clientForUserID:mUserID];
-
-        if ([mPasscodeSwitch isOn])
-        {
-            UIViewController *sViewController;
-
-            sViewController = [[MEPasscodeViewController alloc] initWithClient:sClient mode:kMEPasscodeViewModeChange delegate:self];
-            [self presentModalViewController:sViewController animated:NO];
-            [sViewController release];
-        }
-        else
-        {
-            [sClient setPasscode:nil];
-            [MEClientStore addClient:sClient];
-
-            [[self navigationController] popViewControllerAnimated:YES];
-        }
+        [[self navigationController] popViewControllerAnimated:YES];
     }
 }
 
-- (void)deleteButtonTapped
+- (void)deleteAccount
 {
     UIActionSheet *sActionSheet;
     NSString      *sTitle;
 
-    sTitle = [NSString stringWithFormat:NSLocalizedString(@"Delete account \"%@\".", @""), mUserID];
+    sTitle = [NSString stringWithFormat:NSLocalizedString(@"Delete account \"%@\".", @""), [mClient userID]];
 
     sActionSheet = [[UIActionSheet alloc] initWithTitle:sTitle delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:NSLocalizedString(@"Delete Account", @"") otherButtonTitles:nil];
     [sActionSheet showInView:[self view]];
@@ -167,6 +140,36 @@
 }
 
 
+#pragma mark -
+#pragma mark UIKeyboard Notifications
+
+
+- (void)keyboardDidShow:(NSNotification *)aNotification
+{
+    CGRect sRect = [[self view] bounds];
+
+    sRect.size.height -= [[[aNotification userInfo] objectForKey:UIKeyboardBoundsUserInfoKey] CGRectValue].size.height;
+
+    [mTableView setFrame:sRect];
+}
+
+- (void)keyboardWillHide:(NSNotification *)aNotification
+{
+    [mTableView setFrame:[[self view] bounds]];
+}
+
+
+#pragma mark -
+#pragma mark MEClientStoreNotifications
+
+
+- (void)userListDidChange:(NSNotification *)aNotification
+{
+    [mTableView reloadData];
+}
+
+
+#pragma mark -
 #pragma mark MEClientDelegate
 
 
@@ -178,69 +181,42 @@
     }
     else
     {
-        if ([mPasscodeSwitch isOn])
+        [MEClientStore addClient:aClient];
+
+        if (![MEClientStore currentClient])
         {
-            UIViewController *sViewController;
-
-            sViewController = [[MEPasscodeViewController alloc] initWithClient:aClient mode:kMEPasscodeViewModeChange delegate:self];
-            [self presentModalViewController:sViewController animated:NO];
-            [sViewController release];
+            [MEClientStore setCurrentUserID:[aClient userID]];
         }
-        else
-        {
-            [MEClientStore addClient:aClient];
 
-            if (![MEClientStore currentClient])
-            {
-                [MEClientStore setCurrentUserID:[aClient userID]];
-            }
-
-            [[self navigationController] popViewControllerAnimated:YES];
-        }
+        [[self navigationController] popViewControllerAnimated:YES];
     }
-
-    [aClient release];
 }
 
 
+#pragma mark -
 #pragma mark MEPasscodeViewControllerDelegate
 
 
-- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didFinishChangingPasscodeClient:(MEClient *)aClient
+- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didFinishChangeClient:(MEClient *)aClient
 {
+    UIViewController *sViewController;
+
+    sViewController = [[MEPasscodeSettingsViewController alloc] initWithClient:mClient];
+    [[self navigationController] popViewControllerAnimated:NO];
+    [[self navigationController] pushViewController:sViewController animated:YES];
+    [sViewController release];
+
     [MEClientStore addClient:aClient];
-
-    if (![MEClientStore currentClient])
-    {
-        [MEClientStore setCurrentUserID:[aClient userID]];
-    }
-
-    [self dismissModalViewControllerAnimated:NO];
-
-    [[self navigationController] popViewControllerAnimated:YES];
-}
-
-- (void)passcodeViewController:(MEPasscodeViewController *)aViewController didCancelChangingPasscodeClient:(MEClient *)aClient
-{
-    [self dismissModalViewControllerAnimated:NO];
-
-    if (mUserIDField)
-    {
-        [mUserIDField becomeFirstResponder];
-    }
-    else
-    {
-        [mUserKeyField becomeFirstResponder];
-    }
 }
 
 
+#pragma mark -
 #pragma mark UITableViewDataSource
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
 {
-    if (mUserID)
+    if ([mClient userID])
     {
         return 3;
     }
@@ -255,7 +231,7 @@
     static NSInteger sRowsForAddUser[]    = { 2, 1 };
     static NSInteger sRowsForModifyUser[] = { 1, 1, 1 };
 
-    if (mUserID)
+    if ([mClient userID])
     {
         return sRowsForModifyUser[aSection];
     }
@@ -267,9 +243,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    UITableViewCell *sCell;
+    UITableViewCell *sCell = nil;
 
-    if (mUserID)
+    if ([mClient userID])
     {
         switch ([aIndexPath section])
         {
@@ -284,18 +260,16 @@
 
                 mUserKeyField = [sCell textField];
                 [mUserKeyField setKeyboardType:UIKeyboardTypeNamePhonePad];
-                [mUserKeyField setReturnKeyType:UIReturnKeyJoin];
+                [mUserKeyField setReturnKeyType:UIReturnKeyDone];
                 [mUserKeyField setPlaceholder:NSLocalizedString(@"me2API User Key", @"")];
                 [mUserKeyField setDelegate:self];
-                [mUserKeyField becomeFirstResponder];
                 break;
 
             case 2:
-                sCell = [METableViewCellFactory switchCellForTableView:aTableView];
+                sCell = [METableViewCellFactory detailCellForTableView:aTableView];
                 [[sCell textLabel] setText:NSLocalizedString(@"Passcode Lock", @"")];
-
-                mPasscodeSwitch = [sCell switch];
-                [mPasscodeSwitch setOn:[[MEClientStore clientForUserID:mUserID] hasPasscode]];
+                [[sCell detailTextLabel] setText:NSLocalizedString(([mClient hasPasscode] ? @"On" : @"Off"), @"")];
+                [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
                 break;
         }
     }
@@ -315,7 +289,6 @@
                     [mUserIDField setReturnKeyType:UIReturnKeyNext];
                     [mUserIDField setPlaceholder:NSLocalizedString(@"me2DAY ID", @"")];
                     [mUserIDField setDelegate:self];
-                    [mUserIDField becomeFirstResponder];
                 }
                 else if ([aIndexPath row] == 1)
                 {
@@ -323,18 +296,17 @@
 
                     mUserKeyField = [sCell textField];
                     [mUserKeyField setKeyboardType:UIKeyboardTypeNamePhonePad];
-                    [mUserKeyField setReturnKeyType:UIReturnKeyJoin];
+                    [mUserKeyField setReturnKeyType:UIReturnKeyDone];
                     [mUserKeyField setPlaceholder:NSLocalizedString(@"me2API User Key", @"")];
                     [mUserKeyField setDelegate:self];
                 }
                 break;
 
             case 1:
-                sCell = [METableViewCellFactory switchCellForTableView:aTableView];
+                sCell = [METableViewCellFactory detailCellForTableView:aTableView];
                 [[sCell textLabel] setText:NSLocalizedString(@"Passcode Lock", @"")];
-
-                mPasscodeSwitch = [sCell switch];
-                [mPasscodeSwitch setOn:YES];
+                [[sCell detailTextLabel] setText:NSLocalizedString(([mClient hasPasscode] ? @"On" : @"Off"), @"")];
+                [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
                 break;
         }
     }
@@ -343,20 +315,59 @@
 }
 
 
+#pragma mark -
 #pragma mark UITableViewDelegate
 
 
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    if (mUserID && ([aIndexPath section] == 0))
+    UIViewController *sViewController = nil;
+
+    if ([mClient userID])
     {
-        [self deleteButtonTapped];
+        if ([aIndexPath section] == 0)
+        {
+            [self deleteAccount];
+            [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];
+        }
+        else if ([aIndexPath section] == 2)
+        {
+            if ([mClient hasPasscode])
+            {
+                sViewController = [[MEPasscodeSettingsViewController alloc] initWithClient:mClient];
+            }
+            else
+            {
+                sViewController = [[MEPasscodeViewController alloc] initWithClient:mClient mode:kMEPasscodeModeChange delegate:self];
+                [sViewController setTitle:NSLocalizedString(@"Setup Passcode", @"")];
+            }
+        }
+    }
+    else
+    {
+        if ([aIndexPath section] == 1)
+        {
+            if ([mClient hasPasscode])
+            {
+                sViewController = [[MEPasscodeSettingsViewController alloc] initWithClient:mClient];
+            }
+            else
+            {
+                sViewController = [[MEPasscodeViewController alloc] initWithClient:mClient mode:kMEPasscodeModeChange delegate:self];
+                [sViewController setTitle:NSLocalizedString(@"Setup Passcode", @"")];
+            }
+        }
     }
 
-    [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];
+    if (sViewController)
+    {
+        [[self navigationController] pushViewController:sViewController animated:YES];
+        [sViewController release];
+    }
 }
 
 
+#pragma mark -
 #pragma mark UITextFieldDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)aTextField
@@ -365,11 +376,16 @@
     {
         [mUserKeyField becomeFirstResponder];
     }
+    else
+    {
+        [aTextField resignFirstResponder];
+    }
 
     return YES;
 }
 
 
+#pragma mark -
 #pragma mark UIActionSheetDelegate
 
 
@@ -377,7 +393,7 @@
 {
     if (aButtonIndex != [aActionSheet cancelButtonIndex])
     {
-        [MEClientStore removeClientForUserID:mUserID];
+        [MEClientStore removeClientForUserID:[mClient userID]];
         [[self navigationController] popViewControllerAnimated:YES];
     }
 }

@@ -36,14 +36,13 @@
         mNavigationController = [[UINavigationController alloc] initWithRootViewController:sViewController];
     }
 
-    [mNavigationController setNavigationBarHidden:YES];
     [mNavigationController setToolbarHidden:YES];
 
     [sViewController release];
 }
 
 
-- (void)showListView
+- (void)showMainView
 {
     UIViewController *sViewController;
 
@@ -58,7 +57,6 @@
         mNavigationController = [[UINavigationController alloc] initWithRootViewController:sViewController];
     }
 
-    [mNavigationController setNavigationBarHidden:NO];
     [mNavigationController setToolbarHidden:NO];
 
     [sViewController release];
@@ -168,7 +166,7 @@
 {
     if ([MEClientStore currentClient])
     {
-        [self showListView];
+        [self showMainView];
     }
     else
     {

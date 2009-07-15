@@ -70,7 +70,7 @@
 
     if (!sCell)
     {
-        sCell = [[[self alloc] initWithFrame:CGRectZero reuseIdentifier:@"Post"] autorelease];
+        sCell = [[[self alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Post"] autorelease];
 
         [sCell setupWithoutAuthorAndTarget:aTarget];
     }
@@ -87,7 +87,7 @@
 
     if (!sCell)
     {
-        sCell = [[[self alloc] initWithFrame:CGRectZero reuseIdentifier:@"PostWithAuthor"] autorelease];
+        sCell = [[[self alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"PostWithAuthor"] autorelease];
 
         [sCell setupWithAuthorAndTarget:aTarget];
     }

@@ -55,13 +55,16 @@ static NSString *kGetPostsScopeValue[] = {
 }
 
 
-- (NSMutableURLRequest *)loginRequestWithUserID:(NSString *)aUserID userKey:(NSString *)aUserKey;
+- (NSMutableURLRequest *)loginRequestWithUserID:(NSString *)aUserID userKey:(NSString *)aUserKey
 {
     NSMutableURLRequest *sRequest;
     NSString            *sURLStr;
 
-    [mAuthKey release];
-    mAuthKey = [[MEClient authKeyWithUserKey:aUserKey] retain];
+    if (aUserKey)
+    {
+        [mAuthKey release];
+        mAuthKey = [[MEClient authKeyWithUserKey:aUserKey] retain];
+    }
 
     sURLStr  = [NSString stringWithFormat:kLoginURLFormat, aUserID, mAuthKey];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];

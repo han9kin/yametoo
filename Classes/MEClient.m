@@ -163,8 +163,6 @@ NSString *MEClientErrorDomain = @"MEClientErrorDomain";
     {
         mPasscode = nil;
     }
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:MEClientStoreUserListDidChangeNotification object:nil];
 }
 
 
@@ -241,6 +239,11 @@ NSString *MEClientErrorDomain = @"MEClientErrorDomain";
 - (void)loginWithUserID:(NSString *)aUserID userKey:(NSString *)aUserKey delegate:(id)aDelegate
 {
     MEClientOperation *sOperation = [[MEClientOperation alloc] init];
+
+    if (!aUserID)
+    {
+        aUserID = mUserID;
+    }
 
     [sOperation setRequest:[self loginRequestWithUserID:aUserID userKey:aUserKey]];
     [sOperation setQueuePriority:NSOperationQueuePriorityVeryHigh];
@@ -537,9 +540,6 @@ NSString *MEClientErrorDomain = @"MEClientErrorDomain";
         NSString          *sSource = [[[NSString alloc] initWithData:aData encoding:NSUTF8StringEncoding] autorelease];
         NSDictionary      *sResult = [sSource JSONValue];
         NSError           *sError;
-
-        NSLog(@"%@", sSource);
-        NSLog(@"%@", sResult);
 
         if (sResult)
         {

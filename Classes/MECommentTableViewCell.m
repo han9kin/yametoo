@@ -60,7 +60,7 @@
 
     if (!sCell)
     {
-        sCell = [[[self alloc] initWithFrame:CGRectZero reuseIdentifier:@"Comment"] autorelease];
+        sCell = [[[self alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Comment"] autorelease];
 
         [sCell setupWithTarget:aTarget];
     }

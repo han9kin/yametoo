@@ -52,7 +52,6 @@
 
     mTableView = [[UITableView alloc] initWithFrame:[[self view] bounds] style:UITableViewStyleGrouped];
     [mTableView setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
-    [mTableView setScrollEnabled:NO];
     [mTableView setDataSource:self];
     [mTableView setDelegate:self];
     [[self view] addSubview:mTableView];
@@ -111,16 +110,17 @@
     {
         case 0:
             sCell = [METableViewCellFactory detailCellForTableView:aTableView];
-            [sCell setTitleText:NSLocalizedString(@"Account", @"")];
-            [sCell setDetailText:[[MEClientStore currentClient] userID]];
+            [[sCell textLabel] setText:NSLocalizedString(@"Account", @"")];
+            [[sCell detailTextLabel] setText:[[MEClientStore currentClient] userID]];
+            [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
             break;
 
         case 1:
             if ([aIndexPath row] == 0)
             {
                 sCell = [METableViewCellFactory detailCellForTableView:aTableView];
-                [sCell setTitleText:NSLocalizedString(@"Fetch New Posts", @"")];
-                [sCell setDetailText:[MESettings shortDescriptionForFetchInterval:[MESettings fetchInterval]]];
+                [[sCell textLabel] setText:NSLocalizedString(@"Fetch New Posts", @"")];
+                [[sCell detailTextLabel] setText:[MESettings shortDescriptionForFetchInterval:[MESettings fetchInterval]]];
             }
             else
             {

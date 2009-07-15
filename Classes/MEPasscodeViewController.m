@@ -57,6 +57,34 @@
 @end
 
 
+@interface MEPasscodeViewController (Private)
+@end
+
+@implementation MEPasscodeViewController (Private)
+
+- (void)layoutViewsForInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
+{
+    switch (aInterfaceOrientation)
+    {
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+            [mPromptLabel setFrame:CGRectMake(40, 5, 400, 21)];
+            [mPasscodeView setFrame:CGRectMake(125, 30, 230, 50)];
+            [mErrorLabel setFrame:CGRectMake(40, 82, 400, 21)];
+            break;
+
+        case UIInterfaceOrientationPortrait:
+        case UIInterfaceOrientationPortraitUpsideDown:
+            [mPromptLabel setFrame:CGRectMake(10, 30, 300, 21)];
+            [mPasscodeView setFrame:CGRectMake(45, 70, 230, 50)];
+            [mErrorLabel setFrame:CGRectMake(10, 150, 300, 21)];
+            break;
+    }
+}
+
+@end
+
+
 @implementation MEPasscodeViewController
 
 
@@ -67,12 +95,9 @@
     if (self)
     {
         mPasscodeFields = [[NSMutableArray alloc] initWithCapacity:4];
-        mClient         = [aClient retain];
+        mClient         = aClient;
         mMode           = aMode;
         mDelegate       = aDelegate;
-
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     }
 
     return self;
@@ -80,24 +105,11 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-
-    [mBackView removeFromSuperview];
-    [mKeyboardLockView removeFromSuperview];
-    [mCancelButton removeFromSuperview];
-
+    [mLockWindow release];
     [mPasscodeFields release];
-    [mCancelButton release];
     [mPasscode release];
-    [mClient release];
 
     [super dealloc];
-}
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
 }
 
 
@@ -110,47 +122,48 @@
 {
     [super viewDidLoad];
 
-    [[self view] setBackgroundColor:[UIColor lightGrayColor]];
+    [[self view] setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
 
     UITextField *sTextField;
     int          i;
 
+    mPasscodeView = [[UIView alloc] initWithFrame:CGRectMake(45, 70, 230, 50)];
+    [[self view] addSubview:mPasscodeView];
+    [mPasscodeView release];
+
     for (i = 0; i < 4; i++)
     {
-        sTextField = [[MEPasscodeField alloc] initWithFrame:CGRectMake(40 + 60 * i, 140, 50, 50)];
-        [[self view] addSubview:sTextField];
+        sTextField = [[MEPasscodeField alloc] initWithFrame:CGRectMake(60 * i, 0, 50, 50)];
+        [mPasscodeView addSubview:sTextField];
         [mPasscodeFields addObject:sTextField];
         [sTextField release];
     }
 
-    mTitleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-    [mTitleView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
-    [[self view] addSubview:mTitleView];
-    [mTitleView release];
+    mPromptLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 300, 21)];
+    [mPromptLabel setBackgroundColor:[UIColor clearColor]];
+    [mPromptLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
+    [mPromptLabel setTextAlignment:UITextAlignmentCenter];
+    [mPromptLabel setTextColor:[UIColor darkGrayColor]];
+    [mPromptLabel setShadowColor:[UIColor whiteColor]];
+    [mPromptLabel setShadowOffset:CGSizeMake(0, 1)];
+    [[self view] addSubview:mPromptLabel];
+    [mPromptLabel release];
 
-    mTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 300, 29)];
-    [mTitleLabel setBackgroundColor:[UIColor clearColor]];
-    [mTitleLabel setFont:[UIFont boldSystemFontOfSize:24.0]];
-    [mTitleLabel setTextAlignment:UITextAlignmentCenter];
-    [mTitleLabel setTextColor:[UIColor whiteColor]];
-    [mTitleLabel setText:NSLocalizedString(@"Enter Passcode", @"")];
-    [mTitleView addSubview:mTitleLabel];
-    [mTitleLabel release];
+    mErrorLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, 300, 21)];
+    [mErrorLabel setBackgroundColor:[UIColor clearColor]];
+    [mErrorLabel setFont:[UIFont boldSystemFontOfSize:15.0]];
+    [mErrorLabel setTextAlignment:UITextAlignmentCenter];
+    [mErrorLabel setTextColor:[UIColor redColor]];
+    [mErrorLabel setShadowColor:[UIColor whiteColor]];
+    [mErrorLabel setShadowOffset:CGSizeMake(0, 1)];
+    [[self view] addSubview:mErrorLabel];
+    [mErrorLabel release];
 
-    mDescLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 60, 300, 21)];
-    [mDescLabel setBackgroundColor:[UIColor clearColor]];
-    [mDescLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
-    [mDescLabel setTextAlignment:UITextAlignmentCenter];
-    [mDescLabel setTextColor:[UIColor whiteColor]];
-    [mTitleView addSubview:mDescLabel];
-    [mDescLabel release];
-
-    mTextField = [[UITextField alloc] initWithFrame:CGRectMake(110, 200, 100, 31)];
+    mTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 100, 50)];
     [mTextField setClearButtonMode:UITextFieldViewModeNever];
     [mTextField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
     [mTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
     [mTextField setEnablesReturnKeyAutomatically:YES];
-    [mTextField setKeyboardAppearance:UIKeyboardAppearanceAlert];
     [mTextField setKeyboardType:UIKeyboardTypeNumberPad];
     [mTextField setReturnKeyType:UIReturnKeyDone];
     [mTextField setSecureTextEntry:YES];
@@ -160,140 +173,100 @@
     [mTextField becomeFirstResponder];
     [mTextField release];
 
-    mCancelButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-    [mCancelButton setFrame:CGRectMake(0, 163, 106, 53)];
-    [[mCancelButton titleLabel] setFont:[UIFont boldSystemFontOfSize:12.0]];
-    [mCancelButton setTitle:NSLocalizedString(@"Cancel", @"") forState:UIControlStateNormal];
-    [mCancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [mCancelButton setBackgroundImage:[UIImage imageNamed:@"keypad_highlighted.png"] forState:UIControlStateHighlighted];
-    [mCancelButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self layoutViewsForInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+
+    if (mMode == kMEPasscodeModeAuthenticate)
+    {
+        [mPromptLabel setText:NSLocalizedString(@"Enter Passcode", @"")];
+    }
+    else
+    {
+        if ([mClient hasPasscode])
+        {
+            [mPromptLabel setText:NSLocalizedString(@"Enter Current Passcode", @"")];
+        }
+        else
+        {
+            [mPromptLabel setText:NSLocalizedString(@"Enter New Passcode", @"")];
+            mAuthenticated = YES;
+        }
+    }
 }
 
 
-- (void)showInView:(UIView *)aView
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
 {
-    if (!mBackView)
-    {
-        mBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [aView frame].size.width, [aView frame].size.height)];
-        [mBackView setBackgroundColor:[UIColor clearColor]];
-        [aView addSubview:mBackView];
-        [mBackView release];
-    }
+    return YES;
+}
 
-    [[self view] setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
-    [[self view] setFrame:CGRectMake(0, -244, 320, 244)];
-
-    [mTitleView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
-
-    [mBackView addSubview:[self view]];
-
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation duration:(NSTimeInterval)aDuration
+{
     [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.3];
-    [mBackView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
-    [[self view] setFrame:CGRectMake(0, 0, 320, 244)];
+    [UIView setAnimationDuration:aDuration];
+    [self layoutViewsForInterfaceOrientation:aInterfaceOrientation];
     [UIView commitAnimations];
 }
 
-- (void)dismiss
-{
-    if (mBackView)
-    {
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.3];
-        [UIView setAnimationDelegate:self];
-        [UIView setAnimationDidStopSelector:@selector(dismissAnimationDidStop:finished:context:)];
-        [[self view] setFrame:CGRectMake(0, -244, 320, 244)];
-        [mBackView setBackgroundColor:[UIColor clearColor]];
-        [UIView commitAnimations];
 
-        [mTextField resignFirstResponder];
+- (void)didFinish
+{
+    if (mMode == kMEPasscodeModeAuthenticate)
+    {
+        [mDelegate passcodeViewController:self didFinishAuthenticateClient:mClient];
     }
     else
     {
-        [mDelegate performSelector:mDidEndSelector withObject:self withObject:mClient];
+        [mDelegate passcodeViewController:self didFinishChangeClient:mClient];
     }
 }
 
-- (void)dismissAnimationDidStop:(NSString *)aAnimationID finished:(NSNumber *)aFinished context:(void *)aContext
+
+- (void)lockFields
 {
-    [mBackView removeFromSuperview];
-    [[self view] removeFromSuperview];
+    mLockWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-    mBackView = nil;
+    [mLockWindow setBackgroundColor:[UIColor clearColor]];
+    [mLockWindow setWindowLevel:UIWindowLevelAlert];
+    [mLockWindow makeKeyAndVisible];
 
-    [mDelegate performSelector:mDidEndSelector withObject:self withObject:mClient];
+    [self performSelector:@selector(unlockFields) withObject:nil afterDelay:0.1];
 }
 
-
-- (void)lockEditingWithAlert:(BOOL)aAlert
+- (void)unlockFields
 {
-    if (!mKeyboardLockView)
-    {
-        NSArray  *sWindows = [[UIApplication sharedApplication] windows];
-        UIWindow *sWindow;
+    [mLockWindow release];
+    mLockWindow = nil;
 
-        for (sWindow in sWindows)
-        {
-            if (sWindow != [[self view] window])
-            {
-                mKeyboardLockView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
-                [sWindow addSubview:mKeyboardLockView];
-                [mKeyboardLockView release];
-                break;
-            }
-        }
-    }
-
-    if (aAlert)
-    {
-        [UIView beginAnimations:@"LockEditingAnimation" context:NULL];
-        [UIView setAnimationDelegate:self];
-        [UIView setAnimationDidStopSelector:@selector(unlockEditing)];
-        [UIView setAnimationDuration:0.3];
-        [UIView setAnimationRepeatCount:2];
-        [mTitleView setBackgroundColor:[UIColor redColor]];
-        [UIView commitAnimations];
-    }
-    else
-    {
-        [self performSelector:@selector(unlockEditing) withObject:nil afterDelay:0.5];
-    }
-}
-
-- (void)unlockEditing
-{
-    [mTitleView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
+    [mTextField setText:nil];
     [mPasscodeFields makeObjectsPerformSelector:@selector(clear)];
-    [mKeyboardLockView removeFromSuperview];
-    mKeyboardLockView = nil;
 }
 
 
-- (void)passcodeDidChange:(UITextField *)aTextField
+- (void)passcodeDidChange
 {
     NSString   *sPasscode;
     NSUInteger  sLength;
+    BOOL        sFinish;
 
-    sPasscode = [aTextField text];
+    sPasscode = [mTextField text];
     sLength   = [sPasscode length];
     sLength   = (sLength > 4) ? 4 : sLength;
+    sFinish   = NO;
 
     [[mPasscodeFields subarrayWithRange:NSMakeRange(0, sLength)] makeObjectsPerformSelector:@selector(place)];
     [[mPasscodeFields subarrayWithRange:NSMakeRange(sLength, 4 - sLength)] makeObjectsPerformSelector:@selector(clear)];
 
     if (sLength == 4)
     {
-        if (mMode == kMEPasscodeViewModeAuthenticate)
+        if (mMode == kMEPasscodeModeAuthenticate)
         {
             if ([mClient checkPasscode:sPasscode])
             {
-                mDidEndSelector = @selector(passcodeViewController:didFinishAuthenticationClient:);
+                sFinish = YES;
             }
             else
             {
-                [mTitleLabel setText:NSLocalizedString(@"Wrong Passcode", @"")];
-                [mDescLabel setText:NSLocalizedString(@"try again", @"")];
-                [self lockEditingWithAlert:YES];
+                [mErrorLabel setText:NSLocalizedString(@"wrong passcode", @"")];
             }
         }
         else
@@ -303,13 +276,12 @@
                 if ([mPasscode isEqualToString:sPasscode])
                 {
                     [mClient setPasscode:mPasscode];
-                    mDidEndSelector = @selector(passcodeViewController:didFinishChangingPasscodeClient:);
+                    sFinish = YES;
                 }
                 else
                 {
-                    [mTitleLabel setText:NSLocalizedString(@"Passcode Mismatch", @"")];
-                    [mDescLabel setText:NSLocalizedString(@"enter passcode again", @"")];
-                    [self lockEditingWithAlert:YES];
+                    [mPromptLabel setText:NSLocalizedString(@"Enter New Passcode", @"")];
+                    [mErrorLabel setText:NSLocalizedString(@"passcode mismatch", @"")];
                 }
 
                 [mPasscode release];
@@ -317,35 +289,39 @@
             }
             else
             {
-                [mTitleLabel setText:NSLocalizedString(@"Re-enter Passcode", @"")];
-                [mDescLabel setText:nil];
-                [self lockEditingWithAlert:NO];
+                if (mAuthenticated)
+                {
+                    [mPromptLabel setText:NSLocalizedString(@"Re-enter New Passcode", @"")];
+                    [mErrorLabel setText:nil];
 
-                mPasscode = [sPasscode copy];
+                    mPasscode = [sPasscode copy];
+                }
+                else
+                {
+                    if ([mClient checkPasscode:sPasscode])
+                    {
+                        [mPromptLabel setText:NSLocalizedString(@"Enter New Passcode", @"")];
+                        [mErrorLabel setText:nil];
+                        mAuthenticated = YES;
+                    }
+                    else
+                    {
+                        [mErrorLabel setText:NSLocalizedString(@"wrong passcode", @"")];
+                    }
+                }
             }
         }
 
-        [aTextField setText:nil];
+        if (sFinish)
+        {
+            [self performSelector:@selector(didFinish) withObject:nil afterDelay:0];
+        }
+        else
+        {
+            [self lockFields];
+        }
     }
 
-    if (mDidEndSelector)
-    {
-        [self performSelector:@selector(dismiss) withObject:nil afterDelay:0];
-    }
-}
-
-- (void)cancelButtonTapped
-{
-    if (mMode == kMEPasscodeViewModeAuthenticate)
-    {
-        mDidEndSelector = @selector(passcodeViewController:didCancelAuthenticationClient:);
-    }
-    else
-    {
-        mDidEndSelector = @selector(passcodeViewController:didCancelChangingPasscodeClient:);
-    }
-
-    [self performSelector:@selector(dismiss) withObject:nil afterDelay:0];
 }
 
 
@@ -353,38 +329,8 @@
 
 - (BOOL)textField:(UITextField *)aTextField shouldChangeCharactersInRange:(NSRange)aRange replacementString:(NSString *)aString
 {
-    [self performSelector:@selector(passcodeDidChange:) withObject:aTextField afterDelay:0];
+    [self performSelector:@selector(passcodeDidChange) withObject:nil afterDelay:0];
     return YES;
-}
-
-
-#pragma mark UIKeyboradNotifications
-
-- (void)keyboardWillShow:(NSNotification *)aNotification
-{
-    NSArray  *sWindows = [[UIApplication sharedApplication] windows];
-    UIWindow *sWindow;
-    UIView   *sView;
-
-    for (sWindow in sWindows)
-    {
-        if (sWindow != [[self view] window])
-        {
-            for (sView in [sWindow subviews])
-            {
-                if ([NSStringFromClass([sView class]) hasPrefix:@"UIKeyboard"])
-                {
-                    [sView addSubview:mCancelButton];
-                    break;
-                }
-            }
-        }
-    }
-}
-
-- (void)keyboardWillHide:(NSNotification *)aNotification
-{
-    [mCancelButton removeFromSuperview];
 }
 
 

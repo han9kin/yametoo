@@ -66,20 +66,6 @@
 }
 
 
-- (void)viewWillAppear:(BOOL)aAnimated
-{
-    [super viewWillAppear:aAnimated];
-
-    [[self navigationController] setNavigationBarHidden:NO animated:aAnimated];
-}
-
-
-- (BOOL)hidesBottomBarWhenPushed
-{
-    return YES;
-}
-
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
 {
     return YES;

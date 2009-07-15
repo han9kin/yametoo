@@ -22,7 +22,6 @@ enum
 {
     kImageTag = 1,
     kTitleTag,
-    kDetailTag,
     kTextFieldTag,
     kCheckmarkTag,
     kLockIconTag,
@@ -44,7 +43,7 @@ enum
 
     if (!sCell)
     {
-        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Default"] autorelease];
+        sCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Default"] autorelease];
     }
 
     return sCell;
@@ -55,37 +54,16 @@ enum
 + (UITableViewCell *)detailCellForTableView:(UITableView *)aTableView
 {
     UITableViewCell *sCell;
-    UILabel         *sLabel;
 
     sCell = [aTableView dequeueReusableCellWithIdentifier:@"Detail"];
 
     if (!sCell)
     {
-        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Detail"] autorelease];
-
-        [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-
-        sLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 260, 43)];
-        [sLabel setTag:kTitleTag];
-        [sLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
-        [sLabel setTextAlignment:UITextAlignmentLeft];
-        [sLabel setTextColor:[UIColor blackColor]];
-        [sLabel setHighlightedTextColor:[UIColor whiteColor]];
-        [[sCell contentView] addSubview:sLabel];
-        [sLabel release];
-
-        sLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 260, 43)];
-        [sLabel setTag:kDetailTag];
-        [sLabel setBackgroundColor:[UIColor clearColor]];
-        [sLabel setFont:[UIFont systemFontOfSize:17.0]];
-        [sLabel setTextAlignment:UITextAlignmentRight];
-        [sLabel setTextColor:[UIColor selectedTextColor]];
-        [sLabel setHighlightedTextColor:[UIColor whiteColor]];
-        [[sCell contentView] addSubview:sLabel];
-        [sLabel release];
+        sCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Detail"] autorelease];
     }
 
     return sCell;
+
 }
 
 
@@ -99,7 +77,7 @@ enum
 
     if (!sCell)
     {
-        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"TextField"] autorelease];
+        sCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TextField"] autorelease];
 
         [sCell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
@@ -116,7 +94,6 @@ enum
         [sTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
         [sTextField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
         [sTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
-        [sTextField setEnablesReturnKeyAutomatically:YES];
         [[sCell contentView] addSubview:sTextField];
         [sTextField release];
     }
@@ -134,7 +111,7 @@ enum
 
     if (!sCell)
     {
-        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Switch"] autorelease];
+        sCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Switch"] autorelease];
 
         [sCell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
@@ -155,7 +132,7 @@ enum
 
     if (!sCell)
     {
-        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Button"] autorelease];
+        sCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Button"] autorelease];
 
         [[sCell textLabel] setTextAlignment:UITextAlignmentCenter];
     }
@@ -177,15 +154,16 @@ enum
 
     if (!sCell)
     {
-        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"User"] autorelease];
+        sCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"User"] autorelease];
 
-        sImageView = [[MEImageView alloc] initWithFrame:CGRectMake(9, 9, 52, 52)];
+        sImageView = [[MEImageView alloc] initWithFrame:CGRectMake(17, 7, 46, 46)];
         [sImageView setBorderColor:[UIColor lightGrayColor]];
         [sImageView setTag:kImageTag];
         [[sCell contentView] addSubview:sImageView];
         [sImageView release];
 
-        sLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, 180, 69)];
+        sLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, 220, 59)];
+        [sLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [sLabel setTag:kTitleTag];
         [sLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
         [sLabel setTextColor:[UIColor blackColor]];
@@ -208,9 +186,11 @@ enum
 
     if (!sCell)
     {
-        sCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Client"] autorelease];
+        sCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Client"] autorelease];
 
         [sCell setAccessoryType:UITableViewCellAccessoryDetailDisclosureButton];
+
+        CGFloat sWidth = [[sCell contentView] bounds].size.width;
 
         sImageView = [[MEHighlightableImageView alloc] initWithFrame:CGRectMake(10, 15, 14, 14)];
         [sImageView setTag:kCheckmarkTag];
@@ -220,14 +200,16 @@ enum
         [[sCell contentView] addSubview:sImageView];
         [sImageView release];
 
-        sLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 11, 210, 21)];
+        sLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 11, sWidth - 60, 21)];
+        [sLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [sLabel setTag:kTitleTag];
         [sLabel setFont:[UIFont boldSystemFontOfSize:17.0]];
         [sLabel setHighlightedTextColor:[UIColor whiteColor]];
         [[sCell contentView] addSubview:sLabel];
         [sLabel release];
 
-        sImageView = [[MEHighlightableImageView alloc] initWithFrame:CGRectMake(245, 14, 11, 15)];
+        sImageView = [[MEHighlightableImageView alloc] initWithFrame:CGRectMake(sWidth - 20, 14, 11, 15)];
+        [sImageView setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin];
         [sImageView setTag:kLockIconTag];
         [sImageView setHidden:YES];
         [sImageView setNormalImage:[UIImage imageNamed:@"locked_normal.png"]];
@@ -268,12 +250,6 @@ enum
 - (void)setTitleText:(NSString *)aText
 {
     [(UILabel *)[[self contentView] viewWithTag:kTitleTag] setText:aText];
-}
-
-
-- (void)setDetailText:(NSString *)aText
-{
-    [(UILabel *)[[self contentView] viewWithTag:kDetailTag] setText:aText];
 }
 
 

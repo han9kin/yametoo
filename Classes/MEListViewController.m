@@ -77,11 +77,22 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     NSMutableArray  *sItems = [NSMutableArray array];
     UIBarButtonItem *sItem;
 
+    if (mScope == kMEClientGetPostsScopeAll)
+    {
+        sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Friends", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(showFriends)];
+        [sItems addObject:sItem];
+        [sItem release];
+    }
+
     sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
     [sItems addObject:sItem];
     [sItem release];
 
-    sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Friends", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(showFriends)];
+    sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Show Bookmarks", @"") style:UIBarButtonItemStyleBordered target:nil action:NULL];
+    [sItems addObject:sItem];
+    [sItem release];
+
+    sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add to Bookmarks", @"") style:UIBarButtonItemStyleBordered target:nil action:NULL];
     [sItems addObject:sItem];
     [sItem release];
 

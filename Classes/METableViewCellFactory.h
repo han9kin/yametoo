@@ -35,7 +35,6 @@
 - (void)setDisabled:(BOOL)aDisabled;
 
 - (void)setTitleText:(NSString *)aText;
-- (void)setDetailText:(NSString *)aText;
 
 - (UITextField *)textField;
 - (UISwitch *)switch;

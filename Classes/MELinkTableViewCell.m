@@ -20,15 +20,15 @@
 
     if (!sCell)
     {
-        sCell = [[[MELinkTableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"Link"] autorelease];
+        sCell = [[[MELinkTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Link"] autorelease];
     }
 
     return sCell;
 }
 
-- (id)initWithFrame:(CGRect)aFrame reuseIdentifier:(NSString *)aReuseIdentifier
+- (id)initWithStyle:(UITableViewCellStyle)aStyle reuseIdentifier:(NSString *)aReuseIdentifier
 {
-    self = [super initWithFrame:aFrame reuseIdentifier:aReuseIdentifier];
+    self = [super initWithStyle:aStyle reuseIdentifier:aReuseIdentifier];
 
     if (self)
     {
