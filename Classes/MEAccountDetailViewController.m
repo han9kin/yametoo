@@ -8,7 +8,6 @@
  */
 
 #import "UIAlertView+MEAdditions.h"
-#import "UIViewController+MEAdditions.h"
 #import "MEAccountDetailViewController.h"
 #import "MEPasscodeViewController.h"
 #import "METableViewCellFactory.h"

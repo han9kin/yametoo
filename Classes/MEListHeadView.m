@@ -40,7 +40,7 @@
         [mUserIDLabel setTextColor:[UIColor whiteColor]];
         [mUserIDLabel setShadowColor:[UIColor darkGrayColor]];
         [mUserIDLabel setShadowOffset:CGSizeMake(0, 1)];
-        [mUserIDLabel setFont:[UIFont fontWithName:@"Helvetica-BoldOblique" size:14.0]];
+        [mUserIDLabel setFont:[UIFont boldSystemFontOfSize:14.0]];
         [self addSubview:mUserIDLabel];
         [mUserIDLabel release];
 

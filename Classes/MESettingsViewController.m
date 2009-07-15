@@ -7,7 +7,6 @@
  *
  */
 
-#import "UIViewController+MEAdditions.h"
 #import "MESettingsViewController.h"
 #import "MEAccountSettingsViewController.h"
 #import "MEFetchSettingsViewController.h"
@@ -19,6 +18,21 @@
 
 
 @implementation MESettingsViewController
+
+
+- (id)init
+{
+    self = [super initWithNibName:nil bundle:nil];
+
+    if (self)
+    {
+        [self setTitle:NSLocalizedString(@"Settings", @"")];
+
+        [[self navigationItem] setLeftBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Close", @"") style:UIBarButtonItemStylePlain target:[[UIApplication sharedApplication] delegate] action:@selector(hideSettings)] autorelease]];
+    }
+
+    return self;
+}
 
 
 - (void)didReceiveMemoryWarning
@@ -65,6 +79,12 @@
     [super viewDidAppear:aAnimated];
 
     [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:aAnimated];
+}
+
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
+{
+    return YES;
 }
 
 

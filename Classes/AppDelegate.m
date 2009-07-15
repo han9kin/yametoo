@@ -12,6 +12,7 @@
 #import "MEImageCache.h"
 #import "MELoginViewController.h"
 #import "MEListViewController.h"
+#import "MESettingsViewController.h"
 
 
 @interface AppDelegate (Private)
@@ -64,6 +65,26 @@
 }
 
 
+- (void)showSettings
+{
+    UINavigationController *sNavigationController;
+    UIViewController       *sViewController;
+
+    sViewController       = [[MESettingsViewController alloc] init];
+    sNavigationController = [[UINavigationController alloc] initWithRootViewController:sViewController];
+
+    [sNavigationController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    [mNavigationController presentModalViewController:sNavigationController animated:YES];
+    [sNavigationController release];
+    [sViewController release];
+}
+
+- (void)hideSettings
+{
+    [mNavigationController dismissModalViewControllerAnimated:YES];
+}
+
+
 @end
 
 
@@ -90,8 +111,10 @@
 }
 
 
-- (void)applicationDidFinishLaunching:(UIApplication *)aApplication
+- (BOOL)application:(UIApplication *)aApplication didFinishLaunchingWithOptions:(NSDictionary *)aLaunchOptions
 {
+    NSLog(@"did launch with options: %@", aLaunchOptions);
+
     [MEImageCache removeCachedImagesInDisk];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChangeNotification:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
@@ -100,6 +123,40 @@
 
     [mWindow addSubview:[mNavigationController view]];
     [mWindow makeKeyAndVisible];
+
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)aApplication handleOpenURL:(NSURL *)aURL
+{
+    NSLog(@"handle url: %@", aURL);
+
+    if ([[aURL host] isEqualToString:@"user"])
+    {
+        if ([[[aURL path] pathComponents] count] > 1)
+        {
+            if ([[[mNavigationController viewControllers] objectAtIndex:0] isKindOfClass:[MEListViewController class]])
+            {
+                UIViewController *sViewController;
+
+                sViewController = [[MEListViewController alloc] initWithUserID:[[[aURL path] pathComponents] objectAtIndex:1] scope:kMEClientGetPostsScopeAll];
+
+                if ([mNavigationController modalViewController])
+                {
+                    [mNavigationController pushViewController:sViewController animated:NO];
+                    [mNavigationController dismissModalViewControllerAnimated:YES];
+                }
+                else
+                {
+                    [mNavigationController pushViewController:sViewController animated:YES];
+                }
+
+                [sViewController release];
+            }
+        }
+    }
+
+    return YES;
 }
 
 

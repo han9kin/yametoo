@@ -8,7 +8,6 @@
  */
 
 #import "UIColor+MEAdditions.h"
-#import "UIViewController+MEAdditions.h"
 #import "MEFetchSettingsViewController.h"
 #import "METableViewCellFactory.h"
 #import "MESettings.h"
@@ -76,6 +75,12 @@ static NSInteger kValue[2][6] = {
     [super viewDidUnload];
 
     mTableView = nil;
+}
+
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
+{
+    return YES;
 }
 
 

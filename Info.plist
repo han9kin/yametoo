@@ -30,5 +30,16 @@
 	<true/>
 	<key>UIPrerenderedIcon</key>
 	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>yametoo</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>yametoo</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

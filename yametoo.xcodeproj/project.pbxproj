@@ -206,7 +206,6 @@
 		CF5EE75C0F97162F004712FF /* MESettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESettingsViewController.m; sourceTree = "<group>"; };
 		CF5EE75F0F97164A004712FF /* MEAccountSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEAccountSettingsViewController.h; sourceTree = "<group>"; };
 		CF5EE7600F97164A004712FF /* MEAccountSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEAccountSettingsViewController.m; sourceTree = "<group>"; };
-		CF5EE7A60F972266004712FF /* UIViewController+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MEAdditions.h"; sourceTree = "<group>"; };
 		CF5EE8140F981C4E004712FF /* MEClientStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEClientStore.h; sourceTree = "<group>"; };
 		CF5EE8150F981C4E004712FF /* MEClientStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEClientStore.m; sourceTree = "<group>"; };
 		CF5EE8270F981DA7004712FF /* ObjCUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjCUtil.h; sourceTree = "<group>"; };
@@ -520,7 +519,6 @@
 				CFE7324F0FB19B4100C54792 /* UIColor+MEAdditions.m */,
 				CFDD42540FB3DB9200B9931A /* UITableView+MEAdditions.h */,
 				CFDD42550FB3DB9200B9931A /* UITableView+MEAdditions.m */,
-				CF5EE7A60F972266004712FF /* UIViewController+MEAdditions.h */,
 			);
 			name = "UIKit Extensions";
 			sourceTree = "<group>";

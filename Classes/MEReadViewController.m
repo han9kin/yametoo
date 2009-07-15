@@ -82,6 +82,10 @@
         [sItems addObject:sItem];
         [sItem release];
 
+        sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"") style:UIBarButtonItemStyleBordered target:[[UIApplication sharedApplication] delegate] action:@selector(showSettings)];
+        [sItems addObject:sItem];
+        [sItem release];
+
         [self setToolbarItems:sItems];
     }
 }

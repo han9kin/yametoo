@@ -421,7 +421,7 @@ NSString *MEClientErrorDomain = @"MEClientErrorDomain";
     NSDictionary *sUserInfo;
     NSError      *sError;
 
-    sUserInfo = [NSDictionary dictionaryWithObject:aString forKey:NSLocalizedDescriptionKey];
+    sUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:aString, NSLocalizedDescriptionKey, aString, NSLocalizedFailureReasonErrorKey, nil];
     sError    = [NSError errorWithDomain:MEClientErrorDomain code:-1 userInfo:sUserInfo];
 
     return sError;
@@ -457,7 +457,8 @@ NSString *MEClientErrorDomain = @"MEClientErrorDomain";
         }
         else
         {
-            sDescription = @"Unknown error from server.";
+            sDescription   = NSLocalizedString(@"Unknown error from server", @"");
+            sFailureReason = sDescription;
         }
 
         sUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:sDescription, NSLocalizedDescriptionKey, sFailureReason, NSLocalizedFailureReasonErrorKey, nil];
@@ -536,6 +537,9 @@ NSString *MEClientErrorDomain = @"MEClientErrorDomain";
         NSString          *sSource = [[[NSString alloc] initWithData:aData encoding:NSUTF8StringEncoding] autorelease];
         NSDictionary      *sResult = [sSource JSONValue];
         NSError           *sError;
+
+        NSLog(@"%@", sSource);
+        NSLog(@"%@", sResult);
 
         if (sResult)
         {

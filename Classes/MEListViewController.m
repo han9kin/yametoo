@@ -9,7 +9,6 @@
 
 #import "NSDate+MEAdditions.h"
 #import "UIAlertView+MEAdditions.h"
-#import "UIViewController+MEAdditions.h"
 #import "MEListViewController.h"
 #import "MEWriteViewController.h"
 #import "MEReadViewController.h"
@@ -95,6 +94,10 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     [sItem release];
 
     sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+    [sItems addObject:sItem];
+    [sItem release];
+
+    sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"") style:UIBarButtonItemStyleBordered target:[[UIApplication sharedApplication] delegate] action:@selector(showSettings)];
     [sItems addObject:sItem];
     [sItem release];
 

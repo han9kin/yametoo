@@ -223,7 +223,7 @@
     else
     {
         sViewController = [[MEAboutViewController alloc] init];
-        [self presentModalViewController:sViewController animated:YES];
+        [[self navigationController] pushViewController:sViewController animated:YES];
         [sViewController release];
     }
 }

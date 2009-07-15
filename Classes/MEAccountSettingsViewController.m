@@ -7,7 +7,6 @@
  *
  */
 
-#import "UIViewController+MEAdditions.h"
 #import "MEAccountSettingsViewController.h"
 #import "MEAccountDetailViewController.h"
 #import "MEPasscodeViewController.h"
@@ -68,6 +67,12 @@
     [super viewDidUnload];
 
     mTableView = nil;
+}
+
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
+{
+    return YES;
 }
 
 
