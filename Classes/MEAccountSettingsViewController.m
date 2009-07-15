@@ -7,6 +7,7 @@
  *
  */
 
+#import "UIAlertView+MEAdditions.h"
 #import "MEAccountSettingsViewController.h"
 #import "MEAccountDetailViewController.h"
 #import "MEPasscodeViewController.h"
@@ -211,8 +212,7 @@
             }
             else
             {
-                [MEClientStore setCurrentUserID:[sClient userID]];
-                [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];
+                [sClient loginWithUserID:nil userKey:nil delegate:self];
             }
         }
     }
@@ -228,6 +228,25 @@
         [mTableView deselectRowAtIndexPath:aIndexPath animated:YES];
     }
 
+}
+
+
+#pragma mark -
+#pragma mark MEClientDelegate
+
+
+- (void)client:(MEClient *)aClient didLoginWithError:(NSError *)aError
+{
+    if (aError)
+    {
+        [UIAlertView showError:aError];
+    }
+    else
+    {
+        [MEClientStore setCurrentUserID:[aClient userID]];
+    }
+
+    [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:YES];
 }
 
 
