@@ -90,6 +90,17 @@
     }
 }
 
+- (void)setBackgroundColor:(UIColor *)aColor
+{
+    [super setBackgroundColor:aColor];
+    [mImageView setBackgroundColor:aColor];
+}
+
+- (void)setContentMode:(UIViewContentMode)aContentMode
+{
+    [mImageView setContentMode:aContentMode];
+}
+
 - (void)drawRect:(CGRect)aRect
 {
     CGRect sRect = [self bounds];
@@ -149,10 +160,10 @@
     {
         [mURL release];
         mURL = nil;
-        
+
         [mImageView setImage:nil];
     }
-    
+
     if (mURL != aURL)
     {
         [mImageView setImage:nil];

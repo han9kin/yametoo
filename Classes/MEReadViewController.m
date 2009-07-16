@@ -9,24 +9,24 @@
 
 #import "UIAlertView+MEAdditions.h"
 #import "MEReadViewController.h"
+#import "MEListViewController.h"
+#import "MEReplyViewController.h"
+#import "MEPhotoViewController.h"
+#import "MEWebViewController.h"
+#import "MEAttributedString.h"
+#import "MEAttributedLabel.h"
+#import "MEImageView.h"
+#import "MEImageButton.h"
+#import "MEPostBodyView.h"
+#import "MEPostTableViewCell.h"
+#import "MECommentTableViewCell.h"
+#import "MELinkTableViewCell.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEPost.h"
 #import "MEUser.h"
 #import "MEComment.h"
 #import "MELink.h"
-#import "MEAttributedString.h"
-#import "MEAttributedLabel.h"
-#import "MEImageView.h"
-#import "MEImageButton.h"
-#import "MEPostTableViewCell.h"
-#import "MECommentTableViewCell.h"
-#import "MEPostBodyView.h"
-#import "MEListViewController.h"
-#import "MEReplyViewController.h"
-#import "MEWebViewController.h"
-#import "MELinkTableViewCell.h"
-#import "MEMediaView.h"
 
 
 @interface MEReadViewController (Privates)
@@ -173,7 +173,6 @@
 
 - (void)dealloc
 {
-    [mMediaView release];
     [mPostID release];
     [mPost release];
     [mComments release];
@@ -190,9 +189,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    mMediaView = [[MEMediaView alloc] initWithFrame:CGRectZero];
-    [mMediaView setFrame:CGRectMake(0, 0, 320, 480)];
 
     [mIconButton setBorderColor:[UIColor lightGrayColor]];
     [mPostBodyView setBackgroundColor:[UIColor clearColor]];
@@ -266,12 +262,16 @@
 
 - (void)iconButtonTapped:(id)aSender
 {
-    NSURL *sPhotoURL = [mPost photoURL];
+    UIViewController *sViewController;
+    NSURL            *sPhotoURL;
+
+    sPhotoURL = [mPost photoURL];
 
     if (sPhotoURL)
     {
-        [mMediaView setPhotoURL:sPhotoURL];
-        [[[self view] window] addSubview:mMediaView];
+        sViewController = [[MEPhotoViewController alloc] initWithPost:mPost];
+        [self presentModalViewController:sViewController animated:YES];
+        [sViewController release];
     }
 }
 

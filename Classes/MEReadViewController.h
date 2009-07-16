@@ -14,7 +14,6 @@
 @class MEUser;
 @class MEImageButton;
 @class MEPostBodyView;
-@class MEMediaView;
 
 
 @interface MEReadViewController : UIViewController <UIActionSheetDelegate>
@@ -27,8 +26,6 @@
     NSString       *mPostID;
     MEPost         *mPost;
     NSMutableArray *mComments;
-
-    MEMediaView    *mMediaView;
 }
 
 @property(nonatomic, assign) IBOutlet UIView         *headerView;

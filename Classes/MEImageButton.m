@@ -20,7 +20,7 @@
 
 
 @dynamic    borderColor;
-@synthesize userInfo    = mUserInfo;
+@synthesize userInfo = mUserInfo;
 
 
 #pragma mark -
@@ -88,6 +88,17 @@
     {
         [mImageView setFrame:sRect];
     }
+}
+
+- (void)setBackgroundColor:(UIColor *)aColor
+{
+    [super setBackgroundColor:aColor];
+    [mImageView setBackgroundColor:aColor];
+}
+
+- (void)setContentMode:(UIViewContentMode)aContentMode
+{
+    [mImageView setContentMode:aContentMode];
 }
 
 - (void)drawRect:(CGRect)aRect
@@ -174,6 +185,8 @@
         else
         {
             [mImageView setImage:aImage];
+
+            [self sendActionsForControlEvents:UIControlEventValueChanged];
         }
     }
 }

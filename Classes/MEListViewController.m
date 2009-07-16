@@ -10,9 +10,9 @@
 #import "NSDate+MEAdditions.h"
 #import "UIAlertView+MEAdditions.h"
 #import "MEListViewController.h"
-#import "MEWriteViewController.h"
 #import "MEReadViewController.h"
-#import "MEMediaView.h"
+#import "MEWriteViewController.h"
+#import "MEPhotoViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MESettings.h"
@@ -287,13 +287,10 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
     [mTimer invalidate];
 
-    [mMediaView release];
     [mUserID release];
     [mUser release];
     [mPosts release];
     [mLastestDate release];
-
-    mMediaView = nil;
 
     [super dealloc];
 }
@@ -330,19 +327,13 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     {
         [mListView setShowsPostAuthor:YES];
     }
-
-    mMediaView = [[MEMediaView alloc] initWithFrame:CGRectZero];
-    [mMediaView setFrame:CGRectMake(0, 0, 320, 480)];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
 
-    [mMediaView release];
-
     mListView = nil;
-    mMediaView  = nil;
 }
 
 
@@ -541,12 +532,16 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 - (void)listView:(MEListView *)aListView didTapPostIconButtonForPost:(MEPost *)aPost
 {
-    NSURL *sPhotoURL = [aPost photoURL];
+    UIViewController *sViewController;
+    NSURL            *sPhotoURL;
+
+    sPhotoURL = [aPost photoURL];
 
     if (sPhotoURL)
     {
-        [mMediaView setPhotoURL:sPhotoURL];
-        [[[self view] window] addSubview:mMediaView];
+        sViewController = [[MEPhotoViewController alloc] initWithPost:aPost];
+        [self presentModalViewController:sViewController animated:YES];
+        [sViewController release];
     }
 }
 

@@ -10,7 +10,6 @@
 #import "NSDate+MEAdditions.h"
 #import "UIColor+MEAdditions.h"
 #import "METableViewCellFactory.h"
-#import "MEHighlightableImageView.h"
 #import "MEImageView.h"
 #import "MEImageButton.h"
 #import "MEClientStore.h"
@@ -178,9 +177,9 @@ enum
 
 + (UITableViewCell *)clientCellForTableView:(UITableView *)aTableView
 {
-    UITableViewCell          *sCell;
-    UILabel                  *sLabel;
-    MEHighlightableImageView *sImageView;
+    UITableViewCell *sCell;
+    UILabel         *sLabel;
+    UIImageView     *sImageView;
 
     sCell = [aTableView dequeueReusableCellWithIdentifier:@"Client"];
 
@@ -192,10 +191,10 @@ enum
 
         CGFloat sWidth = [[sCell contentView] bounds].size.width;
 
-        sImageView = [[MEHighlightableImageView alloc] initWithFrame:CGRectMake(10, 15, 14, 14)];
+        sImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 14, 14)];
         [sImageView setTag:kCheckmarkTag];
         [sImageView setHidden:YES];
-        [sImageView setNormalImage:[UIImage imageNamed:@"checkmark_normal.png"]];
+        [sImageView setImage:[UIImage imageNamed:@"checkmark_normal.png"]];
         [sImageView setHighlightedImage:[UIImage imageNamed:@"checkmark_highlighted.png"]];
         [[sCell contentView] addSubview:sImageView];
         [sImageView release];
@@ -208,11 +207,11 @@ enum
         [[sCell contentView] addSubview:sLabel];
         [sLabel release];
 
-        sImageView = [[MEHighlightableImageView alloc] initWithFrame:CGRectMake(sWidth - 20, 14, 11, 15)];
+        sImageView = [[UIImageView alloc] initWithFrame:CGRectMake(sWidth - 20, 14, 11, 15)];
         [sImageView setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin];
         [sImageView setTag:kLockIconTag];
         [sImageView setHidden:YES];
-        [sImageView setNormalImage:[UIImage imageNamed:@"locked_normal.png"]];
+        [sImageView setImage:[UIImage imageNamed:@"locked_normal.png"]];
         [sImageView setHighlightedImage:[UIImage imageNamed:@"locked_highlighted.png"]];
         [[sCell contentView] addSubview:sImageView];
         [sImageView release];

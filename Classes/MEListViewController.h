@@ -12,15 +12,12 @@
 #import "MEListView.h"
 
 
-@class MEMediaView;
 @class MEUser;
 
 @interface MEListViewController : UIViewController <MEListViewDataSource, MEListViewDelegate, UIActionSheetDelegate>
 {
     MEListView            *mListView;
     NSIndexPath           *mIndexPath;
-
-    MEMediaView           *mMediaView;
 
     NSString              *mUserID;
     MEUser                *mUser;

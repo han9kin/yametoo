@@ -10,17 +10,21 @@
 #import <UIKit/UIKit.h>
 
 
+#define NOOutlet
+
+
 @interface MEImageView : UIView
 {
     NSURL       *mURL;
     UIColor     *mBorderColor;
     UIImageView *mImageView;
 
-    id           mDelegate;
+    NOOutlet id  mDelegate;
 }
 
 @property(nonatomic, retain) UIColor *borderColor;
 @property(nonatomic, assign) id       delegate;
+
 
 - (void)setImageWithURL:(NSURL *)aURL;
 

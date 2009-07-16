@@ -21,6 +21,8 @@
     if (self)
     {
         mURL = [aURL retain];
+
+        [self setHidesBottomBarWhenPushed:YES];
     }
 
     return self;
@@ -63,12 +65,6 @@
     [mWebView loadRequest:[NSURLRequest requestWithURL:mURL]];
     [[self view] addSubview:mWebView];
     [mWebView release];
-}
-
-
-- (BOOL)hidesBottomBarWhenPushed
-{
-    return YES;
 }
 
 

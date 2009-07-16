@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 
 
+#define NOOutlet
 #define kIconImageSize 44
 
 
@@ -19,7 +20,7 @@
     UIColor     *mBorderColor;
     UIImageView *mImageView;
 
-    id           mUserInfo;
+    NOOutlet id  mUserInfo;
 }
 
 @property(nonatomic, retain) UIColor *borderColor;

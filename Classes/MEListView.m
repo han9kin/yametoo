@@ -14,7 +14,6 @@
 #import "MEListHeadView.h"
 #import "MEImageButton.h"
 #import "MEPostBodyView.h"
-#import "MEMediaView.h"
 #import "MEPost.h"
 #import "MEUser.h"
 #import "MEAttributedLabel.h"
