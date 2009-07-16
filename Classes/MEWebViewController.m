@@ -13,10 +13,12 @@
 
 @implementation MEWebViewController
 
+@synthesize webView = mWebView;
+
 
 - (id)initWithURL:(NSURL *)aURL
 {
-    self = [super initWithNibName:nil bundle:nil];
+    self = [super initWithNibName:@"WebView" bundle:nil];
 
     if (self)
     {
@@ -58,13 +60,7 @@
 {
     [super viewDidLoad];
 
-    mWebView = [[UIWebView alloc] initWithFrame:[[self view] bounds]];
-    [mWebView setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
-    [mWebView setScalesPageToFit:YES];
-    [mWebView setDelegate:self];
     [mWebView loadRequest:[NSURLRequest requestWithURL:mURL]];
-    [[self view] addSubview:mWebView];
-    [mWebView release];
 }
 
 

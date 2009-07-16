@@ -11,8 +11,10 @@
 #import "MEClientStore.h"
 #import "MEImageCache.h"
 #import "MELoginViewController.h"
-#import "MEListViewController.h"
 #import "MESettingsViewController.h"
+#import "MEBlankViewController.h"
+#import "MEListViewController.h"
+#import "MEBookmarkViewController.h"
 
 
 @interface AppDelegate (Private)
@@ -25,7 +27,7 @@
 {
     UIViewController *sViewController;
 
-    sViewController       = [[UIViewController alloc] initWithNibName:nil bundle:nil];
+    sViewController       = [[MEBlankViewController alloc] initWithNibName:nil bundle:nil];
     mNavigationController = [[UINavigationController alloc] initWithRootViewController:sViewController];
 
     [sViewController release];
@@ -56,6 +58,16 @@
     [mNavigationController setViewControllers:[NSArray arrayWithObject:sViewController]];
     [mNavigationController setToolbarHidden:NO];
 
+    [sViewController release];
+}
+
+- (void)showBookmarkView
+{
+    UIViewController *sViewController;
+
+    sViewController = [[MEBookmarkViewController alloc] init];
+
+    [mNavigationController presentModalViewController:sViewController animated:YES];
     [sViewController release];
 }
 

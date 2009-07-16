@@ -84,6 +84,7 @@ static NSInteger kValue[2][6] = {
 }
 
 
+#pragma mark -
 #pragma mark UITableViewDataSource
 
 
@@ -163,6 +164,7 @@ static NSInteger kValue[2][6] = {
 }
 
 
+#pragma mark -
 #pragma mark UITableViewDelegate
 
 

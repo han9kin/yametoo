@@ -9,8 +9,11 @@
 
 #import "MESettings.h"
 #import "MEReachability.h"
+#import "MEClientStore.h"
+#import "MEClient.h"
 
 
+static NSString *kBookmarksKey         = @"bookmarks";
 static NSString *kFetchIntervalKey     = @"fetchInterval";
 static NSString *kInitialFetchCountKey = @"initialFetchCount";
 static NSString *kMoreFetchCountKey    = @"moreFetchCount";
@@ -46,6 +49,40 @@ static struct
 
 
 @implementation MESettings
+
++ (NSArray *)bookmarks
+{
+    NSData *sData;
+
+    sData = [[[NSUserDefaults standardUserDefaults] dictionaryForKey:kBookmarksKey] objectForKey:[[MEClientStore currentClient] userID]];
+
+    return sData ? [NSKeyedUnarchiver unarchiveObjectWithData:sData] : [NSArray array];
+}
+
++ (void)setBookmarks:(NSArray *)aBookmarks
+{
+    NSMutableDictionary *sBookmarks;
+
+    sBookmarks = [[[NSUserDefaults standardUserDefaults] dictionaryForKey:kBookmarksKey] mutableCopy];
+
+    if (!sBookmarks)
+    {
+        sBookmarks = [[NSMutableDictionary alloc] init];
+    }
+
+    if (aBookmarks)
+    {
+        [sBookmarks setObject:[NSKeyedArchiver archivedDataWithRootObject:aBookmarks] forKey:[[MEClientStore currentClient] userID]];
+    }
+    else
+    {
+        [sBookmarks removeObjectForKey:[[MEClientStore currentClient] userID]];
+    }
+
+    [[NSUserDefaults standardUserDefaults] setObject:sBookmarks forKey:kBookmarksKey];
+
+    [sBookmarks release];
+}
 
 + (NSString *)shortDescriptionForFetchInterval:(NSInteger)aValue
 {

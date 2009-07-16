@@ -12,7 +12,15 @@
 
 @interface MEBookmarkViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
-    UITableView *mTableView;
+    UINavigationBar *mNavigationBar;
+    UITableView     *mTableView;
 }
+
+@property(nonatomic, assign) IBOutlet UINavigationBar *navigationBar;
+@property(nonatomic, assign) IBOutlet UITableView     *tableView;
+
+
+- (IBAction)close;
+- (IBAction)edit;
 
 @end

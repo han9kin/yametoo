@@ -71,6 +71,37 @@
 }
 
 
+#pragma mark -
+#pragma mark NSCoding
+
+
+- (id)initWithCoder:(NSCoder *)aCoder
+{
+    self = [super init];
+
+    if (self)
+    {
+        mURL         = [[aCoder decodeObjectForKey:@"url"] retain];
+        mDescription = [[aCoder decodeObjectForKey:@"description"] retain];
+        mType        = [aCoder decodeIntegerForKey:@"type"];
+    }
+
+    return self;
+}
+
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:mURL forKey:@"url"];
+    [aCoder encodeObject:mDescription forKey:@"description"];
+    [aCoder encodeInteger:mType forKey:@"type"];
+}
+
+
+#pragma mark -
+#pragma mark Identifying
+
+
 - (BOOL)isEqual:(id)aObject
 {
     if (self == aObject)
@@ -91,6 +122,9 @@
 {
     return [mURL hash];
 }
+
+
+#pragma mark -
 
 
 - (void)appendTitle:(NSString *)aTitle

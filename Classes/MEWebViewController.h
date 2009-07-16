@@ -13,9 +13,13 @@
 @interface MEWebViewController : UIViewController <UIWebViewDelegate>
 {
     UIWebView *mWebView;
+
     NSURL     *mURL;
     NSInteger  mLoading;
 }
+
+@property(nonatomic, assign) IBOutlet UIWebView *webView;
+
 
 - (id)initWithURL:(NSURL *)aURL;
 

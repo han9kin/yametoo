@@ -77,22 +77,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     NSMutableArray  *sItems = [NSMutableArray array];
     UIBarButtonItem *sItem;
 
-    if (mScope == kMEClientGetPostsScopeAll)
-    {
-        sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Friends", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(showFriends)];
-        [sItems addObject:sItem];
-        [sItem release];
-    }
-
-    sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
-    [sItems addObject:sItem];
-    [sItem release];
-
-    sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Show Bookmarks", @"") style:UIBarButtonItemStyleBordered target:nil action:NULL];
-    [sItems addObject:sItem];
-    [sItem release];
-
-    sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Add to Bookmarks", @"") style:UIBarButtonItemStyleBordered target:nil action:NULL];
+    sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:[[UIApplication sharedApplication] delegate] action:@selector(showBookmarkView)];
     [sItems addObject:sItem];
     [sItem release];
 
@@ -100,7 +85,8 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     [sItems addObject:sItem];
     [sItem release];
 
-    sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"New Post", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(write)];
+    sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addBookmark)];
+    [sItem setEnabled:(![mUserID isEqualToString:[[MEClientStore currentClient] userID]] && (mScope == kMEClientGetPostsScopeAll))];
     [sItems addObject:sItem];
     [sItem release];
 
@@ -108,7 +94,16 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     [sItems addObject:sItem];
     [sItem release];
 
-    sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"") style:UIBarButtonItemStyleBordered target:[[UIApplication sharedApplication] delegate] action:@selector(showSettings)];
+    sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(write)];
+    [sItems addObject:sItem];
+    [sItem release];
+
+    sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+    [sItems addObject:sItem];
+    [sItem release];
+
+    sItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"setting.png"] style:UIBarButtonItemStylePlain target:[[UIApplication sharedApplication] delegate] action:@selector(showSettings)];
+    [sItem setImageInsets:UIEdgeInsetsMake(2, 0, -2, 0)];
     [sItems addObject:sItem];
     [sItem release];
 
@@ -411,15 +406,22 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 #pragma mark Toolbar Actions
 
 
-- (void)showFriends
+- (void)addBookmark
 {
-    UIViewController *sViewController;
+    NSMutableArray *sBookmarks;
+    MELink         *sLink;
 
-    sViewController = [[MEListViewController alloc] initWithUser:mUser scope:kMEClientGetPostsScopeFriendAll];
-    [[self navigationController] pushViewController:sViewController animated:YES];
-    [sViewController release];
+    sBookmarks = [[MESettings bookmarks] mutableCopy];
+    sLink      = [(MELink *)[MELink alloc] initWithUser:mUser];
+
+    if (![sBookmarks containsObject:sLink])
+    {
+        [sBookmarks insertObject:sLink atIndex:0];
+    }
+
+    [MESettings setBookmarks:sBookmarks];
+    [sBookmarks release];
 }
-
 
 - (void)write
 {

@@ -15,6 +15,9 @@
 
 }
 
++ (NSArray *)bookmarks;
++ (void)setBookmarks:(NSArray *)aBookmarks;
+
 + (NSString *)shortDescriptionForFetchInterval:(NSInteger)aValue;
 + (NSString *)longDescriptionForFetchInterval:(NSInteger)aValue;
 + (NSString *)descriptionForFetchCount:(NSInteger)aValue;
