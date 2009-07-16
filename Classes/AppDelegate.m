@@ -21,26 +21,31 @@
 @implementation AppDelegate (Private)
 
 
-- (void)showLoginView
+- (void)setupNavigationController
 {
     UIViewController *sViewController;
 
-    sViewController = [[MELoginViewController alloc] init];
-
-    if (mNavigationController)
-    {
-        [mNavigationController setViewControllers:[NSArray arrayWithObject:sViewController]];
-    }
-    else
-    {
-        mNavigationController = [[UINavigationController alloc] initWithRootViewController:sViewController];
-    }
-
-    [mNavigationController setToolbarHidden:YES];
+    sViewController       = [[UIViewController alloc] initWithNibName:nil bundle:nil];
+    mNavigationController = [[UINavigationController alloc] initWithRootViewController:sViewController];
 
     [sViewController release];
 }
 
+
+- (void)showLoginView
+{
+    UINavigationController *sNavigationController;
+    UIViewController       *sViewController;
+
+    sViewController       = [[MELoginViewController alloc] init];
+    sNavigationController = [[UINavigationController alloc] initWithRootViewController:sViewController];
+
+    [sNavigationController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+    [mNavigationController presentModalViewController:sNavigationController animated:YES];
+
+    [sNavigationController release];
+    [sViewController release];
+}
 
 - (void)showMainView
 {
@@ -48,15 +53,7 @@
 
     sViewController = [[MEListViewController alloc] initWithUserID:[[MEClientStore currentClient] userID] scope:kMEClientGetPostsScopeAll];
 
-    if (mNavigationController)
-    {
-        [mNavigationController setViewControllers:[NSArray arrayWithObject:sViewController] animated:NO];
-    }
-    else
-    {
-        mNavigationController = [[UINavigationController alloc] initWithRootViewController:sViewController];
-    }
-
+    [mNavigationController setViewControllers:[NSArray arrayWithObject:sViewController]];
     [mNavigationController setToolbarHidden:NO];
 
     [sViewController release];
@@ -73,13 +70,22 @@
 
     [sNavigationController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
     [mNavigationController presentModalViewController:sNavigationController animated:YES];
+
     [sNavigationController release];
     [sViewController release];
 }
 
 - (void)hideSettings
 {
-    [mNavigationController dismissModalViewControllerAnimated:YES];
+    if ([MEClientStore currentClient])
+    {
+        [mNavigationController dismissModalViewControllerAnimated:YES];
+    }
+    else
+    {
+        [mNavigationController dismissModalViewControllerAnimated:NO];
+        [self showLoginView];
+    }
 }
 
 
@@ -117,10 +123,12 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChangeNotification:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
 
-    [self showLoginView];
+    [self setupNavigationController];
 
     [mWindow addSubview:[mNavigationController view]];
     [mWindow makeKeyAndVisible];
+
+    [self showLoginView];
 
     return YES;
 }
@@ -159,7 +167,7 @@
 
 
 #pragma mark -
-#pragma mark Notifications
+#pragma mark MEClientStore Notifications
 
 
 - (void)currentUserDidChangeNotification:(NSNotification *)aNotification
@@ -167,10 +175,6 @@
     if ([MEClientStore currentClient])
     {
         [self showMainView];
-    }
-    else
-    {
-        [self showLoginView];
     }
 }
 

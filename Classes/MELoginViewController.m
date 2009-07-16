@@ -30,6 +30,8 @@
     if (self)
     {
         [self setTitle:NSLocalizedString(@"Login", @"")];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChangeNotification:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userListDidChangeNotification:) name:MEClientStoreUserListDidChangeNotification object:nil];
     }
 
@@ -246,8 +248,6 @@
     {
         [MEClientStore setCurrentUserID:[aClient userID]];
     }
-
-    [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:YES];
 }
 
 
@@ -257,12 +257,23 @@
 
 - (void)passcodeViewController:(MEPasscodeViewController *)aViewController didFinishAuthenticateClient:(MEClient *)aClient
 {
-    [MEClientStore setCurrentUserID:[aClient userID]];
+    [aClient loginWithUserID:nil userKey:nil delegate:self];
+
+    [[self navigationController] popViewControllerAnimated:YES];
 }
 
 
 #pragma mark -
 #pragma mark Notifications
+
+
+- (void)currentUserDidChangeNotification:(NSNotification *)aNotification
+{
+    if ([MEClientStore currentClient])
+    {
+        [self dismissModalViewControllerAnimated:YES];
+    }
+}
 
 
 - (void)userListDidChangeNotification:(NSNotification *)aNotification

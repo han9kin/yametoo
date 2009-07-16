@@ -34,7 +34,7 @@
         else
         {
             mClient = [[MEClient alloc] init];
-            [[self navigationItem] setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", @"") style:UIBarButtonItemStyleDone target:self action:@selector(addAccount)] autorelease]];
+            [[self navigationItem] setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(([MEClientStore currentClient] ? @"Save" : @"Login"), @"") style:UIBarButtonItemStyleDone target:self action:@selector(addAccount)] autorelease]];
         }
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userListDidChange:) name:MEClientStoreUserListDidChangeNotification object:nil];

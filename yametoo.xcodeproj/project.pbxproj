@@ -62,6 +62,7 @@
 		CF15E660100DC189006B0E4F /* MEPasscodeSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15E65F100DC189006B0E4F /* MEPasscodeSettingsViewController.m */; };
 		CF15E728100EBE16006B0E4F /* MEPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15E727100EBE16006B0E4F /* MEPhotoViewController.m */; };
 		CF15E72B100EBF84006B0E4F /* PhotoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF15E72A100EBF84006B0E4F /* PhotoView.xib */; };
+		CF15E794100EF7A8006B0E4F /* MEBookmarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15E793100EF7A8006B0E4F /* MEBookmarkViewController.m */; };
 		CF45B2A10FD78E170069C6BA /* MELink.m in Sources */ = {isa = PBXBuildFile; fileRef = CF45B2A00FD78E170069C6BA /* MELink.m */; };
 		CF45B3940FD90B140069C6BA /* MELinkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF45B3930FD90B140069C6BA /* MELinkTableViewCell.m */; };
 		CF528C980FA06BC2007C7A03 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF528C970FA06BC1007C7A03 /* Localizable.strings */; };
@@ -192,6 +193,8 @@
 		CF15E726100EBE16006B0E4F /* MEPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPhotoViewController.h; sourceTree = "<group>"; };
 		CF15E727100EBE16006B0E4F /* MEPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPhotoViewController.m; sourceTree = "<group>"; };
 		CF15E72A100EBF84006B0E4F /* PhotoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoView.xib; sourceTree = "<group>"; };
+		CF15E792100EF7A8006B0E4F /* MEBookmarkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBookmarkViewController.h; sourceTree = "<group>"; };
+		CF15E793100EF7A8006B0E4F /* MEBookmarkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBookmarkViewController.m; sourceTree = "<group>"; };
 		CF45B29F0FD78E170069C6BA /* MELink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELink.h; sourceTree = "<group>"; };
 		CF45B2A00FD78E170069C6BA /* MELink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MELink.m; sourceTree = "<group>"; };
 		CF45B3920FD90B140069C6BA /* MELinkTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELinkTableViewCell.h; sourceTree = "<group>"; };
@@ -666,6 +669,8 @@
 				CF15E727100EBE16006B0E4F /* MEPhotoViewController.m */,
 				CFC8A1980FE0CA9100EA77C6 /* MEWebViewController.h */,
 				CFC8A1990FE0CA9100EA77C6 /* MEWebViewController.m */,
+				CF15E792100EF7A8006B0E4F /* MEBookmarkViewController.h */,
+				CF15E793100EF7A8006B0E4F /* MEBookmarkViewController.m */,
 			);
 			name = "Main View Controller";
 			sourceTree = "<group>";
@@ -858,6 +863,7 @@
 				CF15E4A9100C8786006B0E4F /* NSError+MEAdditions.m in Sources */,
 				CF15E660100DC189006B0E4F /* MEPasscodeSettingsViewController.m in Sources */,
 				CF15E728100EBE16006B0E4F /* MEPhotoViewController.m in Sources */,
+				CF15E794100EF7A8006B0E4F /* MEBookmarkViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
