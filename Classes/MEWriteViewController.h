@@ -73,6 +73,10 @@
 @property(nonatomic, retain) IBOutlet MEIconListView *iconListView;
 
 
+- (IBAction)close;
+- (IBAction)upload;
+
+
 - (IBAction)iconSelectButtonTapped:(id)aSender;
 - (IBAction)takePictureButtonTapped:(id)aSender;
 - (IBAction)fromPhotoLibraryButtonTapped:(id)aSender;

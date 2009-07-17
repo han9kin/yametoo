@@ -80,7 +80,6 @@
     sViewController       = [[MESettingsViewController alloc] init];
     sNavigationController = [[UINavigationController alloc] initWithRootViewController:sViewController];
 
-    [sNavigationController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
     [mNavigationController presentModalViewController:sNavigationController animated:YES];
 
     [sNavigationController release];

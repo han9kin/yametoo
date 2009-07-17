@@ -212,8 +212,6 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
     if (self)
     {
-        [self setTitle:NSLocalizedString(@"Write", @"")];
-        [[self navigationItem] setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Upload", @"") style:UIBarButtonItemStyleDone target:self action:@selector(upload)] autorelease]];
     }
 
     return self;
@@ -291,7 +289,13 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 #pragma mark Actions
 
 
-- (void)upload
+- (IBAction)close
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+
+- (IBAction)upload
 {
     NSString *sBody = [mBodyTextView text];
     NSString *sTags = [mTagTextField text];

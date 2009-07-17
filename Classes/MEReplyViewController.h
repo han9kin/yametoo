@@ -17,15 +17,20 @@
 @interface MEReplyViewController : UIViewController
 {
     UITextView    *mTextView;
+    UILabel       *mCounterLabel;
 
-    MECharCounter *mCharCounter;
     MEPost        *mPost;
 }
 
 @property(nonatomic, assign) IBOutlet UITextView *textView;
+@property(nonatomic, assign) IBOutlet UILabel    *counterLabel;
 
 
 - (id)initWithPost:(MEPost *)aPost;
+
+
+- (IBAction)close;
+- (IBAction)upload;
 
 
 @end

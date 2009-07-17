@@ -37,7 +37,5 @@
 - (id)initWithPost:(MEPost *)aPost;
 - (id)initWithPostID:(NSString *)aPostID;
 
-- (IBAction)metoo;
-- (IBAction)reply;
 
 @end

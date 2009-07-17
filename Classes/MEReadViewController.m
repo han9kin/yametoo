@@ -49,6 +49,11 @@
                 [sItem setEnabled:aMetooEnabled];
             }
 
+            if ([sItem action] == @selector(addBookmark))
+            {
+                [sItem setEnabled:YES];
+            }
+
             if ([sItem action] == @selector(reply))
             {
                 [sItem setEnabled:YES];
@@ -60,12 +65,7 @@
         NSMutableArray  *sItems = [NSMutableArray array];
         UIBarButtonItem *sItem;
 
-        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
-        [sItems addObject:sItem];
-        [sItem release];
-
-        sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"metoo", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(metoo)];
-        [sItem setEnabled:aMetooEnabled];
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:[[UIApplication sharedApplication] delegate] action:@selector(showBookmarkView)];
         [sItems addObject:sItem];
         [sItem release];
 
@@ -73,7 +73,7 @@
         [sItems addObject:sItem];
         [sItem release];
 
-        sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"reply", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(reply)];
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addBookmark)];
         [sItem setEnabled:NO];
         [sItems addObject:sItem];
         [sItem release];
@@ -82,7 +82,17 @@
         [sItems addObject:sItem];
         [sItem release];
 
-        sItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Settings", @"") style:UIBarButtonItemStyleBordered target:[[UIApplication sharedApplication] delegate] action:@selector(showSettings)];
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(reply)];
+        [sItem setEnabled:NO];
+        [sItems addObject:sItem];
+        [sItem release];
+
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+        [sItems addObject:sItem];
+        [sItem release];
+
+        sItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"setting.png"] style:UIBarButtonItemStylePlain target:[[UIApplication sharedApplication] delegate] action:@selector(showSettings)];
+        [sItem setImageInsets:UIEdgeInsetsMake(2, 0, -2, 0)];
         [sItems addObject:sItem];
         [sItem release];
 
@@ -276,7 +286,13 @@
 }
 
 
-- (IBAction)metoo
+- (void)addBookmark
+{
+    // TODO
+}
+
+
+- (void)metoo
 {
     [[MEClientStore currentClient] metooWithPostID:[mPost postID] delegate:self];
 
@@ -284,12 +300,12 @@
 }
 
 
-- (IBAction)reply
+- (void)reply
 {
     MEReplyViewController *sViewController;
 
     sViewController = [[MEReplyViewController alloc] initWithPost:mPost];
-    [[self navigationController] pushViewController:sViewController animated:YES];
+    [self presentModalViewController:sViewController animated:YES];
     [sViewController release];
 }
 

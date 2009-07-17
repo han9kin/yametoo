@@ -18,7 +18,8 @@
 
 @implementation MEReplyViewController
 
-@synthesize textView = mTextView;
+@synthesize textView     = mTextView;
+@synthesize counterLabel = mCounterLabel;
 
 
 - (id)initWithPost:(MEPost *)aPost
@@ -28,9 +29,6 @@
     if (self)
     {
         mPost = [aPost retain];
-
-        [self setTitle:NSLocalizedString(@"Reply", @"")];
-        [[self navigationItem] setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Upload", @"") style:UIBarButtonItemStyleDone target:self action:@selector(upload)] autorelease]];
     }
 
     return self;
@@ -39,9 +37,6 @@
 
 - (void)dealloc
 {
-    [mTextView release];
-
-    [mCharCounter release];
     [mPost release];
 
     [super dealloc];
@@ -58,16 +53,6 @@
 {
     [super viewDidLoad];
 
-    [mTextView setReturnKeyType:UIReturnKeySend];
-    [mTextView setText:@""];
-
-    mCharCounter = [[MECharCounter alloc] initWithParentView:[self view]];
-    [mCharCounter setTextOwner:mTextView];
-    [mCharCounter setLimitCount:kMECommentBodyMaxLen];
-    [mCharCounter setFrame:CGRectMake(200, 207, 0, 0)];
-    [mCharCounter setHidden:NO];
-    [mCharCounter update];
-
     [mTextView becomeFirstResponder];
 }
 
@@ -82,7 +67,13 @@
 #pragma mark actions
 
 
-- (void)upload
+- (IBAction)close
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+
+- (IBAction)upload
 {
     NSString *sComment = [mTextView text];
 
@@ -97,33 +88,14 @@
 #pragma mark UITextView Delegate
 
 
-- (void)textViewDidBeginEditing:(UITextView *)aTextView;
-{
-    if (aTextView == mTextView)
-    {
-    }
-}
-
-
-- (void)textViewDidEndEditing:(UITextView *)aTextView
-{
-    if (aTextView == mTextView)
-    {
-        [mCharCounter setHidden:YES];
-    }
-}
-
-
 - (void)textViewDidChange:(UITextView *)aTextView
 {
-    if (aTextView == mTextView)
-    {
-        [mCharCounter update];
-    }
+    [mCounterLabel setText:[NSString stringWithFormat:@"%d", (kMECommentBodyMaxLen - [[aTextView text] length])]];
 
     if ([aTextView hasText])
     {
         NSRange sRange = [aTextView selectedRange];
+
         if (sRange.location < [[aTextView text] length])
         {
             [aTextView scrollRangeToVisible:sRange];
@@ -134,24 +106,33 @@
 
 - (BOOL)textView:(UITextView *)aTextView shouldChangeTextInRange:(NSRange)aRange replacementText:(NSString *)aText
 {
-    if ([aText length] == 1 && [aText characterAtIndex:0] == 10)
+    BOOL sResult = YES;
+
+    if ([aText length] == 1 && [aText characterAtIndex:0] == '\n')
     {
-        if (aTextView == mTextView)
-        {
-            [self upload];
-            return NO;
-        }
+        sResult = NO;
     }
-    else if (aTextView == mTextView)
+    else
     {
-        NSString *sBody = [mTextView text];
-        if ([sBody length] >= [mCharCounter limitCount])
+        if ([aText rangeOfString:@"\n"].location != NSNotFound)
         {
-            return NO;
+            aText   = [aText stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+            sResult = NO;
+        }
+
+        if (([[aTextView text] length] + [aText length] - aRange.length) > kMECommentBodyMaxLen)
+        {
+            aText   = [aText substringToIndex:(kMECommentBodyMaxLen - [[aTextView text] length] + aRange.length)];
+            sResult = NO;
+        }
+
+        if (!sResult)
+        {
+            [aTextView setText:[[aTextView text] stringByReplacingCharactersInRange:aRange withString:aText]];
         }
     }
 
-    return YES;
+    return sResult;
 }
 
 

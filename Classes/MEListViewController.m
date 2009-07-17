@@ -428,7 +428,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     UIViewController *sViewController;
 
     sViewController = [[MEWriteViewController alloc] init];
-    [[self navigationController] pushViewController:sViewController animated:YES];
+    [self presentModalViewController:sViewController animated:YES];
     [sViewController release];
 }
 
