@@ -10,6 +10,7 @@
 #import "UIAlertView+MEAdditions.h"
 #import "MEReadViewController.h"
 #import "MEListViewController.h"
+#import "MEWriteViewController.h"
 #import "MEReplyViewController.h"
 #import "MEPhotoViewController.h"
 #import "MEWebViewController.h"
@@ -27,6 +28,9 @@
 #import "MEUser.h"
 #import "MEComment.h"
 #import "MELink.h"
+
+
+static NSDictionary *gActions = nil;
 
 
 @interface MEReadViewController (Privates)
@@ -54,7 +58,7 @@
                 [sItem setEnabled:YES];
             }
 
-            if ([sItem action] == @selector(reply))
+            if ([sItem action] == @selector(compose))
             {
                 [sItem setEnabled:YES];
             }
@@ -82,7 +86,7 @@
         [sItems addObject:sItem];
         [sItem release];
 
-        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(reply)];
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(compose)];
         [sItem setEnabled:NO];
         [sItems addObject:sItem];
         [sItem release];
@@ -144,6 +148,18 @@
 @synthesize iconButton   = mIconButton;
 @synthesize postBodyView = mPostBodyView;
 @synthesize tableView    = mTableView;
+
+
+#pragma mark -
+
+
++ (void)initialize
+{
+    if (!gActions)
+    {
+        gActions = [[NSDictionary alloc] initWithObjectsAndKeys:@"write", NSLocalizedString(@"write", @""), @"reply", NSLocalizedString(@"reply", @""), nil];
+    }
+}
 
 
 #pragma mark -
@@ -300,6 +316,27 @@
 }
 
 
+- (void)compose
+{
+    UIActionSheet *sActionSheet;
+
+    sActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"write", @""), NSLocalizedString(@"reply", @""), nil];
+
+    [sActionSheet showFromToolbar:[[self navigationController] toolbar]];
+    [sActionSheet release];
+}
+
+
+- (void)write
+{
+    UIViewController *sViewController;
+
+    sViewController = [[MEWriteViewController alloc] init];
+    [self presentModalViewController:sViewController animated:YES];
+    [sViewController release];
+}
+
+
 - (void)reply
 {
     MEReplyViewController *sViewController;
@@ -311,7 +348,7 @@
 
 
 #pragma mark -
-#pragma mark MEClient Delegate
+#pragma mark MEClientDelegate
 
 
 - (void)client:(MEClient *)aClient didGetPosts:(NSArray *)aPosts error:(NSError *)aError
@@ -363,7 +400,7 @@
 
 
 #pragma mark -
-#pragma mark TableView DataSource
+#pragma mark UITableViewDataSource
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
@@ -431,7 +468,7 @@
 
 
 #pragma mark -
-#pragma mark TableView Delegate
+#pragma mark UITableViewDelegate
 
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)aIndexPath
@@ -510,6 +547,24 @@
 
         [[self navigationController] pushViewController:sViewController animated:YES];
         [sViewController release];
+    }
+}
+
+
+#pragma mark -
+#pragma mark UIActionSheetDelegate
+
+
+- (void)actionSheet:(UIActionSheet *)aActionSheet didDismissWithButtonIndex:(NSInteger)aButtonIndex
+{
+    if (aButtonIndex != [aActionSheet cancelButtonIndex])
+    {
+        SEL sSelector = NSSelectorFromString([gActions objectForKey:[aActionSheet buttonTitleAtIndex:aButtonIndex]]);
+
+        if (sSelector)
+        {
+            [self performSelector:sSelector];
+        }
     }
 }
 
