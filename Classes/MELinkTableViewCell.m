@@ -14,13 +14,14 @@
 
 @implementation MELinkTableViewCell
 
+
 + (MELinkTableViewCell *)cellForTableView:(UITableView *)aTableView
 {
     MELinkTableViewCell *sCell = (MELinkTableViewCell *)[aTableView dequeueReusableCellWithIdentifier:@"Link"];
 
     if (!sCell)
     {
-        sCell = [[[MELinkTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Link"] autorelease];
+        sCell = [[[self alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Link"] autorelease];
     }
 
     return sCell;

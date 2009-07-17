@@ -10,6 +10,7 @@
 #import "MEBookmarkViewController.h"
 #import "MEListViewController.h"
 #import "METableViewCellFactory.h"
+#import "MEBookmarkTableViewCell.h"
 #import "MESettings.h"
 #import "MEUser.h"
 #import "MELink.h"
@@ -144,16 +145,18 @@
         @"%@'s Friends",
     };
 
-    UITableViewCell *sCell = [METableViewCellFactory defaultCellForTableView:mTableView];
+    UITableViewCell *sCell;
 
     if ([aIndexPath section])
     {
-        [[sCell textLabel] setFont:[UIFont systemFontOfSize:17.0]];
-        [[sCell textLabel] setText:[[[MESettings bookmarks] objectAtIndex:[aIndexPath row]] urlDescription]];
+        sCell = [MEBookmarkTableViewCell cellForTableView:mTableView];
+
+        [(MEBookmarkTableViewCell *)sCell setLink:[[MESettings bookmarks] objectAtIndex:[aIndexPath row]]];
     }
     else
     {
-        [[sCell textLabel] setFont:[UIFont boldSystemFontOfSize:17.0]];
+        sCell = [METableViewCellFactory defaultCellForTableView:mTableView];
+
         [[sCell textLabel] setText:[NSString stringWithFormat:NSLocalizedString(sDefaultTitle[[aIndexPath row]], @""), [[MEUser currentUser] nickname]]];
     }
 

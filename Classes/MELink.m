@@ -81,9 +81,8 @@
 
     if (self)
     {
-        mURL         = [[aCoder decodeObjectForKey:@"url"] retain];
-        mDescription = [[aCoder decodeObjectForKey:@"description"] retain];
-        mType        = [aCoder decodeIntegerForKey:@"type"];
+        mURL  = [[aCoder decodeObjectForKey:@"url"] retain];
+        mType = [aCoder decodeIntegerForKey:@"type"];
     }
 
     return self;
@@ -93,7 +92,6 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
     [aCoder encodeObject:mURL forKey:@"url"];
-    [aCoder encodeObject:mDescription forKey:@"description"];
     [aCoder encodeInteger:mType forKey:@"type"];
 }
 
@@ -136,51 +134,112 @@
 
 - (NSString *)urlDescription
 {
+    NSURL    *sURL;
+    NSArray  *sPathComps;
+    NSString *sUserID;
+    MEUser   *sUser;
+    NSString *sTitle;
+    NSString *sDate;
+    NSString *sTime;
+
     if (!mDescription)
     {
-        if (mURL)
+        switch (mType)
         {
-            mDescription = [[mURL absoluteString] retain];
+            case kMELinkTypeMe2DAY:
+                sUser = [MEUser userWithUserID:mURL];
 
-            if ([[mURL host] isEqualToString:@"me2day.net"])
-            {
-                NSArray *pathComps = [[[mURL path] stringByAppendingString:@"/"] pathComponents];
-
-                if ([pathComps count] > 1)
+                if (sUser)
                 {
-                    NSString *sUserID = [pathComps objectAtIndex:1];
-                    MEUser   *sUser   = [MEUser userWithUserID:sUserID];
+                    mDescription = [[NSString alloc] initWithFormat:NSLocalizedString(@"%@'s me2DAY", @""), [sUser nickname]];
+                }
+                else
+                {
+                    mDescription = [[NSString alloc] initWithFormat:NSLocalizedString(@"%@'s me2DAY", @""), mURL];
 
-                    if (sUser)
+                    [[MEClientStore currentClient] getPersonWithUserID:mURL delegate:self];
+                }
+
+                break;
+
+            case kMELinkTypePost:
+                sURL       = [NSURL URLWithString:mURL];
+                sPathComps = [[[sURL path] stringByAppendingString:@"/"] pathComponents];
+                sUserID    = [sPathComps objectAtIndex:1];
+                sUser      = [MEUser userWithUserID:sUserID];
+
+                if (sUser)
+                {
+                    sTitle = [NSString stringWithFormat:NSLocalizedString(@"%@'s Post", @""), [sUser nickname]];
+                    sDate  = [[sURL path] substringFromIndex:[[sUser userID] length] + 2];
+                    sTime  = [sURL fragment];
+
+                    mDescription = [[NSString alloc] initWithFormat:@"%@ (%@ %@)", sTitle, sDate, sTime];
+                }
+                else
+                {
+                    sTitle = [NSString stringWithFormat:NSLocalizedString(@"%@'s Post", @""), sUserID];
+                    sDate  = [[sURL path] substringFromIndex:[sUserID length] + 2];
+                    sTime  = [sURL fragment];
+
+                    mDescription = [[NSString alloc] initWithFormat:@"%@ (%@ %@)", sTitle, sDate, sTime];
+
+                    [[MEClientStore currentClient] getPersonWithUserID:sUserID delegate:self];
+                }
+
+                break;
+
+            case kMELinkTypeOther:
+                mDescription = [mURL copy];
+                break;
+
+            default:
+                if (mURL)
+                {
+                    mDescription = [[mURL absoluteString] retain];
+
+                    if ([[mURL host] isEqualToString:@"me2day.net"])
                     {
-                        [self client:nil didGetPerson:sUser error:nil];
+                        sPathComps = [[[mURL path] stringByAppendingString:@"/"] pathComponents];
+
+                        if ([sPathComps count] > 1)
+                        {
+                            sUserID = [sPathComps objectAtIndex:1];
+                            sUser   = [MEUser userWithUserID:sUserID];
+
+                            if (sUser)
+                            {
+                                [self client:nil didGetPerson:sUser error:nil];
+                            }
+                            else
+                            {
+                                [[MEClientStore currentClient] getPersonWithUserID:sUserID delegate:self];
+                            }
+                        }
+                        else
+                        {
+                            [self willChangeValueForKey:@"type"];
+                            mType = kMELinkTypeOther;
+                            [self didChangeValueForKey:@"type"];
+                        }
                     }
                     else
                     {
-                        [[MEClientStore currentClient] getPersonWithUserID:sUserID delegate:self];
+                        [self willChangeValueForKey:@"type"];
+                        mType = kMELinkTypeOther;
+                        [self didChangeValueForKey:@"type"];
                     }
                 }
                 else
                 {
+                    mDescription = @"<Invalid URL>";
+
                     [self willChangeValueForKey:@"type"];
                     mType = kMELinkTypeOther;
                     [self didChangeValueForKey:@"type"];
                 }
-            }
-            else
-            {
-                [self willChangeValueForKey:@"type"];
-                mType = kMELinkTypeOther;
-                [self didChangeValueForKey:@"type"];
-            }
-        }
-        else
-        {
-            mDescription = @"<Invalid URL>";
 
-            [self willChangeValueForKey:@"type"];
-            mType = kMELinkTypeOther;
-            [self didChangeValueForKey:@"type"];
+                break;
         }
     }
 
@@ -193,30 +252,57 @@
 
 - (void)client:(MEClient *)aClient didGetPerson:(MEUser *)aUser error:(NSError *)aError
 {
+    NSURL    *sURL;
+    NSString *sTitle;
+    NSString *sDate;
+    NSString *sTime;
+
     [self willChangeValueForKey:@"type"];
 
     if (aUser)
     {
         [self willChangeValueForKey:@"urlDescription"];
 
-        [mURL autorelease];
-        [mDescription release];
-
-        if ([mURL fragment] && ([[mURL path] length] > ([[aUser userID] length] + 2)))
+        switch (mType)
         {
-            NSString *sTitle = [NSString stringWithFormat:NSLocalizedString(@"%@'s Post", @""), [aUser nickname]];
-            NSString *sDate  = [[mURL path] substringFromIndex:[[aUser userID] length] + 2];
-            NSString *sTime  = [mURL fragment];
+            case kMELinkTypeMe2DAY:
+                [mDescription release];
+                mDescription = [[NSString alloc] initWithFormat:NSLocalizedString(@"%@'s me2DAY", @""), [aUser nickname]];
+                break;
 
-            mURL         = [[mURL absoluteString] copy];
-            mDescription = [[NSString alloc] initWithFormat:@"%@ (%@ %@)", sTitle, sDate, sTime];
-            mType        = kMELinkTypePost;
-        }
-        else
-        {
-            mURL         = [[aUser userID] copy];
-            mDescription = [[NSString alloc] initWithFormat:NSLocalizedString(@"%@'s me2DAY", @""), [aUser nickname]];
-            mType        = kMELinkTypeMe2DAY;
+            case kMELinkTypePost:
+                sURL   = [NSURL URLWithString:mURL];
+                sTitle = [NSString stringWithFormat:NSLocalizedString(@"%@'s Post", @""), [aUser nickname]];
+                sDate  = [[sURL path] substringFromIndex:[[aUser userID] length] + 2];
+                sTime  = [sURL fragment];
+
+                [mDescription release];
+                mDescription = [[NSString alloc] initWithFormat:@"%@ (%@ %@)", sTitle, sDate, sTime];
+
+                break;
+
+            default:
+                [mURL autorelease];
+                [mDescription release];
+
+                if ([mURL fragment] && ([[mURL path] length] > ([[aUser userID] length] + 2)))
+                {
+                    sTitle = [NSString stringWithFormat:NSLocalizedString(@"%@'s Post", @""), [aUser nickname]];
+                    sDate  = [[mURL path] substringFromIndex:[[aUser userID] length] + 2];
+                    sTime  = [mURL fragment];
+
+                    mURL         = [[mURL absoluteString] copy];
+                    mDescription = [[NSString alloc] initWithFormat:@"%@ (%@ %@)", sTitle, sDate, sTime];
+                    mType        = kMELinkTypePost;
+                }
+                else
+                {
+                    mURL         = [[aUser userID] copy];
+                    mDescription = [[NSString alloc] initWithFormat:NSLocalizedString(@"%@'s me2DAY", @""), [aUser nickname]];
+                    mType        = kMELinkTypeMe2DAY;
+                }
+
+                break;
         }
 
         [self didChangeValueForKey:@"urlDescription"];
