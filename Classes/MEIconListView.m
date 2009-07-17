@@ -49,6 +49,7 @@
 
 - (id)initWithCoder:(NSCoder *)aCoder
 {
+    NSLog(@"MEIconListView initWithCoder");
     self = [super initWithCoder:aCoder];
     if (self)
     {
@@ -90,7 +91,6 @@
 - (IBAction)buttonTapped:(id)aSender
 {
     NSInteger sTag = [aSender tag];
-    NSLog(@"sTag = %d", sTag);
     
     [mDelegate iconListView:self iconDidSelect:(sTag - 200) + 1];
     

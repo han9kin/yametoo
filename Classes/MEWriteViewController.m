@@ -178,6 +178,11 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 @implementation MEWriteViewController
 
+
+#pragma mark -
+#pragma mark properties
+
+
 @synthesize bodyTextView           = mBodyTextView;
 @synthesize tagTextField           = mTagTextField;
 @synthesize attachedImageView      = mAttachedImageView;
@@ -197,6 +202,10 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 @synthesize iconListView           = mIconListView;
 
 
+#pragma mark -
+#pragma mark init / dealloc
+
+
 - (id)init
 {
     self = [super initWithNibName:@"WriteView" bundle:nil];
@@ -214,10 +223,11 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    [mCharCounter release];
+    [mCharCounter   release];
     [mOriginalImage release];
-    [mResizedImage release];
-    [mImageRep release];
+    [mResizedImage  release];
+    [mImageRep      release];
+    [mIconListView  release];
 
     [super dealloc];
 }
@@ -266,6 +276,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     [mImageResolutionLabel setText:@""];
     [mImageSizeLabel       setText:@""];
 
+    NSLog(@"mIconListView = %@", mIconListView);
     [mIconListView setDelegate:self];
 }
 
@@ -302,7 +313,13 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 - (IBAction)iconSelectButtonTapped:(id)aSender
 {
-    [[[self view] window] addSubview:mIconListView];
+//    [[[self view] window] addSubview:mIconListView];
+    NSLog(@"iconSelectButtonTapped: begin");
+    UIWindow *sWindow = [[UIApplication sharedApplication] keyWindow];
+    NSLog(@"sWindow = %@", sWindow);
+    NSLog(@"mIconListView = %p", mIconListView);
+    [sWindow addSubview:mIconListView];
+    NSLog(@"iconSelectButtonTapped: end");
 }
 
 

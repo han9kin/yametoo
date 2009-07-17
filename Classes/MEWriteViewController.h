@@ -35,7 +35,6 @@
 
     MEIconListView  *mIconListView;
 
-
     MECharCounter   *mCharCounter;
 
     NSInteger        mSelectedIconIndex;
@@ -71,7 +70,7 @@
 @property(nonatomic, assign) IBOutlet UILabel        *imageResolutionLabel;
 @property(nonatomic, assign) IBOutlet UILabel        *imageSizeLabel;
 
-@property(nonatomic, assign) IBOutlet MEIconListView *iconListView;
+@property(nonatomic, retain) IBOutlet MEIconListView *iconListView;
 
 
 - (IBAction)iconSelectButtonTapped:(id)aSender;
