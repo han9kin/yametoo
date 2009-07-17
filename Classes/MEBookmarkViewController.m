@@ -42,6 +42,8 @@
 @implementation MEBookmarkViewController
 
 @synthesize navigationBar = mNavigationBar;
+@synthesize closeButton   = mCloseButton;
+@synthesize editButton    = mEditButton;
 @synthesize tableView     = mTableView;
 
 
@@ -58,12 +60,17 @@
 
 - (void)dealloc
 {
+    [mCloseButton release];
+    [mEditButton release];
+    [mSaveButton release];
     [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning];
+    /*
+     *  do nothing
+     */
 }
 
 
@@ -72,11 +79,8 @@
     [super viewDidLoad];
 
     [self layoutViews];
-}
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
+    mSaveButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"") style:UIBarButtonItemStyleDone target:self action:@selector(save)];
 }
 
 
@@ -98,6 +102,18 @@
 
 - (IBAction)edit
 {
+    [[mNavigationBar topItem] setLeftBarButtonItem:nil animated:YES];
+    [[mNavigationBar topItem] setRightBarButtonItem:mSaveButton animated:YES];
+
+    [mTableView setEditing:YES animated:YES];
+}
+
+- (IBAction)save
+{
+    [[mNavigationBar topItem] setLeftBarButtonItem:mCloseButton animated:YES];
+    [[mNavigationBar topItem] setRightBarButtonItem:mEditButton animated:YES];
+
+    [mTableView setEditing:NO animated:YES];
 }
 
 
@@ -169,6 +185,19 @@
     [self dismissModalViewControllerAnimated:YES];
 
     [sViewController release];
+}
+
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)aIndexPath
+{
+    if ([aIndexPath section])
+    {
+        return UITableViewCellEditingStyleDelete;
+    }
+    else
+    {
+        return UITableViewCellEditingStyleNone;
+    }
 }
 
 

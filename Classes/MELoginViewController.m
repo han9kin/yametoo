@@ -30,9 +30,6 @@
     if (self)
     {
         [self setTitle:NSLocalizedString(@"Login", @"")];
-
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChangeNotification:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userListDidChangeNotification:) name:MEClientStoreUserListDidChangeNotification object:nil];
     }
 
     return self;
@@ -41,8 +38,6 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-
     [super dealloc];
 }
 
@@ -73,12 +68,23 @@
     [super viewDidAppear:aAnimated];
 
     [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:YES];
+
+    if ([MEClientStore currentClient])
+    {
+        [self performSelector:@selector(dismiss) withObject:nil afterDelay:0];
+    }
 }
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
 {
     return YES;
+}
+
+
+- (void)dismiss
+{
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 
@@ -201,13 +207,14 @@
             }
             else
             {
+                mDismissAfterLogin = YES;
                 [sClient loginWithUserID:nil userKey:nil delegate:self];
             }
         }
         else
         {
             sViewController = [[MEAccountDetailViewController alloc] initWithClient:nil];
-            [sViewController setTitle:NSLocalizedString(@"New Account", @"")];
+            [sViewController setTitle:NSLocalizedString(@"Other Account", @"")];
             [[self navigationController] pushViewController:sViewController animated:YES];
             [sViewController release];
         }
@@ -242,12 +249,23 @@
 {
     if (aError)
     {
+        [[self navigationController] popViewControllerAnimated:YES];
+
+        [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:YES];
+
         [UIAlertView showError:aError];
     }
     else
     {
         [MEClientStore setCurrentUserID:[aClient userID]];
+
+        if (mDismissAfterLogin)
+        {
+            [self dismiss];
+        }
     }
+
+    mDismissAfterLogin = NO;
 }
 
 
@@ -260,25 +278,6 @@
     [aClient loginWithUserID:nil userKey:nil delegate:self];
 
     [[self navigationController] popViewControllerAnimated:YES];
-}
-
-
-#pragma mark -
-#pragma mark Notifications
-
-
-- (void)currentUserDidChangeNotification:(NSNotification *)aNotification
-{
-    if ([MEClientStore currentClient])
-    {
-        [self dismissModalViewControllerAnimated:YES];
-    }
-}
-
-
-- (void)userListDidChangeNotification:(NSNotification *)aNotification
-{
-    [mTableView reloadData];
 }
 
 

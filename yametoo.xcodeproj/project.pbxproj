@@ -450,6 +450,21 @@
 			path = Additions;
 			sourceTree = "<group>";
 		};
+		CF15E8D3101025C0006B0E4F /* Modal View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				28D7ACF60DDB3853001CB0EB /* MEWriteViewController.h */,
+				28D7ACF70DDB3853001CB0EB /* MEWriteViewController.m */,
+				2ED83E390FAECFDC00786952 /* MEReplyViewController.h */,
+				2ED83E3A0FAECFDC00786952 /* MEReplyViewController.m */,
+				CF15E726100EBE16006B0E4F /* MEPhotoViewController.h */,
+				CF15E727100EBE16006B0E4F /* MEPhotoViewController.m */,
+				CF15E792100EF7A8006B0E4F /* MEBookmarkViewController.h */,
+				CF15E793100EF7A8006B0E4F /* MEBookmarkViewController.m */,
+			);
+			name = "Modal View Controller";
+			sourceTree = "<group>";
+		};
 		CF528CE40FA15670007C7A03 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
@@ -469,6 +484,7 @@
 				CFE72F740FA9983300C54792 /* Application Controller */,
 				CFFC6DD80FBAB8A800B935E7 /* Login View Controller */,
 				CFE72F750FA9983B00C54792 /* Main View Controller */,
+				CF15E8D3101025C0006B0E4F /* Modal View Controller */,
 				CFE732230FB192A200C54792 /* Settings View Controller */,
 			);
 			name = Controllers;
@@ -672,16 +688,8 @@
 				CFE72FE70FAE8D0200C54792 /* MEListViewController.m */,
 				2ED4E84D0FA9611D000BFE2F /* MEReadViewController.h */,
 				2ED4E84E0FA9611D000BFE2F /* MEReadViewController.m */,
-				28D7ACF60DDB3853001CB0EB /* MEWriteViewController.h */,
-				28D7ACF70DDB3853001CB0EB /* MEWriteViewController.m */,
-				2ED83E390FAECFDC00786952 /* MEReplyViewController.h */,
-				2ED83E3A0FAECFDC00786952 /* MEReplyViewController.m */,
-				CF15E726100EBE16006B0E4F /* MEPhotoViewController.h */,
-				CF15E727100EBE16006B0E4F /* MEPhotoViewController.m */,
 				CFC8A1980FE0CA9100EA77C6 /* MEWebViewController.h */,
 				CFC8A1990FE0CA9100EA77C6 /* MEWebViewController.m */,
-				CF15E792100EF7A8006B0E4F /* MEBookmarkViewController.h */,
-				CF15E793100EF7A8006B0E4F /* MEBookmarkViewController.m */,
 			);
 			name = "Main View Controller";
 			sourceTree = "<group>";

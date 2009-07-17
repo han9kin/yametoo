@@ -95,7 +95,7 @@ static htmlSAXHandler simpleSAXHandlerStruct =
     NULL,                       /* comment */
     NULL,                       /* warning */
     saxError,                   /* error */
-    NULL,                       /* fatalError //: unused error() get all the errors */
+    NULL,                       /* fatalError: unused error() get all the errors */
     NULL,                       /* getParameterEntity */
     NULL,                       /* cdataBlock */
     NULL,                       /* externalSubset */

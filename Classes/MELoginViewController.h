@@ -13,6 +13,8 @@
 @interface MELoginViewController : UIViewController
 {
     UITableView *mTableView;
+
+    BOOL         mDismissAfterLogin;
 }
 
 @property(nonatomic, assign) IBOutlet UITableView *tableView;
