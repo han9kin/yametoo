@@ -11,6 +11,11 @@
 #import "MEDrawingFunctions.h"
 
 
+#define BEGIN_ANIMATION_OFF()       [CATransaction begin]; \
+                                    [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+#define END_ANIMATION_OFF()         [CATransaction commit];
+
+
 @implementation MECharCounter
 
 
@@ -76,8 +81,9 @@
 {
     UIImage  *sImage = nil;
     NSString *sBody  = [mTextOwner text];
-    UIFont   *sFont  = [UIFont systemFontOfSize:17];
-    NSString *sStr   = [NSString stringWithFormat:NSLocalizedString(@"%d character(s) remains", nil), (mLimitCount - [sBody length])];
+    UIFont   *sFont  = [UIFont boldSystemFontOfSize:30];
+    NSInteger sRemainCount = (mLimitCount - [sBody length]);
+    NSString *sStr   = [NSString stringWithFormat:@"%d", sRemainCount];
     CGSize    sSize  = [sStr sizeWithFont:sFont];
     CGRect    sFrame;
 
@@ -85,10 +91,16 @@
     sSize.height += 6;
     
     UIGraphicsBeginImageContext(sSize);
-    [[UIColor orangeColor] set];
-    MERoundRectFill(CGRectMake(0, 0, sSize.width, sSize.height), 3);
     
-    [[UIColor blackColor] set];
+    if (sRemainCount < 10)
+    {
+        [[UIColor orangeColor] set];
+    }
+    else
+    {
+        [[UIColor grayColor] set];
+    }
+    
     [sStr drawAtPoint:CGPointMake(5, 5) withFont:sFont];
     
     sImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -96,10 +108,12 @@
     
     sFrame = [mLayer frame];
     sFrame = CGRectMake(320 - sSize.width - 23, sFrame.origin.y, sSize.width, sSize.height);
-    
-    [mLayer setOpacity:0.7];
+
+    BEGIN_ANIMATION_OFF();
+    [mLayer setOpacity:0.8];
     [mLayer setContents:(id)[sImage CGImage]];
     [mLayer setFrame:sFrame];
+    END_ANIMATION_OFF();
 }
 
 
