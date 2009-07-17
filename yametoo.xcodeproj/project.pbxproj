@@ -58,6 +58,10 @@
 		2ED4E84F0FA9611D000BFE2F /* MEReadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED4E84E0FA9611D000BFE2F /* MEReadViewController.m */; };
 		2ED83E380FAECFC600786952 /* ReplyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED83E370FAECFC600786952 /* ReplyView.xib */; };
 		2ED83E3B0FAECFDC00786952 /* MEReplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED83E3A0FAECFDC00786952 /* MEReplyViewController.m */; };
+		2ED9CAE11010258C00A63B10 /* selectedTab.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED9CADF1010258C00A63B10 /* selectedTab.png */; };
+		2ED9CAE21010258C00A63B10 /* split.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED9CAE01010258C00A63B10 /* split.png */; };
+		2ED9CC0A1010531600A63B10 /* v_tab0.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED9CC091010531600A63B10 /* v_tab0.png */; };
+		2ED9CC641010687F00A63B10 /* tab2.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ED9CC631010687F00A63B10 /* tab2.png */; };
 		CF15E4A9100C8786006B0E4F /* NSError+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15E4A8100C8786006B0E4F /* NSError+MEAdditions.m */; };
 		CF15E660100DC189006B0E4F /* MEPasscodeSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15E65F100DC189006B0E4F /* MEPasscodeSettingsViewController.m */; };
 		CF15E728100EBE16006B0E4F /* MEPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15E727100EBE16006B0E4F /* MEPhotoViewController.m */; };
@@ -187,6 +191,10 @@
 		2ED83E370FAECFC600786952 /* ReplyView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReplyView.xib; sourceTree = "<group>"; };
 		2ED83E390FAECFDC00786952 /* MEReplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReplyViewController.h; sourceTree = "<group>"; };
 		2ED83E3A0FAECFDC00786952 /* MEReplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReplyViewController.m; sourceTree = "<group>"; };
+		2ED9CADF1010258C00A63B10 /* selectedTab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selectedTab.png; sourceTree = "<group>"; };
+		2ED9CAE01010258C00A63B10 /* split.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = split.png; sourceTree = "<group>"; };
+		2ED9CC091010531600A63B10 /* v_tab0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = v_tab0.png; sourceTree = "<group>"; };
+		2ED9CC631010687F00A63B10 /* tab2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab2.png; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* yametoo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yametoo_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CF15E4A7100C8786006B0E4F /* NSError+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+MEAdditions.h"; sourceTree = "<group>"; };
@@ -435,6 +443,10 @@
 				2E1474C60FD8C1B500E0D93A /* rotate_right_disable.png */,
 				2EBB59600FE0D0250096BFF1 /* iconview.png */,
 				2E5936FF0FE0EE340095063A /* visit.png */,
+				2ED9CADF1010258C00A63B10 /* selectedTab.png */,
+				2ED9CC631010687F00A63B10 /* tab2.png */,
+				2ED9CAE01010258C00A63B10 /* split.png */,
+				2ED9CC091010531600A63B10 /* v_tab0.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -813,6 +825,10 @@
 				CF15E72B100EBF84006B0E4F /* PhotoView.xib in Resources */,
 				CF15E7DE100F1231006B0E4F /* BookmarkView.xib in Resources */,
 				CF15E7E3100F12C4006B0E4F /* WebView.xib in Resources */,
+				2ED9CAE11010258C00A63B10 /* selectedTab.png in Resources */,
+				2ED9CAE21010258C00A63B10 /* split.png in Resources */,
+				2ED9CC0A1010531600A63B10 /* v_tab0.png in Resources */,
+				2ED9CC641010687F00A63B10 /* tab2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -994,7 +1010,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E37DCFD4-2F23-4228-AE3D-973A8CEEB46C";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C0F73316-95D6-4004-9954-6699C1F30F1C";
 				SDKROOT = iphoneos3.0;
 			};
 			name = Debug;

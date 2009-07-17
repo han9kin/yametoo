@@ -40,6 +40,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 - (void)updateSelectedIcon;
 - (void)updateImageInfo;
 - (void)resizeImage;
+- (void)arrangeSubviews;
 
 @end
 
@@ -173,6 +174,52 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 }
 
 
+- (void)arrangeSubviews
+{
+    UIInterfaceOrientation sOrientation = [self interfaceOrientation];    
+    UIImage               *sTabOnImage  = [[UIImage imageNamed:@"selectedTab.png"] stretchableImageWithLeftCapWidth:11 topCapHeight:10];
+    UIImage               *sTabOffImage = [[UIImage imageNamed:@"tab2.png"] stretchableImageWithLeftCapWidth:11 topCapHeight:10];
+    CGRect                 sNavigationFrame;
+    UIButton              *sTabButton = nil;    
+    
+    [mTabBodyButton      setBackgroundImage:sTabOffImage forState:UIControlStateNormal];
+    [mTabTagButton       setBackgroundImage:sTabOffImage forState:UIControlStateNormal];
+    [mTabIconImageButton setBackgroundImage:sTabOffImage forState:UIControlStateNormal];
+    
+    [mNavigationBar sizeToFit];
+    sNavigationFrame = [mNavigationBar frame];
+    
+    [mCurrentView removeFromSuperview];
+    
+    sTabButton   = (mSelectedTabIndex == 0) ? mTabBodyButton : ((mSelectedTabIndex == 1) ? mTabTagButton : mTabIconImageButton);
+    mCurrentView = (mSelectedTabIndex == 0) ? mBodyView      : ((mSelectedTabIndex == 1) ? mTagView      : mIconImageView);
+
+    if (sOrientation == UIDeviceOrientationPortrait || sOrientation == UIDeviceOrientationPortraitUpsideDown)
+    {
+        [mTabContainerView   setFrame:CGRectMake( 0, sNavigationFrame.origin.y + sNavigationFrame.size.height, 320, 200)];
+        [mTabBodyButton      setFrame:CGRectMake( 7,  10, 40,  63)];
+        [mTabTagButton       setFrame:CGRectMake( 7,  70, 40,  63)];
+        [mTabIconImageButton setFrame:CGRectMake( 7, 130, 40,  63)];
+        [mSplitBar           setFrame:CGRectMake(47,   0,  5, 200)];
+        [mCurrentView        setFrame:CGRectMake(51, 0, 320 - 51, 200)];
+    }
+    else if (sOrientation == UIDeviceOrientationLandscapeRight || sOrientation == UIDeviceOrientationLandscapeLeft)
+    {
+        [mTabContainerView   setFrame:CGRectMake(0, sNavigationFrame.origin.y + sNavigationFrame.size.height, 480, 106)];
+        [mTabBodyButton      setFrame:CGRectMake(7,  8, 60,  32)];
+        [mTabTagButton       setFrame:CGRectMake(7, 38, 60,  32)];
+        [mTabIconImageButton setFrame:CGRectMake(7, 68, 60,  32)];
+        [mSplitBar           setFrame:CGRectMake(67, 0,  5, 106)];
+        [mCurrentView        setFrame:CGRectMake(70, 0, 480 - 70, 106)];        
+    }
+
+    [sTabButton setBackgroundImage:sTabOnImage forState:UIControlStateNormal];
+    [mTabContainerView addSubview:mCurrentView];    
+    [mTabContainerView bringSubviewToFront:sTabButton];
+    [mTabContainerView bringSubviewToFront:mSplitBar];
+}
+
+
 @end
 
 
@@ -183,8 +230,20 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 #pragma mark properties
 
 
+@synthesize navigationBar          = mNavigationBar;
+@synthesize tabContainerView       = mTabContainerView;
+@synthesize tabBodyButton          = mTabBodyButton;
+@synthesize tabTagButton           = mTabTagButton;
+@synthesize tabIconImageButton     = mTabIconImageButton;
+@synthesize splitBar               = mSplitBar;
+@synthesize bodyView               = mBodyView;
+@synthesize tagView                = mTagView;
+@synthesize iconImageView          = mIconImageView;
 @synthesize bodyTextView           = mBodyTextView;
-@synthesize tagTextField           = mTagTextField;
+@synthesize tagTextView            = mTagTextView;
+
+//////////////////
+
 @synthesize attachedImageView      = mAttachedImageView;
 
 @synthesize iconSelectButton       = mIconSelectButton;
@@ -212,10 +271,12 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
     if (self)
     {
+
     }
 
     return self;
 }
+
 
 - (void)dealloc
 {
@@ -226,6 +287,10 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     [mResizedImage  release];
     [mImageRep      release];
     [mIconListView  release];
+    
+    [mBodyView      release];
+    [mTagView       release];
+    [mIconImageView release];
 
     [super dealloc];
 }
@@ -250,9 +315,9 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
     [mBodyTextView setText:@""];
     [mBodyTextView setReturnKeyType:UIReturnKeyNext];
-    [mTagTextField setPlaceholder:NSLocalizedString(@"Enter tags (separated by space)", @"")];
-    [mTagTextField setReturnKeyType:UIReturnKeyDone];
-    [mTagTextField setClearsOnBeginEditing:NO];
+//    [mTagTextView  setPlaceholder:NSLocalizedString(@"Enter tags (separated by space)", @"")];
+    [mTagTextView setReturnKeyType:UIReturnKeyDone];
+//    [mTagTextView setClearsOnBeginEditing:NO];
 
     mCharCounter = [[MECharCounter alloc] initWithParentView:[self view]];
 
@@ -274,14 +339,24 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     [mImageResolutionLabel setText:@""];
     [mImageSizeLabel       setText:@""];
 
-    NSLog(@"mIconListView = %@", mIconListView);
     [mIconListView setDelegate:self];
+    
+    mSelectedTabIndex = 0;
+    [self arrangeSubviews];
+    
+    [mBodyTextView becomeFirstResponder];
 }
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
 {
     return YES;
+}
+
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)aFromInterfaceOrientation
+{
+    [self arrangeSubviews];
 }
 
 
@@ -298,13 +373,13 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 - (IBAction)upload
 {
     NSString *sBody = [mBodyTextView text];
-    NSString *sTags = [mTagTextField text];
+    NSString *sTags = [mTagTextView  text];
 
     if ([sBody length] > 0)
     {
         [self setInterfaceEnabled:NO];
         [mBodyTextView resignFirstResponder];
-        [mTagTextField resignFirstResponder];
+        [mTagTextView  resignFirstResponder];
 
         [[MEClientStore currentClient] createPostWithBody:sBody tags:sTags icon:mSelectedIconIndex attachedImage:mResizedImage delegate:self];
     }
@@ -315,15 +390,39 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 }
 
 
+#pragma mark -
+
+
+- (IBAction)bodyTabButtonTapped:(id)aSender
+{
+    [mBodyTextView becomeFirstResponder];
+    mSelectedTabIndex = 0;
+    [self arrangeSubviews];
+}
+
+
+- (IBAction)tagTabButtonTapped:(id)aSender
+{
+    [mTagTextView becomeFirstResponder];
+    mSelectedTabIndex = 1;
+    [self arrangeSubviews];
+}
+
+
+- (IBAction)iconImageTabButtontapped:(id)aSender
+{
+    mSelectedTabIndex = 2;
+    [self arrangeSubviews];
+}
+
+
+#pragma mark -
+
+
 - (IBAction)iconSelectButtonTapped:(id)aSender
 {
-//    [[[self view] window] addSubview:mIconListView];
-    NSLog(@"iconSelectButtonTapped: begin");
     UIWindow *sWindow = [[UIApplication sharedApplication] keyWindow];
-    NSLog(@"sWindow = %@", sWindow);
-    NSLog(@"mIconListView = %p", mIconListView);
     [sWindow addSubview:mIconListView];
-    NSLog(@"iconSelectButtonTapped: end");
 }
 
 
@@ -467,11 +566,11 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     {
         if (aTextView == mBodyTextView)
         {
-            [mTagTextField becomeFirstResponder];
+            [mTagTextView becomeFirstResponder];
         }
         else
         {
-            [mTagTextField resignFirstResponder];
+            [mTagTextView resignFirstResponder];
         }
     }
     else if (aTextView == mBodyTextView)
@@ -527,7 +626,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)aTextField
 {
-    [mTagTextField resignFirstResponder];
+    [mTagTextView resignFirstResponder];
 
     return NO;
 }
@@ -550,7 +649,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
         [UIAlertView showError:aError];
         [self setInterfaceEnabled:YES];
         [mBodyTextView resignFirstResponder];
-        [mTagTextField resignFirstResponder];
+        [mTagTextView  resignFirstResponder];
     }
     else
     {

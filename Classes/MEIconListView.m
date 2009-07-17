@@ -49,7 +49,6 @@
 
 - (id)initWithCoder:(NSCoder *)aCoder
 {
-    NSLog(@"MEIconListView initWithCoder");
     self = [super initWithCoder:aCoder];
     if (self)
     {
