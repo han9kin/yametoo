@@ -26,8 +26,10 @@
 @property(nonatomic, readonly) NSString *title;
 
 
+- (id)initWithUserID:(NSString *)aUserID;
 - (id)initWithUser:(MEUser *)aUser;
-- (id)initWithPost:(MEPost *)aPost;
 
+- (id)initWithPostID:(NSString *)aPostID;
+- (id)initWithPost:(MEPost *)aPost;
 
 @end

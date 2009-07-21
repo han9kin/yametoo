@@ -7,6 +7,7 @@
  *
  */
 
+#import "NSMutableArray+MEAdditions.h"
 #import "MEBookmarkViewController.h"
 #import "MEListViewController.h"
 #import "MEReadViewController.h"
@@ -168,6 +169,43 @@
 }
 
 
+- (BOOL)tableView:(UITableView *)aTableView canEditRowAtIndexPath:(NSIndexPath *)aIndexPath
+{
+    return [aIndexPath section] ? YES : NO;
+}
+
+- (void)tableView:(UITableView *)aTableView commitEditingStyle:(UITableViewCellEditingStyle)aEditingStyle forRowAtIndexPath:(NSIndexPath *)aIndexPath
+{
+    if (aEditingStyle == UITableViewCellEditingStyleDelete)
+    {
+        NSMutableArray *sBookmarks;
+
+        sBookmarks = [[MESettings bookmarks] mutableCopy];
+        [sBookmarks removeObjectAtIndex:[aIndexPath row]];
+        [MESettings setBookmarks:sBookmarks];
+        [sBookmarks release];
+
+        [aTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:aIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
+
+- (BOOL)tableView:(UITableView *)aTableView canMoveRowAtIndexPath:(NSIndexPath *)aIndexPath
+{
+    return [aIndexPath section] ? YES : NO;
+}
+
+- (void)tableView:(UITableView *)aTableView moveRowAtIndexPath:(NSIndexPath *)aFromIndexPath toIndexPath:(NSIndexPath *)aToIndexPath
+{
+    NSMutableArray *sBookmarks;
+
+    sBookmarks = [[MESettings bookmarks] mutableCopy];
+    [sBookmarks moveObjectAtIndex:[aFromIndexPath row] toIndex:[aToIndexPath row]];
+    [MESettings setBookmarks:sBookmarks];
+    [sBookmarks release];
+}
+
+
 #pragma mark -
 #pragma mark UITableViewDelegate
 
@@ -218,6 +256,24 @@
     else
     {
         return UITableViewCellEditingStyleNone;
+    }
+}
+
+- (NSString *)tableView:(UITableView *)aTableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)aIndexPath
+{
+    return NSLocalizedString(@"Delete", @"");
+}
+
+
+- (NSIndexPath *)tableView:(UITableView *)aTableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)aIndexPath toProposedIndexPath:(NSIndexPath *)aProposedIndexPath
+{
+    if ([aProposedIndexPath section])
+    {
+        return aProposedIndexPath;
+    }
+    else
+    {
+        return [NSIndexPath indexPathForRow:0 inSection:1];
     }
 }
 

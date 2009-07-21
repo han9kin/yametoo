@@ -42,7 +42,35 @@ static NSDictionary *gActions = nil;
 @implementation MEReadViewController (Privates)
 
 
-- (void)setupToolbarItemsWithMetooEnabled:(BOOL)aMetooEnabled
+- (BOOL)canBookmark
+{
+    MEBookmark *sBookmark;
+    BOOL        sResult;
+
+    sBookmark = [[MEBookmark alloc] initWithPostID:mPostID];
+    sResult   = ![[MESettings bookmarks] containsObject:sBookmark];
+
+    [sBookmark release];
+
+    return sResult;
+}
+
+
+- (void)setMetooToolbarItemEnabled:(BOOL)aEnabled
+{
+    UIBarButtonItem *sItem;
+
+    for (sItem in [self toolbarItems])
+    {
+        if ([sItem action] == @selector(metoo))
+        {
+            [sItem setEnabled:aEnabled];
+        }
+    }
+}
+
+
+- (void)setupToolbarItems
 {
     if ([self toolbarItems])
     {
@@ -50,14 +78,9 @@ static NSDictionary *gActions = nil;
 
         for (sItem in [self toolbarItems])
         {
-            if ([sItem action] == @selector(metoo))
-            {
-                [sItem setEnabled:aMetooEnabled];
-            }
-
             if ([sItem action] == @selector(addBookmark))
             {
-                [sItem setEnabled:YES];
+                [sItem setEnabled:[self canBookmark]];
             }
 
             if ([sItem action] == @selector(compose))
@@ -80,7 +103,7 @@ static NSDictionary *gActions = nil;
         [sItem release];
 
         sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addBookmark)];
-        [sItem setEnabled:NO];
+        [sItem setEnabled:[self canBookmark]];
         [sItems addObject:sItem];
         [sItem release];
 
@@ -136,7 +159,8 @@ static NSDictionary *gActions = nil;
 
     [mTableView setTableHeaderView:mHeaderView];
 
-    [self setupToolbarItemsWithMetooEnabled:![[[mPost author] userID] isEqualToString:[[MEClientStore currentClient] userID]]];
+    [self setupToolbarItems];
+    [self setMetooToolbarItemEnabled:![[[mPost author] userID] isEqualToString:[[MEClientStore currentClient] userID]]];
 }
 
 
@@ -173,10 +197,11 @@ static NSDictionary *gActions = nil;
 
     if (self)
     {
+        mPostID   = [[aPost postID] copy];
         mPost     = [aPost retain];
         mComments = [[NSMutableArray alloc] init];
 
-        [self setupToolbarItemsWithMetooEnabled:NO];
+        [self setupToolbarItems];
     }
 
     return self;
@@ -192,7 +217,7 @@ static NSDictionary *gActions = nil;
         mPostID   = [aPostID copy];
         mComments = [[NSMutableArray alloc] init];
 
-        [self setupToolbarItemsWithMetooEnabled:NO];
+        [self setupToolbarItems];
     }
 
     return self;
@@ -319,6 +344,8 @@ static NSDictionary *gActions = nil;
 
     [MESettings setBookmarks:sBookmarks];
     [sBookmarks release];
+
+    [self setupToolbarItems];
 }
 
 
@@ -326,7 +353,7 @@ static NSDictionary *gActions = nil;
 {
     [[MEClientStore currentClient] metooWithPostID:[mPost postID] delegate:self];
 
-    [self setupToolbarItemsWithMetooEnabled:NO];
+    [self setMetooToolbarItemEnabled:NO];
 }
 
 
@@ -409,7 +436,7 @@ static NSDictionary *gActions = nil;
         [mPost setMetooCount:([mPost metooCount] + 1)];
     }
 
-    [self setupToolbarItemsWithMetooEnabled:YES];
+    [self setMetooToolbarItemEnabled:YES];
 }
 
 

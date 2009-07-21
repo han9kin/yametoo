@@ -41,6 +41,31 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 @implementation MEListViewController (Private)
 
 
+- (BOOL)canBookmark
+{
+    BOOL sResult;
+
+    if ([mUserID isEqualToString:[[MEClientStore currentClient] userID]])
+    {
+        sResult = NO;
+    }
+    else
+    {
+        if (mScope == kMEClientGetPostsScopeAll)
+        {
+            MEBookmark *sBookmark = [[MEBookmark alloc] initWithUserID:mUserID];
+            sResult = ![[MESettings bookmarks] containsObject:sBookmark];
+            [sBookmark release];
+        }
+        else
+        {
+            sResult = NO;
+        }
+    }
+
+    return sResult;
+}
+
 - (void)setupTitle
 {
     NSString *sName;
@@ -82,40 +107,54 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 - (void)setupToolbarItems
 {
-    NSMutableArray  *sItems = [NSMutableArray array];
     UIBarButtonItem *sItem;
 
-    sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:[[UIApplication sharedApplication] delegate] action:@selector(showBookmarkView)];
-    [sItems addObject:sItem];
-    [sItem release];
+    if ([self toolbarItems])
+    {
+        for (sItem in [self toolbarItems])
+        {
+            if ([sItem action] == @selector(addBookmark))
+            {
+                [sItem setEnabled:[self canBookmark]];
+            }
+        }
+    }
+    else
+    {
+        NSMutableArray  *sItems = [NSMutableArray array];
 
-    sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
-    [sItems addObject:sItem];
-    [sItem release];
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:[[UIApplication sharedApplication] delegate] action:@selector(showBookmarkView)];
+        [sItems addObject:sItem];
+        [sItem release];
 
-    sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addBookmark)];
-    [sItem setEnabled:(![mUserID isEqualToString:[[MEClientStore currentClient] userID]] && (mScope == kMEClientGetPostsScopeAll))];
-    [sItems addObject:sItem];
-    [sItem release];
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+        [sItems addObject:sItem];
+        [sItem release];
 
-    sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
-    [sItems addObject:sItem];
-    [sItem release];
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addBookmark)];
+        [sItem setEnabled:[self canBookmark]];
+        [sItems addObject:sItem];
+        [sItem release];
 
-    sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(write)];
-    [sItems addObject:sItem];
-    [sItem release];
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+        [sItems addObject:sItem];
+        [sItem release];
 
-    sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
-    [sItems addObject:sItem];
-    [sItem release];
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(write)];
+        [sItems addObject:sItem];
+        [sItem release];
 
-    sItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"setting.png"] style:UIBarButtonItemStylePlain target:[[UIApplication sharedApplication] delegate] action:@selector(showSettings)];
-    [sItem setImageInsets:UIEdgeInsetsMake(2, 0, -2, 0)];
-    [sItems addObject:sItem];
-    [sItem release];
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+        [sItems addObject:sItem];
+        [sItem release];
 
-    [self setToolbarItems:sItems];
+        sItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"setting.png"] style:UIBarButtonItemStylePlain target:[[UIApplication sharedApplication] delegate] action:@selector(showSettings)];
+        [sItem setImageInsets:UIEdgeInsetsMake(2, 0, -2, 0)];
+        [sItems addObject:sItem];
+        [sItem release];
+
+        [self setToolbarItems:sItems];
+    }
 }
 
 
@@ -234,21 +273,6 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 @synthesize listView = mListView;
 
-
-- (id)initWithCoder:(NSCoder *)aCoder
-{
-    self = [super initWithCoder:aCoder];
-
-    if (self)
-    {
-        mScope = kMEClientGetPostsScopeAll;
-        mPosts = [[NSMutableArray alloc] init];
-
-        [self setupToolbarItems];
-    }
-
-    return self;
-}
 
 - (id)initWithUserID:(NSString *)aUserID scope:(MEClientGetPostsScope)aScope
 {
@@ -429,6 +453,8 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
     [MESettings setBookmarks:sBookmarks];
     [sBookmarks release];
+
+    [self setupToolbarItems];
 }
 
 - (void)write

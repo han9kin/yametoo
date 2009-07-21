@@ -54,6 +54,18 @@
 @dynamic    title;
 
 
+- (id)initWithUserID:(NSString *)aUserID
+{
+    self = [super init];
+
+    if (self)
+    {
+        mUserID = [aUserID copy];
+    }
+
+    return self;
+}
+
 - (id)initWithUser:(MEUser *)aUser
 {
     self = [super init];
@@ -63,6 +75,18 @@
         mUserID = [[aUser userID] copy];
 
         [self setupTitleWithUser:aUser];
+    }
+
+    return self;
+}
+
+- (id)initWithPostID:(NSString *)aPostID
+{
+    self = [super init];
+
+    if (self)
+    {
+        mPostID = [aPostID copy];
     }
 
     return self;
@@ -133,17 +157,17 @@
     }
     else if ([aObject isKindOfClass:[self class]])
     {
-        if (![mUserID isEqualToString:[aObject userID]])
+        if (mPostID && [aObject postID])
         {
-            return NO;
+            return [mPostID isEqualToString:[aObject postID]];
         }
-        else if (mPostID && ![mPostID isEqualToString:[aObject postID]])
+        else if (!mPostID && ![aObject postID])
         {
-            return NO;
+            return [mUserID isEqualToString:[aObject userID]];
         }
         else
         {
-            return YES;
+            return NO;
         }
     }
     else
