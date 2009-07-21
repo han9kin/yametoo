@@ -662,16 +662,16 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     {
         if (aTextView == mBodyTextView)
         {
-            [mTagTextView becomeFirstResponder];
+            [self tagTabButtonTapped:nil];
         }
         else
         {
-            [mTagTextView resignFirstResponder];
+            [self iconImageTabButtontapped:nil];
         }
     }
-    else if (aTextView == mBodyTextView)
+    else
     {
-        NSString *sBody    = [mBodyTextView text];
+        NSString *sBody    = [aTextView text];
         NSString *sNewText = [sBody stringByReplacingCharactersInRange:aRange withString:aText];
         if ([sNewText length] > kMEPostBodyMaxLen)
         {
@@ -685,7 +685,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
             return NO;
         }
     }
-
+    
     return YES;
 }
 

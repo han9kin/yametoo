@@ -16,14 +16,16 @@
 
 @interface MEReplyViewController : UIViewController
 {
-    UITextView    *mTextView;
-    UILabel       *mCounterLabel;
+    UINavigationBar *mNavigationBar;
+    UITextView      *mTextView;
+    UILabel         *mCounterLabel;
 
-    MEPost        *mPost;
+    MEPost          *mPost;
 }
 
-@property(nonatomic, assign) IBOutlet UITextView *textView;
-@property(nonatomic, assign) IBOutlet UILabel    *counterLabel;
+@property(nonatomic, assign) IBOutlet UINavigationBar *navigationBar;
+@property(nonatomic, assign) IBOutlet UITextView      *textView;
+@property(nonatomic, assign) IBOutlet UILabel         *counterLabel;
 
 
 - (id)initWithPost:(MEPost *)aPost;

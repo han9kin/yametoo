@@ -18,8 +18,12 @@
 @implementation MEReplyViewController
 
 
-@synthesize textView     = mTextView;
-@synthesize counterLabel = mCounterLabel;
+@synthesize navigationBar = mNavigationBar;
+@synthesize textView      = mTextView;
+@synthesize counterLabel  = mCounterLabel;
+
+
+#pragma mark -
 
 
 - (id)initWithPost:(MEPost *)aPost
@@ -60,6 +64,29 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
 {
     return YES;
+}
+
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)aFromInterfaceOrientation
+{
+    UIInterfaceOrientation sOrientation;
+    CGRect                 sFrame;
+    
+    [mNavigationBar sizeToFit];
+    sFrame       = [mNavigationBar frame];
+    sOrientation = [self interfaceOrientation];    
+
+    if (sOrientation == UIInterfaceOrientationPortrait || sOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        [mTextView setFrame:CGRectMake(0, sFrame.origin.y + sFrame.size.height, sFrame.size.width, 200)];    
+    }
+    else if (sOrientation == UIInterfaceOrientationLandscapeLeft || sOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        [mTextView setFrame:CGRectMake(0, sFrame.origin.y + sFrame.size.height, sFrame.size.width, 106)];
+    }
+    
+    sFrame = [mTextView frame];
+    [mCounterLabel setFrame:CGRectMake(sFrame.origin.x + sFrame.size.width - 60, sFrame.origin.y + sFrame.size.height - 40, 60, 40)];
 }
 
 
