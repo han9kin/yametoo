@@ -7,7 +7,6 @@
  *
  */
 
-#import "NSMutableArray+MEAdditions.h"
 #import "MEBookmarkViewController.h"
 #import "MEListViewController.h"
 #import "MEReadViewController.h"
@@ -198,11 +197,26 @@
 - (void)tableView:(UITableView *)aTableView moveRowAtIndexPath:(NSIndexPath *)aFromIndexPath toIndexPath:(NSIndexPath *)aToIndexPath
 {
     NSMutableArray *sBookmarks;
+    MEBookmark     *sBookmark;
+    NSUInteger      sFromIndex;
+    NSUInteger      sToIndex;
 
-    sBookmarks = [[MESettings bookmarks] mutableCopy];
-    [sBookmarks moveObjectAtIndex:[aFromIndexPath row] toIndex:[aToIndexPath row]];
-    [MESettings setBookmarks:sBookmarks];
-    [sBookmarks release];
+    sFromIndex = [aFromIndexPath row];
+    sToIndex   = [aToIndexPath row];
+
+    if (sFromIndex != sToIndex)
+    {
+        sBookmarks = [[MESettings bookmarks] mutableCopy];
+        sBookmark  = [sBookmarks objectAtIndex:sFromIndex];
+
+        [sBookmark retain];
+        [sBookmarks removeObjectAtIndex:sFromIndex];
+        [sBookmarks insertObject:sBookmark atIndex:sToIndex];
+        [sBookmark release];
+
+        [MESettings setBookmarks:sBookmarks];
+        [sBookmarks release];
+    }
 }
 
 

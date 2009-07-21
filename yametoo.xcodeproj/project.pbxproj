@@ -103,7 +103,6 @@
 		CFC8A19A0FE0CA9100EA77C6 /* MEWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC8A1990FE0CA9100EA77C6 /* MEWebViewController.m */; };
 		CFC8A59E0FE7364E00EA77C6 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC8A59D0FE7364E00EA77C6 /* libxml2.2.dylib */; };
 		CFD71F5C101555AD00694843 /* MEBookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD71F5B101555AD00694843 /* MEBookmark.m */; };
-		CFD7204810158BA200694843 /* NSMutableArray+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD7204710158BA200694843 /* NSMutableArray+MEAdditions.m */; };
 		CFDD42560FB3DB9200B9931A /* UITableView+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD42550FB3DB9200B9931A /* UITableView+MEAdditions.m */; };
 		CFDD42A80FB41A4100B9931A /* MEImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD42A70FB41A4100B9931A /* MEImageButton.m */; };
 		CFDD43CC0FB80A0900B9931A /* NSMutableData+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDD43CB0FB80A0900B9931A /* NSMutableData+MEAdditions.m */; };
@@ -270,8 +269,6 @@
 		CFC8A59D0FE7364E00EA77C6 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		CFD71F5A101555AD00694843 /* MEBookmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBookmark.h; sourceTree = "<group>"; };
 		CFD71F5B101555AD00694843 /* MEBookmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBookmark.m; sourceTree = "<group>"; };
-		CFD7204610158BA200694843 /* NSMutableArray+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+MEAdditions.h"; sourceTree = "<group>"; };
-		CFD7204710158BA200694843 /* NSMutableArray+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+MEAdditions.m"; sourceTree = "<group>"; };
 		CFDD42540FB3DB9200B9931A /* UITableView+MEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+MEAdditions.h"; sourceTree = "<group>"; };
 		CFDD42550FB3DB9200B9931A /* UITableView+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+MEAdditions.m"; sourceTree = "<group>"; };
 		CFDD42A60FB41A4100B9931A /* MEImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEImageButton.h; sourceTree = "<group>"; };
@@ -551,8 +548,6 @@
 				2ED164430F959B2A009557F1 /* NSString+MEAdditions.m */,
 				CF9046410F95C4A4001AE52C /* NSURL+MEAdditions.h */,
 				CF9046420F95C4A4001AE52C /* NSURL+MEAdditions.m */,
-				CFD7204610158BA200694843 /* NSMutableArray+MEAdditions.h */,
-				CFD7204710158BA200694843 /* NSMutableArray+MEAdditions.m */,
 				CFDD43CA0FB80A0900B9931A /* NSMutableData+MEAdditions.h */,
 				CFDD43CB0FB80A0900B9931A /* NSMutableData+MEAdditions.m */,
 				CF15E4A7100C8786006B0E4F /* NSError+MEAdditions.h */,
@@ -915,7 +910,6 @@
 				CF15E807100F182B006B0E4F /* MEBlankViewController.m in Sources */,
 				CF15E99910107A56006B0E4F /* MEBookmarkTableViewCell.m in Sources */,
 				CFD71F5C101555AD00694843 /* MEBookmark.m in Sources */,
-				CFD7204810158BA200694843 /* NSMutableArray+MEAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
