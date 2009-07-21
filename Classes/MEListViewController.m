@@ -18,7 +18,7 @@
 #import "MESettings.h"
 #import "MEPost.h"
 #import "MEUser.h"
-#import "MELink.h"
+#import "MEBookmark.h"
 
 
 #define kUpdateFetchCount 10
@@ -62,7 +62,15 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
             break;
 
         case kMEClientGetPostsScopeFriendAll:
-            sTitle = [NSString stringWithFormat:NSLocalizedString(@"%@'s Friends", @""), sName];
+            sTitle = [NSString stringWithFormat:NSLocalizedString(@"%@'s All Friends", @""), sName];
+            break;
+
+        case kMEClientGetPostsScopeFriendBest:
+            sTitle = [NSString stringWithFormat:NSLocalizedString(@"%@'s Best Friends", @""), sName];
+            break;
+
+        case kMEClientGetPostsScopeFriendFollowing:
+            sTitle = [NSString stringWithFormat:NSLocalizedString(@"%@'s Following Friends", @""), sName];
             break;
 
         default:
@@ -409,14 +417,14 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 - (void)addBookmark
 {
     NSMutableArray *sBookmarks;
-    MELink         *sLink;
+    MEBookmark     *sBookmark;
 
     sBookmarks = [[MESettings bookmarks] mutableCopy];
-    sLink      = [(MELink *)[MELink alloc] initWithUser:mUser];
+    sBookmark = [(MEBookmark *)[MEBookmark alloc] initWithUser:mUser];
 
-    if (![sBookmarks containsObject:sLink])
+    if (![sBookmarks containsObject:sBookmark])
     {
-        [sBookmarks insertObject:sLink atIndex:0];
+        [sBookmarks insertObject:sBookmark atIndex:0];
     }
 
     [MESettings setBookmarks:sBookmarks];

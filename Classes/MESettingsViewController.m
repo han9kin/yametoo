@@ -168,12 +168,17 @@
         case 2:
             sViewController = [[MEAboutViewController alloc] init];
             break;
+
+        default:
+            sViewController = nil;
     }
 
-    [sViewController setHidesBottomBarWhenPushed:YES];
-
-    [[self navigationController] pushViewController:sViewController animated:YES];
-    [sViewController release];
+    if (sViewController)
+    {
+        [sViewController setHidesBottomBarWhenPushed:YES];
+        [[self navigationController] pushViewController:sViewController animated:YES];
+        [sViewController release];
+    }
 }
 
 

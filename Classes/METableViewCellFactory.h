@@ -21,7 +21,7 @@
 + (UITableViewCell *)defaultCellForTableView:(UITableView *)aTableView;
 + (UITableViewCell *)detailCellForTableView:(UITableView *)aTableView;
 + (UITableViewCell *)textFieldCellForTableView:(UITableView *)aTableView;
-+ (UITableViewCell *)switchCellForTableView:(UITableView *)aTableView;
++ (UITableViewCell *)switchCellForTableView:(UITableView *)aTableView target:(id)aTarget action:(SEL)aAction;
 + (UITableViewCell *)buttonCellForTableView:(UITableView *)aTableView;
 
 + (UITableViewCell *)userCellForTableView:(UITableView *)aTableView;

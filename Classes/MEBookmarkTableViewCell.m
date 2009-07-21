@@ -8,8 +8,7 @@
  */
 
 #import "MEBookmarkTableViewCell.h"
-#import "MEClient.h"
-#import "MELink.h"
+#import "MEBookmark.h"
 
 
 @implementation MEBookmarkTableViewCell
@@ -22,39 +21,30 @@
     if (!sCell)
     {
         sCell = [[[self alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Bookmark"] autorelease];
+
+        [[sCell textLabel] setFont:[UIFont systemFontOfSize:17.0]];
     }
 
     return sCell;
 }
 
-- (id)initWithStyle:(UITableViewCellStyle)aStyle reuseIdentifier:(NSString *)aReuseIdentifier
-{
-    self = [super initWithStyle:aStyle reuseIdentifier:aReuseIdentifier];
-
-    if (self)
-    {
-        [[self contentView] setBackgroundColor:[UIColor colorWithRed:0.95 green:1.0 blue:1.0 alpha:1.0]];
-    }
-
-    return self;
-}
-
 - (void)dealloc
 {
-    [mLink removeObserver:self forKeyPath:@"type"];
-    [mLink release];
+    [mBookmark removeObserver:self forKeyPath:@"title"];
+    [mBookmark release];
     [super dealloc];
 }
 
 
-- (void)setLink:(MELink *)aLink
+- (void)setBookmark:(MEBookmark *)aBookmark
 {
-    [mLink removeObserver:self forKeyPath:@"type"];
-    [mLink release];
-    mLink = [aLink retain];
-    [mLink addObserver:self forKeyPath:@"type" options:NSKeyValueObservingOptionNew context:NULL];
+    [mBookmark removeObserver:self forKeyPath:@"title"];
+    [mBookmark release];
 
-    [[self textLabel] setText:[aLink urlDescription]];
+    [[self textLabel] setText:[aBookmark title]];
+
+    mBookmark = [aBookmark retain];
+    [mBookmark addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:NULL];
 }
 
 
@@ -63,7 +53,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)aKeyPath ofObject:(id)aObject change:(NSDictionary *)aChange context:(void *)aContext
 {
-    [[self textLabel] setText:[aObject urlDescription]];
+    [[self textLabel] setText:[aObject title]];
 }
 
 

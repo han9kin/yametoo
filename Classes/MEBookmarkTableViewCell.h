@@ -10,15 +10,15 @@
 #import <UIKit/UIKit.h>
 
 
-@class MELink;
+@class MEBookmark;
 
 @interface MEBookmarkTableViewCell : UITableViewCell
 {
-    MELink *mLink;
+    MEBookmark *mBookmark;
 }
 
 + (MEBookmarkTableViewCell *)cellForTableView:(UITableView *)aTableView;
 
-- (void)setLink:(MELink *)aLink;
+- (void)setBookmark:(MEBookmark *)aBookmark;
 
 @end

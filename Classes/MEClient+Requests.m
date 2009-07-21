@@ -33,7 +33,7 @@ static NSString *kGetFriendsURLFormat      = @"http://me2day.net/api/get_friends
 static NSString *kGetMetoosURLFormat       = @"http://me2day.net/api/get_metoos.json?post_id=%@";
 static NSString *kGetPersonURLFormat       = @"http://me2day.net/api/get_person/%@.json";
 static NSString *kGetPostURLFormat         = @"http://me2day.net/api/get_posts.json?post_id=%@";
-static NSString *kGetPostsURLFormat        = @"http://me2day.net/api/get_posts/%@.json?scope=%@&offset=%d&count=%d";
+static NSString *kGetPostsURLFormat        = @"http://me2day.net/api/get_posts/%@.json?uid=%@&ukey=%@&scope=%@&offset=%d&count=%d";
 static NSString *kGetSettingsURLFormat     = @"http://me2day.net/api/get_settings.json?uid=%@&ukey=%@";
 static NSString *kGetTagsURLFormat         = @"http://me2day.net/api/get_tags.json?user_id=%@";
 static NSString *kMetooURLFormat           = @"http://me2day.net/api/metoo.json?uid=%@&ukey=%@&post_id=%@";
@@ -43,6 +43,8 @@ static NSString *kTrackCommentsURLFormat   = @"http://me2day.net/api/track_comme
 static NSString *kGetPostsScopeValue[] = {
     @"all",
     @"friend[all]",
+    @"friend[best]",
+    @"friend[following]",
 };
 
 
@@ -245,7 +247,7 @@ static NSString *kGetPostsScopeValue[] = {
     NSMutableURLRequest *sRequest;
     NSString            *sURLStr;
 
-    sURLStr  = [NSString stringWithFormat:kGetPostsURLFormat, aUserID, kGetPostsScopeValue[aScope], aOffset, aCount];
+    sURLStr  = [NSString stringWithFormat:kGetPostsURLFormat, aUserID, aUserID, mAuthKey, kGetPostsScopeValue[aScope], aOffset, aCount];
     sRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
 
     [sRequest setValue:kAppKey forHTTPHeaderField:@"me2_application_key"];

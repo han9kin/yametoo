@@ -9,11 +9,12 @@
 
 #import "MEBookmarkViewController.h"
 #import "MEListViewController.h"
+#import "MEReadViewController.h"
 #import "METableViewCellFactory.h"
 #import "MEBookmarkTableViewCell.h"
 #import "MESettings.h"
 #import "MEUser.h"
-#import "MELink.h"
+#import "MEBookmark.h"
 
 
 @interface MEBookmarkViewController (Private)
@@ -135,14 +136,17 @@
     }
     else
     {
-        return 1;
+        return 4;
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
     static NSString *sDefaultTitle[] = {
-        @"%@'s Friends",
+        @"%@'s me2DAY",
+        @"%@'s All Friends",
+        @"%@'s Best Friends",
+        @"%@'s Following Friends",
     };
 
     UITableViewCell *sCell;
@@ -151,7 +155,7 @@
     {
         sCell = [MEBookmarkTableViewCell cellForTableView:mTableView];
 
-        [(MEBookmarkTableViewCell *)sCell setLink:[[MESettings bookmarks] objectAtIndex:[aIndexPath row]]];
+        [(MEBookmarkTableViewCell *)sCell setBookmark:[[MESettings bookmarks] objectAtIndex:[aIndexPath row]]];
     }
     else
     {
@@ -171,13 +175,27 @@
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
     static MEClientGetPostsScope sScope[] = {
+        kMEClientGetPostsScopeAll,
         kMEClientGetPostsScopeFriendAll,
+        kMEClientGetPostsScopeFriendBest,
+        kMEClientGetPostsScopeFriendFollowing,
     };
 
     UIViewController *sViewController;
+    MEBookmark       *sBookmark;
 
     if ([aIndexPath section])
     {
+        sBookmark = [[MESettings bookmarks] objectAtIndex:[aIndexPath row]];
+
+        if ([sBookmark postID])
+        {
+            sViewController = [[MEReadViewController alloc] initWithPostID:[sBookmark postID]];
+        }
+        else
+        {
+            sViewController = [[MEListViewController alloc] initWithUserID:[sBookmark userID] scope:kMEClientGetPostsScopeAll];
+        }
     }
     else
     {

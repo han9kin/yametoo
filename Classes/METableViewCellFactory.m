@@ -101,7 +101,7 @@ enum
 }
 
 
-+ (UITableViewCell *)switchCellForTableView:(UITableView *)aTableView
++ (UITableViewCell *)switchCellForTableView:(UITableView *)aTableView target:(id)aTarget action:(SEL)aAction
 {
     UITableViewCell *sCell;
     UISwitch        *sSwitch;
@@ -117,6 +117,11 @@ enum
         sSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
         [sCell setAccessoryView:sSwitch];
         [sSwitch release];
+
+        if (aTarget)
+        {
+            [sSwitch addTarget:aTarget action:aAction forControlEvents:UIControlEventValueChanged];
+        }
     }
 
     return sCell;

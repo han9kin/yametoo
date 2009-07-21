@@ -17,6 +17,8 @@ typedef enum MEClientGetPostsScope
 {
     kMEClientGetPostsScopeAll = 0,
     kMEClientGetPostsScopeFriendAll,
+    kMEClientGetPostsScopeFriendBest,
+    kMEClientGetPostsScopeFriendFollowing,
 } MEClientGetPostsScope;
 
 

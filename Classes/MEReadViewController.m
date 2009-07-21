@@ -24,10 +24,12 @@
 #import "MELinkTableViewCell.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
+#import "MESettings.h"
 #import "MEPost.h"
 #import "MEUser.h"
 #import "MEComment.h"
 #import "MELink.h"
+#import "MEBookmark.h"
 
 
 static NSDictionary *gActions = nil;
@@ -304,7 +306,19 @@ static NSDictionary *gActions = nil;
 
 - (void)addBookmark
 {
-    // TODO
+    NSMutableArray *sBookmarks;
+    MEBookmark     *sBookmark;
+
+    sBookmarks = [[MESettings bookmarks] mutableCopy];
+    sBookmark = [[MEBookmark alloc] initWithPost:mPost];
+
+    if (![sBookmarks containsObject:sBookmark])
+    {
+        [sBookmarks insertObject:sBookmark atIndex:0];
+    }
+
+    [MESettings setBookmarks:sBookmarks];
+    [sBookmarks release];
 }
 
 
