@@ -11,7 +11,7 @@
 
 
 @class MEImageButton;
-@class MEPost;
+
 
 @interface MEWriteViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
 {
@@ -98,7 +98,7 @@
 
 
 - (id)init;
-- (id)initWithPost:(MEPost *)aPost;
+- (id)initWithPingbackLink:(NSString *)aPermLink;
 
 
 - (IBAction)close;

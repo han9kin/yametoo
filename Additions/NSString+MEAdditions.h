@@ -14,8 +14,8 @@
 
 - (NSString *)md5String;
 
-- (NSString *)stringByReplacingCharacterEntities;
-
 - (NSString *)stringByAddingPercentEscapes;
+
+- (NSUInteger)lengthMe2DAY;
 
 @end

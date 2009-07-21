@@ -7,6 +7,7 @@
  *
  */
 
+#import "NSString+MEAdditions.h"
 #import "UIAlertView+MEAdditions.h"
 #import "MEWriteViewController.h"
 #import "MEClientStore.h"
@@ -339,20 +340,21 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
     if (self)
     {
-
     }
 
     return self;
 }
 
 
-- (id)initWithPost:(MEPost *)aPost
+- (id)initWithPingbackLink:(NSString *)aPermLink
 {
     self = [super initWithNibName:@"WriteView" bundle:nil];
 
     if (self)
     {
-        mText = [[NSString alloc] initWithFormat:@"\"%@\":%@", [NSString stringWithFormat:NSLocalizedString(@"%@'s Post", @""), [[aPost author] nickname]], [aPost permLink]];
+        mText = [[NSString alloc] initWithFormat:@"\"\":%@", aPermLink];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     }
 
     return self;
@@ -424,11 +426,6 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
     [super viewDidLoad];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(textFieldTextDidChangeNotification:)
-                                                 name:UITextFieldTextDidChangeNotification
-                                               object:nil];
-
     [mBodyTextView setText:mText];
     [mBodyTextView setReturnKeyType:UIReturnKeyNext];
     [mTagTextView  setReturnKeyType:UIReturnKeyNext];
@@ -489,20 +486,30 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 - (IBAction)upload
 {
-    NSString *sBody = [mBodyTextView text];
-    NSString *sTags = [mTagTextView  text];
+    NSString   *sBody   = [mBodyTextView text];
+    NSString   *sTags   = [mTagTextView  text];
+    NSUInteger  sLength = [sBody lengthMe2DAY];
 
-    if ([sBody length] > 0)
+    if (sLength == 0)
     {
-        [self setInterfaceEnabled:NO];
-        [mBodyTextView resignFirstResponder];
-        [mTagTextView  resignFirstResponder];
-
-        [[MEClientStore currentClient] createPostWithBody:sBody tags:sTags icon:mSelectedIconIndex attachedImage:mResizedImage delegate:self];
+        [UIAlertView showAlert:NSLocalizedString(@"Empty post body", @"")];
+    }
+    else if (sLength > kMEPostBodyMaxLen)
+    {
+        [UIAlertView showAlert:NSLocalizedString(@"Too long post body", @"")];
     }
     else
     {
-        [UIAlertView showAlert:NSLocalizedString(@"Please enter contents.", @"")];
+        if ([sTags length] > kMEPostTagMaxLen)
+        {
+            [UIAlertView showAlert:NSLocalizedString(@"Too long post tag", @"")];
+        }
+        else
+        {
+            [self setInterfaceEnabled:NO];
+
+            [[MEClientStore currentClient] createPostWithBody:sBody tags:sTags icon:mSelectedIconIndex attachedImage:mResizedImage delegate:self];
+        }
     }
 }
 
@@ -624,6 +631,22 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 
 #pragma mark -
+#pragma mark UIKeyboard Notifications
+
+
+- (void)keyboardDidShow:(NSNotification *)aNotification
+{
+    if (mText)
+    {
+        [mBodyTextView setSelectedRange:NSMakeRange(1, 0)];
+
+        [mText release];
+        mText = nil;
+    }
+}
+
+
+#pragma mark -
 #pragma mark TextViewDelegate
 
 
@@ -634,13 +657,14 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
     if (aTextView == mBodyTextView)
     {
-        sRemainCount = kMEPostBodyMaxLen - [sText length];
+        sRemainCount = kMEPostBodyMaxLen - [sText lengthMe2DAY];
     }
     else if (aTextView == mTagTextView)
     {
         sRemainCount = kMEPostBodyMaxLen - [sText length];
     }
 
+    [mCountLabel setHighlighted:((sRemainCount < 0) ? YES : NO)];
     [mCountLabel setText:[NSString stringWithFormat:@"%d", sRemainCount]];
 }
 
@@ -674,7 +698,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 - (BOOL)textView:(UITextView *)aTextView shouldChangeTextInRange:(NSRange)aRange replacementText:(NSString *)aText
 {
-    if ([aText length] == 1 && [aText characterAtIndex:0] == 10)
+    if (([aText length] == 1) && ([aText characterAtIndex:0] == '\n'))
     {
         if (aTextView == mBodyTextView)
         {
@@ -684,25 +708,24 @@ static double radians(double degrees) {return degrees * M_PI/180;}
         {
             [self iconImageTabButtontapped:nil];
         }
+
+        return NO;
     }
     else
     {
-        NSString *sBody    = [aTextView text];
-        NSString *sNewText = [sBody stringByReplacingCharactersInRange:aRange withString:aText];
-        if ([sNewText length] > kMEPostBodyMaxLen)
+        if ([aText rangeOfString:@"\n"].location != NSNotFound)
         {
-            UIAlertView *sAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert", nil)
-                                                             message:NSLocalizedString(@"You have exceeded limit the number of input characters.", nil)
-                                                            delegate:nil
-                                                   cancelButtonTitle:NSLocalizedString(@"Close", nil)
-                                                   otherButtonTitles:nil];
-            [sAlert show];
+            aText = [aText stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+
+            [aTextView setText:[[aTextView text] stringByReplacingCharactersInRange:aRange withString:aText]];
 
             return NO;
         }
+        else
+        {
+            return YES;
+        }
     }
-    
-    return YES;
 }
 
 
@@ -771,7 +794,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 
 #pragma mark -
-#pragma mark UIActionSheet Delegate
+#pragma mark UIActionSheetDelegate
 
 
 - (void)actionSheet:(UIActionSheet *)aActionSheet didDismissWithButtonIndex:(NSInteger)aButtonIndex

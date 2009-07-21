@@ -384,7 +384,7 @@ static NSDictionary *gActions = nil;
 {
     UIViewController *sViewController;
 
-    sViewController = [[MEWriteViewController alloc] initWithPost:mPost];
+    sViewController = [[MEWriteViewController alloc] initWithPingbackLink:[mPost permLink]];
     [self presentModalViewController:sViewController animated:YES];
     [sViewController release];
 }

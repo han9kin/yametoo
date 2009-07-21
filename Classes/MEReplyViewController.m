@@ -7,6 +7,7 @@
  *
  */
 
+#import "NSString+MEAdditions.h"
 #import "UIAlertView+MEAdditions.h"
 #import "MEReplyViewController.h"
 #import "MEClientStore.h"
@@ -71,20 +72,20 @@
 {
     UIInterfaceOrientation sOrientation;
     CGRect                 sFrame;
-    
+
     [mNavigationBar sizeToFit];
     sFrame       = [mNavigationBar frame];
-    sOrientation = [self interfaceOrientation];    
+    sOrientation = [self interfaceOrientation];
 
     if (sOrientation == UIInterfaceOrientationPortrait || sOrientation == UIInterfaceOrientationPortraitUpsideDown)
     {
-        [mTextView setFrame:CGRectMake(0, sFrame.origin.y + sFrame.size.height, sFrame.size.width, 200)];    
+        [mTextView setFrame:CGRectMake(0, sFrame.origin.y + sFrame.size.height, sFrame.size.width, 200)];
     }
     else if (sOrientation == UIInterfaceOrientationLandscapeLeft || sOrientation == UIInterfaceOrientationLandscapeRight)
     {
         [mTextView setFrame:CGRectMake(0, sFrame.origin.y + sFrame.size.height, sFrame.size.width, 106)];
     }
-    
+
     sFrame = [mTextView frame];
     [mCounterLabel setFrame:CGRectMake(sFrame.origin.x + sFrame.size.width - 60, sFrame.origin.y + sFrame.size.height - 40, 60, 40)];
 }
@@ -102,9 +103,18 @@
 
 - (IBAction)upload
 {
-    NSString *sComment = [mTextView text];
+    NSString   *sComment = [mTextView text];
+    NSUInteger  sLength  = [sComment lengthMe2DAY];
 
-    if ([sComment length] > 0)
+    if (sLength == 0)
+    {
+        [UIAlertView showAlert:NSLocalizedString(@"Empty comment body", @"")];
+    }
+    else if (sLength > kMECommentBodyMaxLen)
+    {
+        [UIAlertView showAlert:NSLocalizedString(@"Too long comment body", @"")];
+    }
+    else
     {
         [[MEClientStore currentClient] createCommentWithPostID:[mPost postID] body:sComment delegate:self];
     }
@@ -117,7 +127,10 @@
 
 - (void)textViewDidChange:(UITextView *)aTextView
 {
-    [mCounterLabel setText:[NSString stringWithFormat:@"%d", (kMECommentBodyMaxLen - [[aTextView text] length])]];
+    NSInteger sRemainCount = kMECommentBodyMaxLen - [[aTextView text] lengthMe2DAY];
+
+    [mCounterLabel setHighlighted:((sRemainCount < 0) ? YES : NO)];
+    [mCounterLabel setText:[NSString stringWithFormat:@"%d", sRemainCount]];
 
     if ([aTextView hasText])
     {
@@ -133,33 +146,25 @@
 
 - (BOOL)textView:(UITextView *)aTextView shouldChangeTextInRange:(NSRange)aRange replacementText:(NSString *)aText
 {
-    BOOL sResult = YES;
-
-    if ([aText length] == 1 && [aText characterAtIndex:0] == '\n')
+    if (([aText length] == 1) && ([aText characterAtIndex:0] == '\n'))
     {
-        sResult = NO;
+        return NO;
     }
     else
     {
         if ([aText rangeOfString:@"\n"].location != NSNotFound)
         {
             aText   = [aText stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
-            sResult = NO;
-        }
 
-        if (([[aTextView text] length] + [aText length] - aRange.length) > kMECommentBodyMaxLen)
-        {
-            aText   = [aText substringToIndex:(kMECommentBodyMaxLen - [[aTextView text] length] + aRange.length)];
-            sResult = NO;
-        }
-
-        if (!sResult)
-        {
             [aTextView setText:[[aTextView text] stringByReplacingCharactersInRange:aRange withString:aText]];
+
+            return NO;
+        }
+        else
+        {
+            return YES;
         }
     }
-
-    return sResult;
 }
 
 

@@ -13,6 +13,7 @@
 
 @implementation NSString (Additions)
 
+
 - (NSString *)md5String
 {
     const char    *sUTF8String;
@@ -26,93 +27,102 @@
                                       sResult[8], sResult[9], sResult[10], sResult[11], sResult[12], sResult[13], sResult[14], sResult[15]];
 }
 
-- (NSString *)stringByReplacingCharacterEntities
-{
-    NSMutableString *sResult;
-    NSString        *sKey;
-    NSString        *sRep;
-    NSRange          sRangeAmp;
-    NSRange          sRangeEnd;
-    unichar          sChar;
-    int              sCopyLoc;
-    int              sLastLoc;
-    int              sLength;
-
-    sResult  = nil;
-    sCopyLoc = 0;
-    sLastLoc = 0;
-    sLength  = [self length];
-
-    while (sLastLoc < sLength)
-    {
-        sRangeEnd = [self rangeOfString:@";" options:NSLiteralSearch range:NSMakeRange(sLastLoc, sLength - sLastLoc)];
-
-        if (sRangeEnd.location == NSNotFound)
-        {
-            break;
-        }
-
-        if ((sRangeEnd.location - sLastLoc) > 1)
-        {
-            sRangeAmp = [self rangeOfString:@"&" options:(NSBackwardsSearch | NSLiteralSearch) range:NSMakeRange(sLastLoc, sRangeEnd.location - sLastLoc - 1)];
-
-            if ((sRangeAmp.location != NSNotFound) && ((sRangeEnd.location - sRangeAmp.location) > 1))
-            {
-                sKey = [self substringWithRange:NSMakeRange(sRangeAmp.location + 1, sRangeEnd.location - sRangeAmp.location - 1)];
-
-                if ([sKey hasPrefix:@"#"])
-                {
-                    if ([sKey length] > 1)
-                    {
-                        sChar = [[sKey substringFromIndex:1] intValue];
-                        sRep  = [NSString stringWithCharacters:&sChar length:1];
-                    }
-                    else
-                    {
-                        sRep = nil;
-                    }
-                }
-                else
-                {
-                    sRep = NSLocalizedStringFromTable(sKey, @"CharacterEntity", nil);
-                }
-
-                if (sRep && (sRep != sKey))
-                {
-                    if (!sResult)
-                    {
-                        sResult = [NSMutableString string];
-                    }
-
-                    [sResult appendString:[self substringWithRange:NSMakeRange(sCopyLoc, sRangeAmp.location - sCopyLoc)]];
-                    [sResult appendString:sRep];
-
-                    sCopyLoc = sRangeEnd.location + 1;
-                }
-            }
-        }
-
-        sLastLoc = sRangeEnd.location + 1;
-    }
-
-    if (sResult)
-    {
-        if (sCopyLoc < sLength)
-        {
-            [sResult appendString:[self substringFromIndex:sCopyLoc]];
-        }
-
-        return sResult;
-    }
-    else
-    {
-        return self;
-    }
-}
 
 - (NSString *)stringByAddingPercentEscapes
 {
     return [(id)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)self, NULL, CFSTR("!$&'()*+,-./:;=?@_~[]#"), kCFStringEncodingUTF8) autorelease];
 }
+
+
+- (NSUInteger)lengthMe2DAY
+{
+    NSAutoreleasePool *sPool;
+    NSUInteger         sTotalLength;
+    NSUInteger         sLength;
+    NSUInteger         sIndex;
+    unichar            sChar;
+
+    enum
+    {
+        kStateNormal,
+        kStateQuoteStarted,
+        kStateQuoteEnded,
+        kStateLinkStarted,
+    } sState;
+
+    sTotalLength = [self length];
+    sLength      = 0;
+    sState       = kStateNormal;
+
+    for (sIndex = 0; sIndex < sTotalLength; sIndex++)
+    {
+        sPool = [[NSAutoreleasePool alloc] init];
+        sChar = [self characterAtIndex:sIndex];
+
+        switch (sChar)
+        {
+            case '"':
+                if (sState == kStateNormal)
+                {
+                    sState = kStateQuoteStarted;
+                }
+                else if (sState == kStateQuoteStarted)
+                {
+                    sState = kStateQuoteEnded;
+                }
+                break;
+
+            case ':':
+                if (sState == kStateQuoteEnded)
+                {
+                    NSString *sString = [self substringFromIndex:(sIndex + 1)];
+
+                    if ([sString hasPrefix:@"http://"])
+                    {
+                        sIndex  += 8;
+                        sLength -= 2;
+                        sState   = kStateLinkStarted;
+                    }
+                    else if ([sString hasPrefix:@"https://"])
+                    {
+                        sIndex  += 9;
+                        sLength -= 2;
+                        sState   = kStateLinkStarted;
+                    }
+                    else
+                    {
+                        sState = kStateNormal;
+                    }
+                }
+                break;
+
+            case ' ':
+            case '\t':
+                if (sState == kStateLinkStarted)
+                {
+                    sState = kStateNormal;
+                    sLength--;
+                }
+                break;
+
+            default:
+                if (sState == kStateQuoteEnded)
+                {
+                    sState = kStateNormal;
+                }
+                break;
+        }
+
+        if (sState != kStateLinkStarted)
+        {
+            sLength++;
+        }
+
+        [sPool release];
+    }
+
+    return sLength;
+}
+
 
 @end
