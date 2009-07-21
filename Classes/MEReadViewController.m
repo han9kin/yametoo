@@ -274,6 +274,8 @@ static NSDictionary *gActions = nil;
 
     [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:YES];
 
+    [self setupToolbarItems];
+
     if (mPost)
     {
         [self getComments];

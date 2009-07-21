@@ -263,6 +263,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
         [self fetchFromOffset:mUpdateOffset count:kUpdateFetchCount];
     }
 
+    [mListView invalidateData];
     [mListView reloadData];
 }
 
@@ -368,8 +369,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 {
     [super viewDidAppear:aAnimated];
 
-    [mListView invalidateData];
-    [mListView reloadData];
+    [mListView deselectPostAtIndexPath:[mListView indexPathForSelectedPost] animated:YES];
 
     if ([mPosts count])
     {
@@ -378,13 +378,18 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
             mUpdateOffset = 0;
             [self fetchFromOffset:0 count:kUpdateFetchCount];
         }
+        else
+        {
+            [mListView invalidateData];
+            [mListView reloadData];
+        }
     }
     else
     {
         [self fetchFromOffset:0 count:[MESettings initialFetchCount]];
     }
 
-    [mListView deselectPostAtIndexPath:[mListView indexPathForSelectedPost] animated:YES];
+    [self setupToolbarItems];
 
     if ([MESettings fetchInterval] > 0)
     {
