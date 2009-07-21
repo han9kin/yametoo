@@ -151,14 +151,14 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     CGFloat        sYPos;
     CGFloat        sXPosBegin;
     CGFloat        sYPosBegin;
-    
+
     if (aInterfaceOrientation == UIDeviceOrientationPortrait || aInterfaceOrientation == UIDeviceOrientationPortraitUpsideDown)
     {
         sXPosBegin = 28;
         sYPosBegin = 20;
         sXPos      = sXPosBegin;
         sYPos      = sYPosBegin;
-        
+
         for (i = 0; i < sCount; i++)
         {
             sButton = [mIconButtons objectAtIndex:i];
@@ -184,7 +184,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
         sYPosBegin = 16;
         sXPos      = sXPosBegin;
         sYPos      = sYPosBegin;
-        
+
         for (i = 0; i < sCount; i++)
         {
             sButton = [mIconButtons objectAtIndex:i];
@@ -204,7 +204,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
             }
         }
     }
-    
+
     [mIconImageView bringSubviewToFront:mCheckmarkImageView];
 }
 
@@ -243,20 +243,20 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     UIButton *sTabButton   = nil;
     UIView   *sCurrentView = nil;
     CGRect    sFrame;
-    
+
     [mTabBodyButton      setBackgroundImage:sTabOffImage forState:UIControlStateNormal];
     [mTabTagButton       setBackgroundImage:sTabOffImage forState:UIControlStateNormal];
     [mTabIconImageButton setBackgroundImage:sTabOffImage forState:UIControlStateNormal];
-    
+
     sTabButton   = (mSelectedTabIndex == 0) ? mTabBodyButton : ((mSelectedTabIndex == 1) ? mTabTagButton : mTabIconImageButton);
     sCurrentView = (mSelectedTabIndex == 0) ? mBodyView      : ((mSelectedTabIndex == 1) ? mTagView      : mIconImageView);
-    
+
     if (sCurrentView != mCurrentView)
     {
         [mCurrentView removeFromSuperview];
         mCurrentView = sCurrentView;
     }
-    
+
     if (aInterfaceOrientation == UIDeviceOrientationPortrait || aInterfaceOrientation == UIDeviceOrientationPortraitUpsideDown)
     {
         [mTabContainerView   setFrame:CGRectMake( 0,  44, 320, 416)];
@@ -275,7 +275,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
         [mSplitBar           setFrame:CGRectMake(67, 0,   5, 269)];
         [mCurrentView        setFrame:CGRectMake(70, 0, 480 - 70, (mCurrentView == mIconImageView) ? 269 : 106)];
     }
-    
+
     [self arrangeIconButtons:aInterfaceOrientation];
     [self arrangeImageButtons:aInterfaceOrientation];
 
@@ -346,19 +346,34 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 }
 
 
+- (id)initWithPost:(MEPost *)aPost
+{
+    self = [super initWithNibName:@"WriteView" bundle:nil];
+
+    if (self)
+    {
+        mText = [[NSString alloc] initWithFormat:@"\"%@\":%@", [NSString stringWithFormat:NSLocalizedString(@"%@'s Post", @""), [[aPost author] nickname]], [aPost permLink]];
+    }
+
+    return self;
+}
+
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     [mIconButtons   release];
-    
+
     [mOriginalImage release];
     [mResizedImage  release];
     [mImageRep      release];
-    
+
     [mBodyView      release];
     [mTagView       release];
     [mIconImageView release];
+
+    [mText release];
 
     [super dealloc];
 }
@@ -375,7 +390,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     MEImageButton *sButton;
     NSInteger      i;
     MEUser        *sUser = [MEUser userWithUserID:[[MEClientStore currentClient] userID]];
-    
+
     mSelectedIconIndex = [[sUser defaultPostIcon] iconIndex];
     mIconButtons       = [[NSMutableArray alloc] init];
 
@@ -384,13 +399,13 @@ static double radians(double degrees) {return degrees * M_PI/180;}
         sButton = [[MEImageButton alloc] initWithFrame:CGRectZero];
         [sButton addTarget:self action:@selector(iconSelected:) forControlEvents:UIControlEventTouchUpInside];
         [sButton setBorderColor:[UIColor lightGrayColor]];
-        
+
         [mIconImageView addSubview:sButton];
-        
+
         [mIconButtons addObject:sButton];
         [sButton release];
     }
-    
+
     NSArray    *sPostIcons = [sUser postIcons];
     MEPostIcon *sPostIcon  = nil;
     for (sPostIcon in sPostIcons)
@@ -398,7 +413,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
         sButton = [mIconButtons objectAtIndex:([sPostIcon iconIndex] - 1)];
         [sButton setImageWithURL:[sPostIcon iconURL]];
     }
-    
+
     [mCheckmarkImageView setAlpha:0.8];
 }
 
@@ -414,6 +429,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
                                                  name:UITextFieldTextDidChangeNotification
                                                object:nil];
 
+    [mBodyTextView setText:mText];
     [mBodyTextView setReturnKeyType:UIReturnKeyNext];
     [mTagTextView  setReturnKeyType:UIReturnKeyNext];
 
@@ -526,7 +542,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     if ([sButton imageURL])
     {
         mSelectedIconIndex = ([mIconButtons indexOfObject:aSender] + 1);
-        [self arrangeSubviews:[self interfaceOrientation]];        
+        [self arrangeSubviews:[self interfaceOrientation]];
     }
 }
 
@@ -615,7 +631,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 {
     NSString *sText = [aTextView text];
     NSInteger sRemainCount;
-    
+
     if (aTextView == mBodyTextView)
     {
         sRemainCount = kMEPostBodyMaxLen - [sText length];
@@ -624,8 +640,8 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     {
         sRemainCount = kMEPostBodyMaxLen - [sText length];
     }
-    
-    [mCountLabel setText:[NSString stringWithFormat:@"%d", sRemainCount]];    
+
+    [mCountLabel setText:[NSString stringWithFormat:@"%d", sRemainCount]];
 }
 
 
@@ -644,7 +660,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 - (void)textViewDidChange:(UITextView *)aTextView
 {
     [self updateCharCounter:aTextView];
-    
+
     if ([aTextView hasText])
     {
         NSRange sRange = [aTextView selectedRange];

@@ -183,7 +183,7 @@ static NSDictionary *gActions = nil;
 {
     if (!gActions)
     {
-        gActions = [[NSDictionary alloc] initWithObjectsAndKeys:@"write", NSLocalizedString(@"write", @""), @"reply", NSLocalizedString(@"reply", @""), nil];
+        gActions = [[NSDictionary alloc] initWithObjectsAndKeys:@"write", NSLocalizedString(@"write", @""), @"pingback", NSLocalizedString(@"pingback", @""), @"reply", NSLocalizedString(@"reply", @""), nil];
     }
 }
 
@@ -363,7 +363,7 @@ static NSDictionary *gActions = nil;
 {
     UIActionSheet *sActionSheet;
 
-    sActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"write", @""), NSLocalizedString(@"reply", @""), nil];
+    sActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"write", @""), NSLocalizedString(@"pingback", @""), NSLocalizedString(@"reply", @""), nil];
 
     [sActionSheet showFromToolbar:[[self navigationController] toolbar]];
     [sActionSheet release];
@@ -375,6 +375,16 @@ static NSDictionary *gActions = nil;
     UIViewController *sViewController;
 
     sViewController = [[MEWriteViewController alloc] init];
+    [self presentModalViewController:sViewController animated:YES];
+    [sViewController release];
+}
+
+
+- (void)pingback
+{
+    UIViewController *sViewController;
+
+    sViewController = [[MEWriteViewController alloc] initWithPost:mPost];
     [self presentModalViewController:sViewController animated:YES];
     [sViewController release];
 }

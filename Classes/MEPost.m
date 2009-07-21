@@ -26,6 +26,7 @@
 
 
 @synthesize postID        = mPostID;
+@synthesize permLink      = mPermLink;
 @synthesize body          = mBody;
 @synthesize kind          = mKind;
 @synthesize pubDate       = mPubDate;
@@ -50,6 +51,7 @@
     if (self)
     {
         mPostID        = [[aPostDict objectForKey:@"post_id"] retain];
+        mPermLink      = [[aPostDict objectForKey:@"permalink"] retain];
         mBody          = [[MEPostBodyTextParser attributedStringFromString:[aPostDict objectForKey:@"body"]] retain];
         mKind          = [[aPostDict objectForKey:@"kind"] retain];
         mPubDate       = [[NSDate dateFromISO8601:[aPostDict objectForKey:@"pubDate"]] retain];
@@ -79,6 +81,7 @@
 - (void)dealloc
 {
     [mPostID release];
+    [mPermLink release];
     [mBody release];
     [mKind release];
     [mPubDate release];

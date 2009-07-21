@@ -20,6 +20,7 @@
 @interface MEPost : NSObject
 {
     NSString           *mPostID;
+    NSString           *mPermLink;
     MEAttributedString *mBody;
     NSString           *mKind;
     NSDate             *mPubDate;
@@ -34,6 +35,7 @@
 }
 
 @property(nonatomic, readonly)                         NSString           *postID;
+@property(nonatomic, readonly)                         NSString           *permLink;
 @property(nonatomic, readonly)                         MEAttributedString *body;
 @property(nonatomic, readonly)                         NSString           *kind;
 @property(nonatomic, readonly)                         NSDate             *pubDate;

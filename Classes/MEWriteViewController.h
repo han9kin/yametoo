@@ -11,34 +11,34 @@
 
 
 @class MEImageButton;
-
+@class MEPost;
 
 @interface MEWriteViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
 {
     UINavigationBar *mNavigationBar;
     UIView          *mTabContainerView;
-    
+
     UIButton        *mTabBodyButton;
     UIButton        *mTabTagButton;
     UIButton        *mTabIconImageButton;
     UIImageView     *mSplitBar;
-    
+
     UIView          *mBodyView;
     UIView          *mTagView;
     UIView          *mIconImageView;
-    
+
     NSInteger        mSelectedTabIndex;
     UIView          *mCurrentView;
 
     UITextView      *mBodyTextView;
     UITextView      *mTagTextView;
-    
+
     UILabel         *mCountLabel;
-    
+
     //  Icon Image View
     NSMutableArray  *mIconButtons;
     NSInteger        mSelectedIconIndex;
-    
+
     UIImageView     *mCheckmarkImageView;
     UIView          *mImageViewContainer;
     UIImageView     *mAttachedImageView;
@@ -64,6 +64,9 @@
     NSInteger        mLargeSizeButtonIndex;
     NSInteger        mOriginalSizeButtonIndex;
     NSInteger        mCancelButtonIndex;
+
+
+    NSString        *mText;
 }
 
 @property(nonatomic, assign) IBOutlet UINavigationBar *navigationBar;
@@ -93,6 +96,11 @@
 @property(nonatomic, assign) IBOutlet UILabel         *imageResolutionLabel;
 @property(nonatomic, assign) IBOutlet UILabel         *imageSizeLabel;
 
+
+- (id)init;
+- (id)initWithPost:(MEPost *)aPost;
+
+
 - (IBAction)close;
 - (IBAction)upload;
 
@@ -106,5 +114,6 @@
 - (IBAction)rotateLeftButtonTapped:(id)aSender;
 - (IBAction)rotateRightButtonTapped:(id)aSender;
 - (IBAction)resizeButtonTapped:(id)aSender;
+
 
 @end
