@@ -13,10 +13,10 @@
 #import "MEClient.h"
 #import "MEPost.h"
 #import "MEComment.h"
-#import "MECharCounter.h"
 
 
 @implementation MEReplyViewController
+
 
 @synthesize textView     = mTextView;
 @synthesize counterLabel = mCounterLabel;

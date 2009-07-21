@@ -12,8 +12,6 @@
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEDrawingFunctions.h"
-#import "MECharCounter.h"
-#import "MEIconListView.h"
 #import "MEUser.h"
 #import "MEPost.h"
 #import "MEPostIcon.h"
@@ -28,19 +26,13 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 #define IMAGE_LANDSCAPE_MODE    1
 
 
-#define BEGIN_ANIMATION_OFF()       [CATransaction begin]; \
-                                    [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-#define END_ANIMATION_OFF()         [CATransaction commit];
-
-
-
 @interface MEWriteViewController (Privates)
 
 - (void)setInterfaceEnabled:(BOOL)aFlag;
-- (void)updateSelectedIcon;
 - (void)updateImageInfo;
 - (void)resizeImage;
-- (void)arrangeSubviews;
+
+- (void)arrangeSubviews:(UIInterfaceOrientation)aToInterfaceOrientation;
 
 @end
 
@@ -51,30 +43,6 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 - (void)setInterfaceEnabled:(BOOL)aFlag
 {
     // TODO
-}
-
-
-- (void)updateSelectedIcon
-{
-    MEUser     *sUser      = [MEUser userWithUserID:[[MEClientStore currentClient] userID]];
-    NSArray    *sPostIcons = [sUser postIcons];
-    MEPostIcon *sPostIcon  = nil;
-    NSArray    *sDescArray = [NSArray arrayWithObjects:NSLocalizedString(@"Think Icon", nil),
-                                                       NSLocalizedString(@"Feeling Icon", nil),
-                                                       NSLocalizedString(@"Notice Icon", nil), nil];
-    NSString   *sDesc      = nil;
-
-    for (sPostIcon in sPostIcons)
-    {
-        if ([sPostIcon iconIndex] == mSelectedIconIndex)
-        {
-            break;
-        }
-    }
-
-    sDesc = (mSelectedIconIndex < 4) ? [sDescArray objectAtIndex:(mSelectedIconIndex - 1)] : [sPostIcon iconDescription];
-    [mIconDescLabel    setText:sDesc];
-    [mIconSelectButton setImageWithURL:[sPostIcon iconURL]];
 }
 
 
@@ -174,49 +142,152 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 }
 
 
-- (void)arrangeSubviews
+- (void)arrangeIconButtons:(UIInterfaceOrientation)aInterfaceOrientation
 {
-    UIInterfaceOrientation sOrientation = [self interfaceOrientation];    
-    UIImage               *sTabOnImage  = [[UIImage imageNamed:@"selectedTab.png"] stretchableImageWithLeftCapWidth:11 topCapHeight:10];
-    UIImage               *sTabOffImage = [[UIImage imageNamed:@"tab2.png"] stretchableImageWithLeftCapWidth:11 topCapHeight:10];
-    CGRect                 sNavigationFrame;
-    UIButton              *sTabButton = nil;    
+    MEImageButton *sButton = nil;
+    NSInteger      i;
+    NSInteger      sCount = [mIconButtons count];
+    CGFloat        sXPos;
+    CGFloat        sYPos;
+    CGFloat        sXPosBegin;
+    CGFloat        sYPosBegin;
+    
+    if (aInterfaceOrientation == UIDeviceOrientationPortrait || aInterfaceOrientation == UIDeviceOrientationPortraitUpsideDown)
+    {
+        sXPosBegin = 28;
+        sYPosBegin = 20;
+        sXPos      = sXPosBegin;
+        sYPos      = sYPosBegin;
+        
+        for (i = 0; i < sCount; i++)
+        {
+            sButton = [mIconButtons objectAtIndex:i];
+            [sButton setFrame:CGRectMake(sXPos, sYPos, 46, 46)];
+            if ((i + 1) == mSelectedIconIndex)
+            {
+                [mCheckmarkImageView setFrame:CGRectMake(sXPos - 10, sYPos - 20, 46, 46)];
+            }
+            if ((i % 4) == 3)
+            {
+                sXPos  = sXPosBegin;
+                sYPos += (46 + 10);
+            }
+            else
+            {
+                sXPos += (46 + 10);
+            }
+        }
+    }
+    else if (aInterfaceOrientation == UIDeviceOrientationLandscapeRight || aInterfaceOrientation == UIDeviceOrientationLandscapeLeft)
+    {
+        sXPosBegin = 44;
+        sYPosBegin = 16;
+        sXPos      = sXPosBegin;
+        sYPos      = sYPosBegin;
+        
+        for (i = 0; i < sCount; i++)
+        {
+            sButton = [mIconButtons objectAtIndex:i];
+            [sButton setFrame:CGRectMake(sXPos, sYPos, 46, 46)];
+            if ((i + 1) == mSelectedIconIndex)
+            {
+                [mCheckmarkImageView setFrame:CGRectMake(sXPos - 10, sYPos - 20, 46, 46)];
+            }
+            if ((i % 6) == 5)
+            {
+                sXPos  = sXPosBegin;
+                sYPos += (46 + 10);
+            }
+            else
+            {
+                sXPos += (46 + 10);
+            }
+        }
+    }
+    
+    [mIconImageView bringSubviewToFront:mCheckmarkImageView];
+}
+
+
+- (void)arrangeImageButtons:(UIInterfaceOrientation)aInterfaceOrientation
+{
+    if (aInterfaceOrientation == UIDeviceOrientationPortrait || aInterfaceOrientation == UIDeviceOrientationPortraitUpsideDown)
+    {
+        [mImageViewContainer     setFrame:CGRectMake( 28, 213, 92, 92)];
+        [mTakePictureButton      setFrame:CGRectMake(134, 213, 45, 37)];
+        [mFromPhotoLibraryButton setFrame:CGRectMake(134, 258, 45, 37)];
+        [mRotateLeftButton       setFrame:CGRectMake( 28, 319, 45, 37)];
+        [mRotateRightButton      setFrame:CGRectMake( 81, 319, 45, 37)];
+        [mResizeButton           setFrame:CGRectMake(134, 319, 45, 37)];
+        [mImageResolutionLabel   setFrame:CGRectMake( 28, 364, 92, 21)];
+        [mImageSizeLabel         setFrame:CGRectMake(134, 364, 84, 21)];
+    }
+    else if (aInterfaceOrientation == UIDeviceOrientationLandscapeRight || aInterfaceOrientation == UIDeviceOrientationLandscapeLeft)
+    {
+        [mImageViewContainer     setFrame:CGRectMake( 44, 136, 92, 92)];
+        [mTakePictureButton      setFrame:CGRectMake(150, 136, 45, 37)];
+        [mFromPhotoLibraryButton setFrame:CGRectMake(208, 136, 45, 37)];
+        [mRotateLeftButton       setFrame:CGRectMake(150, 191, 45, 37)];
+        [mRotateRightButton      setFrame:CGRectMake(208, 191, 45, 37)];
+        [mResizeButton           setFrame:CGRectMake(266, 191, 45, 37)];
+        [mImageResolutionLabel   setFrame:CGRectMake( 44, 240, 92, 21)];
+        [mImageSizeLabel         setFrame:CGRectMake(150, 240, 84, 21)];
+    }
+}
+
+
+- (void)arrangeSubviews:(UIInterfaceOrientation)aInterfaceOrientation
+{
+    UIImage  *sTabOnImage  = [[UIImage imageNamed:@"selectedTab.png"] stretchableImageWithLeftCapWidth:11 topCapHeight:10];
+    UIImage  *sTabOffImage = [[UIImage imageNamed:@"tab2.png"] stretchableImageWithLeftCapWidth:11 topCapHeight:10];
+    UIButton *sTabButton   = nil;
+    UIView   *sCurrentView = nil;
+    CGRect    sFrame;
     
     [mTabBodyButton      setBackgroundImage:sTabOffImage forState:UIControlStateNormal];
     [mTabTagButton       setBackgroundImage:sTabOffImage forState:UIControlStateNormal];
     [mTabIconImageButton setBackgroundImage:sTabOffImage forState:UIControlStateNormal];
     
-    [mNavigationBar sizeToFit];
-    sNavigationFrame = [mNavigationBar frame];
-    
-    [mCurrentView removeFromSuperview];
-    
     sTabButton   = (mSelectedTabIndex == 0) ? mTabBodyButton : ((mSelectedTabIndex == 1) ? mTabTagButton : mTabIconImageButton);
-    mCurrentView = (mSelectedTabIndex == 0) ? mBodyView      : ((mSelectedTabIndex == 1) ? mTagView      : mIconImageView);
-
-    if (sOrientation == UIDeviceOrientationPortrait || sOrientation == UIDeviceOrientationPortraitUpsideDown)
+    sCurrentView = (mSelectedTabIndex == 0) ? mBodyView      : ((mSelectedTabIndex == 1) ? mTagView      : mIconImageView);
+    
+    if (sCurrentView != mCurrentView)
     {
-        [mTabContainerView   setFrame:CGRectMake( 0, sNavigationFrame.origin.y + sNavigationFrame.size.height, 320, 200)];
+        [mCurrentView removeFromSuperview];
+        mCurrentView = sCurrentView;
+    }
+    
+    if (aInterfaceOrientation == UIDeviceOrientationPortrait || aInterfaceOrientation == UIDeviceOrientationPortraitUpsideDown)
+    {
+        [mTabContainerView   setFrame:CGRectMake( 0,  44, 320, 416)];
         [mTabBodyButton      setFrame:CGRectMake( 7,  10, 40,  63)];
         [mTabTagButton       setFrame:CGRectMake( 7,  70, 40,  63)];
         [mTabIconImageButton setFrame:CGRectMake( 7, 130, 40,  63)];
-        [mSplitBar           setFrame:CGRectMake(47,   0,  5, 200)];
-        [mCurrentView        setFrame:CGRectMake(51, 0, 320 - 51, 200)];
+        [mSplitBar           setFrame:CGRectMake(47,   0,  5, 416)];
+        [mCurrentView        setFrame:CGRectMake(51, 0, 320 - 51, (mCurrentView == mIconImageView) ? 416 : 200)];
     }
-    else if (sOrientation == UIDeviceOrientationLandscapeRight || sOrientation == UIDeviceOrientationLandscapeLeft)
+    else if (aInterfaceOrientation == UIDeviceOrientationLandscapeRight || aInterfaceOrientation == UIDeviceOrientationLandscapeLeft)
     {
-        [mTabContainerView   setFrame:CGRectMake(0, sNavigationFrame.origin.y + sNavigationFrame.size.height, 480, 106)];
-        [mTabBodyButton      setFrame:CGRectMake(7,  8, 60,  32)];
-        [mTabTagButton       setFrame:CGRectMake(7, 38, 60,  32)];
-        [mTabIconImageButton setFrame:CGRectMake(7, 68, 60,  32)];
-        [mSplitBar           setFrame:CGRectMake(67, 0,  5, 106)];
-        [mCurrentView        setFrame:CGRectMake(70, 0, 480 - 70, 106)];        
+        [mTabContainerView   setFrame:CGRectMake(0, 32, 480, 269)];
+        [mTabBodyButton      setFrame:CGRectMake(7,  8,  60,  33)];
+        [mTabTagButton       setFrame:CGRectMake(7, 38,  60,  33)];
+        [mTabIconImageButton setFrame:CGRectMake(7, 68,  60,  33)];
+        [mSplitBar           setFrame:CGRectMake(67, 0,   5, 269)];
+        [mCurrentView        setFrame:CGRectMake(70, 0, 480 - 70, (mCurrentView == mIconImageView) ? 269 : 106)];
     }
+    
+    [self arrangeIconButtons:aInterfaceOrientation];
+    [self arrangeImageButtons:aInterfaceOrientation];
+
+    sFrame = [mCurrentView frame];
+    [mCountLabel setFrame:CGRectMake(sFrame.origin.x + sFrame.size.width - 60, sFrame.size.height - 40, 60, 40)];
+    [mCountLabel setHidden:(sTabButton == mTabIconImageButton) ? YES : NO];
 
     [sTabButton setBackgroundImage:sTabOnImage forState:UIControlStateNormal];
-    [mTabContainerView addSubview:mCurrentView];    
+    [mTabContainerView addSubview:mCurrentView];
     [mTabContainerView bringSubviewToFront:sTabButton];
     [mTabContainerView bringSubviewToFront:mSplitBar];
+    [mTabContainerView bringSubviewToFront:mCountLabel];
 }
 
 
@@ -241,14 +312,13 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 @synthesize iconImageView          = mIconImageView;
 @synthesize bodyTextView           = mBodyTextView;
 @synthesize tagTextView            = mTagTextView;
+@synthesize countLabel             = mCountLabel;
 
-//////////////////
+//  IconImageView
 
+@synthesize checkmarkImageView     = mCheckmarkImageView;
+@synthesize imageViewContainer     = mImageViewContainer;
 @synthesize attachedImageView      = mAttachedImageView;
-
-@synthesize iconSelectButton       = mIconSelectButton;
-@synthesize iconDescLabel          = mIconDescLabel;
-
 @synthesize takePictureButton      = mTakePictureButton;
 @synthesize fromPhotoLibraryButton = mFromPhotoLibraryButton;
 @synthesize rotateLeftButton       = mRotateLeftButton;
@@ -257,8 +327,6 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 @synthesize imageResolutionLabel   = mImageResolutionLabel;
 @synthesize imageSizeLabel         = mImageSizeLabel;
-
-@synthesize iconListView           = mIconListView;
 
 
 #pragma mark -
@@ -282,11 +350,11 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    [mCharCounter   release];
+    [mIconButtons   release];
+    
     [mOriginalImage release];
     [mResizedImage  release];
     [mImageRep      release];
-    [mIconListView  release];
     
     [mBodyView      release];
     [mTagView       release];
@@ -302,6 +370,39 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 }
 
 
+- (void)createIconButtons
+{
+    MEImageButton *sButton;
+    NSInteger      i;
+    MEUser        *sUser = [MEUser userWithUserID:[[MEClientStore currentClient] userID]];
+    
+    mSelectedIconIndex = [[sUser defaultPostIcon] iconIndex];
+    mIconButtons       = [[NSMutableArray alloc] init];
+
+    for (i = 0; i < 12; i++)
+    {
+        sButton = [[MEImageButton alloc] initWithFrame:CGRectZero];
+        [sButton addTarget:self action:@selector(iconSelected:) forControlEvents:UIControlEventTouchUpInside];
+        [sButton setBorderColor:[UIColor lightGrayColor]];
+        
+        [mIconImageView addSubview:sButton];
+        
+        [mIconButtons addObject:sButton];
+        [sButton release];
+    }
+    
+    NSArray    *sPostIcons = [sUser postIcons];
+    MEPostIcon *sPostIcon  = nil;
+    for (sPostIcon in sPostIcons)
+    {
+        sButton = [mIconButtons objectAtIndex:([sPostIcon iconIndex] - 1)];
+        [sButton setImageWithURL:[sPostIcon iconURL]];
+    }
+    
+    [mCheckmarkImageView setAlpha:0.8];
+}
+
+
 - (void)viewDidLoad
 {
     NSString *sModel;
@@ -313,37 +414,28 @@ static double radians(double degrees) {return degrees * M_PI/180;}
                                                  name:UITextFieldTextDidChangeNotification
                                                object:nil];
 
-    [mBodyTextView setText:@""];
     [mBodyTextView setReturnKeyType:UIReturnKeyNext];
-//    [mTagTextView  setPlaceholder:NSLocalizedString(@"Enter tags (separated by space)", @"")];
-    [mTagTextView setReturnKeyType:UIReturnKeyDone];
-//    [mTagTextView setClearsOnBeginEditing:NO];
+    [mTagTextView  setReturnKeyType:UIReturnKeyNext];
 
-    mCharCounter = [[MECharCounter alloc] initWithParentView:[self view]];
+    {   //  IconImageView
+        sModel = [[UIDevice currentDevice] model];
+        if (![sModel isEqualToString:@"iPhone"])
+        {
+            [mTakePictureButton setEnabled:NO];
+        }
 
-    sModel = [[UIDevice currentDevice] model];
-    if (![sModel isEqualToString:@"iPhone"])
-    {
-        [mTakePictureButton setEnabled:NO];
+        [self createIconButtons];
+
+        [mRotateLeftButton     setEnabled:NO];
+        [mRotateRightButton    setEnabled:NO];
+        [mResizeButton         setEnabled:NO];
+        [mImageResolutionLabel setText:@""];
+        [mImageSizeLabel       setText:@""];
     }
 
-    MEUser *sUser = [MEUser userWithUserID:[[MEClientStore currentClient] userID]];
-    mSelectedIconIndex = [[sUser defaultPostIcon] iconIndex];
-
-    [self updateSelectedIcon];
-
-    [mIconSelectButton     setBorderColor:[UIColor colorWithWhite:0.6 alpha:1.0]];
-    [mRotateLeftButton     setEnabled:NO];
-    [mRotateRightButton    setEnabled:NO];
-    [mResizeButton         setEnabled:NO];
-    [mImageResolutionLabel setText:@""];
-    [mImageSizeLabel       setText:@""];
-
-    [mIconListView setDelegate:self];
-    
     mSelectedTabIndex = 0;
-    [self arrangeSubviews];
-    
+    [self arrangeSubviews:[self interfaceOrientation]];
+
     [mBodyTextView becomeFirstResponder];
 }
 
@@ -354,9 +446,18 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 }
 
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)aToInterfaceOrientation duration:(NSTimeInterval)aDuration
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:aDuration];
+    [self arrangeSubviews:aToInterfaceOrientation];
+    [UIView commitAnimations];
+}
+
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)aFromInterfaceOrientation
 {
-    [self arrangeSubviews];
+    [mNavigationBar sizeToFit];
 }
 
 
@@ -397,7 +498,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 {
     [mBodyTextView becomeFirstResponder];
     mSelectedTabIndex = 0;
-    [self arrangeSubviews];
+    [self arrangeSubviews:[self interfaceOrientation]];
 }
 
 
@@ -405,24 +506,28 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 {
     [mTagTextView becomeFirstResponder];
     mSelectedTabIndex = 1;
-    [self arrangeSubviews];
+    [self arrangeSubviews:[self interfaceOrientation]];
 }
 
 
 - (IBAction)iconImageTabButtontapped:(id)aSender
 {
     mSelectedTabIndex = 2;
-    [self arrangeSubviews];
+    [self arrangeSubviews:[self interfaceOrientation]];
 }
 
 
 #pragma mark -
 
 
-- (IBAction)iconSelectButtonTapped:(id)aSender
+- (IBAction)iconSelected:(id)aSender
 {
-    UIWindow *sWindow = [[UIApplication sharedApplication] keyWindow];
-    [sWindow addSubview:mIconListView];
+    MEImageButton *sButton = (MEImageButton *)aSender;
+    if ([sButton imageURL])
+    {
+        mSelectedIconIndex = ([mIconButtons indexOfObject:aSender] + 1);
+        [self arrangeSubviews:[self interfaceOrientation]];        
+    }
 }
 
 
@@ -503,52 +608,43 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 
 #pragma mark -
-#pragma mark Notifications
-
-
-- (void)textFieldTextDidChangeNotification:(NSNotification *)aNotification
-{
-    [mCharCounter update];
-}
-
-
-#pragma mark -
 #pragma mark TextViewDelegate
+
+
+- (void)updateCharCounter:(UITextView *)aTextView
+{
+    NSString *sText = [aTextView text];
+    NSInteger sRemainCount;
+    
+    if (aTextView == mBodyTextView)
+    {
+        sRemainCount = kMEPostBodyMaxLen - [sText length];
+    }
+    else if (aTextView == mTagTextView)
+    {
+        sRemainCount = kMEPostBodyMaxLen - [sText length];
+    }
+    
+    [mCountLabel setText:[NSString stringWithFormat:@"%d", sRemainCount]];    
+}
 
 
 - (void)textViewDidBeginEditing:(UITextView *)aTextView;
 {
-    if (aTextView == mBodyTextView)
-    {
-        [mCharCounter setTextOwner:mBodyTextView];
-        [mCharCounter setLimitCount:kMEPostBodyMaxLen];
-        BEGIN_ANIMATION_OFF();
-        [mCharCounter setFrame:CGRectMake(200, 192, 0, 0)];
-        END_ANIMATION_OFF();
-        [mCharCounter setHidden:NO];
-        [mCharCounter update];
-    }
+    [self updateCharCounter:aTextView];
 }
 
 
 - (void)textViewDidEndEditing:(UITextView *)aTextView
 {
-    if (aTextView == mBodyTextView)
-    {
-        [mCharCounter setHidden:YES];
-    }
+
 }
 
 
 - (void)textViewDidChange:(UITextView *)aTextView
 {
-    if (aTextView == mBodyTextView)
-    {
-        BEGIN_ANIMATION_OFF();
-        [mCharCounter update];
-        END_ANIMATION_OFF();
-    }
-
+    [self updateCharCounter:aTextView];
+    
     if ([aTextView hasText])
     {
         NSRange sRange = [aTextView selectedRange];
@@ -577,7 +673,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     {
         NSString *sBody    = [mBodyTextView text];
         NSString *sNewText = [sBody stringByReplacingCharactersInRange:aRange withString:aText];
-        if ([sNewText length] > [mCharCounter limitCount])
+        if ([sNewText length] > kMEPostBodyMaxLen)
         {
             UIAlertView *sAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert", nil)
                                                              message:NSLocalizedString(@"You have exceeded limit the number of input characters.", nil)
@@ -591,50 +687,6 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     }
 
     return YES;
-}
-
-
-#pragma mark -
-#pragma mark UITextField Delegate
-
-
-- (void)textFieldDidBeginEditing:(UITextField *)aTextField
-{
-    [mCharCounter setLimitCount:kMEPostTagMaxLen];
-    BEGIN_ANIMATION_OFF();
-    [mCharCounter setFrame:CGRectMake(200, 165, 0, 0)];
-    [mCharCounter setHidden:NO];
-    [mCharCounter setTextOwner:aTextField];
-    [mCharCounter update];
-    END_ANIMATION_OFF();
-}
-
-
-- (BOOL)textField:(UITextField *)aTextField shouldChangeCharactersInRange:(NSRange)aRange replacementString:(NSString *)aString
-{
-    NSString *sText = [aTextField text];
-    sText = [sText stringByReplacingCharactersInRange:aRange withString:aString];
-
-    if ([sText length] > [mCharCounter limitCount])
-    {
-        return NO;
-    }
-
-    return YES;
-}
-
-
-- (BOOL)textFieldShouldReturn:(UITextField *)aTextField
-{
-    [mTagTextView resignFirstResponder];
-
-    return NO;
-}
-
-
-- (void)textFieldDidEndEditing:(UITextField *)aTextField
-{
-    [mCharCounter setHidden:YES];
 }
 
 
@@ -727,17 +779,6 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     else if (aButtonIndex == mCancelButtonIndex)
     {
     }
-}
-
-
-#pragma mark -
-#pragma mark UIActionSheet Delegate
-
-
-- (void)iconListView:(MEIconListView *)aView iconDidSelect:(NSInteger)aIndex
-{
-    mSelectedIconIndex = aIndex;
-    [self updateSelectedIcon];
 }
 
 

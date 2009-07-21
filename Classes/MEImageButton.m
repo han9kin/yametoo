@@ -170,6 +170,12 @@
 }
 
 
+- (NSURL *)imageURL
+{
+    return mURL;
+}
+
+
 #pragma mark -
 #pragma mark MEClientDelegate
 

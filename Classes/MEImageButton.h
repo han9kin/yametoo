@@ -28,5 +28,6 @@
 
 
 - (void)setImageWithURL:(NSURL *)aURL;
+- (NSURL *)imageURL;
 
 @end

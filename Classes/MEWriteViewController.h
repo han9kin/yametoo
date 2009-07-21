@@ -8,14 +8,12 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "MEIconListView.h"
 
 
-@class MECharCounter;
 @class MEImageButton;
 
 
-@interface MEWriteViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, MEIconListViewDelegate>
+@interface MEWriteViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
 {
     UINavigationBar *mNavigationBar;
     UIView          *mTabContainerView;
@@ -35,14 +33,15 @@
     UITextView      *mBodyTextView;
     UITextView      *mTagTextView;
     
-    ///////////////////////////////////////////////////////
+    UILabel         *mCountLabel;
     
-
+    //  Icon Image View
+    NSMutableArray  *mIconButtons;
+    NSInteger        mSelectedIconIndex;
+    
+    UIImageView     *mCheckmarkImageView;
+    UIView          *mImageViewContainer;
     UIImageView     *mAttachedImageView;
-
-    MEImageButton   *mIconSelectButton;
-    UILabel         *mIconDescLabel;
-
     UIButton        *mTakePictureButton;
     UIButton        *mFromPhotoLibraryButton;
     UIButton        *mRotateLeftButton;
@@ -52,20 +51,14 @@
     UILabel         *mImageResolutionLabel;
     UILabel         *mImageSizeLabel;
 
-    MEIconListView  *mIconListView;
-
-    MECharCounter   *mCharCounter;
-
-    NSInteger        mSelectedIconIndex;
     UIImage         *mOriginalImage;
+    UIImage         *mResizedImage;
+    NSData          *mImageRep;
     BOOL             mIsMiddleSizeEnabled;
     BOOL             mIsLargeSizeEnabled;
     NSInteger        mImageDir;
     CGFloat          mRotateAngle;
     CGFloat          mLongSideLength;
-
-    UIImage         *mResizedImage;
-    NSData          *mImageRep;
 
     NSInteger        mMiddleSizeButtonIndex;
     NSInteger        mLargeSizeButtonIndex;
@@ -84,25 +77,21 @@
 @property(nonatomic, retain) IBOutlet UIView          *iconImageView;
 @property(nonatomic, assign) IBOutlet UITextView      *bodyTextView;
 @property(nonatomic, assign) IBOutlet UITextView      *tagTextView;
+@property(nonatomic, assign) IBOutlet UILabel         *countLabel;
 
 ///////////////////////////
 
-@property(nonatomic, assign) IBOutlet UIImageView    *attachedImageView;
+@property(nonatomic, assign) IBOutlet UIImageView     *checkmarkImageView;
+@property(nonatomic, assign) IBOutlet UIView          *imageViewContainer;
+@property(nonatomic, assign) IBOutlet UIImageView     *attachedImageView;
+@property(nonatomic, assign) IBOutlet UIButton        *takePictureButton;
+@property(nonatomic, assign) IBOutlet UIButton        *fromPhotoLibraryButton;
+@property(nonatomic, assign) IBOutlet UIButton        *rotateLeftButton;
+@property(nonatomic, assign) IBOutlet UIButton        *rotateRightButton;
+@property(nonatomic, assign) IBOutlet UIButton        *resizeButton;
 
-@property(nonatomic, assign) IBOutlet MEImageButton  *iconSelectButton;
-@property(nonatomic, assign) IBOutlet UILabel        *iconDescLabel;
-
-@property(nonatomic, assign) IBOutlet UIButton       *takePictureButton;
-@property(nonatomic, assign) IBOutlet UIButton       *fromPhotoLibraryButton;
-@property(nonatomic, assign) IBOutlet UIButton       *rotateLeftButton;
-@property(nonatomic, assign) IBOutlet UIButton       *rotateRightButton;
-@property(nonatomic, assign) IBOutlet UIButton       *resizeButton;
-
-@property(nonatomic, assign) IBOutlet UILabel        *imageResolutionLabel;
-@property(nonatomic, assign) IBOutlet UILabel        *imageSizeLabel;
-
-@property(nonatomic, retain) IBOutlet MEIconListView *iconListView;
-
+@property(nonatomic, assign) IBOutlet UILabel         *imageResolutionLabel;
+@property(nonatomic, assign) IBOutlet UILabel         *imageSizeLabel;
 
 - (IBAction)close;
 - (IBAction)upload;
@@ -111,7 +100,7 @@
 - (IBAction)tagTabButtonTapped:(id)aSender;
 - (IBAction)iconImageTabButtontapped:(id)aSender;
 
-- (IBAction)iconSelectButtonTapped:(id)aSender;
+- (IBAction)iconSelected:(id)aSender;
 - (IBAction)takePictureButtonTapped:(id)aSender;
 - (IBAction)fromPhotoLibraryButtonTapped:(id)aSender;
 - (IBAction)rotateLeftButtonTapped:(id)aSender;
