@@ -12,7 +12,6 @@
 #import "MEReplyViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
-#import "MEPost.h"
 #import "MEComment.h"
 
 
@@ -27,22 +26,35 @@
 #pragma mark -
 
 
-- (id)initWithPost:(MEPost *)aPost
+- (id)initWithPostID:(NSString *)aPostID
 {
     self = [super initWithNibName:@"ReplyView" bundle:nil];
 
     if (self)
     {
-        mPost = [aPost retain];
+        mPostID = [aPostID copy];
     }
 
     return self;
 }
 
+- (id)initWithPostID:(NSString *)aPostID callUserID:(NSString *)aUserID
+{
+    self = [super initWithNibName:@"ReplyView" bundle:nil];
+
+    if (self)
+    {
+        mPostID = [aPostID copy];
+        mText   = [[NSString alloc] initWithFormat:@"/%@/ ", aUserID];
+    }
+
+    return self;
+}
 
 - (void)dealloc
 {
-    [mPost release];
+    [mPostID release];
+    [mText release];
 
     [super dealloc];
 }
@@ -58,6 +70,7 @@
 {
     [super viewDidLoad];
 
+    [mTextView setText:mText];
     [mTextView becomeFirstResponder];
 }
 
@@ -116,7 +129,7 @@
     }
     else
     {
-        [[MEClientStore currentClient] createCommentWithPostID:[mPost postID] body:sComment delegate:self];
+        [[MEClientStore currentClient] createCommentWithPostID:mPostID body:sComment delegate:self];
     }
 }
 

@@ -47,7 +47,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUINavigationItem" id="510103074">
 								<reference key="IBUINavigationBar" ref="732934088"/>
-								<string type="base64-UTF8" key="IBUITitle">64yT6riA64us6riwA</string>
+								<string type="base64-UTF8" key="IBUITitle">64yT6riA7JOw6riwA</string>
 								<object class="IBUIBarButtonItem" key="IBUILeftBarButtonItem" id="160443463">
 									<string type="base64-UTF8" key="IBUITitle">64ur6riwA</string>
 									<int key="IBUIStyle">1</int>

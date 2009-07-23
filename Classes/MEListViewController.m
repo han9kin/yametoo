@@ -24,6 +24,9 @@
 #define kUpdateFetchCount 10
 
 
+static NSDictionary *gActions = nil;
+
+
 static NSComparisonResult compareSectionByPubDate(NSArray *sPosts1, NSArray *sPosts2, void *aContext)
 {
     return [[[sPosts2 lastObject] pubDate] compare:[[sPosts1 lastObject] pubDate]];
@@ -140,7 +143,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
         [sItems addObject:sItem];
         [sItem release];
 
-        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(write)];
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(compose)];
         [sItems addObject:sItem];
         [sItem release];
 
@@ -272,7 +275,23 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 @implementation MEListViewController
 
+
 @synthesize listView = mListView;
+
+
+#pragma mark -
+
+
++ (void)initialize
+{
+    if (!gActions)
+    {
+        gActions = [[NSDictionary alloc] initWithObjectsAndKeys:@"write", NSLocalizedString(@"write", @""), @"writeCall", NSLocalizedString(@"writeCall", @""), nil];
+    }
+}
+
+
+#pragma mark -
 
 
 - (id)initWithUserID:(NSString *)aUserID scope:(MEClientGetPostsScope)aScope
@@ -471,6 +490,32 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     [sViewController release];
 }
 
+- (void)writeCall
+{
+    UIViewController *sViewController;
+
+    sViewController = [[MEWriteViewController alloc] initWithCallUserID:mUserID];
+    [self presentModalViewController:sViewController animated:YES];
+    [sViewController release];
+}
+
+- (void)compose
+{
+    if ((mScope == kMEClientGetPostsScopeAll) && ![mUserID isEqualToString:[[MEClientStore currentClient] userID]])
+    {
+        UIActionSheet *sActionSheet;
+
+        sActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"write", @""), NSLocalizedString(@"writeCall", @""), nil];
+
+        [sActionSheet showFromToolbar:[[self navigationController] toolbar]];
+        [sActionSheet release];
+    }
+    else
+    {
+        [self write];
+    }
+}
+
 
 #pragma mark -
 #pragma mark NSTimer Events
@@ -594,6 +639,24 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     sReadViewController = [[MEReadViewController alloc] initWithPost:[self postForIndexPath:aIndexPath]];
     [[self navigationController] pushViewController:sReadViewController animated:YES];
     [sReadViewController release];
+}
+
+
+#pragma mark -
+#pragma mark UIActionSheetDelegate
+
+
+- (void)actionSheet:(UIActionSheet *)aActionSheet didDismissWithButtonIndex:(NSInteger)aButtonIndex
+{
+    if (aButtonIndex != [aActionSheet cancelButtonIndex])
+    {
+        SEL sSelector = NSSelectorFromString([gActions objectForKey:[aActionSheet buttonTitleAtIndex:aButtonIndex]]);
+
+        if (sSelector)
+        {
+            [self performSelector:sSelector];
+        }
+    }
 }
 
 

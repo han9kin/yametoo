@@ -98,6 +98,7 @@
 
 
 - (id)init;
+- (id)initWithCallUserID:(NSString *)aUserID;
 - (id)initWithPingbackLink:(NSString *)aPermLink;
 
 

@@ -183,7 +183,7 @@ static NSDictionary *gActions = nil;
 {
     if (!gActions)
     {
-        gActions = [[NSDictionary alloc] initWithObjectsAndKeys:@"write", NSLocalizedString(@"write", @""), @"pingback", NSLocalizedString(@"pingback", @""), @"reply", NSLocalizedString(@"reply", @""), nil];
+        gActions = [[NSDictionary alloc] initWithObjectsAndKeys:@"write", NSLocalizedString(@"write", @""), @"writeCall", NSLocalizedString(@"writeCall", @""), @"pingback", NSLocalizedString(@"pingback", @""), @"reply", NSLocalizedString(@"reply", @""), @"replyCall", NSLocalizedString(@"replyCall", @""), nil];
     }
 }
 
@@ -363,7 +363,7 @@ static NSDictionary *gActions = nil;
 {
     UIActionSheet *sActionSheet;
 
-    sActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"write", @""), NSLocalizedString(@"pingback", @""), NSLocalizedString(@"reply", @""), nil];
+    sActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"write", @""), NSLocalizedString(@"writeCall", @""), NSLocalizedString(@"pingback", @""), NSLocalizedString(@"reply", @""), nil];
 
     [sActionSheet showFromToolbar:[[self navigationController] toolbar]];
     [sActionSheet release];
@@ -379,6 +379,14 @@ static NSDictionary *gActions = nil;
     [sViewController release];
 }
 
+- (void)writeCall
+{
+    UIViewController *sViewController;
+
+    sViewController = [[MEWriteViewController alloc] initWithCallUserID:[[mPost author] userID]];
+    [self presentModalViewController:sViewController animated:YES];
+    [sViewController release];
+}
 
 - (void)pingback
 {
@@ -389,14 +397,29 @@ static NSDictionary *gActions = nil;
     [sViewController release];
 }
 
-
 - (void)reply
 {
     MEReplyViewController *sViewController;
 
-    sViewController = [[MEReplyViewController alloc] initWithPost:mPost];
+    sViewController = [[MEReplyViewController alloc] initWithPostID:[mPost postID]];
     [self presentModalViewController:sViewController animated:YES];
     [sViewController release];
+}
+
+- (void)replyCall
+{
+    NSIndexPath *sIndexPath = [mTableView indexPathForSelectedRow];
+
+    if (sIndexPath)
+    {
+        NSString              *sUserID;
+        MEReplyViewController *sViewController;
+
+        sUserID         = [[[mComments objectAtIndex:([sIndexPath section] - 1)] author] userID];
+        sViewController = [[MEReplyViewController alloc] initWithPostID:[mPost postID] callUserID:sUserID];
+        [self presentModalViewController:sViewController animated:YES];
+        [sViewController release];
+    }
 }
 
 
@@ -507,6 +530,15 @@ static NSDictionary *gActions = nil;
 
             [(MECommentTableViewCell *)sCell setComment:sComment];
             [[sCell contentView] setBackgroundColor:sColor];
+
+            if ([[[sComment author] userID] isEqualToString:[[MEClientStore currentClient] userID]])
+            {
+                [sCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            }
+            else
+            {
+                [sCell setSelectionStyle:UITableViewCellSelectionStyleBlue];
+            }
         }
     }
     else
@@ -561,13 +593,25 @@ static NSDictionary *gActions = nil;
 
     if (sSection)
     {
+        MEComment *sComment = [mComments objectAtIndex:(sSection - 1)];
+
         if (sRow)
         {
-            sLink = [[[mComments objectAtIndex:(sSection - 1)] links] objectAtIndex:(sRow - 1)];
+            sLink = [[sComment links] objectAtIndex:(sRow - 1)];
         }
         else
         {
             sLink = nil;
+
+            if (![[[sComment author] userID] isEqualToString:[[MEClientStore currentClient] userID]])
+            {
+                UIActionSheet *sActionSheet;
+
+                sActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"replyCall", @""), nil];
+
+                [sActionSheet showFromToolbar:[[self navigationController] toolbar]];
+                [sActionSheet release];
+            }
         }
     }
     else
@@ -610,7 +654,11 @@ static NSDictionary *gActions = nil;
 
 - (void)actionSheet:(UIActionSheet *)aActionSheet didDismissWithButtonIndex:(NSInteger)aButtonIndex
 {
-    if (aButtonIndex != [aActionSheet cancelButtonIndex])
+    if (aButtonIndex == [aActionSheet cancelButtonIndex])
+    {
+        [mTableView deselectRowAtIndexPath:[mTableView indexPathForSelectedRow] animated:YES];
+    }
+    else
     {
         SEL sSelector = NSSelectorFromString([gActions objectForKey:[aActionSheet buttonTitleAtIndex:aButtonIndex]]);
 

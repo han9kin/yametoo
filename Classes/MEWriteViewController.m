@@ -355,6 +355,19 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 }
 
 
+- (id)initWithCallUserID:(NSString *)aUserID
+{
+    self = [super initWithNibName:@"WriteView" bundle:nil];
+
+    if (self)
+    {
+        mText = [[NSString alloc] initWithFormat:@"/%@/ ", aUserID];
+    }
+
+    return self;
+}
+
+
 - (id)initWithPingbackLink:(NSString *)aPermLink
 {
     self = [super initWithNibName:@"WriteView" bundle:nil];
@@ -651,6 +664,8 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
         [mText release];
         mText = nil;
+
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     }
 }
 

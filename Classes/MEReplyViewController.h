@@ -10,17 +10,14 @@
 #import <UIKit/UIKit.h>
 
 
-@class MEPost;
-@class MECharCounter;
-
-
 @interface MEReplyViewController : UIViewController
 {
     UINavigationBar *mNavigationBar;
     UITextView      *mTextView;
     UILabel         *mCounterLabel;
 
-    MEPost          *mPost;
+    NSString        *mPostID;
+    NSString        *mText;
 }
 
 @property(nonatomic, assign) IBOutlet UINavigationBar *navigationBar;
@@ -28,7 +25,8 @@
 @property(nonatomic, assign) IBOutlet UILabel         *counterLabel;
 
 
-- (id)initWithPost:(MEPost *)aPost;
+- (id)initWithPostID:(NSString *)aPostID;
+- (id)initWithPostID:(NSString *)aPostID callUserID:(NSString *)aUserID;
 
 
 - (IBAction)close;

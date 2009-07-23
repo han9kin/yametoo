@@ -20,8 +20,6 @@
 
 - (void)setupWithTarget:(id)aTarget
 {
-    [self setSelectionStyle:UITableViewCellSelectionStyleNone];
-
     mFaceImageButton = [[MEImageButton alloc] initWithFrame:CGRectMake(7, 7, kIconImageSize + 2, kIconImageSize + 2)];
     [mFaceImageButton setBorderColor:[UIColor lightGrayColor]];
     [mFaceImageButton addTarget:aTarget action:@selector(faceImageButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
