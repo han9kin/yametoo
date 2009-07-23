@@ -50,6 +50,7 @@
 		2E7EB1FB1017182600EB12E8 /* tabWrite_h.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E7EB1F51017182600EB12E8 /* tabWrite_h.png */; };
 		2E7EB2291017199200EB12E8 /* tabAttach.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E7EB2271017199200EB12E8 /* tabAttach.png */; };
 		2E7EB22A1017199200EB12E8 /* tabAttach_h.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E7EB2281017199200EB12E8 /* tabAttach_h.png */; };
+		2E7EB2811018202F00EB12E8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E7EB2801018202F00EB12E8 /* Default.png */; };
 		2EBB59610FE0D0250096BFF1 /* iconview.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EBB59600FE0D0250096BFF1 /* iconview.png */; };
 		2EC19A590F9C1D5D00963971 /* MELoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EC19A580F9C1D5D00963971 /* MELoginViewController.m */; };
 		2EC19A5B0F9C1E9800963971 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EC19A5A0F9C1E9800963971 /* LoginView.xib */; };
@@ -181,6 +182,7 @@
 		2E7EB1F51017182600EB12E8 /* tabWrite_h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabWrite_h.png; sourceTree = "<group>"; };
 		2E7EB2271017199200EB12E8 /* tabAttach.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabAttach.png; sourceTree = "<group>"; };
 		2E7EB2281017199200EB12E8 /* tabAttach_h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabAttach_h.png; sourceTree = "<group>"; };
+		2E7EB2801018202F00EB12E8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		2EBB59600FE0D0250096BFF1 /* iconview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconview.png; sourceTree = "<group>"; };
 		2EC19A570F9C1D5D00963971 /* MELoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELoginViewController.h; sourceTree = "<group>"; };
 		2EC19A580F9C1D5D00963971 /* MELoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MELoginViewController.m; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 		2E6D55800F95BADC00AA1DF6 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				2E7EB2801018202F00EB12E8 /* Default.png */,
 				2E6D55810F95BAF400AA1DF6 /* yametoo_icon.png */,
 				2E53A12C0FBD579800144B0A /* metoo_transparent.png */,
 				2E53A0E30FBBD92100144B0A /* yame_text.jpg */,
@@ -857,6 +860,7 @@
 				2E7EB1FB1017182600EB12E8 /* tabWrite_h.png in Resources */,
 				2E7EB2291017199200EB12E8 /* tabAttach.png in Resources */,
 				2E7EB22A1017199200EB12E8 /* tabAttach_h.png in Resources */,
+				2E7EB2811018202F00EB12E8 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
