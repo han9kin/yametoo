@@ -17,6 +17,7 @@ static NSString *kBookmarksKey         = @"bookmarks";
 static NSString *kFetchIntervalKey     = @"fetchInterval";
 static NSString *kInitialFetchCountKey = @"initialFetchCount";
 static NSString *kMoreFetchCountKey    = @"moreFetchCount";
+static NSString *kSaveToPhotosAlbum    = @"saveToPhotosAlbum";
 
 
 static struct
@@ -49,6 +50,7 @@ static struct
 
 
 @implementation MESettings
+
 
 + (NSArray *)bookmarks
 {
@@ -83,6 +85,7 @@ static struct
 
     [sBookmarks release];
 }
+
 
 + (NSString *)shortDescriptionForFetchInterval:(NSInteger)aValue
 {
@@ -130,6 +133,12 @@ static struct
 }
 
 
++ (BOOL)couldImplicitFetch
+{
+    return [MEReachability isInternetAvailable];
+}
+
+
 + (NSInteger)fetchInterval
 {
     return [[NSUserDefaults standardUserDefaults] integerForKey:kFetchIntervalKey];
@@ -140,10 +149,6 @@ static struct
     [[NSUserDefaults standardUserDefaults] setInteger:aInterval forKey:kFetchIntervalKey];
 }
 
-+ (BOOL)couldImplicitFetch
-{
-    return [MEReachability isInternetAvailable];
-}
 
 + (NSInteger)initialFetchCount
 {
@@ -157,6 +162,7 @@ static struct
     [[NSUserDefaults standardUserDefaults] setInteger:aCount forKey:kInitialFetchCountKey];
 }
 
+
 + (NSInteger)moreFetchCount
 {
     NSInteger sResult = [[NSUserDefaults standardUserDefaults] integerForKey:kMoreFetchCountKey];
@@ -168,5 +174,17 @@ static struct
 {
     [[NSUserDefaults standardUserDefaults] setInteger:aCount forKey:kMoreFetchCountKey];
 }
+
+
++ (BOOL)saveToPhotosAlbum
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kSaveToPhotosAlbum];
+}
+
++ (void)setSaveToPhotosAlbum:(BOOL)aSaveToPhotosAlbum
+{
+    [[NSUserDefaults standardUserDefaults] setBool:aSaveToPhotosAlbum forKey:kSaveToPhotosAlbum];
+}
+
 
 @end

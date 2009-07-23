@@ -22,15 +22,18 @@
 + (NSString *)longDescriptionForFetchInterval:(NSInteger)aValue;
 + (NSString *)descriptionForFetchCount:(NSInteger)aValue;
 
++ (BOOL)couldImplicitFetch;
+
 + (NSInteger)fetchInterval;
 + (void)setFetchInterval:(NSInteger)aInterval;
-
-+ (BOOL)couldImplicitFetch;
 
 + (NSInteger)initialFetchCount;
 + (void)setInitialFetchCount:(NSInteger)aCount;
 
 + (NSInteger)moreFetchCount;
 + (void)setMoreFetchCount:(NSInteger)aCount;
+
++ (BOOL)saveToPhotosAlbum;
++ (void)setSaveToPhotosAlbum:(BOOL)aSaveToPhotosAlbum;
 
 @end
