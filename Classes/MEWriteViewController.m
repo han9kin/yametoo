@@ -266,11 +266,10 @@ static double radians(double degrees) {return degrees * M_PI/180;}
         [mTabIconImageButton setFrame:CGRectMake( 7, 130, 40,  63)];
         [mSplitBar           setFrame:CGRectMake(47,   0,  5, 416)];
         [mCurrentView        setFrame:CGRectMake(51, 0, 320 - 51, (mCurrentView == mIconImageView) ? 416 : 200)];
-        
+
         [mTabBodyButton      setImage:[UIImage imageNamed:@"tabWrite.png"]   forState:UIControlStateNormal];
         [mTabTagButton       setImage:[UIImage imageNamed:@"tabTag.png"]     forState:UIControlStateNormal];
-        [mTabIconImageButton setImage:[UIImage imageNamed:@"tabAttatch.png"] forState:UIControlStateNormal];
-        
+        [mTabIconImageButton setImage:[UIImage imageNamed:@"tabAttach.png"] forState:UIControlStateNormal];
     }
     else if (aInterfaceOrientation == UIDeviceOrientationLandscapeRight || aInterfaceOrientation == UIDeviceOrientationLandscapeLeft)
     {
@@ -283,7 +282,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
         [mTabBodyButton      setImage:[UIImage imageNamed:@"tabWrite_h.png"]   forState:UIControlStateNormal];
         [mTabTagButton       setImage:[UIImage imageNamed:@"tabTag_h.png"]     forState:UIControlStateNormal];
-        [mTabIconImageButton setImage:[UIImage imageNamed:@"tabAttatch_h.png"] forState:UIControlStateNormal];
+        [mTabIconImageButton setImage:[UIImage imageNamed:@"tabAttach_h.png"] forState:UIControlStateNormal];
     }
 
     [self arrangeIconButtons:aInterfaceOrientation];
