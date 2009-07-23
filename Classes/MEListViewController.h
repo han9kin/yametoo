@@ -16,6 +16,8 @@
 
 @interface MEListViewController : UIViewController <MEListViewDataSource, MEListViewDelegate, UIActionSheetDelegate>
 {
+    UIBarButtonItem       *mReloadButton;
+
     MEListView            *mListView;
     NSIndexPath           *mIndexPath;
 

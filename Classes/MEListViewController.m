@@ -108,6 +108,14 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     [self setTitle:sTitle];
 }
 
+- (void)setupNavigationItem
+{
+    mReloadButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reload)];
+    [mReloadButton setEnabled:NO];
+    [[self navigationItem] setRightBarButtonItem:mReloadButton];
+    [mReloadButton release];
+}
+
 - (void)setupToolbarItems
 {
     UIBarButtonItem *sItem;
@@ -163,6 +171,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 - (void)fetchFromOffset:(NSInteger)aOffset count:(NSInteger)aCount
 {
+    [mReloadButton setEnabled:NO];
     [[MEClientStore currentClient] getPostsWithUserID:mUserID scope:mScope offset:aOffset count:aCount delegate:self];
 }
 
@@ -304,6 +313,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
         mScope  = aScope;
         mPosts  = [[NSMutableArray alloc] init];
 
+        [self setupNavigationItem];
         [self setupToolbarItems];
     }
 
@@ -322,6 +332,7 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
         mPosts  = [[NSMutableArray alloc] init];
 
         [self setupTitle];
+        [self setupNavigationItem];
         [self setupToolbarItems];
     }
 
@@ -459,6 +470,23 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 
 #pragma mark -
+#pragma mark Actions
+
+
+- (void)reload
+{
+    if (mTimer)
+    {
+        [mTimer invalidate];
+        mTimer = [NSTimer scheduledTimerWithTimeInterval:([MESettings fetchInterval] * 60) target:self selector:@selector(updateTimerFired:) userInfo:nil repeats:YES];
+    }
+
+    mUpdateOffset = 0;
+    [self fetchFromOffset:0 count:kUpdateFetchCount];
+}
+
+
+#pragma mark -
 #pragma mark Toolbar Actions
 
 
@@ -549,6 +577,8 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 
 - (void)client:(MEClient *)aClient didGetPosts:(NSArray *)aPosts error:(NSError *)aError
 {
+    [mReloadButton setEnabled:YES];
+
     if (aError)
     {
         [UIAlertView showError:aError];

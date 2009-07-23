@@ -79,6 +79,7 @@
 		CF15E99910107A56006B0E4F /* MEBookmarkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF15E99810107A56006B0E4F /* MEBookmarkTableViewCell.m */; };
 		CF15EBED10141874006B0E4F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF15EBEC10141874006B0E4F /* SystemConfiguration.framework */; };
 		CF15EBF11014187E006B0E4F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF15EBF01014187E006B0E4F /* CoreLocation.framework */; };
+		CF1E9A32101822F500BB720A /* metoo.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1E9A31101822F500BB720A /* metoo.png */; };
 		CF45B2A10FD78E170069C6BA /* MELink.m in Sources */ = {isa = PBXBuildFile; fileRef = CF45B2A00FD78E170069C6BA /* MELink.m */; };
 		CF45B3940FD90B140069C6BA /* MELinkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF45B3930FD90B140069C6BA /* MELinkTableViewCell.m */; };
 		CF528C980FA06BC2007C7A03 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF528C970FA06BC1007C7A03 /* Localizable.strings */; };
@@ -226,6 +227,7 @@
 		CF15E99810107A56006B0E4F /* MEBookmarkTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBookmarkTableViewCell.m; sourceTree = "<group>"; };
 		CF15EBEC10141874006B0E4F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CF15EBF01014187E006B0E4F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		CF1E9A31101822F500BB720A /* metoo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = metoo.png; sourceTree = "<group>"; };
 		CF45B29F0FD78E170069C6BA /* MELink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELink.h; sourceTree = "<group>"; };
 		CF45B2A00FD78E170069C6BA /* MELink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MELink.m; sourceTree = "<group>"; };
 		CF45B3920FD90B140069C6BA /* MELinkTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELinkTableViewCell.h; sourceTree = "<group>"; };
@@ -443,6 +445,7 @@
 				2E53A0EA0FBBE26600144B0A /* bar.jpg */,
 				2E53A1170FBD53A200144B0A /* mymetoo.png */,
 				2E53A1340FBD5A0500144B0A /* friends.png */,
+				CF1E9A31101822F500BB720A /* metoo.png */,
 				2E53A1370FBD5C0D00144B0A /* setting.png */,
 				CF5EE93F0F9BFEBD004712FF /* checkmark_highlighted.png */,
 				CF5EE9400F9BFEBD004712FF /* checkmark_normal.png */,
@@ -860,6 +863,7 @@
 				2E7EB1FB1017182600EB12E8 /* tabWrite_h.png in Resources */,
 				2E7EB2291017199200EB12E8 /* tabAttach.png in Resources */,
 				2E7EB22A1017199200EB12E8 /* tabAttach_h.png in Resources */,
+				CF1E9A32101822F500BB720A /* metoo.png in Resources */,
 				2E7EB2811018202F00EB12E8 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1042,7 +1046,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C0F73316-95D6-4004-9954-6699C1F30F1C";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E37DCFD4-2F23-4228-AE3D-973A8CEEB46C";
 				SDKROOT = iphoneos3.0;
 			};
 			name = Debug;

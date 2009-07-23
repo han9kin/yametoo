@@ -18,14 +18,16 @@
 
 @interface MEReadViewController : UIViewController <UIActionSheetDelegate>
 {
-    UIView         *mHeaderView;
-    MEImageButton  *mIconButton;
-    MEPostBodyView *mPostBodyView;
-    UITableView    *mTableView;
+    UIBarButtonItem *mReloadButton;
 
-    NSString       *mPostID;
-    MEPost         *mPost;
-    NSMutableArray *mComments;
+    UIView          *mHeaderView;
+    MEImageButton   *mIconButton;
+    MEPostBodyView  *mPostBodyView;
+    UITableView     *mTableView;
+
+    NSString        *mPostID;
+    MEPost          *mPost;
+    NSMutableArray  *mComments;
 }
 
 @property(nonatomic, assign) IBOutlet UIView         *headerView;

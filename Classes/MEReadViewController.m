@@ -56,6 +56,15 @@ static NSDictionary *gActions = nil;
 }
 
 
+- (void)setupNavigationItem
+{
+    mReloadButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(getPost)];
+    [mReloadButton setEnabled:NO];
+    [[self navigationItem] setRightBarButtonItem:mReloadButton];
+    [mReloadButton release];
+}
+
+
 - (void)setMetooToolbarItemEnabled:(BOOL)aEnabled
 {
     UIBarButtonItem *sItem;
@@ -68,7 +77,6 @@ static NSDictionary *gActions = nil;
         }
     }
 }
-
 
 - (void)setupToolbarItems
 {
@@ -111,6 +119,15 @@ static NSDictionary *gActions = nil;
         [sItems addObject:sItem];
         [sItem release];
 
+        sItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"metoo.png"] style:UIBarButtonItemStylePlain target:self action:@selector(metoo)];
+        [sItem setImageInsets:UIEdgeInsetsMake(2, 0, -2, 0)];
+        [sItems addObject:sItem];
+        [sItem release];
+
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+        [sItems addObject:sItem];
+        [sItem release];
+
         sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(compose)];
         [sItem setEnabled:NO];
         [sItems addObject:sItem];
@@ -132,9 +149,9 @@ static NSDictionary *gActions = nil;
 
 - (void)getPost
 {
+    [mReloadButton setEnabled:NO];
     [[MEClientStore currentClient] getPostWithPostID:mPostID delegate:self];
 }
-
 
 - (void)getComments
 {
@@ -201,12 +218,12 @@ static NSDictionary *gActions = nil;
         mPost     = [aPost retain];
         mComments = [[NSMutableArray alloc] init];
 
+        [self setupNavigationItem];
         [self setupToolbarItems];
     }
 
     return self;
 }
-
 
 - (id)initWithPostID:(NSString *)aPostID
 {
@@ -218,11 +235,11 @@ static NSDictionary *gActions = nil;
         mComments = [[NSMutableArray alloc] init];
 
         [self setupToolbarItems];
+        [self setupNavigationItem];
     }
 
     return self;
 }
-
 
 - (void)dealloc
 {
@@ -445,6 +462,8 @@ static NSDictionary *gActions = nil;
 
 - (void)client:(MEClient *)aClient didGetComments:(NSArray *)aComments error:(NSError *)aError
 {
+    [mReloadButton setEnabled:YES];
+
     if (aError)
     {
         [UIAlertView showError:aError];
