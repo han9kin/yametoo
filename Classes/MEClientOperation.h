@@ -10,10 +10,25 @@
 #import <Foundation/Foundation.h>
 
 
+@class MEClientOperation;
+
+@protocol MEClientOperationDelegate
+
 /*
- * delegate method signature:
- *  - (void)clientOperation:(MEClientOperation *)aOperation data:(NSData *)aData error:(NSError *)aError
+ * Delegate
  */
+
+- (void)clientOperation:(MEClientOperation *)aOperation data:(NSData *)aData error:(NSError *)aError;
+
+/*
+ * Progress Delegate
+ */
+
+- (void)clientOperation:(MEClientOperation *)aOperation didSendDataProgress:(float)aProgress;
+- (void)clientOperation:(MEClientOperation *)aOperation didReceiveDataProgress:(float)aProgress;
+
+@end
+
 
 @interface MEClientOperation : NSOperation
 {
@@ -25,6 +40,9 @@
     id               mContext;
     BOOL             mContextRetained;
 
+    id               mProgressDelegate;
+    NSUInteger       mExpectedLength;
+
     BOOL             mExecuting;
     BOOL             mFinished;
 }
@@ -32,11 +50,13 @@
 @property(nonatomic, assign) id  delegate;
 @property(nonatomic, assign) SEL selector;
 @property(nonatomic, assign) id  context;
+@property(nonatomic, assign) id  progressDelegate;
 
 
 - (void)setRequest:(NSMutableURLRequest *)aRequest;
 
 - (BOOL)contextRetained;
 - (void)retainContext;
+
 
 @end

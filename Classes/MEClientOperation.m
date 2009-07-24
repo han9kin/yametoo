@@ -16,9 +16,10 @@ static NSString *gUserAgent = nil;
 
 @implementation MEClientOperation
 
-@synthesize delegate = mDelegate;
-@synthesize selector = mSelector;
-@synthesize context  = mContext;
+@synthesize delegate         = mDelegate;
+@synthesize selector         = mSelector;
+@synthesize context          = mContext;
+@synthesize progressDelegate = mProgressDelegate;
 
 
 + (void)initialize
@@ -44,7 +45,9 @@ static NSString *gUserAgent = nil;
 }
 
 
+#pragma mark -
 #pragma mark overrides for concurrent operation
+
 
 - (BOOL)isConcurrent
 {
@@ -83,7 +86,9 @@ static NSString *gUserAgent = nil;
 }
 
 
+#pragma mark -
 #pragma mark controlling operation
+
 
 - (void)cancel
 {
@@ -113,7 +118,9 @@ static NSString *gUserAgent = nil;
 }
 
 
+#pragma mark -
 #pragma mark setting operation
+
 
 - (void)setRequest:(NSMutableURLRequest *)aRequest
 {
@@ -137,7 +144,10 @@ static NSString *gUserAgent = nil;
     }
 }
 
+
+#pragma mark -
 #pragma mark NSURLConnectionDelegate
+
 
 - (NSCachedURLResponse *)connection:(NSURLConnection *)aConnection willCacheResponse:(NSCachedURLResponse *)aCachedResponse
 {
@@ -159,18 +169,27 @@ static NSString *gUserAgent = nil;
 {
     long long sLength = [aResponse expectedContentLength];
 
-    if (sLength == NSURLResponseUnknownLength)
+    if ((sLength == NSURLResponseUnknownLength) || (sLength > NSUIntegerMax))
     {
-        sLength = 0;
+        mExpectedLength = 0;
+    }
+    else
+    {
+        mExpectedLength = sLength;
     }
 
     [mData release];
-    mData = [[NSMutableData alloc] initWithCapacity:sLength];
+    mData = [[NSMutableData alloc] initWithCapacity:mExpectedLength];
 }
 
 - (void)connection:(NSURLConnection *)aConnection didReceiveData:(NSData *)aData
 {
     [mData appendData:aData];
+
+    if (mExpectedLength)
+    {
+        [mProgressDelegate clientOperation:self didReceiveDataProgress:((float)[mData length] / mExpectedLength)];
+    }
 }
 
 - (void)connection:(NSURLConnection *)aConnection didFailWithError:(NSError *)aError
@@ -216,5 +235,11 @@ static NSString *gUserAgent = nil;
 
     [self stop];
 }
+
+- (void)connection:(NSURLConnection *)aConnection didSendBodyData:(NSInteger)aBytesWritten totalBytesWritten:(NSInteger)aTotalBytesWritten totalBytesExpectedToWrite:(NSInteger)aTotalBytesExpectedToWrite
+{
+    [mProgressDelegate clientOperation:self didSendDataProgress:((float)aTotalBytesWritten / aTotalBytesExpectedToWrite)];
+}
+
 
 @end

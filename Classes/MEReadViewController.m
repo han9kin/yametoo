@@ -91,7 +91,12 @@ static NSDictionary *gActions = nil;
                 [sItem setEnabled:[self canBookmark]];
             }
 
-            if ([sItem action] == @selector(compose))
+            if ([sItem action] == @selector(composePost))
+            {
+                [sItem setEnabled:YES];
+            }
+
+            if ([sItem action] == @selector(composeReply))
             {
                 [sItem setEnabled:YES];
             }
@@ -119,8 +124,8 @@ static NSDictionary *gActions = nil;
         [sItems addObject:sItem];
         [sItem release];
 
-        sItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"metoo.png"] style:UIBarButtonItemStylePlain target:self action:@selector(metoo)];
-        [sItem setImageInsets:UIEdgeInsetsMake(2, 0, -2, 0)];
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(composePost)];
+        [sItem setEnabled:NO];
         [sItems addObject:sItem];
         [sItem release];
 
@@ -128,8 +133,17 @@ static NSDictionary *gActions = nil;
         [sItems addObject:sItem];
         [sItem release];
 
-        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(compose)];
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(composeReply)];
         [sItem setEnabled:NO];
+        [sItems addObject:sItem];
+        [sItem release];
+
+        sItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+        [sItems addObject:sItem];
+        [sItem release];
+
+        sItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"metoo.png"] style:UIBarButtonItemStylePlain target:self action:@selector(metoo)];
+        [sItem setImageInsets:UIEdgeInsetsMake(2, 0, -2, 0)];
         [sItems addObject:sItem];
         [sItem release];
 
@@ -348,45 +362,6 @@ static NSDictionary *gActions = nil;
 }
 
 
-- (void)addBookmark
-{
-    NSMutableArray *sBookmarks;
-    MEBookmark     *sBookmark;
-
-    sBookmarks = [[MESettings bookmarks] mutableCopy];
-    sBookmark = [[MEBookmark alloc] initWithPost:mPost];
-
-    if (![sBookmarks containsObject:sBookmark])
-    {
-        [sBookmarks insertObject:sBookmark atIndex:0];
-    }
-
-    [MESettings setBookmarks:sBookmarks];
-    [sBookmarks release];
-
-    [self setupToolbarItems];
-}
-
-
-- (void)metoo
-{
-    [[MEClientStore currentClient] metooWithPostID:[mPost postID] delegate:self];
-
-    [self setMetooToolbarItemEnabled:NO];
-}
-
-
-- (void)compose
-{
-    UIActionSheet *sActionSheet;
-
-    sActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"write", @""), NSLocalizedString(@"writeCall", @""), NSLocalizedString(@"pingback", @""), NSLocalizedString(@"reply", @""), nil];
-
-    [sActionSheet showFromToolbar:[[self navigationController] toolbar]];
-    [sActionSheet release];
-}
-
-
 - (void)write
 {
     UIViewController *sViewController;
@@ -425,18 +400,82 @@ static NSDictionary *gActions = nil;
 
 - (void)replyCall
 {
-    NSIndexPath *sIndexPath = [mTableView indexPathForSelectedRow];
+    MEReplyViewController *sViewController;
+    NSIndexPath           *sIndexPath;
+
+    sIndexPath = [mTableView indexPathForSelectedRow];
 
     if (sIndexPath)
     {
-        NSString              *sUserID;
-        MEReplyViewController *sViewController;
+        NSString *sUserID = [[[mComments objectAtIndex:([sIndexPath section] - 1)] author] userID];
 
-        sUserID         = [[[mComments objectAtIndex:([sIndexPath section] - 1)] author] userID];
         sViewController = [[MEReplyViewController alloc] initWithPostID:[mPost postID] callUserID:sUserID];
         [self presentModalViewController:sViewController animated:YES];
         [sViewController release];
     }
+    else
+    {
+        sViewController = [[MEReplyViewController alloc] initWithPostID:[mPost postID] callUserID:[[mPost author] userID]];
+        [self presentModalViewController:sViewController animated:YES];
+        [sViewController release];
+    }
+}
+
+
+- (void)addBookmark
+{
+    NSMutableArray *sBookmarks;
+    MEBookmark     *sBookmark;
+
+    sBookmarks = [[MESettings bookmarks] mutableCopy];
+    sBookmark = [[MEBookmark alloc] initWithPost:mPost];
+
+    if (![sBookmarks containsObject:sBookmark])
+    {
+        [sBookmarks insertObject:sBookmark atIndex:0];
+    }
+
+    [MESettings setBookmarks:sBookmarks];
+    [sBookmarks release];
+
+    [self setupToolbarItems];
+}
+
+
+- (void)composePost
+{
+    UIActionSheet *sActionSheet;
+
+    sActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"write", @""), NSLocalizedString(@"writeCall", @""), NSLocalizedString(@"pingback", @""), nil];
+
+    [sActionSheet showFromToolbar:[[self navigationController] toolbar]];
+    [sActionSheet release];
+}
+
+
+- (void)composeReply
+{
+    if ([[[mPost author] userID] isEqualToString:[[MEClientStore currentClient] userID]])
+    {
+        [self reply];
+    }
+    else
+    {
+        UIActionSheet *sActionSheet;
+
+        sActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"replyCall", @""), NSLocalizedString(@"reply", @""), nil];
+
+        [sActionSheet showFromToolbar:[[self navigationController] toolbar]];
+        [sActionSheet release];
+    }
+}
+
+
+- (void)metoo
+{
+    [[MEClientStore currentClient] metooWithPostID:[mPost postID] delegate:self];
+
+    [self setMetooToolbarItemEnabled:NO];
 }
 
 
