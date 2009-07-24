@@ -110,7 +110,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
 {
-    return 4;
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        return 4;
+    }
+    else
+    {
+        return 3;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)aSection
@@ -122,7 +129,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    UITableViewCell *sCell;
+    UITableViewCell *sCell = nil;
 
     switch ([aIndexPath section])
     {
@@ -150,19 +157,24 @@
             break;
 
         case 2:
-            sCell = [METableViewCellFactory switchCellForTableView:aTableView target:self action:@selector(toggleSaveToPhotosAlbum:)];
-            [[sCell switch] setOn:[MESettings saveToPhotosAlbum]];
-            [[sCell textLabel] setText:NSLocalizedString(@"Save To Photos Album", @"")];
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+            {
+                sCell = [METableViewCellFactory switchCellForTableView:aTableView target:self action:@selector(toggleSaveToPhotosAlbum:)];
+                [[sCell switch] setOn:[MESettings saveToPhotosAlbum]];
+                [[sCell textLabel] setText:NSLocalizedString(@"Save To Photos Album", @"")];
+            }
+            else
+            {
+                sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
+                [[sCell textLabel] setText:NSLocalizedString(@"About", @"")];
+                [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+            }
             break;
 
         case 3:
             sCell = [METableViewCellFactory defaultCellForTableView:aTableView];
             [[sCell textLabel] setText:NSLocalizedString(@"About", @"")];
             [sCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-            break;
-
-        default:
-            sCell = nil;
             break;
     }
 
@@ -176,7 +188,7 @@
 
 - (UIView *)tableView:(UITableView *)aTableView viewForFooterInSection:(NSInteger)aSection
 {
-    if (aSection == 2)
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] && (aSection == 2))
     {
         UILabel *sLabel;
 
@@ -201,7 +213,7 @@
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForFooterInSection:(NSInteger)aSection
 {
-    if (aSection == 2)
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] && (aSection == 2))
     {
         CGSize sSize = [NSLocalizedString(@"Save To Photos Album Desc", @"") sizeWithFont:[UIFont systemFontOfSize:15.0] constrainedToSize:CGSizeMake(200, 1000) lineBreakMode:UILineBreakModeWordWrap];
 
@@ -216,7 +228,7 @@
 
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)aIndexPath
 {
-    UIViewController *sViewController;
+    UIViewController *sViewController = nil;
 
     switch ([aIndexPath section])
     {
@@ -228,12 +240,16 @@
             sViewController = [[MEFetchSettingsViewController alloc] initWithType:[aIndexPath row]];
             break;
 
+        case 2:
+            if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+            {
+                sViewController = [[MEAboutViewController alloc] init];
+            }
+            break;
+
         case 3:
             sViewController = [[MEAboutViewController alloc] init];
             break;
-
-        default:
-            sViewController = nil;
     }
 
     if (sViewController)

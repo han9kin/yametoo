@@ -13,6 +13,7 @@
 #import "MEClientStore.h"
 #import "MEClient.h"
 #import "MEDrawingFunctions.h"
+#import "MEDraft.h"
 #import "MEUser.h"
 #import "MEPost.h"
 #import "MEPostIcon.h"
@@ -30,6 +31,8 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 @interface MEWriteViewController (Privates)
 
+- (void)savePostAsDraft;
+
 - (void)setInterfaceEnabled:(BOOL)aFlag;
 - (void)updateImageInfo;
 - (void)resizeImage;
@@ -40,6 +43,24 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 
 @implementation MEWriteViewController (Privates)
+
+
+- (void)savePostAsDraft
+{
+    MEDraft *sDraft;
+
+    if ([[mBodyTextView text] length] || [[mTagTextView text] length] || mOriginalImage)
+    {
+        sDraft = [[MEDraft alloc] initWithUserID:[[MEClientStore currentClient] userID]];
+        [sDraft setBody:[mBodyTextView text]];
+        [sDraft setTags:[mTagTextView text]];
+        [sDraft setIcon:mSelectedIconIndex];
+        [sDraft setOriginalImage:mOriginalImage];
+        [sDraft setEditedImage:mResizedImage];
+        [sDraft save];
+        [sDraft release];
+    }
+}
 
 
 - (void)setInterfaceEnabled:(BOOL)aFlag
@@ -374,7 +395,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
     if (self)
     {
-        mText = [[NSString alloc] initWithFormat:@"\"\":%@", aPermLink];
+        mText = [[NSString alloc] initWithFormat:@"\"\":%@ ", aPermLink];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     }
@@ -444,20 +465,13 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 - (void)viewDidLoad
 {
-    NSString *sModel;
-
     [super viewDidLoad];
-    
-    [mBodyTextView setText:mText];
+
     [mBodyTextView setReturnKeyType:UIReturnKeyNext];
     [mTagTextView  setReturnKeyType:UIReturnKeyNext];
 
     {   //  IconImageView
-        sModel = [[UIDevice currentDevice] model];
-        if (![sModel isEqualToString:@"iPhone"])
-        {
-            [mTakePictureButton setEnabled:NO];
-        }
+        [mTakePictureButton setEnabled:[UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]];
 
         [self createIconButtons];
 
@@ -469,11 +483,29 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     }
 
     mSelectedTabIndex = 0;
+    mIsImageModified  = NO;
+
+    if (mText)
+    {
+        [mBodyTextView setText:mText];
+    }
+    else
+    {
+        MEDraft *sDraft = [MEDraft lastDraftWithUserID:[[MEClientStore currentClient] userID]];
+
+        [mBodyTextView setText:[sDraft body]];
+        [mTagTextView setText:[sDraft tags]];
+
+        mSelectedIconIndex = [sDraft icon];
+        mOriginalImage     = [[sDraft originalImage] retain];
+        mResizedImage      = [[sDraft editedImage] retain];
+
+        [self updateImageInfo];
+    }
+
     [mNavigationBar sizeToFit];
     [self arrangeSubviews:[[UIApplication sharedApplication] statusBarOrientation]];
 
-    mIsImageModified = NO;
-    
     [mBodyTextView becomeFirstResponder];
 }
 
@@ -505,6 +537,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 - (IBAction)close
 {
+    [self savePostAsDraft];
     [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -532,6 +565,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
         else
         {
             [self setInterfaceEnabled:NO];
+            [self savePostAsDraft];
 
             [[MEClientStore currentClient] createPostWithBody:sBody tags:sTags icon:mSelectedIconIndex attachedImage:mResizedImage delegate:self];
         }
@@ -661,14 +695,9 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 - (void)keyboardDidShow:(NSNotification *)aNotification
 {
-    if (mText)
+    if ([[mBodyTextView text] isEqualToString:mText])
     {
         [mBodyTextView setSelectedRange:NSMakeRange(1, 0)];
-
-        [mText release];
-        mText = nil;
-
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     }
 }
 
@@ -766,11 +795,10 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     {
         [UIAlertView showError:aError];
         [self setInterfaceEnabled:YES];
-        [mBodyTextView resignFirstResponder];
-        [mTagTextView  resignFirstResponder];
     }
     else
     {
+        [MEDraft clearLastDraftWithUserID:[[MEClientStore currentClient] userID]];
         [[self parentViewController] dismissModalViewControllerAnimated:YES];
     }
 }
@@ -788,7 +816,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     [[aPicker view] setHidden:YES];
     [[aPicker view] removeFromSuperview];
     [aPicker autorelease];
-    
+
     mIsImageModified = ([aPicker sourceType] == UIImagePickerControllerSourceTypeCamera) ? YES : NO;
     if (mIsImageModified == YES)
     {
