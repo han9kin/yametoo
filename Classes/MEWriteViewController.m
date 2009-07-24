@@ -61,7 +61,11 @@ static double radians(double degrees)
     {
         UIAlertView *sAlertView;
 
-        sAlertView = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"Load Draft?", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"No", @"") otherButtonTitles:NSLocalizedString(@"Yes", @""), nil];
+        sAlertView = [[UIAlertView alloc] initWithTitle:nil
+                                                message:NSLocalizedString(@"Load Draft?", @"")
+                                               delegate:self
+                                      cancelButtonTitle:NSLocalizedString(@"No", @"")
+                                      otherButtonTitles:NSLocalizedString(@"Yes", @""), nil];
 
         [sAlertView show];
         [sAlertView release];
@@ -437,7 +441,9 @@ static double radians(double degrees)
 {
     if (!gActions)
     {
-        gActions = [[NSDictionary alloc] initWithObjectsAndKeys:@"resizeImageToMidSize", NSLocalizedString(@"Mid Size", nil), @"resizeImageToLargeSize", NSLocalizedString(@"Big Size", nil), @"resizeImageToOriginalSize", NSLocalizedString(@"Original Size", nil), nil];
+        gActions = [[NSDictionary alloc] initWithObjectsAndKeys:@"resizeImageToMidSize", NSLocalizedString(@"Mid Size", nil),
+                                                                @"resizeImageToLargeSize", NSLocalizedString(@"Big Size", nil),
+                                                                @"resizeImageToOriginalSize", NSLocalizedString(@"Original Size", nil), nil];
     }
 }
 
@@ -475,7 +481,10 @@ static double radians(double degrees)
     {
         mText = [[NSString alloc] initWithFormat:@"\"\":%@ ", aPermLink];
 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardDidShow:)
+                                                     name:UIKeyboardDidShowNotification
+                                                   object:nil];
     }
 
     return self;
@@ -636,7 +645,11 @@ static double radians(double degrees)
             [self setInterfaceEnabled:NO];
             [self savePostAsDraft];
 
-            [[MEClientStore currentClient] createPostWithBody:sBody tags:sTags icon:mSelectedIconIndex attachedImage:mResizedImage delegate:self];
+            [[MEClientStore currentClient] createPostWithBody:sBody
+                                                         tags:sTags
+                                                         icon:mSelectedIconIndex
+                                                attachedImage:mResizedImage
+                                                     delegate:self];
         }
     }
 }

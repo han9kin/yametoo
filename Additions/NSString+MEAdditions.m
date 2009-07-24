@@ -11,7 +11,7 @@
 #import "NSString+MEAdditions.h"
 
 
-@implementation NSString (Additions)
+@implementation NSString (MEAdditions)
 
 
 - (NSString *)md5String
