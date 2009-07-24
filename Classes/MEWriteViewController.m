@@ -12,6 +12,7 @@
 #import "MEWriteViewController.h"
 #import "MEClientStore.h"
 #import "MEClient.h"
+#import "MEClientOperation.h"
 #import "MEDrawingFunctions.h"
 #import "MEDraft.h"
 #import "MEUser.h"
@@ -41,11 +42,14 @@ static double radians(double degrees)
 - (void)loadDraft;
 - (void)savePostAsDraft;
 
-- (void)setInterfaceEnabled:(BOOL)aFlag;
 - (void)updateImageInfo;
 - (void)resizeImage;
 
 - (void)arrangeSubviews:(UIInterfaceOrientation)aToInterfaceOrientation;
+
+- (void)showUploadActivityWindow;
+- (void)hideUploadActivityWindow;
+- (void)layoutUploadActivityViewForInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation;
 
 @end
 
@@ -122,12 +126,6 @@ static double radians(double degrees)
         [sDraft save];
         [sDraft release];
     }
-}
-
-
-- (void)setInterfaceEnabled:(BOOL)aFlag
-{
-    // TODO
 }
 
 
@@ -395,6 +393,85 @@ static double radians(double degrees)
 }
 
 
+- (void)showUploadActivityWindow
+{
+    UILabel *sLabel;
+
+    if (!mUploadActivityWindow)
+    {
+        mUploadActivityWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+
+        mUploadActivityView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 260)];
+        [mUploadActivityWindow addSubview:mUploadActivityView];
+        [mUploadActivityView release];
+
+        sLabel = [[UILabel alloc] initWithFrame:[mUploadActivityView bounds]];
+        [sLabel setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
+        [sLabel setBackgroundColor:[UIColor clearColor]];
+        [sLabel setTextAlignment:UITextAlignmentCenter];
+        [sLabel setTextColor:[UIColor whiteColor]];
+        [sLabel setText:@"Uploading..."];
+        [mUploadActivityView addSubview:sLabel];
+        [sLabel release];
+
+        mUploadProgressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
+        [mUploadProgressView setAutoresizingMask:(UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin)];
+        [mUploadProgressView setFrame:CGRectMake(80, 200, 160, 11)];
+        [mUploadActivityView addSubview:mUploadProgressView];
+        [mUploadProgressView release];
+
+        [mUploadActivityWindow setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
+        [mUploadActivityWindow setWindowLevel:UIWindowLevelAlert];
+        [mUploadActivityWindow makeKeyAndVisible];
+
+        [self layoutUploadActivityViewForInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+    }
+}
+
+
+- (void)hideUploadActivityWindow
+{
+    [mUploadActivityWindow release];
+
+    mUploadActivityWindow = nil;
+    mUploadActivityView   = nil;
+    mUploadProgressView   = nil;
+
+    [[[self view] window] makeKeyAndVisible];
+}
+
+
+- (void)layoutUploadActivityViewForInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
+{
+    switch (aInterfaceOrientation)
+    {
+        case UIInterfaceOrientationLandscapeLeft:
+            [mUploadActivityView setTransform:CGAffineTransformMake(0, -1, 1, 0, 0, 0)];
+            [mUploadActivityView setBounds:CGRectMake(0, 0, 480, 160)];
+            [mUploadActivityView setCenter:CGPointMake(80, 240)];
+            break;
+
+        case UIInterfaceOrientationLandscapeRight:
+            [mUploadActivityView setTransform:CGAffineTransformMake(0, 1, -1, 0, 0, 0)];
+            [mUploadActivityView setBounds:CGRectMake(0, 0, 480, 160)];
+            [mUploadActivityView setCenter:CGPointMake(240, 240)];
+            break;
+
+        case UIInterfaceOrientationPortrait:
+            [mUploadActivityView setTransform:CGAffineTransformIdentity];
+            [mUploadActivityView setBounds:CGRectMake(0, 0, 320, 260)];
+            [mUploadActivityView setCenter:CGPointMake(160, 130)];
+            break;
+
+        case UIInterfaceOrientationPortraitUpsideDown:
+            [mUploadActivityView setTransform:CGAffineTransformMake(-1, 0, 0, -1, 0, 0)];
+            [mUploadActivityView setBounds:CGRectMake(0, 0, 320, 260)];
+            [mUploadActivityView setCenter:CGPointMake(160, 350)];
+            break;
+    }
+}
+
+
 @end
 
 
@@ -599,6 +676,7 @@ static double radians(double degrees)
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:aDuration];
     [self arrangeSubviews:aToInterfaceOrientation];
+    [self layoutUploadActivityViewForInterfaceOrientation:aToInterfaceOrientation];
     [UIView commitAnimations];
 }
 
@@ -642,8 +720,8 @@ static double radians(double degrees)
         }
         else
         {
-            [self setInterfaceEnabled:NO];
             [self savePostAsDraft];
+            [self showUploadActivityWindow];
 
             [[MEClientStore currentClient] createPostWithBody:sBody
                                                          tags:sTags
@@ -697,27 +775,25 @@ static double radians(double degrees)
 
 - (IBAction)takePictureButtonTapped:(id)aSender
 {
-    UIApplication           *sApp                   = [UIApplication sharedApplication];
-    UIWindow                *sKeyWindow             = [sApp keyWindow];
-    UIImagePickerController *sImagePickerController = [[UIImagePickerController alloc] init];
+    UIImagePickerController *sImagePickerController;
 
+    sImagePickerController = [[UIImagePickerController alloc] init];
     [sImagePickerController setDelegate:self];
     [sImagePickerController setSourceType:UIImagePickerControllerSourceTypeCamera];
-    [sKeyWindow addSubview:[sImagePickerController view]];
-    [sKeyWindow bringSubviewToFront:[sImagePickerController view]];
+    [self presentModalViewController:sImagePickerController animated:NO];
+    [sImagePickerController release];
 }
 
 
 - (IBAction)fromPhotoLibraryButtonTapped:(id)aSender
 {
-    UIApplication           *sApp                   = [UIApplication sharedApplication];
-    UIWindow                *sKeyWindow             = [sApp keyWindow];
-    UIImagePickerController *sImagePickerController = [[UIImagePickerController alloc] init];
+    UIImagePickerController *sImagePickerController;
 
+    sImagePickerController = [[UIImagePickerController alloc] init];
     [sImagePickerController setDelegate:self];
     [sImagePickerController setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-    [sKeyWindow addSubview:[sImagePickerController view]];
-    [sKeyWindow bringSubviewToFront:[sImagePickerController view]];
+    [self presentModalViewController:sImagePickerController animated:NO];
+    [sImagePickerController release];
 }
 
 
@@ -778,7 +854,7 @@ static double radians(double degrees)
 
 
 #pragma mark -
-#pragma mark TextViewDelegate
+#pragma mark UITextViewDelegate
 
 
 - (void)updateCharCounter:(UITextView *)aTextView
@@ -866,16 +942,27 @@ static double radians(double degrees)
 
 - (void)client:(MEClient *)aClient didCreatePostWithError:(NSError *)aError
 {
+    [self hideUploadActivityWindow];
+
     if (aError)
     {
         [UIAlertView showError:aError];
-        [self setInterfaceEnabled:YES];
     }
     else
     {
         [MEDraft clearLastDraftWithUserID:[[MEClientStore currentClient] userID]];
         [[self parentViewController] dismissModalViewControllerAnimated:YES];
     }
+}
+
+
+#pragma mark -
+#pragma mark MEClientOperationDelegate
+
+
+- (void)clientOperation:(MEClientOperation *)aOperation didSendDataProgress:(float)aProgress
+{
+    [mUploadProgressView setProgress:aProgress];
 }
 
 
@@ -887,11 +974,6 @@ static double radians(double degrees)
         didFinishPickingImage:(UIImage *)aImage
                   editingInfo:(NSDictionary *)aEditingInfo
 {
-    [aPicker dismissModalViewControllerAnimated:YES];
-    [[aPicker view] setHidden:YES];
-    [[aPicker view] removeFromSuperview];
-    [aPicker autorelease];
-
     mIsImageModified = ([aPicker sourceType] == UIImagePickerControllerSourceTypeCamera) ? YES : NO;
     if (mIsImageModified == YES)
     {
@@ -919,15 +1001,14 @@ static double radians(double degrees)
     [mResizeButton      setEnabled:(mIsMiddleSizeEnabled || mIsLargeSizeEnabled) ? YES : NO];
 
     [self updateImageInfo];
+
+    [aPicker dismissModalViewControllerAnimated:NO];
 }
 
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)aPicker
 {
-    [aPicker dismissModalViewControllerAnimated:YES];
-    [[aPicker view] setHidden:YES];
-    [[aPicker view] removeFromSuperview];
-    [aPicker autorelease];
+    [aPicker dismissModalViewControllerAnimated:NO];
 }
 
 

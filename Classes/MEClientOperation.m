@@ -186,7 +186,7 @@ static NSString *gUserAgent = nil;
 {
     [mData appendData:aData];
 
-    if (mExpectedLength)
+    if (mExpectedLength && [mProgressDelegate respondsToSelector:@selector(clientOperation:didReceiveDataProgress:)])
     {
         [mProgressDelegate clientOperation:self didReceiveDataProgress:((float)[mData length] / mExpectedLength)];
     }
@@ -238,7 +238,10 @@ static NSString *gUserAgent = nil;
 
 - (void)connection:(NSURLConnection *)aConnection didSendBodyData:(NSInteger)aBytesWritten totalBytesWritten:(NSInteger)aTotalBytesWritten totalBytesExpectedToWrite:(NSInteger)aTotalBytesExpectedToWrite
 {
-    [mProgressDelegate clientOperation:self didSendDataProgress:((float)aTotalBytesWritten / aTotalBytesExpectedToWrite)];
+    if ([mProgressDelegate respondsToSelector:@selector(clientOperation:didSendDataProgress:)])
+    {
+        [mProgressDelegate clientOperation:self didSendDataProgress:((float)aTotalBytesWritten / aTotalBytesExpectedToWrite)];
+    }
 }
 
 

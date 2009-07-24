@@ -35,6 +35,10 @@
 
     UILabel         *mCountLabel;
 
+    UIWindow        *mUploadActivityWindow;
+    UIView          *mUploadActivityView;
+    UIProgressView  *mUploadProgressView;
+
     //  Icon Image View
     NSMutableArray  *mIconButtons;
     NSInteger        mSelectedIconIndex;

@@ -282,6 +282,7 @@ NSString *MEClientErrorDomain = @"MEClientErrorDomain";
     [sOperation setContext:aDelegate];
     [sOperation setDelegate:self];
     [sOperation setSelector:@selector(clientOperation:didReceiveCreatePostResult:error:)];
+    [sOperation setProgressDelegate:aDelegate];
     [sOperation retainContext];
 
     [mOperationQueue addOperation:sOperation];
