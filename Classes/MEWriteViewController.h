@@ -61,11 +61,6 @@
     CGFloat          mRotateAngle;
     CGFloat          mLongSideLength;
 
-    NSInteger        mMiddleSizeButtonIndex;
-    NSInteger        mLargeSizeButtonIndex;
-    NSInteger        mOriginalSizeButtonIndex;
-    NSInteger        mCancelButtonIndex;
-
     NSString        *mText;
 }
 

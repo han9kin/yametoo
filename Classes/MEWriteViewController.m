@@ -22,7 +22,13 @@
 #import <math.h>
 
 
-static double radians(double degrees) {return degrees * M_PI/180;}
+static NSDictionary *gActions = nil;
+
+
+static double radians(double degrees)
+{
+    return degrees * M_PI/180;
+}
 
 
 #define IMAGE_PORTRAIT_MODE     0
@@ -31,6 +37,8 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 @interface MEWriteViewController (Privates)
 
+- (void)checkDraft;
+- (void)loadDraft;
 - (void)savePostAsDraft;
 
 - (void)setInterfaceEnabled:(BOOL)aFlag;
@@ -43,6 +51,37 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 
 @implementation MEWriteViewController (Privates)
+
+
+- (void)checkDraft
+{
+    MEDraft *sDraft = [MEDraft lastDraftWithUserID:[[MEClientStore currentClient] userID]];
+
+    if (sDraft)
+    {
+        UIAlertView *sAlertView;
+
+        sAlertView = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"Load Draft?", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"No", @"") otherButtonTitles:NSLocalizedString(@"Yes", @""), nil];
+
+        [sAlertView show];
+        [sAlertView release];
+    }
+}
+
+
+- (void)loadDraft
+{
+    MEDraft *sDraft = [MEDraft lastDraftWithUserID:[[MEClientStore currentClient] userID]];
+
+    [mBodyTextView setText:[sDraft body]];
+    [mTagTextView setText:[sDraft tags]];
+
+    mSelectedIconIndex = [sDraft icon];
+    mOriginalImage     = [[sDraft originalImage] retain];
+    mResizedImage      = [[sDraft editedImage] retain];
+
+    [self updateImageInfo];
+}
 
 
 - (void)savePostAsDraft
@@ -161,6 +200,28 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
     UIGraphicsEndImageContext();
 
+    [self updateImageInfo];
+}
+
+
+- (void)resizeImageToMidSize
+{
+    mLongSideLength = 500.0;
+    [self resizeImage];
+}
+
+
+- (void)resizeImageToLargeSize
+{
+    mLongSideLength = 1024.0;
+    [self resizeImage];
+}
+
+
+- (void)resizeImageToOriginalSize
+{
+    [mResizedImage release];
+    mResizedImage = [mOriginalImage retain];
     [self updateImageInfo];
 }
 
@@ -364,6 +425,15 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 #pragma mark init / dealloc
 
 
++ (void)initialize
+{
+    if (!gActions)
+    {
+        gActions = [[NSDictionary alloc] initWithObjectsAndKeys:@"resizeImageToMidSize", NSLocalizedString(@"Mid Size", nil), @"resizeImageToLargeSize", NSLocalizedString(@"Big Size", nil), @"resizeImageToOriginalSize", NSLocalizedString(@"Original Size", nil), nil];
+    }
+}
+
+
 - (id)init
 {
     self = [super initWithNibName:@"WriteView" bundle:nil];
@@ -426,7 +496,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 - (void)didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning];
+    // do nothing
 }
 
 
@@ -491,16 +561,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     }
     else
     {
-        MEDraft *sDraft = [MEDraft lastDraftWithUserID:[[MEClientStore currentClient] userID]];
-
-        [mBodyTextView setText:[sDraft body]];
-        [mTagTextView setText:[sDraft tags]];
-
-        mSelectedIconIndex = [sDraft icon];
-        mOriginalImage     = [[sDraft originalImage] retain];
-        mResizedImage      = [[sDraft editedImage] retain];
-
-        [self updateImageInfo];
+        [self performSelector:@selector(checkDraft) withObject:nil afterDelay:0];
     }
 
     [mNavigationBar sizeToFit];
@@ -666,10 +727,6 @@ static double radians(double degrees) {return degrees * M_PI/180;}
                                           otherButtonTitles:NSLocalizedString(@"Mid Size", nil),
                                                             NSLocalizedString(@"Big Size", nil),
                                                             NSLocalizedString(@"Original Size", nil), nil];
-        mMiddleSizeButtonIndex   = 0;
-        mLargeSizeButtonIndex    = 1;
-        mOriginalSizeButtonIndex = 2;
-        mCancelButtonIndex       = 3;
     }
     else if (mIsMiddleSizeEnabled && !mIsLargeSizeEnabled)
     {
@@ -679,9 +736,6 @@ static double radians(double degrees) {return degrees * M_PI/180;}
                                      destructiveButtonTitle:nil
                                           otherButtonTitles:NSLocalizedString(@"Mid Size", nil),
                                                             NSLocalizedString(@"Original Size", nil), nil];
-        mMiddleSizeButtonIndex   = 0;
-        mOriginalSizeButtonIndex = 1;
-        mCancelButtonIndex       = 2;
     }
 
     [sActionSheet showInView:[self view]];
@@ -858,29 +912,32 @@ static double radians(double degrees) {return degrees * M_PI/180;}
 
 
 #pragma mark -
+#pragma mark UIAlertViewDelegate
+
+
+- (void)alertView:(UIAlertView *)aAlertView clickedButtonAtIndex:(NSInteger)aButtonIndex
+{
+    if (aButtonIndex != [aAlertView cancelButtonIndex])
+    {
+        [self loadDraft];
+    }
+}
+
+
+#pragma mark -
 #pragma mark UIActionSheetDelegate
 
 
 - (void)actionSheet:(UIActionSheet *)aActionSheet didDismissWithButtonIndex:(NSInteger)aButtonIndex
 {
-    if (aButtonIndex == mMiddleSizeButtonIndex)
+    if (aButtonIndex != [aActionSheet cancelButtonIndex])
     {
-        mLongSideLength = 500.0;
-        [self resizeImage];
-    }
-    else if (aButtonIndex == mLargeSizeButtonIndex)
-    {
-        mLongSideLength = 1024.0;
-        [self resizeImage];
-    }
-    else if (aButtonIndex == mOriginalSizeButtonIndex)
-    {
-        [mResizedImage release];
-        mResizedImage = [mOriginalImage retain];
-        [self updateImageInfo];
-    }
-    else if (aButtonIndex == mCancelButtonIndex)
-    {
+        SEL sSelector = NSSelectorFromString([gActions objectForKey:[aActionSheet buttonTitleAtIndex:aButtonIndex]]);
+
+        if (sSelector)
+        {
+            [self performSelector:sSelector];
+        }
     }
 }
 
