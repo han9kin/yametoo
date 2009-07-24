@@ -15,6 +15,34 @@
 #import "MEComment.h"
 
 
+@interface MEReplyViewController (Private)
+@end
+
+@implementation MEReplyViewController (Private)
+
+- (void)layoutViewsForInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation
+{
+    switch (aInterfaceOrientation)
+    {
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+            [mNavigationBar setFrame:CGRectMake(0, 0, 480, 32)];
+            [mTextView setFrame:CGRectMake(0, 32, 480, 76)];
+            [mCounterLabel setFrame:CGRectMake(370, 108, 100, 30)];
+            break;
+
+        case UIInterfaceOrientationPortrait:
+        case UIInterfaceOrientationPortraitUpsideDown:
+            [mNavigationBar setFrame:CGRectMake(0, 0, 320, 44)];
+            [mTextView setFrame:CGRectMake(0, 44, 320, 170)];
+            [mCounterLabel setFrame:CGRectMake(210, 214, 100, 30)];
+            break;
+    }
+}
+
+@end
+
+
 @implementation MEReplyViewController
 
 
@@ -70,8 +98,12 @@
 {
     [super viewDidLoad];
 
+    [self layoutViewsForInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+
     [mTextView setText:mText];
     [mTextView becomeFirstResponder];
+
+    [mCounterLabel setText:[NSString stringWithFormat:@"%d", (kMECommentBodyMaxLen - [[mTextView text] length])]];
 }
 
 
@@ -81,26 +113,12 @@
 }
 
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)aFromInterfaceOrientation
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)aInterfaceOrientation duration:(NSTimeInterval)aDuration
 {
-    UIInterfaceOrientation sOrientation;
-    CGRect                 sFrame;
-
-    [mNavigationBar sizeToFit];
-    sFrame       = [mNavigationBar frame];
-    sOrientation = [self interfaceOrientation];
-
-    if (sOrientation == UIInterfaceOrientationPortrait || sOrientation == UIInterfaceOrientationPortraitUpsideDown)
-    {
-        [mTextView setFrame:CGRectMake(0, sFrame.origin.y + sFrame.size.height, sFrame.size.width, 200)];
-    }
-    else if (sOrientation == UIInterfaceOrientationLandscapeLeft || sOrientation == UIInterfaceOrientationLandscapeRight)
-    {
-        [mTextView setFrame:CGRectMake(0, sFrame.origin.y + sFrame.size.height, sFrame.size.width, 106)];
-    }
-
-    sFrame = [mTextView frame];
-    [mCounterLabel setFrame:CGRectMake(sFrame.origin.x + sFrame.size.width - 60, sFrame.origin.y + sFrame.size.height - 40, 60, 40)];
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:aDuration];
+    [self layoutViewsForInterfaceOrientation:aInterfaceOrientation];
+    [UIView commitAnimations];
 }
 
 
