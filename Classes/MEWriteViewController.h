@@ -54,6 +54,7 @@
     UIImage         *mOriginalImage;
     UIImage         *mResizedImage;
     NSData          *mImageRep;
+    BOOL             mIsImageModified;
     BOOL             mIsMiddleSizeEnabled;
     BOOL             mIsLargeSizeEnabled;
     NSInteger        mImageDir;
@@ -64,7 +65,6 @@
     NSInteger        mLargeSizeButtonIndex;
     NSInteger        mOriginalSizeButtonIndex;
     NSInteger        mCancelButtonIndex;
-
 
     NSString        *mText;
 }

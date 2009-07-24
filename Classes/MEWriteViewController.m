@@ -17,6 +17,7 @@
 #import "MEPost.h"
 #import "MEPostIcon.h"
 #import "MEImageButton.h"
+#import "MESettings.h"
 #import <math.h>
 
 
@@ -446,7 +447,7 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     NSString *sModel;
 
     [super viewDidLoad];
-
+    
     [mBodyTextView setText:mText];
     [mBodyTextView setReturnKeyType:UIReturnKeyNext];
     [mTagTextView  setReturnKeyType:UIReturnKeyNext];
@@ -468,8 +469,11 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     }
 
     mSelectedTabIndex = 0;
-    [self arrangeSubviews:[self interfaceOrientation]];
+    [mNavigationBar sizeToFit];
+    [self arrangeSubviews:[[UIApplication sharedApplication] statusBarOrientation]];
 
+    mIsImageModified = NO;
+    
     [mBodyTextView becomeFirstResponder];
 }
 
@@ -784,6 +788,15 @@ static double radians(double degrees) {return degrees * M_PI/180;}
     [[aPicker view] setHidden:YES];
     [[aPicker view] removeFromSuperview];
     [aPicker autorelease];
+    
+    mIsImageModified = ([aPicker sourceType] == UIImagePickerControllerSourceTypeCamera) ? YES : NO;
+    if (mIsImageModified == YES)
+    {
+        if ([MESettings saveToPhotosAlbum])
+        {
+            UIImageWriteToSavedPhotosAlbum(aImage, nil, nil, nil);
+        }
+    }
 
     [mOriginalImage autorelease];
     [mResizedImage  autorelease];
