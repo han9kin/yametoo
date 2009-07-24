@@ -57,7 +57,6 @@
     BOOL             mIsImageModified;
     BOOL             mIsMiddleSizeEnabled;
     BOOL             mIsLargeSizeEnabled;
-    NSInteger        mImageDir;
     CGFloat          mRotateAngle;
     CGFloat          mLongSideLength;
 

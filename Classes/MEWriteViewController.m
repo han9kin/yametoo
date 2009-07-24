@@ -71,6 +71,7 @@ static double radians(double degrees)
 
 - (void)loadDraft
 {
+    CGSize  sImageSize;
     MEDraft *sDraft = [MEDraft lastDraftWithUserID:[[MEClientStore currentClient] userID]];
 
     [mBodyTextView setText:[sDraft body]];
@@ -79,6 +80,24 @@ static double radians(double degrees)
     mSelectedIconIndex = [sDraft icon];
     mOriginalImage     = [[sDraft originalImage] retain];
     mResizedImage      = [[sDraft editedImage] retain];
+
+    if (mOriginalImage)
+    {
+        [mRotateLeftButton  setEnabled:YES];
+        [mRotateRightButton setEnabled:YES];
+        [mResizeButton      setEnabled:(mIsMiddleSizeEnabled || mIsLargeSizeEnabled) ? YES : NO];
+        
+        sImageSize           = [mOriginalImage size];
+        mLongSideLength      = MAX(sImageSize.width, sImageSize.height);
+        mIsMiddleSizeEnabled = (mLongSideLength > 500)  ? YES : NO;
+        mIsLargeSizeEnabled  = (mLongSideLength > 1024) ? YES : NO;
+    }
+    
+    if (mResizedImage)
+    {
+        sImageSize      = [mResizedImage size];
+        mLongSideLength = MAX(sImageSize.width, sImageSize.height);        
+    }
 
     [self updateImageInfo];
 }
@@ -131,20 +150,22 @@ static double radians(double degrees)
 
 - (void)resizeImage
 {
-    CGSize sSize      = CGSizeZero;
-    CGSize sImageSize = [mOriginalImage size];
 
-    if (mImageDir == IMAGE_PORTRAIT_MODE)
+    CGSize    sSize      = CGSizeZero;
+    CGSize    sImageSize = [mOriginalImage size];
+    NSInteger sImageDir  = (sImageSize.width > sImageSize.height) ? IMAGE_LANDSCAPE_MODE : IMAGE_PORTRAIT_MODE;
+
+    if (sImageDir == IMAGE_PORTRAIT_MODE)
     {
         sSize.height = mLongSideLength;
         sSize.width  = sImageSize.width * sSize.height / sImageSize.height;
     }
     else
     {
-        sSize.width = mLongSideLength;
+        sSize.width  = mLongSideLength;
         sSize.height = sImageSize.height * sSize.width / sImageSize.width;
     }
-
+    
     double sAngle = (double)(((NSInteger)mRotateAngle % 360));
     sAngle = (sAngle < 0) ? (sAngle + 360) : sAngle;
 
@@ -170,7 +191,6 @@ static double radians(double degrees)
     {
         CGContextTranslateCTM(sContext, 0, sSize.height);
     }
-
     CGContextRotateCTM(sContext, radians(sAngle));
 
     if (sAngle == 0 || sAngle == 180)
@@ -181,18 +201,6 @@ static double radians(double degrees)
     {
         [mOriginalImage drawInRect:CGRectMake(0, 0, sSize.height, sSize.width)];
     }
-
-    CGContextSetLineWidth(sContext, 10);
-    [[UIColor redColor] set];
-
-    /*    if (sAngle == 0 || sAngle == 180)
-     {
-     UIRectFrame(CGRectMake(0, 0, sSize.width, sSize.height));
-     }
-     else if (sAngle == 90 || sAngle == 270)
-     {
-     UIRectFrame(CGRectMake(0, 0, sSize.height, sSize.width));
-     }*/
 
     [mResizedImage release];
     mResizedImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -892,7 +900,6 @@ static double radians(double degrees)
     mLongSideLength      = MAX(sImageSize.width, sImageSize.height);
     mIsMiddleSizeEnabled = (mLongSideLength > 500) ? YES : NO;
     mIsLargeSizeEnabled  = (mLongSideLength > 1024) ? YES : NO;
-    mImageDir            = (sImageSize.width > sImageSize.height) ? IMAGE_LANDSCAPE_MODE : IMAGE_PORTRAIT_MODE;
 
     [mRotateLeftButton  setEnabled:YES];
     [mRotateRightButton setEnabled:YES];
