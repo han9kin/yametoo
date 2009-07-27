@@ -26,7 +26,6 @@
 		2E1474D00FD8C1B500E0D93A /* resize_disable.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E1474C40FD8C1B500E0D93A /* resize_disable.png */; };
 		2E1474D10FD8C1B500E0D93A /* fromCamera_enable.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E1474C50FD8C1B500E0D93A /* fromCamera_enable.png */; };
 		2E1474D20FD8C1B500E0D93A /* rotate_right_disable.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E1474C60FD8C1B500E0D93A /* rotate_right_disable.png */; };
-		2E27668A0FAEF3A700F59ACD /* MERoundBackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2766890FAEF3A700F59ACD /* MERoundBackView.m */; };
 		2E2B6C610FA5B04B00F4B830 /* MEDrawingFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2B6C600FA5B04B00F4B830 /* MEDrawingFunctions.m */; };
 		2E4D34E11015695A00E2844E /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E4D34E01015695A00E2844E /* checkmark.png */; };
 		2E53A1380FBD5C0D00144B0A /* setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E53A1370FBD5C0D00144B0A /* setting.png */; };
@@ -144,8 +143,6 @@
 		2E1474C40FD8C1B500E0D93A /* resize_disable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resize_disable.png; sourceTree = "<group>"; };
 		2E1474C50FD8C1B500E0D93A /* fromCamera_enable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fromCamera_enable.png; sourceTree = "<group>"; };
 		2E1474C60FD8C1B500E0D93A /* rotate_right_disable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rotate_right_disable.png; sourceTree = "<group>"; };
-		2E27666D0FAEF16000F59ACD /* MERoundBackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MERoundBackView.h; sourceTree = "<group>"; };
-		2E2766890FAEF3A700F59ACD /* MERoundBackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MERoundBackView.m; sourceTree = "<group>"; };
 		2E2B6C5F0FA5B04B00F4B830 /* MEDrawingFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEDrawingFunctions.h; sourceTree = "<group>"; };
 		2E2B6C600FA5B04B00F4B830 /* MEDrawingFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEDrawingFunctions.m; sourceTree = "<group>"; };
 		2E4D34E01015695A00E2844E /* checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark.png; sourceTree = "<group>"; };
@@ -658,8 +655,6 @@
 				2EC19F730F9DCFAC00963971 /* MEImageView.m */,
 				CFDD42A60FB41A4100B9931A /* MEImageButton.h */,
 				CFDD42A70FB41A4100B9931A /* MEImageButton.m */,
-				2E27666D0FAEF16000F59ACD /* MERoundBackView.h */,
-				2E2766890FAEF3A700F59ACD /* MERoundBackView.m */,
 			);
 			name = "Customized Views";
 			sourceTree = "<group>";
@@ -885,7 +880,6 @@
 				CFE72F070FA9672400C54792 /* MEPostBodyView.m in Sources */,
 				2ED83E3B0FAECFDC00786952 /* MEReplyViewController.m in Sources */,
 				CFE72FE80FAE8D0200C54792 /* MEListViewController.m in Sources */,
-				2E27668A0FAEF3A700F59ACD /* MERoundBackView.m in Sources */,
 				CFE7318F0FB175A200C54792 /* UIAlertView+MEAdditions.m in Sources */,
 				CFE7320E0FB1906300C54792 /* MESettings.m in Sources */,
 				CFE732260FB192D900C54792 /* MEFetchSettingsViewController.m in Sources */,
