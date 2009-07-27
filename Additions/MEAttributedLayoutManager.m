@@ -168,6 +168,12 @@ static NSMutableArray *gCachedLabels = nil;
     return [NSString stringWithFormat:@"<%@: %p> %@ %@ %@", NSStringFromClass([self class]), self, mAttributes, NSStringFromRange(mTextRange), NSStringFromCGRect(mLabelFrame)];
 }
 
+- (void)dealloc
+{
+    [mAttributes release];
+    [super dealloc];
+}
+
 @end
 
 
