@@ -343,8 +343,6 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    [mTimer invalidate];
-
     [mUserID release];
     [mUser release];
     [mPosts release];

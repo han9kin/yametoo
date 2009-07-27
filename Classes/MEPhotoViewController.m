@@ -75,6 +75,7 @@
 
 - (void)dealloc
 {
+    [mImageButton removeTarget:self action:NULL forControlEvents:UIControlEventAllEvents];
     [super dealloc];
 }
 
@@ -151,6 +152,8 @@
 
 - (IBAction)close
 {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+
     [self dismissModalViewControllerAnimated:YES];
 }
 
