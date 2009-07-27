@@ -18,6 +18,7 @@
 {
     UIBarButtonItem       *mReloadButton;
 
+    UILabel               *mMessageLabel;
     MEListView            *mListView;
     NSIndexPath           *mIndexPath;
 

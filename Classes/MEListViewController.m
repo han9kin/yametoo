@@ -367,6 +367,13 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 {
     [super viewDidLoad];
 
+    mMessageLabel = [[UILabel alloc] initWithFrame:[[self view] bounds]];
+    [mMessageLabel setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
+    [mMessageLabel setTextAlignment:UITextAlignmentCenter];
+    [mMessageLabel setNumberOfLines:0];
+    [[self view] addSubview:mMessageLabel];
+    [mMessageLabel release];
+
     mListView = [[MEListView alloc] initWithFrame:[[self view] bounds]];
     [mListView setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
     [mListView setDataSource:self];
@@ -389,7 +396,8 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
 {
     [super viewDidUnload];
 
-    mListView = nil;
+    mMessageLabel = nil;
+    mListView     = nil;
 }
 
 
@@ -585,6 +593,31 @@ static NSComparisonResult comparePostByPubDate(MEPost *sPost1, MEPost *sPost2, v
     else
     {
         [self addPosts:aPosts];
+    }
+
+    if (([mPosts count] == 0) && (mScope != kMEClientGetPostsScopeAll))
+    {
+        [mListView setHidden:YES];
+
+        switch (mScope)
+        {
+            case kMEClientGetPostsScopeFriendAll:
+                [mMessageLabel setText:NSLocalizedString(@"No Friends Message", @"")];
+                break;
+            case kMEClientGetPostsScopeFriendBest:
+                [mMessageLabel setText:NSLocalizedString(@"No Best Friends Message", @"")];
+                break;
+            case kMEClientGetPostsScopeFriendFollowing:
+                [mMessageLabel setText:NSLocalizedString(@"No Following Friends Message", @"")];
+                break;
+            default:
+                [mMessageLabel setText:NSLocalizedString(@"No Posts Message", @"")];
+                break;
+        }
+    }
+    else
+    {
+        [mListView setHidden:NO];
     }
 }
 
