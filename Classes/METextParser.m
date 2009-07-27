@@ -186,9 +186,9 @@ static htmlSAXHandler simpleSAXHandlerStruct =
     sResult = [[sHandler attributedString] copy];
 
     htmlFreeParserCtxt(sContext);
-    
+
     [sPool release];
-    
+
     return [sResult autorelease];
 }
 
