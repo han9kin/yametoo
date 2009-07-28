@@ -245,7 +245,6 @@ static NSMutableArray *gCachedLabels = nil;
         sWhites = [NSCharacterSet whitespaceCharacterSet];
         sText   = [aString string];
         sLen    = [aString length];
-        sLoc    = 0;
         sRect   = CGRectMake(0, 0, aWidth, 0);
         sWidth  = 0;
         sHeight = 0;

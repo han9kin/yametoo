@@ -94,17 +94,17 @@ static double radians(double degrees)
         [mRotateLeftButton  setEnabled:YES];
         [mRotateRightButton setEnabled:YES];
         [mResizeButton      setEnabled:(mIsMiddleSizeEnabled || mIsLargeSizeEnabled) ? YES : NO];
-        
+
         sImageSize           = [mOriginalImage size];
         mLongSideLength      = MAX(sImageSize.width, sImageSize.height);
         mIsMiddleSizeEnabled = (mLongSideLength > 500)  ? YES : NO;
         mIsLargeSizeEnabled  = (mLongSideLength > 1024) ? YES : NO;
     }
-    
+
     if (mResizedImage)
     {
         sImageSize      = [mResizedImage size];
-        mLongSideLength = MAX(sImageSize.width, sImageSize.height);        
+        mLongSideLength = MAX(sImageSize.width, sImageSize.height);
     }
 
     [self updateImageInfo];
@@ -167,7 +167,7 @@ static double radians(double degrees)
         sSize.width  = mLongSideLength;
         sSize.height = sImageSize.height * sSize.width / sImageSize.width;
     }
-    
+
     double sAngle = (double)(((NSInteger)mRotateAngle % 360));
     sAngle = (sAngle < 0) ? (sAngle + 360) : sAngle;
 
