@@ -979,7 +979,7 @@
 					"$(SDK_DIR)/usr/include/libxml2",
 				);
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F685E63A-005E-4D14-B8B4-326F636B1C3A";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "22E2584A-861A-442F-94F0-F96067B2494F";
 				SDKROOT = iphoneos3.0;
 			};
 			name = "Distribution - AdHoc";
