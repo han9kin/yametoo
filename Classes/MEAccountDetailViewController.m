@@ -208,7 +208,14 @@
     [[self navigationController] pushViewController:sViewController animated:YES];
     [sViewController release];
 
-    [MEClientStore addClient:aClient];
+    if ([aClient userID])
+    {
+        [MEClientStore addClient:aClient];
+    }
+    else
+    {
+        [mTableView reloadData];
+    }
 }
 
 
