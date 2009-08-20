@@ -32,6 +32,7 @@
 {
     mBodyLabel = [[MEAttributedLabel alloc] initWithFrame:CGRectZero];
     [self addSubview:mBodyLabel];
+    [mBodyLabel release];
 
     mTagsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     [mTagsLabel setLineBreakMode:UILineBreakModeCharacterWrap];
