@@ -966,7 +966,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C0F73316-95D6-4004-9954-6699C1F30F1C";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "456CA350-BD23-4724-BDAE-812DC7136794";
 				SDKROOT = iphoneos2.2.1;
 			};
 			name = Debug;

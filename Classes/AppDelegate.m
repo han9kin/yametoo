@@ -100,6 +100,21 @@
 - (void)applicationDidFinishLaunching:(UIApplication *)aApplication
 {
     [MEImageCache removeCachedImagesInDisk];
+    
+    NSString *sVersion = [[UIDevice currentDevice] systemVersion];
+    NSString *sMajorVersion = [[sVersion componentsSeparatedByString:@"."] objectAtIndex:0];
+    if ([sMajorVersion integerValue] > 2)
+    {
+        UIAlertView *sAlert = nil;
+        sAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"notice", nil)
+                                            message:NSLocalizedString(@"get new version message", nil)
+                                           delegate:self
+                                  cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                  otherButtonTitles:NSLocalizedString(@"get yametoo remix", nil),
+                                                    NSLocalizedString(@"get me2DAY", nil), nil];
+        [sAlert show];
+        [sAlert release];
+    }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentUserDidChangeNotification:) name:MEClientStoreCurrentUserDidChangeNotification object:nil];
 
@@ -115,6 +130,26 @@
     [mWindow release];
 
     [super dealloc];
+}
+
+
+#pragma mark -
+
+
+- (void)alertView:(UIAlertView *)aAlertView clickedButtonAtIndex:(NSInteger)aButtonIndex
+{
+    NSURL *sURL;
+    
+    if (aButtonIndex == 1)
+    {
+        sURL = [NSURL URLWithString:@"http://itunes.apple.com/app/id327207840?mt=8"];
+    }
+    else if (aButtonIndex == 2)
+    {
+        sURL = [NSURL URLWithString:@"http://itunes.apple.com/app/id322934412?mt=8"];
+    }
+    
+    [[UIApplication sharedApplication] openURL:sURL];
 }
 
 
