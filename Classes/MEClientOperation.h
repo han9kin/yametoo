@@ -32,6 +32,7 @@
 
 @interface MEClientOperation : NSOperation
 {
+    NSThread        *mRunLoopThread;
     NSURLConnection *mConnection;
     NSMutableData   *mData;
 
@@ -47,6 +48,7 @@
     BOOL             mFinished;
 }
 
+@property(nonatomic, retain) NSThread *runLoopThread;
 @property(nonatomic, assign) id  delegate;
 @property(nonatomic, assign) SEL selector;
 @property(nonatomic, assign) id  context;

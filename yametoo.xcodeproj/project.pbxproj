@@ -49,7 +49,6 @@
 		2ED163E60F9589D3009557F1 /* MEClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED163E50F9589D3009557F1 /* MEClient.m */; };
 		2ED164440F959B2A009557F1 /* NSString+MEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED164430F959B2A009557F1 /* NSString+MEAdditions.m */; };
 		2ED1646A0F959F46009557F1 /* MEClient+Requests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED164690F959F46009557F1 /* MEClient+Requests.m */; };
-		2ED4E8290FA8507B000BFE2F /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2ED4E8280FA8507B000BFE2F /* Entitlements.plist */; };
 		2ED4E8330FA942D6000BFE2F /* ReadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED4E8320FA942D6000BFE2F /* ReadView.xib */; };
 		2ED4E84F0FA9611D000BFE2F /* MEReadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ED4E84E0FA9611D000BFE2F /* MEReadViewController.m */; };
 		2ED83E380FAECFC600786952 /* ReplyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED83E370FAECFC600786952 /* ReplyView.xib */; };
@@ -132,6 +131,7 @@
 		28D7ACF60DDB3853001CB0EB /* MEWriteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEWriteViewController.h; sourceTree = "<group>"; };
 		28D7ACF70DDB3853001CB0EB /* MEWriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEWriteViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2E00705211C747C70092FF74 /* entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = entitlements.plist; sourceTree = "<group>"; };
 		2E1474BB0FD8C1B500E0D93A /* rotate_left_enable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rotate_left_enable.png; sourceTree = "<group>"; };
 		2E1474BC0FD8C1B500E0D93A /* resize_enable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resize_enable.png; sourceTree = "<group>"; };
 		2E1474BD0FD8C1B500E0D93A /* no_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = no_image.png; sourceTree = "<group>"; };
@@ -177,7 +177,6 @@
 		2ED164430F959B2A009557F1 /* NSString+MEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MEAdditions.m"; sourceTree = "<group>"; };
 		2ED164680F959F46009557F1 /* MEClient+Requests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MEClient+Requests.h"; sourceTree = "<group>"; };
 		2ED164690F959F46009557F1 /* MEClient+Requests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MEClient+Requests.m"; sourceTree = "<group>"; };
-		2ED4E8280FA8507B000BFE2F /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		2ED4E8320FA942D6000BFE2F /* ReadView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReadView.xib; sourceTree = "<group>"; };
 		2ED4E84D0FA9611D000BFE2F /* MEReadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEReadViewController.h; sourceTree = "<group>"; };
 		2ED4E84E0FA9611D000BFE2F /* MEReadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReadViewController.m; sourceTree = "<group>"; };
@@ -368,8 +367,8 @@
 				CF7B8AFF1005A83A001A089A /* Interfaces */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				CF528C970FA06BC1007C7A03 /* Localizable.strings */,
-				2ED4E8280FA8507B000BFE2F /* Entitlements.plist */,
 				CFE72EA80FA8678E00C54792 /* Credits.html */,
+				2E00705211C747C70092FF74 /* entitlements.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -797,7 +796,6 @@
 				CF5EE9460F9BFEBD004712FF /* locked_normal.png in Resources */,
 				2EC19A5B0F9C1E9800963971 /* LoginView.xib in Resources */,
 				CF528C980FA06BC2007C7A03 /* Localizable.strings in Resources */,
-				2ED4E8290FA8507B000BFE2F /* Entitlements.plist in Resources */,
 				2ED4E8330FA942D6000BFE2F /* ReadView.xib in Resources */,
 				CFE72EA90FA8678E00C54792 /* Credits.html in Resources */,
 				2ED83E380FAECFC600786952 /* ReplyView.xib in Resources */,
@@ -912,6 +910,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = "~/Desktop/Projects/yametoo/entitlements.plist";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -926,6 +925,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = "~/Desktop/Projects/yametoo/entitlements.plist";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = yametoo_Prefix.pch;
@@ -947,9 +947,10 @@
 					"$(SRCROOT)/ExternalSources",
 					"$(SDK_DIR)/usr/include/libxml2",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0B1665A4-91D1-45FC-92F9-4A7E339337B1";
-				SDKROOT = iphoneos3.0;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "268013BA-203A-437F-96C4-C4D5446D4A13";
+				SDKROOT = iphoneos4.0;
 			};
 			name = "Distribution - AppStore";
 		};
@@ -957,6 +958,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = "~/Desktop/Projects/yametoo/entitlements.plist";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = yametoo_Prefix.pch;
@@ -970,7 +972,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chang-Gi Kim";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chang-Gi Kim (2C668QKNJG)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -978,9 +980,10 @@
 					"$(SRCROOT)/ExternalSources",
 					"$(SDK_DIR)/usr/include/libxml2",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "22E2584A-861A-442F-94F0-F96067B2494F";
-				SDKROOT = iphoneos3.0;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "94A89272-F47B-4919-8A80-0CA80C404FD8";
+				SDKROOT = iphoneos4.0;
 			};
 			name = "Distribution - AdHoc";
 		};
@@ -988,6 +991,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = "~/Desktop/Projects/yametoo/entitlements.plist";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = yametoo_Prefix.pch;
@@ -1000,7 +1004,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chang-Gi Kim";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chang-Gi Kim (2C668QKNJG)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1008,10 +1012,11 @@
 					"$(SRCROOT)/ExternalSources",
 					"$(SDK_DIR)/usr/include/libxml2",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E37DCFD4-2F23-4228-AE3D-973A8CEEB46C";
-				SDKROOT = iphoneos3.0;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "94A89272-F47B-4919-8A80-0CA80C404FD8";
+				SDKROOT = iphoneos4.0;
 			};
 			name = Debug;
 		};
@@ -1019,7 +1024,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chang-Gi Kim";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Chang-Gi Kim (2C668QKNJG)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1027,9 +1032,10 @@
 					"$(SRCROOT)/ExternalSources",
 					"$(SDK_DIR)/usr/include/libxml2",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E37DCFD4-2F23-4228-AE3D-973A8CEEB46C";
-				SDKROOT = iphoneos3.0;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "94A89272-F47B-4919-8A80-0CA80C404FD8";
+				SDKROOT = iphoneos4.0;
 			};
 			name = Release;
 		};

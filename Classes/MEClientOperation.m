@@ -16,6 +16,7 @@ static NSString *gUserAgent = nil;
 
 @implementation MEClientOperation
 
+@synthesize runLoopThread    = mRunLoopThread;
 @synthesize delegate         = mDelegate;
 @synthesize selector         = mSelector;
 @synthesize context          = mContext;
@@ -39,6 +40,8 @@ static NSString *gUserAgent = nil;
     {
         [mContext release];
     }
+    
+    [mRunLoopThread release];
     [mConnection release];
     [mData release];
     [super dealloc];
@@ -66,6 +69,14 @@ static NSString *gUserAgent = nil;
 
 - (void)start
 {
+    NSThread *sRunLoopThread = mRunLoopThread ? mRunLoopThread : [NSThread mainThread];
+    
+    if (sRunLoopThread != [NSThread currentThread])
+    {
+        [self performSelector:_cmd onThread:sRunLoopThread withObject:nil waitUntilDone:NO];
+        return;
+    }
+    
     if ([self isCancelled])
     {
         [self willChangeValueForKey:@"isFinished"];
@@ -80,7 +91,6 @@ static NSString *gUserAgent = nil;
 
         [mConnection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         [mConnection start];
-
         [MEClient beginNetworkOperation];
     }
 }

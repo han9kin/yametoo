@@ -104,7 +104,8 @@ static NSString *kGetPostsScopeValue[] = {
     NSMutableURLRequest *sRequest;
     NSString            *sURLStr;
     NSMutableData       *sPostData;
-
+    NSData              *sImageData = UIImageJPEGRepresentation(aImage, 0.8);
+    
     sURLStr   = [NSString stringWithFormat:kCreatePostURLFormat, mUserID, mUserID, mAuthKey];
     sPostData = [NSMutableData data];
     sRequest  = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];
@@ -134,7 +135,7 @@ static NSString *kGetPostsScopeValue[] = {
         [sPostData appendUTF8String:[NSString stringWithFormat:@"--%@\r\n", kMultipartBoundary]];
         [sPostData appendUTF8String:@"Content-Disposition: form-data; name=\"attachment\"; filename=\"attached_file.jpg\"\r\n"];
         [sPostData appendUTF8String:@"Content-Type: image/jpeg\r\n\r\n"];
-        [sPostData appendData:UIImageJPEGRepresentation(aImage, 0.8)];
+        [sPostData appendData:sImageData];
         [sPostData appendUTF8String:@"\r\n"];
 
         [sPostData appendUTF8String:[NSString stringWithFormat:@"--%@--\r\n", kMultipartBoundary]];
