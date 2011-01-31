@@ -1,0 +1,10 @@
+.*
+!.git*
+
+\#*
+*~
+
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+
+/build/
