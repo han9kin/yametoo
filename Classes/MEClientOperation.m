@@ -3,7 +3,7 @@
  *  yametoo
  *
  *  Created by han9kin on 09. 04. 15.
- *  Copyright 2009 NHN Corp. All rights reserved.
+ *  Copyright 2009 yametoo. All rights reserved.
  *
  */
 
@@ -40,7 +40,7 @@ static NSString *gUserAgent = nil;
     {
         [mContext release];
     }
-    
+
     [mRunLoopThread release];
     [mConnection release];
     [mData release];
@@ -70,13 +70,13 @@ static NSString *gUserAgent = nil;
 - (void)start
 {
     NSThread *sRunLoopThread = mRunLoopThread ? mRunLoopThread : [NSThread mainThread];
-    
+
     if (sRunLoopThread != [NSThread currentThread])
     {
         [self performSelector:_cmd onThread:sRunLoopThread withObject:nil waitUntilDone:NO];
         return;
     }
-    
+
     if ([self isCancelled])
     {
         [self willChangeValueForKey:@"isFinished"];

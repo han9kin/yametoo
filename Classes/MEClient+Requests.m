@@ -3,7 +3,7 @@
  *  yametoo
  *
  *  Created by cgkim on 09. 04. 15.
- *  Copyright 2009 NHN Corp. All rights reserved.
+ *  Copyright 2009 yametoo. All rights reserved.
  *
  */
 
@@ -105,7 +105,7 @@ static NSString *kGetPostsScopeValue[] = {
     NSString            *sURLStr;
     NSMutableData       *sPostData;
     NSData              *sImageData = UIImageJPEGRepresentation(aImage, 0.8);
-    
+
     sURLStr   = [NSString stringWithFormat:kCreatePostURLFormat, mUserID, mUserID, mAuthKey];
     sPostData = [NSMutableData data];
     sRequest  = [NSMutableURLRequest requestWithURL:[NSURL URLWithUnescapedString:sURLStr]];

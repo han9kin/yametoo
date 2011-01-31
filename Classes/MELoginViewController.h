@@ -3,7 +3,7 @@
  *  yametoo
  *
  *  Created by cgkim on 09. 04. 20.
- *  Copyright 2009 NHN Corp. All rights reserved.
+ *  Copyright 2009 yametoo. All rights reserved.
  *
  */
 

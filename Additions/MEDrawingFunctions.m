@@ -3,7 +3,7 @@
  *  yametoo
  *
  *  Created by cgkim on 09. 04. 27.
- *  Copyright 2009 NHN Corp. All rights reserved.
+ *  Copyright 2009 yametoo. All rights reserved.
  *
  */
 
@@ -19,9 +19,9 @@ static void MERoundRectDraw(CGRect aRect, float aRoundVal, BOOL aIsFill)
     float sRound = aRoundVal;
     float sLong = sRound - (sRound / 6);
     float sShort = sRound / 6;
-    
+
     CGContextRef sContext = UIGraphicsGetCurrentContext();
-    
+
     CGContextMoveToPoint(sContext, sLeft, sTop + sRound);
     CGContextAddCurveToPoint(sContext, sLeft, sTop + sLong, sLeft + sShort, sTop, sLeft + sRound, sTop);
     CGContextAddLineToPoint(sContext, sRight - sRound, sTop);
@@ -31,14 +31,14 @@ static void MERoundRectDraw(CGRect aRect, float aRoundVal, BOOL aIsFill)
     CGContextAddLineToPoint(sContext, sLeft + sRound, sBottom);
     CGContextAddCurveToPoint(sContext, sLeft + sLong, sBottom, sLeft, sBottom - sShort, sLeft, sBottom - sRound);
     CGContextAddLineToPoint(sContext, sLeft, sTop + sRound);
-    
+
     if (aIsFill)
     {
-        CGContextFillPath(sContext);    
+        CGContextFillPath(sContext);
     }
     else
     {
-        CGContextStrokePath(sContext);    
+        CGContextStrokePath(sContext);
     }
 }
 
